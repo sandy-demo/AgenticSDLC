@@ -100,7 +100,10 @@ export function createDatabase(now = new Date()) {
     close: () => db.close(),
     getUser: (id) => getUser.get(id),
     getClaim: (id) => selectClaim.get(id),
-    listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),
+    listOwn: (userId) => {
+      const recentClaimIds = listOwn.all(userId);
+      return recentClaimIds.map(({ id }) => ownListItem.get(id, userId));
+    },
     approvalQueue: (user) => user.role === 'manager' ? listForManager.all(user.department) : listForFinance.all(),
     history: (id) => history.all(id),
     insertClaim,
