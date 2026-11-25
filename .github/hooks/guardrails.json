@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "type": "command", "bash": "node scripts/hooks/policy.mjs session", "powershell": "node scripts/hooks/policy.mjs session", "cwd": ".", "timeoutSec": 5 }
+    ],
+    "preToolUse": [
+      { "type": "command", "bash": "node scripts/hooks/policy.mjs pre", "powershell": "node scripts/hooks/policy.mjs pre", "cwd": ".", "timeoutSec": 5 }
+    ],
+    "postToolUse": [
+      { "type": "command", "bash": "node scripts/hooks/policy.mjs post", "powershell": "node scripts/hooks/policy.mjs post", "cwd": ".", "timeoutSec": 5 }
+    ]
+  }
+}
