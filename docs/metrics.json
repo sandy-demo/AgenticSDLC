@@ -684,6 +684,18 @@
           "name": "S15-local-result.png",
           "alt": "Output pemeriksaan lokal S15: Cabang baseline: Rp1.250.000.",
           "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S15-02-breakdown.png",
+          "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
+          "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama."
+        },
+        {
+          "name": "S15-02-breakdown-annotated.png",
+          "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
+          "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama.",
+          "original": "S15-02-breakdown.png",
+          "guide": "1. Cocokkan contoh USD 100: issue Rp1.600.000, usulan ADR Rp1.500.000. Keduanya fiktif; reviewer memilih satu acuan. · 2. Putuskan ADR dan kriterianya. · 3. API/UI menunggu keputusan; tes dan docs mengikuti. Ini draf Planner, bukan sub-issue yang sudah didelegasikan."
         }
       ]
     },
@@ -753,7 +765,7 @@
       "issueUrl": "https://github.com/sandy-demo/expense-app-full/issues/1",
       "prUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
       "fixtureRunUrl": "https://github.com/sandy-demo/expense-app-full/actions/runs/45655771427",
-      "currentSummary": "Epik #1 dan draft ADR #2 benar-benar ada di sandy-demo/expense-app-full. Template menunjukkan baseline; draft desain belum disetujui atau diimplementasikan."
+      "currentSummary": "Epik dan ADR Proposed di repo template sudah tersedia. Planner menghasilkan empat draf pekerjaan dari ADR dan mencatat perbedaan contoh kurs USD. Tidak ada persetujuan, perubahan multi-currency, atau merge."
     },
     "template": {
       "url": "https://github.com/sandy-demo/expense-app-full",
@@ -769,6 +781,23 @@
       ],
       "forcePushAllowed": false,
       "adrStatus": "Proposed"
+    },
+    "planningExercise": {
+      "source": "Copilot CLI planner (read-only)",
+      "adrUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
+      "adrCommit": "8834ed7eea1b43d2c86e327229b9f8de1776718c",
+      "workItems": [
+        "Review ADR",
+        "API/UI",
+        "Tes",
+        "Dokumentasi dan handoff"
+      ],
+      "hypotheticalUsdExample": {
+        "originalAmount": 100,
+        "issueIdrPerUsd": 16000,
+        "proposedIdrPerUsd": 15000
+      },
+      "approved": false
     }
   },
   "S05": {
@@ -1578,10 +1607,35 @@
           "original": "S11-01-adr-pr.png",
           "alt": "ADR 0001 ditambahkan pada draft, belum disetujui.",
           "guide": "1. Buka ADR 0001 di Files changed. Cari status usulan, alternatif 409, transaksi dan tes sebelum membuat implementasi."
+        },
+        {
+          "name": "S11-implementer-blocked.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+          "source": "GitHub Conversation · retry Implementer #34",
+          "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan."
+        },
+        {
+          "name": "S11-implementer-blocked-annotated.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+          "source": "GitHub Conversation · retry Implementer #34",
+          "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan.",
+          "original": "S11-implementer-blocked.png",
+          "guide": "1. Baca alasan tidak ada implementasi; Files changed menampilkan 0. · 2. Buka ADR #22: belum ada approval GitHub; ringkasan juga menyebut tidak ada tes yang dijalankan. Bukan bukti perubahan atau review lulus."
         }
       ],
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
-      "currentSummary": "Usulan sesi sebelumnya kini ada sebagai dokumen di draft Architect #22. Statusnya Proposed, bukan persetujuan."
+      "currentSummary": "ADR #22 masih Proposed. Handoff Implementer #34 mencoba memverifikasi review dan aksesnya ditolak HTTP 403. Runner selesai tanpa perubahan atau tes; paket ini tidak mengisi bukti implementasi."
+    },
+    "implementationAttempt": {
+      "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+      "adrUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
+      "runUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45697139165",
+      "baseCommit": "41e83700405605528a01cf44685208f85557864b",
+      "outcome": "blocked-review-unverified",
+      "providerAccessHttpStatus": 403,
+      "changedFiles": 0,
+      "testsRun": false,
+      "githubReviewApproved": false
     }
   },
   "S01": {

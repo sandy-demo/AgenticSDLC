@@ -1403,13 +1403,18 @@
           "https://github.com/sandy-demo/AgenticSDLC/pull/22/files"
         ],
         [
+          "Periksa gate yang benar-benar menghentikan Implementer",
+          "Draf #34 dibuka setelah izin melanjutkan di chat. Sesi tidak dapat memverifikasi ADR dan review: akses GitHub dari runner ditolak HTTP 403. Copilot berhenti, menghasilkan 0 file berubah dan tidak menjalankan tes.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/34"
+        ],
+        [
           "Cek selesai latihan",
-          "Dokumen 0001 ada pada draft #22 dan berstatus Proposed. Baseline satu klaim besar menunggu Manager lalu Finance. Cek bahwa desain yang diusulkan menangani retry tanpa event audit ganda; jangan jalankan implementer sebelum review manusia.",
+          "Baca draft #34: Files changed 0, tes tidak dijalankan, dan ADR #22 belum disetujui di GitHub. Yang diuji di sini adalah titik henti, bukan implementasi retry. Untuk dasar perilaku, jalankan tes baseline; klaim besar masih masuk Finance setelah Manager.",
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
           "Cara merekam hasil live",
-          "Architect perlu dapat membuat draft ADR tanpa kode produksi. Tech Lead meninjau dan memberi persetujuan sesuai aturan repo. Jangan klik Approve plan and start work jika tugasnya hanya dokumentasi usulan.",
+          "Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
           "1. S11-01-adr-pr.png\n   Di draft Architect → Files changed buka docs/adr/0001-approval-bertahap.md. Tunjukkan konteks, opsi, keputusan, risiko, kriterianya. Foto hanya setelah file ADR benar-benar ada di draft, bukan screenshot usulan sesi.\n\n2. S11-02-impl-pr.png\n   Sesudah ADR disetujui reviewer yang berwenang, buka draft implementer yang menautkan ADR dan tes. Foto scope perubahan dan status checks yang tepat.\n\n3. S11-after.png\n   Buka hasil review keamanan defensif pada draft implementasi; cek validasi peran dan audit dari tes. Tunjukkan keputusan reviewer nyata, tanpa menyerang target atau menganggap komentar sama dengan approval."
         ]
       ],
@@ -1426,23 +1431,26 @@
         "S11-local-result.png",
         "S11-architect-proposal.png",
         "S11-architect-proposal-annotated.png",
-        "S11-01-adr-pr-annotated.png"
+        "S11-01-adr-pr-annotated.png",
+        "S11-implementer-blocked.png",
+        "S11-implementer-blocked-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-        "live": "Architect menghasilkan draft ADR #22; tidak ada approval atau implementasi",
+        "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
         "stepEvidence": [
           "S11-before.png",
           "S11-architect-proposal-annotated.png",
           "S11-02-impl-pr.png",
           "S11-01-adr-pr-annotated.png",
-          "S11-01-adr-pr-annotated.png",
+          "S11-implementer-blocked-annotated.png",
+          "S11-implementer-blocked-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S11-01-adr-pr-annotated.png",
-          "learningCheck": "Dokumen 0001 ada pada draft #22 dan berstatus Proposed. Baseline satu klaim besar menunggu Manager lalu Finance. Cek bahwa desain yang diusulkan menangani retry tanpa event audit ganda; jangan jalankan implementer sebelum review manusia.",
-          "livePrerequisite": "Architect perlu dapat membuat draft ADR tanpa kode produksi. Tech Lead meninjau dan memberi persetujuan sesuai aturan repo. Jangan klik Approve plan and start work jika tugasnya hanya dokumentasi usulan.",
+          "verifiedLearningEvidence": "S11-implementer-blocked-annotated.png",
+          "learningCheck": "Baca draft #34: Files changed 0, tes tidak dijalankan, dan ADR #22 belum disetujui di GitHub. Yang diuji di sini adalah titik henti, bukan implementasi retry. Untuk dasar perilaku, jalankan tes baseline; klaim besar masih masuk Finance setelah Manager.",
+          "livePrerequisite": "Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
           "targets": [
             {
               "name": "S11-01-adr-pr.png",
@@ -1467,12 +1475,12 @@
           {
             "actor": "Tech Lead",
             "action": "Tinjau keputusan",
-            "result": "Periksa peran, transisi, audit satu event, dan tes. Belum disetujui di workshop ini."
+            "result": "Periksa peran, transisi, audit satu event, dan tes. Persetujuan untuk melanjutkan di chat bukan review GitHub."
           },
           {
             "actor": "Implementer",
             "action": "Mulai setelah handoff yang berwenang",
-            "result": "Tidak ada draft implementasi atau persetujuan yang dibuat sebagai bukti palsu."
+            "result": "Draft #34 mencatat HTTP 403 saat memverifikasi konteks. Tidak ada perubahan kode atau hasil tes baru."
           }
         ]
       },
@@ -1485,7 +1493,9 @@
         "S11-local-result.png": "available",
         "S11-architect-proposal.png": "available",
         "S11-architect-proposal-annotated.png": "available",
-        "S11-01-adr-pr-annotated.png": "available"
+        "S11-01-adr-pr-annotated.png": "available",
+        "S11-implementer-blocked.png": "available",
+        "S11-implementer-blocked-annotated.png": "available"
       }
     },
     "S12": {
@@ -1927,13 +1937,18 @@
           "https://github.com/sandy-demo/expense-app-full/pull/2/files"
         ],
         [
+          "Periksa empat draf pekerjaan Planner",
+          "Hasil Planner dari branch ADR membagi review ADR, API/UI, tes, dan docs. Issue mencontohkan USD 100 × Rp16.000, sedangkan ADR mengusulkan Rp15.000. Tetapkan satu contoh fiktif sebelum coding. Tidak ada sub-issue baru, implementasi, atau persetujuan otomatis.",
+          "https://github.com/sandy-demo/expense-app-full/pull/2/files"
+        ],
+        [
           "Cek selesai latihan",
-          "Jalankan alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca epik dan ADR 0002 Proposed di repo turunan. Bedakan hitungan kurs ilustrasi dari fitur multi-currency yang belum dibuat.",
+          "Coba alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca draf Planner, lalu bandingkan USD 100 pada issue dan ADR. Rp1.600.000 dan Rp1.500.000 sama-sama contoh fiktif, bukan hasil fitur; tentukan acuan di review ADR sebelum implementasi.",
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
           "Cara merekam hasil live",
-          "Gunakan repo turunan exercise dari template expense-app-full yang sudah diverifikasi. Hanya Tech Lead yang boleh menyetujui ADR dan review. Tidak ada merge tanpa izin eksplisit; tahap implementasi dan post-merge belum dilakukan.",
+          "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2; selaraskan contoh USD dari issue dan ADR, termasuk kebijakan pembulatan dan batas. Baru lanjut membuat draft implementasi setelah persetujuan desain. Izin merge tetap keputusan terpisah.",
           "1. S15-01-epic.png\n   Di repo turunan buka Issues → epik IDR/USD/SGD. Foto scope kurs, pembulatan, nilai IDR untuk limit, dan acceptance criteria; jangan pakai issue template sebagai bukti epik dibuat.\n\n2. S15-02-breakdown.png\n   Buka hasil Planner yang menampilkan ADR, API/UI, tes, docs, dan dependensi. Foto hubungan yang benar; draf di sesi saja harus dilabeli draf.\n\n3. S15-03-adr.png\n   Buka draft ADR 0002. Tunjukkan keputusan sumber kurs, waktu kurs, pembulatan, limit dan audit, beserta persetujuan reviewer yang berwenang sebelum implementasi.\n\n4. S15-04-pr.png\n   Buka draft implementasi dan lihat issue/ADR yang ditautkan. Di Files changed periksa fakta IDR/USD/SGD serta test cases, bukan jumlah file saja.\n\n5. S15-05-ci.png\n   Di Checks buka CI pada commit PR yang sama. Foto hasil tes yang mengecek kurs, pembulatan dan limit, plus e2e; status hijau lama tidak cukup.\n\n6. S15-06-reviews.png\n   Di Conversation dan Checks verifikasi saran review, keputusan reviewer manusia, hasil CodeQL dan resolusi komentar. Review Copilot bukan persetujuan manusia.\n\n7. S15-07-merge.png\n   Hanya Tech Lead di repo turunan dengan izin merge terpisah. Rekam hulu yang mendapat persetujuan, checks lulus dan status Merged yang benar-benar terjadi; jangan memicu merge untuk sekadar menghasilkan foto.\n\n8. S15-08-docs.png\n   Sesudah perubahan diterima, buka run dan draft Docs Sync yang benar. Periksa bahwa output hanya docs yang diizinkan dan menjelaskan aturan mata uang.\n\n9. S15-09-audit.png\n   Tampilkan metadata audit pada aksi latihan yang diizinkan, tanpa argumen atau data akun. Sumber lokal harus disebut lokal; jangan merekam rahasia saat mengambil log.\n\n10. S15-after.png\n   Jalankan ref versi multi-currency yang sudah disetujui di repo turunan. Foto dropdown IDR/USD/SGD serta hasil contoh yang cocok dengan ADR. UI IDR baseline atau grafik ilustrasi bukan hasil after."
         ]
       ],
@@ -1962,7 +1977,8 @@
         "S15-draft-plan.png",
         "S15-draft-plan-annotated.png",
         "S15-adr-proposed.png",
-        "S15-adr-proposed-annotated.png"
+        "S15-adr-proposed-annotated.png",
+        "S15-02-breakdown-annotated.png"
       ],
       "app": {
         "page": "/",
@@ -1972,7 +1988,7 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "Template tersedia, epik dan ADR nyata; belum masuk implementasi/merge",
+        "live": "Empat tahap Planner dan ADR 0002 tersedia · contoh kurs perlu diselaraskan sebelum persetujuan",
         "stepEvidence": [
           "S15-before-annotated.png",
           "S15-branch-protection-annotated.png",
@@ -1982,13 +1998,14 @@
           "S15-01-epic-annotated.png",
           "S15-draft-plan-annotated.png",
           "S15-adr-proposed-annotated.png",
-          "S15-adr-proposed-annotated.png",
+          "S15-02-breakdown-annotated.png",
+          "S15-02-breakdown-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S15-adr-proposed-annotated.png",
-          "learningCheck": "Jalankan alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca epik dan ADR 0002 Proposed di repo turunan. Bedakan hitungan kurs ilustrasi dari fitur multi-currency yang belum dibuat.",
-          "livePrerequisite": "Gunakan repo turunan exercise dari template expense-app-full yang sudah diverifikasi. Hanya Tech Lead yang boleh menyetujui ADR dan review. Tidak ada merge tanpa izin eksplisit; tahap implementasi dan post-merge belum dilakukan.",
+          "verifiedLearningEvidence": "S15-02-breakdown-annotated.png",
+          "learningCheck": "Coba alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca draf Planner, lalu bandingkan USD 100 pada issue dan ADR. Rp1.600.000 dan Rp1.500.000 sama-sama contoh fiktif, bukan hasil fitur; tentukan acuan di review ADR sebelum implementasi.",
+          "livePrerequisite": "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2; selaraskan contoh USD dari issue dan ADR, termasuk kebijakan pembulatan dan batas. Baru lanjut membuat draft implementasi setelah persetujuan desain. Izin merge tetap keputusan terpisah.",
           "targets": [
             {
               "name": "S15-01-epic.png",
@@ -2036,7 +2053,7 @@
           {
             "actor": "PM dan Architect",
             "action": "Buat epik dan ADR",
-            "result": "Repo turunan expense-app-full sudah punya issue #1 dan draft #2 Proposed. Kurs contoh bukan kurs pasar."
+            "result": "Epik #1, ADR 0002 Proposed dan empat draf Planner sudah tersedia. Issue dan ADR memakai contoh kurs USD fiktif yang berbeda."
           },
           {
             "actor": "Aplikasi baseline",
@@ -2046,7 +2063,7 @@
           {
             "actor": "Tech Lead",
             "action": "Tahan implementasi sampai desain disetujui",
-            "result": "Review manusia, checks, dan keputusan merge harus benar-benar terjadi. Tidak ada UI multi-currency live pada checkpoint ini."
+            "result": "Sepakati satu kurs fixture dan minta review ADR. Implementasi dan merge belum dimulai."
           }
         ]
       },
@@ -2054,7 +2071,7 @@
       "screenshotStatus": {
         "S15-before.png": "available",
         "S15-01-epic.png": "available",
-        "S15-02-breakdown.png": "missing",
+        "S15-02-breakdown.png": "available",
         "S15-03-adr.png": "missing",
         "S15-04-pr.png": "missing",
         "S15-05-ci.png": "missing",
@@ -2072,6 +2089,7 @@
         "S15-draft-plan-annotated.png": "available",
         "S15-adr-proposed.png": "available",
         "S15-adr-proposed-annotated.png": "available",
+        "S15-02-breakdown-annotated.png": "available",
         "S15-branch-protection-annotated.png": "available"
       }
     }
@@ -2762,6 +2780,18 @@
             "name": "S15-local-result.png",
             "alt": "Output pemeriksaan lokal S15: Cabang baseline: Rp1.250.000.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          },
+          {
+            "name": "S15-02-breakdown.png",
+            "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
+            "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama."
+          },
+          {
+            "name": "S15-02-breakdown-annotated.png",
+            "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
+            "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama.",
+            "original": "S15-02-breakdown.png",
+            "guide": "1. Cocokkan contoh USD 100: issue Rp1.600.000, usulan ADR Rp1.500.000. Keduanya fiktif; reviewer memilih satu acuan. · 2. Putuskan ADR dan kriterianya. · 3. API/UI menunggu keputusan; tes dan docs mengikuti. Ini draf Planner, bukan sub-issue yang sudah didelegasikan."
           }
         ]
       },
@@ -2831,7 +2861,7 @@
         "issueUrl": "https://github.com/sandy-demo/expense-app-full/issues/1",
         "prUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
         "fixtureRunUrl": "https://github.com/sandy-demo/expense-app-full/actions/runs/45655771427",
-        "currentSummary": "Epik #1 dan draft ADR #2 benar-benar ada di sandy-demo/expense-app-full. Template menunjukkan baseline; draft desain belum disetujui atau diimplementasikan."
+        "currentSummary": "Epik dan ADR Proposed di repo template sudah tersedia. Planner menghasilkan empat draf pekerjaan dari ADR dan mencatat perbedaan contoh kurs USD. Tidak ada persetujuan, perubahan multi-currency, atau merge."
       },
       "template": {
         "url": "https://github.com/sandy-demo/expense-app-full",
@@ -2847,6 +2877,23 @@
         ],
         "forcePushAllowed": false,
         "adrStatus": "Proposed"
+      },
+      "planningExercise": {
+        "source": "Copilot CLI planner (read-only)",
+        "adrUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
+        "adrCommit": "8834ed7eea1b43d2c86e327229b9f8de1776718c",
+        "workItems": [
+          "Review ADR",
+          "API/UI",
+          "Tes",
+          "Dokumentasi dan handoff"
+        ],
+        "hypotheticalUsdExample": {
+          "originalAmount": 100,
+          "issueIdrPerUsd": 16000,
+          "proposedIdrPerUsd": 15000
+        },
+        "approved": false
       }
     },
     "S05": {
@@ -3656,10 +3703,35 @@
             "original": "S11-01-adr-pr.png",
             "alt": "ADR 0001 ditambahkan pada draft, belum disetujui.",
             "guide": "1. Buka ADR 0001 di Files changed. Cari status usulan, alternatif 409, transaksi dan tes sebelum membuat implementasi."
+          },
+          {
+            "name": "S11-implementer-blocked.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+            "source": "GitHub Conversation · retry Implementer #34",
+            "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan."
+          },
+          {
+            "name": "S11-implementer-blocked-annotated.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+            "source": "GitHub Conversation · retry Implementer #34",
+            "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan.",
+            "original": "S11-implementer-blocked.png",
+            "guide": "1. Baca alasan tidak ada implementasi; Files changed menampilkan 0. · 2. Buka ADR #22: belum ada approval GitHub; ringkasan juga menyebut tidak ada tes yang dijalankan. Bukan bukti perubahan atau review lulus."
           }
         ],
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
-        "currentSummary": "Usulan sesi sebelumnya kini ada sebagai dokumen di draft Architect #22. Statusnya Proposed, bukan persetujuan."
+        "currentSummary": "ADR #22 masih Proposed. Handoff Implementer #34 mencoba memverifikasi review dan aksesnya ditolak HTTP 403. Runner selesai tanpa perubahan atau tes; paket ini tidak mengisi bukti implementasi."
+      },
+      "implementationAttempt": {
+        "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
+        "adrUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
+        "runUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45697139165",
+        "baseCommit": "41e83700405605528a01cf44685208f85557864b",
+        "outcome": "blocked-review-unverified",
+        "providerAccessHttpStatus": 403,
+        "changedFiles": 0,
+        "testsRun": false,
+        "githubReviewApproved": false
       }
     },
     "S01": {
@@ -4235,7 +4307,7 @@
         ]
       },
       "S11": {
-        "live": "Architect menghasilkan draft ADR #22; tidak ada approval atau implementasi",
+        "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
         "localDurationSeconds": 0.91,
         "missing": [
           "S11-02-impl-pr.png",
@@ -4249,14 +4321,15 @@
           "S11-architect-proposal.png",
           "S11-architect-proposal-annotated.png",
           "S11-01-adr-pr.png",
-          "S11-01-adr-pr-annotated.png"
+          "S11-01-adr-pr-annotated.png",
+          "S11-implementer-blocked.png",
+          "S11-implementer-blocked-annotated.png"
         ]
       },
       "S15": {
-        "live": "Template tersedia, epik dan ADR nyata; belum masuk implementasi/merge",
+        "live": "Empat tahap Planner dan ADR 0002 tersedia · contoh kurs perlu diselaraskan sebelum persetujuan",
         "localDurationSeconds": 0.91,
         "missing": [
-          "S15-02-breakdown.png",
           "S15-03-adr.png",
           "S15-04-pr.png",
           "S15-05-ci.png",
@@ -4270,7 +4343,9 @@
           "S15-before.png",
           "S15-before-annotated.png",
           "S15-local-approval.png",
-          "S15-local-result.png"
+          "S15-local-result.png",
+          "S15-02-breakdown.png",
+          "S15-02-breakdown-annotated.png"
         ],
         "cloudScreenshots": [
           "S15-branch-protection-annotated.png",

@@ -4,7 +4,7 @@
 
 Buka [urutan belajar offline](site/index.html#urutan). Tiap bab punya alur interaktif, langkah praktik, **Cek hasil**, **Langkah live**, dan cara reset. Klik langkah alur untuk melihat peran dan keluaran; klik screenshot untuk memperbesar.
 
-**Bukti:** 15 skenario, 22 halaman offline, 178 PNG, 66 versi bernomor. 29 nama tangkapan yang benar-benar belum ada tetap tercantum di [daftar pending](docs/screenshots/_missing.json). Hasil lokal, screenshot portal, dan usulan tidak saling menggantikan.
+**Bukti:** 15 skenario, 22 halaman offline, 182 PNG, 68 versi bernomor. 28 nama tangkapan yang benar-benar belum ada tetap tercantum di [daftar pending](docs/screenshots/_missing.json). Hasil lokal, screenshot portal, dan usulan tidak saling menggantikan.
 
 | Skenario | Hasil yang diverifikasi |
 |---|---|
@@ -17,8 +17,8 @@ Buka [urutan belajar offline](site/index.html#urutan). Tiap bab punya alur inter
 | [S13](site/scenarios/S13.html#learning-check) | Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit |
 | [S14](site/scenarios/S14.html#learning-check) | Fixture guardrail dan audit teruji; kredit sesi GitHub direkam terpisah |
 | [S10](site/scenarios/S10.html#learning-check) | CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji |
-| [S11](site/scenarios/S11.html#learning-check) | Architect menghasilkan draft ADR #22; tidak ada approval atau implementasi |
-| [S15](site/scenarios/S15.html#learning-check) | Template tersedia, epik dan ADR nyata; belum masuk implementasi/merge |
+| [S11](site/scenarios/S11.html#learning-check) | ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak |
+| [S15](site/scenarios/S15.html#learning-check) | Empat tahap Planner dan ADR 0002 tersedia · contoh kurs perlu diselaraskan sebelum persetujuan |
 | [S01](site/scenarios/S01.html#learning-check) | Copilot CLI: dua prompt identik selesai; bukti UI Agent Mode VS Code belum ada |
 | [S02](site/scenarios/S02.html#learning-check) | Draft #29 punya perubahan lintas file; browser dan 4 tes UI lulus lokal |
 | [S03](site/scenarios/S03.html#learning-check) | Endpoint komentar berfungsi pada draft #25; laporan skill cloud dan tes lokal tercatat |
@@ -27,6 +27,7 @@ Buka [urutan belajar offline](site/index.html#urutan). Tiap bab punya alur inter
 - **Perbaikan yang diuji:** S04 #20, S05 #27, S06 personal #21, S07a #18 → S07b #23 dan S08 QA #24. Tes dijalankan pada commit masing-masing; status CI PR Copilot tidak dipinjam dari PR pembanding. Skill S03 menghasilkan endpoint #25 dan pemilihan kategori S02 diuji pada #29.
 - **Pemicu workflow:** [draft #33](https://github.com/sandy-demo/AgenticSDLC/pull/33) memberi target Docs Sync yang benar dan lockfile terkompilasi. [Run 45657391526](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45657391526) tetap gagal provider HTTP 403 dan cap. Secret tidak diubah, pemicu sementara dikembalikan, dan batas tidak dinaikkan.
 - **Template pulih:** [expense-app-full](https://github.com/sandy-demo/expense-app-full) adalah template dari tag v0-baseline, default demo/workshop, CI awal lulus. Protection membutuhkan satu approval dan tiga checks. [Epik S15](https://github.com/sandy-demo/expense-app-full/issues/1) serta [ADR Proposed](https://github.com/sandy-demo/expense-app-full/pull/2) ada; belum ada implementasi atau merge.
+- **Handoff:** [S11 #34](https://github.com/sandy-demo/AgenticSDLC/pull/34) berhenti saat verifikasi ADR/review ditolak HTTP 403 oleh runner; tidak ada diff atau tes. Planner S15 menyiapkan empat draf pekerjaan, tetapi reviewer masih perlu menyelaraskan contoh USD 100: Rp1.600.000 di epik dan Rp1.500.000 di ADR. Keduanya fixture. Tidak ada approval GitHub atau merge.
 - **Batas live:** Agent Mode VS Code belum terekam; integrasi org S06 tetap manual; CodeQL S10 tidak mempunyai alert nyata; izin workflow dan persetujuan manusia tidak dipalsukan. Panduan tidak meminta memasang kerentanan atau mengakses data rahasia.
 - **Validasi paket:** lint, 20 unit test, 7 tes Playwright, pengambilan ulang foto lokal dan reset aman lulus. Semua 22 halaman diperiksa offline pada 320, 390, 768 dan 1440 px; semua 45 langkah alur bisa dibuka dengan keyboard. Materi tetap berfungsi tanpa JavaScript.
 - **Chart:** C3 dan C6 berasal dari pengukuran di [metrics.json](docs/metrics.json). C4 dan C5 tidak mengisi nol untuk perbandingan yang belum terukur.
