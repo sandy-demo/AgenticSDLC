@@ -232,7 +232,7 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Issue dan draft Copilot nyata · 2 sesi selesai tanpa diff; CI belum dijalankan",
+      "live": "Draft Copilot nyata · 3 sesi tanpa diff; guardrail menolak format edit",
       "stepEvidence": [
         "S04-local-form-annotated.png",
         "S04-after-annotated.png",

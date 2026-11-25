@@ -49,8 +49,11 @@
 ### S04 live — sudah sampai draft PR
 
 - [Issue #3](https://github.com/sandy-demo/AgenticSDLC/issues/3) ditugaskan ke Copilot. [Draft PR #4](https://github.com/sandy-demo/AgenticSDLC/pull/4) muncul dalam **0,19 menit** tanpa mengubah branch dasar.
-- Kedua sesi Copilot selesai tanpa diff. [Komentar revisi](https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467) meminta tes batas dan pesan error, tetapi [run revisi](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45588240268) tidak menghasilkan commit perubahan. `revisionMinutes` tetap `null`; belum ada perbaikan aplikasi dari PR.
+- Tiga sesi Copilot selesai tanpa diff. [Percobaan terakhir](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45589865167) mengonfirmasi guardrail `invalid-input`; yang lulus hanya 11 tes baseline di masing-masing Jakarta dan LA, belum termasuk kasus tanggal besok.
+- [Komentar revisi](https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467) meminta tes batas dan pesan error, tetapi [run revisi](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45588240268) tidak menghasilkan commit perubahan. `revisionMinutes` tetap `null`; belum ada perbaikan aplikasi dari PR.
 - [CI biasa](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262) meminta persetujuan maintainer. Ini berbeda dari CodeQL dan berbeda dari merge. Delapan screenshot S04 live tersedia di [panduan S04](site/scenarios/S04.html#s04-cloud-evidence).
+
+- Reproduksi lokal: hook menolak argumen edit berbentuk teks, tetapi menerima input terstruktur. Kandidat perbaikan parser lulus 10 kasus di lingkungan terpisah; hook aktif belum diubah atau dipintas. Penggunaan yang terlihat: **21,9 AI credits** untuk tiga sesi S04, bukan premium requests dan bukan tagihan.
 
 ### Yang masih perlu dilakukan untuk jalur cloud
 
@@ -60,7 +63,7 @@
 2. Batasi masa berlaku dan akses ke repo latihan, beri **Copilot Requests: Read** pada permission akun. Jangan salin nilai PAT ke chat atau commit.
 3. Masukkan nilainya melalui prompt aman `gh secret set COPILOT_GITHUB_TOKEN -R sandy-demo/AgenticSDLC`, lalu cek nama menggunakan `gh secret list -R sandy-demo/AgenticSDLC`.
 
-Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, buka [View session revisi](https://github.com/sandy-demo/AgenticSDLC/sessions/ef1e59ca-a080-4b7b-9a00-1051cd9759ae) saat login sebagai `sandy-demo`; halaman ini tidak bisa dibuka tanpa login. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. S05 dan seterusnya belum dimulai live. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
+Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu meninjau koreksi parser melalui PR terpisah dengan guardrail tetap aktif. Ringkasan sesi sudah diberikan oleh pemilik; screenshot halaman sesi masih belum ada. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. S05 dan seterusnya belum dimulai live. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
 
 ### Enam momen screenshot manual di VS Code
 

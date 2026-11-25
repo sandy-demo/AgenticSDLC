@@ -8,7 +8,7 @@
         "minutesToPr": 0.19,
         "revisionRequestedAt": "2026-11-25T09:44:08Z",
         "revisionMinutes": null,
-        "reviewerComments": 1,
+        "reviewerComments": 2,
         "premiumRequests": null,
         "coverageBefore": null,
         "coverageAfter": null,
@@ -17,7 +17,9 @@
         "stoppedAt": "2026-11-25T09:47:53.579Z",
         "durationSeconds": 512,
         "revisionSessionEndedAt": "2026-11-25T09:45:55Z",
-        "outcome": "blocked-no-code-diff"
+        "outcome": "blocked-hook-invalid-input",
+        "aiCredits": 21.9,
+        "aiCreditsSource": "Tampilan tiga sesi Copilot S04 yang dibagikan oleh pemilik repo; angka tampilan dijumlahkan, bukan tagihan."
       }
     ],
     "localEvidence": {
@@ -95,7 +97,7 @@
       ]
     },
     "cloudEvidence": {
-      "status": "blocked-no-code-diff",
+      "status": "blocked-hook-invalid-input",
       "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/3",
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
       "initialAgentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587506410",
@@ -163,7 +165,32 @@
       ],
       "changedFiles": 0,
       "revisionRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45588240268",
-      "revisionSessionUrl": "https://github.com/sandy-demo/AgenticSDLC/sessions/ef1e59ca-a080-4b7b-9a00-1051cd9759ae"
+      "revisionSessionUrl": "https://github.com/sandy-demo/AgenticSDLC/sessions/ef1e59ca-a080-4b7b-9a00-1051cd9759ae",
+      "recoveryRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45589865167",
+      "sessionCount": 3,
+      "diagnostic": {
+        "source": "ringkasan View session dari pemilik dan reproduksi lokal tanpa mengubah hook",
+        "reportedCategory": "invalid-input",
+        "reproducedWith": "argumen apply_patch berbentuk teks",
+        "baselineTests": {
+          "jakarta": 11,
+          "losAngeles": 11
+        },
+        "baselineTestsCoverFutureDate": false,
+        "verifiedCandidateCases": 10,
+        "installed": false
+      },
+      "sessions": [
+        {
+          "aiCredits": 10.7
+        },
+        {
+          "aiCredits": 7
+        },
+        {
+          "aiCredits": 4.2
+        }
+      ]
     }
   },
   "S08": {
