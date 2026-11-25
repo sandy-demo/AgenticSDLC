@@ -19,6 +19,7 @@ describe('validasi klaim', () => {
     [{ amount: 50_000_001 }, 'CLAIM_AMOUNT'],
     [{ amount: 2.5 }, 'CLAIM_AMOUNT'],
     [{ claimDate: '2026-02-31' }, 'CLAIM_DATE_INVALID'],
+    [{ claimDate: dateKey(shiftDay(now, 1)) }, 'CLAIM_DATE_FUTURE'],
     [{ claimDate: dateKey(shiftDay(now, -91)) }, 'CLAIM_DATE_OLD'],
     [{ attachment: 'folder/receipt.pdf' }, 'CLAIM_ATTACHMENT'],
   ])('menolak payload %j dengan %s', (changes, code) => {
@@ -26,5 +27,9 @@ describe('validasi klaim', () => {
   });
   it('menolak periode laporan yang tidak valid', () => {
     expect(() => validateMonth('2026-13')).toThrow(expect.objectContaining({ code: 'REPORT_MONTH' }));
+  });
+  it('menerima klaim kemarin', () => {
+    const claimDate = dateKey(shiftDay(now, -1));
+    expect(validateClaim({ ...valid, claimDate }, now).claimDate).toBe(claimDate);
   });
 });
