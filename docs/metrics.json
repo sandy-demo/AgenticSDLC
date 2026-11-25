@@ -232,6 +232,10 @@
           "source": "Output lokal yang dirender · bukan layar portal"
         }
       ]
+    },
+    "cloudEvidence": {
+      "status": "not-started-edit-prerequisite",
+      "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review."
     }
   },
   "S10": {
@@ -344,7 +348,24 @@
     }
   },
   "S05": {
-    "runs": [],
+    "runs": [
+      {
+        "date": "2026-11-25",
+        "startedAt": "2026-11-25T10:06:33.199Z",
+        "stoppedAt": "2026-11-25T10:09:35.317Z",
+        "durationSeconds": 182,
+        "prAt": "2026-11-25T10:06:39Z",
+        "minutesToPr": 0.1,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "premiumRequests": null,
+        "coverageBefore": null,
+        "coverageAfter": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "outcome": "blocked-hook-invalid-input"
+      }
+    ],
     "localDryRun": {
       "recordedAt": "2026-11-25T07:49:11.753Z",
       "status": "verified-local",
@@ -378,6 +399,41 @@
         }
       ],
       "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102"
+    },
+    "cloudEvidence": {
+      "status": "blocked-hook-invalid-input",
+      "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/5",
+      "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/6",
+      "baseRef": "demo/ci-timezone",
+      "changedFiles": 0,
+      "ciUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591807143",
+      "ciConclusion": "action_required",
+      "agentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591806998",
+      "failedEdit": "apply_patch",
+      "reportedCategory": "invalid-input",
+      "images": [
+        {
+          "name": "S05-01-issue.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/issues/5",
+          "alt": "Issue S05 yang ditugaskan ke Copilot, dengan tautan ke job LA yang gagal.",
+          "width": 1440,
+          "height": 1038
+        },
+        {
+          "name": "S05-pr-draft.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/6",
+          "alt": "Draft Copilot #6 memakai branch dasar demo/ci-timezone.",
+          "width": 1440,
+          "height": 1588
+        },
+        {
+          "name": "S05-pr-empty.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/6/files",
+          "alt": "Files changed 0: tidak ada perbaikan yang bisa ditinjau.",
+          "width": 1440,
+          "height": 488
+        }
+      ]
     }
   },
   "S07": {
@@ -409,6 +465,10 @@
           "source": "Output lokal yang dirender · bukan layar portal"
         }
       ]
+    },
+    "cloudEvidence": {
+      "status": "not-started-edit-prerequisite",
+      "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review."
     }
   },
   "S09": {

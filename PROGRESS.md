@@ -55,6 +55,12 @@
 
 - Reproduksi lokal: hook menolak argumen edit berbentuk teks, tetapi menerima input terstruktur. Kandidat perbaikan parser lulus 10 kasus di lingkungan terpisah; hook aktif belum diubah atau dipintas. Penggunaan yang terlihat: **21,9 AI credits** untuk tiga sesi S04, bukan premium requests dan bukan tagihan.
 
+### S05 live — penolakan edit yang sama
+
+- [Run awal](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102): Jakarta lulus dan LA gagal pada fixture timezone. [Issue #5](https://github.com/sandy-demo/AgenticSDLC/issues/5) menghasilkan [draft #6](https://github.com/sandy-demo/AgenticSDLC/pull/6) dalam **0,1 menit** pada base `demo/ci-timezone`.
+- [Run agent](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591806998) selesai, tetapi log mencatat pemanggilan edit gagal dan ringkasan PR menyebut `invalid-input`; **0 file berubah**. [CI PR](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591807143) belum berjalan. [Tiga screenshot tambahan](site/scenarios/S05.html#s05-cloud-evidence) membuktikan issue, draft dan diff kosong, bukan patch.
+- S07a/S07b dan S08 perlu edit oleh agent. Tidak memulai sesi tambahan yang sudah diketahui terhambat sampai koreksi parser ditinjau. Bukti lokal tetap tersedia.
+
 ### Yang masih perlu dilakukan untuk jalur cloud
 
 [Panduan PAT Copilot untuk S12 dan S13](docs/ORG-SETUP.md#pat-copilot-untuk-s12-dan-s13) menjelaskan kenapa izin ada di tab **Account** dan kapan token tidak diperlukan.
@@ -63,7 +69,7 @@
 2. Batasi masa berlaku dan akses ke repo latihan, beri **Copilot Requests: Read** pada permission akun. Jangan salin nilai PAT ke chat atau commit.
 3. Masukkan nilainya melalui prompt aman `gh secret set COPILOT_GITHUB_TOKEN -R sandy-demo/AgenticSDLC`, lalu cek nama menggunakan `gh secret list -R sandy-demo/AgenticSDLC`.
 
-Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu meninjau koreksi parser melalui PR terpisah dengan guardrail tetap aktif. Ringkasan sesi sudah diberikan oleh pemilik; screenshot halaman sesi masih belum ada. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. Batas 25 menit S04 sudah lewat; draft #4 tetap tanpa diff. S04 tidak diulang sebelum koreksi parser ditinjau. Skenario live berikutnya: S05. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
+Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu meninjau koreksi parser melalui PR terpisah dengan guardrail tetap aktif. Ringkasan sesi sudah diberikan oleh pemilik; screenshot halaman sesi masih belum ada. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. Batas 25 menit S04 sudah lewat; draft #4 tetap tanpa diff. S04 tidak diulang sebelum koreksi parser ditinjau. S05 juga membuktikan penolakan edit. Tidak mengulang pekerjaan edit sebelum perbaikan hook ditinjau. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
 
 ### Enam momen screenshot manual di VS Code
 

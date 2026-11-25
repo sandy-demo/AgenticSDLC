@@ -282,11 +282,13 @@
       "S05-01-issue.png",
       "S05-02-pr-fix.png",
       "S05-after.png",
-      "S05-local-result.png"
+      "S05-local-result.png",
+      "S05-pr-draft.png",
+      "S05-pr-empty.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "Actions nyata · PR perbaikan pending",
+      "live": "Issue dan draft nyata · guardrail menolak edit; perbaikan belum ada",
       "stepEvidence": [
         "S05-before.png",
         "S05-local-result.png",
@@ -398,7 +400,7 @@
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-      "live": "pending · dua draft PR S07a/S07b",
+      "live": "Live ditunda · S07a perlu editor agent; S07b menunggu tes S07a",
       "stepEvidence": [
         "S07-local-result.png",
         "S07-01-pr-tests.png",
@@ -450,7 +452,7 @@
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "pending · agent picker, PR dan issue Bug:",
+      "live": "Live ditunda · PR tes QA perlu koreksi guardrail",
       "stepEvidence": [
         "S08-local-result.png",
         "S08-local-result.png",
