@@ -1,5 +1,9 @@
 export const categories = ['Travel', 'Meals', 'Equipment', 'Other'];
 
+const businessDateFormat = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit',
+});
+
 export class InputError extends Error {
   constructor(code, message, status = 400) {
     super(message);
@@ -9,12 +13,17 @@ export class InputError extends Error {
 }
 
 export function dateKey(date) {
-  const pad = (value) => String(value).padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  const { year, month, day } = Object.fromEntries(
+    businessDateFormat.formatToParts(date).map(({ type, value }) => [type, value]),
+  );
+  return `${year.padStart(4, '0')}-${month}-${day}`;
 }
 
 export function shiftDay(date, days) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+  // Use UTC midnight as a calendar anchor, not as the start of the Jakarta day.
+  const shifted = new Date(`${dateKey(date)}T00:00:00Z`);
+  shifted.setUTCDate(shifted.getUTCDate() + days);
+  return shifted;
 }
 
 function text(value, limit, code, message, optional = false) {

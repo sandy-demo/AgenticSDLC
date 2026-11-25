@@ -2,7 +2,9 @@
 
 1. Kategori valid: `Travel`, `Meals`, `Equipment`, `Other`.
 2. Jumlah harus rupiah bulat, lebih dari Rp0, dan maksimal Rp50.000.000.
-3. Tanggal klaim tidak boleh di masa depan dan maksimal 90 hari ke belakang.
+3. Tanggal klaim tidak boleh di masa depan dan maksimal 90 hari kalender ke
+   belakang (termasuk hari ke-90). Hari ini dan batasnya mengikuti zona bisnis
+   `Asia/Jakarta`, bukan zona waktu mesin.
 4. Klaim di bawah Rp1.000.000 perlu Manager. Klaim **Rp1.000.000 atau lebih**
    perlu Manager lalu Finance. S08 menguji nilai tepat di batas.
 5. Approver bukan pengaju. Manager hanya memutuskan klaim timnya.
