@@ -20,6 +20,11 @@
           "git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md"
         ],
         [
+          "Temukan file konteks di VS Code",
+          "Di snapshot v0-baseline, tekan Ctrl+P lalu buka file instruksi. Cocokkan aturan yang terlihat dengan isi usulan dari percobaan CLI. Sesi editor lokal belum login ke model Copilot.",
+          ".github/copilot-instructions.md"
+        ],
+        [
           "Jalankan prompt yang sama",
           "Di VS Code pada checkout tanpa instructions, buka ikon Chat → pilih Agent → kirim prompt. Buka Source Control untuk memeriksa diff, lalu ulangi di checkout yang punya instructions. Jangan pakai folder kerja utama.",
           "Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya."
@@ -60,13 +65,16 @@
         "S01-cli-without-instructions.png",
         "S01-cli-without-instructions-annotated.png",
         "S01-cli-with-instructions.png",
-        "S01-cli-with-instructions-annotated.png"
+        "S01-cli-with-instructions-annotated.png",
+        "S01-vscode-instructions.png",
+        "S01-vscode-instructions-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
         "live": "Copilot CLI: dua prompt identik selesai; bukti UI Agent Mode VS Code belum ada",
         "stepEvidence": [
           "S01-02-instructions-file-annotated.png",
+          "S01-vscode-instructions-annotated.png",
           "S01-01-without-instructions.png",
           "S01-03-with-instructions.png",
           "S01-cli-without-instructions-annotated.png",
@@ -126,6 +134,8 @@
         "S01-cli-without-instructions-annotated.png": "available",
         "S01-cli-with-instructions.png": "available",
         "S01-cli-with-instructions-annotated.png": "available",
+        "S01-vscode-instructions.png": "available",
+        "S01-vscode-instructions-annotated.png": "available",
         "S01-02-instructions-file-annotated.png": "available"
       }
     },
@@ -163,13 +173,23 @@
           "git fetch origin copilot/add-category-selection-local-expense-claim\nnpm run demo:compare -- 0d4637686c0b6fc95eef5c541eb2ac4190b46caa"
         ],
         [
+          "Siapkan prompt di Chat VS Code",
+          "Buka Chat dan minta rencana sebelum melihat perubahan. Dalam percobaan ini, menjalankan Copilot di VS Code Web memerlukan sign-in tersendiri; gambar hanya menunjukkan input, bukan hasil rencana.",
+          "Tulis Rencana S02 untuk dropdown kategori Travel, Meals, Equipment, Other dan tes nilai Travel melalui POST serta GET. Jangan edit file sebelum rencana diperiksa."
+        ],
+        [
+          "Jalankan tes di terminal VS Code",
+          "Buka terminal pada snapshot draft #29, commit 0d46376. Jalankan tes unit. Pada gambar, npm.cmd test dipakai di PowerShell agar launcher Windows jelas. Untuk UI, lakukan tes browser secara terpisah.",
+          "npm test\nnpm run e2e -- expense.spec.js"
+        ],
+        [
           "Cek selesai latihan",
-          "Sesudah pilih Perjalanan, POST memberi 201 dan GET detail 200 mengembalikan Travel pada draft #29. Baseline tanpa pilihan menyimpan Other. Catat bahwa foto draft dan browser bukan foto Agent Mode VS Code.",
+          "Pada snapshot #29, pilih Perjalanan: POST 201 dan GET 200 mengembalikan Travel. Baseline tanpa pilihan menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Screenshot prompt belum merupakan rencana Agent.",
           "npm run demo:compare -- v1-app-clean"
         ],
         [
           "Cara merekam hasil live",
-          "Bukti form memakai ref yang sudah ada, bukan hasil sesi VS Code baru. Untuk merekam Agent Mode, jalankan prompt kategori di checkout terpisah; jangan mengubah penyimpanan sebelum mengecek skema yang sudah ada.",
+          "Untuk foto rencana, gunakan Copilot yang sudah login di VS Code; sesi Web lokal dapat membuka Chat, tetapi belum menghasilkan respons model. Rekam Source Control pada perubahan yang benar-benar dilihat; Git sudah memverifikasi lima file draft meski panel SCM tidak terdaftar untuk worktree ini.",
           "1. S02-01-agent-plan.png\n   Di VS Code → Chat → Agent kirim prompt yang meminta pilihan Travel, Meals, Equipment, Other dan tes lintas file. Ambil layar ketika rencana yang nyata tampil, sebelum menilai hasilnya.\n\n2. S02-02-files-changed.png\n   Buka Source Control → Changes setelah penulisan berhenti. Tunjukkan form/payload/validasi/tes yang benar-benar berubah. Tidak perlu memaksa migrasi jika skema sudah menyimpan category.\n\n3. S02-03-tests-green.png\n   Buka terminal checkout yang sama; jalankan npm test, dan npm run e2e bila UI berubah. Foto ringkasan saat seluruh tes yang dijalankan lulus. Jangan gunakan tes dari ref lain sebagai bukti."
         ]
       ],
@@ -189,7 +209,10 @@
         "S02-draft-files.png",
         "S02-draft-files-annotated.png",
         "S02-draft-app.png",
-        "S02-draft-app-annotated.png"
+        "S02-draft-app-annotated.png",
+        "S02-vscode-agent-entry.png",
+        "S02-vscode-agent-entry-annotated.png",
+        "S02-03-tests-green-annotated.png"
       ],
       "app": {
         "after": "v1-app-clean",
@@ -201,19 +224,21 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "Draft #29 punya perubahan lintas file; browser dan 4 tes UI lulus lokal",
+        "live": "Kategori berfungsi di draft #29 · terminal VS Code: 25 unit lulus, hasil Agent Mode belum direkam",
         "stepEvidence": [
           "S02-before.png",
           "S02-after-annotated.png",
           "S02-local-result.png",
           "S02-draft-files-annotated.png",
-          "S02-draft-app-annotated.png",
+          "S02-vscode-agent-entry-annotated.png",
+          "S02-03-tests-green-annotated.png",
+          "S02-03-tests-green-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S02-draft-app-annotated.png",
-          "learningCheck": "Sesudah pilih Perjalanan, POST memberi 201 dan GET detail 200 mengembalikan Travel pada draft #29. Baseline tanpa pilihan menyimpan Other. Catat bahwa foto draft dan browser bukan foto Agent Mode VS Code.",
-          "livePrerequisite": "Bukti form memakai ref yang sudah ada, bukan hasil sesi VS Code baru. Untuk merekam Agent Mode, jalankan prompt kategori di checkout terpisah; jangan mengubah penyimpanan sebelum mengecek skema yang sudah ada.",
+          "verifiedLearningEvidence": "S02-03-tests-green-annotated.png",
+          "learningCheck": "Pada snapshot #29, pilih Perjalanan: POST 201 dan GET 200 mengembalikan Travel. Baseline tanpa pilihan menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Screenshot prompt belum merupakan rencana Agent.",
+          "livePrerequisite": "Untuk foto rencana, gunakan Copilot yang sudah login di VS Code; sesi Web lokal dapat membuka Chat, tetapi belum menghasilkan respons model. Rekam Source Control pada perubahan yang benar-benar dilihat; Git sudah memverifikasi lima file draft meski panel SCM tidak terdaftar untuk worktree ini.",
           "targets": [
             {
               "name": "S02-01-agent-plan.png",
@@ -252,14 +277,17 @@
         "S02-before.png": "available",
         "S02-01-agent-plan.png": "manual pending",
         "S02-02-files-changed.png": "manual pending",
-        "S02-03-tests-green.png": "manual pending",
+        "S02-03-tests-green.png": "available",
         "S02-after.png": "available",
         "S02-after-annotated.png": "available",
         "S02-local-result.png": "available",
         "S02-draft-files.png": "available",
         "S02-draft-files-annotated.png": "available",
         "S02-draft-app.png": "available",
-        "S02-draft-app-annotated.png": "available"
+        "S02-draft-app-annotated.png": "available",
+        "S02-vscode-agent-entry.png": "available",
+        "S02-vscode-agent-entry-annotated.png": "available",
+        "S02-03-tests-green-annotated.png": "available"
       }
     },
     "S03": {
@@ -280,6 +308,11 @@
           "Kenali route pada baseline",
           "Buka src/routes/reports.js pada v0-baseline dan lihat validasi serta perannya. Untuk memeriksa titik awal endpoint komentar, mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua; cari 200 untuk detail klaim dan 404 untuk endpoint komentar yang belum ada.",
           "$detail = curl.exe -sS -o NUL -w '%{http_code}' -H 'x-demo-user: 1' http://127.0.0.1:3000/claims/1\n$comment = curl.exe -sS -o NUL -w '%{http_code}' -H 'x-demo-user: 1' --json '{\"message\":\"Catatan latihan\"}' http://127.0.0.1:3000/claims/1/comments\n\"GET detail: $detail; POST komentar: $comment\""
+        ],
+        [
+          "Buka prosedur skill di editor",
+          "Tekan Ctrl+P di VS Code, lalu buka SKILL.md pada folder new-endpoint. Bandingkan lima langkahnya dengan diff #25. Bukti skill cloud berbeda dari aktivasi di editor.",
+          ".github/skills/new-endpoint/SKILL.md"
         ],
         [
           "Panggil skill lewat Agent Mode",
@@ -326,13 +359,16 @@
         "S03-cloud-skill.png",
         "S03-endpoint-runtime.png",
         "S03-endpoint-runtime-annotated.png",
-        "S03-cloud-skill-annotated.png"
+        "S03-cloud-skill-annotated.png",
+        "S03-vscode-skill-source.png",
+        "S03-vscode-skill-source-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
         "live": "Endpoint komentar berfungsi pada draft #25; laporan skill cloud dan tes lokal tercatat",
         "stepEvidence": [
           "S03-before-annotated.png",
+          "S03-vscode-skill-source-annotated.png",
           "S03-01-skill-loaded.png",
           "S03-after.png",
           "S03-after-annotated.png",
@@ -384,6 +420,8 @@
         "S03-endpoint-runtime.png": "available",
         "S03-endpoint-runtime-annotated.png": "available",
         "S03-cloud-skill-annotated.png": "available",
+        "S03-vscode-skill-source.png": "available",
+        "S03-vscode-skill-source-annotated.png": "available",
         "S03-before-annotated.png": "available"
       }
     },
@@ -447,13 +485,18 @@
           "https://github.com/sandy-demo/AgenticSDLC/pull/20/files"
         ],
         [
+          "Izin menjalankan checks tidak sama dengan approval PR",
+          "Buka run CI #60 untuk draft #20 dan cocokan commit 22bef91. Setelah maintainer memeriksa diff, gunakan Approve and run. Baru periksa hasil Jakarta, Los Angeles, dan e2e. Gambar menunjukkan keadaan sebelum tombol ditekan.",
+          "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680"
+        ],
+        [
           "Cek selesai latihan",
           "Pada draft #20, kirim klaim Taksi bandara Rp250.000 bertanggal besok: 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini 201. 23 tes unit lulus pada commit 22bef91. Pembanding #17 punya CI hijau; itu bukan CI #20.",
           "npm run demo:compare -- demo/claim-date"
         ],
         [
           "Cara merekam hasil live",
-          "Periksa Files changed pada draft #20 dan bedakan Approve and run workflows (izin CI) dari Approve review (menyetujui perubahan). Jangan mengklaim CI pada #20 dari hasil #17 atau tes lokal.",
+          "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. Ini hanya membuka job CI. Sebelum izin, status Action required masih tanpa job. Jangan menggunakan tes lokal atau CI draft #17 sebagai CI draft #20.",
           "1. S04-06-pr-checks.png\n   Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
         ]
       ],
@@ -489,7 +532,9 @@
         "S04-retry-diff.png",
         "S04-retry-diff-annotated.png",
         "S04-retry-runtime.png",
-        "S04-retry-runtime-annotated.png"
+        "S04-retry-runtime-annotated.png",
+        "S04-ci-approval-required.png",
+        "S04-ci-approval-required-annotated.png"
       ],
       "app": {
         "after": "demo/claim-date",
@@ -513,17 +558,18 @@
           "S04-reference-diff-annotated.png",
           "S04-reference-ci-annotated.png",
           "S04-retry-diff-annotated.png",
+          "S04-ci-approval-required-annotated.png",
           "S04-retry-runtime-annotated.png",
           null
         ],
         "completion": {
           "verifiedLearningEvidence": "S04-retry-runtime-annotated.png",
           "learningCheck": "Pada draft #20, kirim klaim Taksi bandara Rp250.000 bertanggal besok: 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini 201. 23 tes unit lulus pada commit 22bef91. Pembanding #17 punya CI hijau; itu bukan CI #20.",
-          "livePrerequisite": "Periksa Files changed pada draft #20 dan bedakan Approve and run workflows (izin CI) dari Approve review (menyetujui perubahan). Jangan mengklaim CI pada #20 dari hasil #17 atau tes lokal.",
+          "livePrerequisite": "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. Ini hanya membuka job CI. Sebelum izin, status Action required masih tanpa job. Jangan menggunakan tes lokal atau CI draft #17 sebagai CI draft #20.",
           "targets": [
             {
               "name": "S04-06-pr-checks.png",
-              "instruction": "Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
+              "instruction": "Pada draft #20, tinjau Files changed. Buka Actions run 45655420680 → Approve and run sebagai maintainer. Ambil gambar Checks setelah test Jakarta, test Los Angeles dan e2e selesai pada 22bef91. Gambar tombol dalam latihan adalah bukti sebelum CI, bukan hasil lulus."
             }
           ]
         },
@@ -574,6 +620,8 @@
         "S04-retry-diff-annotated.png": "available",
         "S04-retry-runtime.png": "available",
         "S04-retry-runtime-annotated.png": "available",
+        "S04-ci-approval-required.png": "available",
+        "S04-ci-approval-required-annotated.png": "available",
         "S04-before-annotated.png": "available",
         "S04-after-annotated.png": "available",
         "S04-pr-tabs-annotated.png": "available",
@@ -1162,8 +1210,13 @@
           "https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557"
         ],
         [
+          "Baca hasil tiga reviewer pada diff yang ada",
+          "Tiga profil CLI membaca diff #20 yang sama tanpa menulis atau menjalankan tes. Komentar fasilitator mencantumkan apa yang diperiksa. Tidak ada regresi yang terverifikasi, jadi jangan membuat severity hanya untuk memenuhi kuota.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001"
+        ],
+        [
           "Cek selesai latihan",
-          "Di Conversation draft #2 bandingkan review bawaan dengan ringkasan fasilitator. Di tab Agents baca tiga sesi. Performance mengusulkan N+1 yang juga ada di baseline: satu query awal + satu per klaim, dampak latensi belum diukur. Security dan Compliance tidak mengklaim temuan tanpa diff. Jangan hitung komentar fasilitator atau status Done sebagai approval.",
+          "Buka komentar pada #20 dan cocokkan tiga sudut review terhadap commit 22bef91. Bedakan pembacaan statis, tes, temuan terverifikasi, dan approval. Draft lama #2 tetap berguna untuk membahas N+1 baseline; tidak ada tiga temuan baru yang dipaksakan.",
           "Temuan harus punya lokasi + bukti + dampak.\nSaran review, draf sesi, komentar terbit, dan approval adalah empat keadaan berbeda."
         ],
         [
@@ -1189,23 +1242,26 @@
         "S09-security-task.png",
         "S09-compliance-task.png",
         "S09-s04-review.png",
-        "S09-s04-review-annotated.png"
+        "S09-s04-review-annotated.png",
+        "S09-s04-panel-recap.png",
+        "S09-s04-panel-recap-annotated.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-        "live": "Review Copilot pada #2 dan #20 tercatat · tiga sesi spesialis #2, bukan approval manusia",
+        "live": "Tiga profil meninjau diff #20 · ringkasan nyata terbit, tanpa komentar severity buatan",
         "stepEvidence": [
           "S09-local-result.png",
           "S09-01-three-sessions-annotated.png",
           "S09-performance-finding-annotated.png",
           "S09-after-annotated.png",
           "S09-s04-review-annotated.png",
-          "S09-after-annotated.png",
+          "S09-s04-panel-recap-annotated.png",
+          "S09-s04-panel-recap-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S09-after-annotated.png",
-          "learningCheck": "Di Conversation draft #2 bandingkan review bawaan dengan ringkasan fasilitator. Di tab Agents baca tiga sesi. Performance mengusulkan N+1 yang juga ada di baseline: satu query awal + satu per klaim, dampak latensi belum diukur. Security dan Compliance tidak mengklaim temuan tanpa diff. Jangan hitung komentar fasilitator atau status Done sebagai approval.",
+          "verifiedLearningEvidence": "S09-s04-panel-recap-annotated.png",
+          "learningCheck": "Buka komentar pada #20 dan cocokkan tiga sudut review terhadap commit 22bef91. Bedakan pembacaan statis, tes, temuan terverifikasi, dan approval. Draft lama #2 tetap berguna untuk membahas N+1 baseline; tidak ada tiga temuan baru yang dipaksakan.",
           "livePrerequisite": "Bila spesialis tidak menemukan masalah yang terbukti, tidak perlu membuat tiga komentar hanya untuk mengejar jumlah. Ringkasan yang sudah terbit tetap bisa dipakai belajar.",
           "targets": [
             {
@@ -1246,6 +1302,8 @@
         "S09-compliance-task.png": "available",
         "S09-s04-review.png": "available",
         "S09-s04-review-annotated.png": "available",
+        "S09-s04-panel-recap.png": "available",
+        "S09-s04-panel-recap-annotated.png": "available",
         "S09-01-three-sessions-annotated.png": "available",
         "S09-performance-finding-annotated.png": "available",
         "S09-after-annotated.png": "available"
@@ -1670,8 +1728,18 @@
           "gh run view 45596624154 -R sandy-demo/AgenticSDLC"
         ],
         [
+          "Lakukan triage manual saat provider tidak bisa dipakai",
+          "Pada issue kosong #7, fasilitator memberi needs-info dan pertanyaan untuk melengkapi konteks. Bandingkan dengan bukti awal sebelum label. Jalur ini bisa dipakai untuk belajar, tapi bukan keberhasilan workflow.",
+          "https://github.com/sandy-demo/AgenticSDLC/issues/7#issuecomment-7174583618"
+        ],
+        [
+          "Tautkan diagnosis ke job yang benar",
+          "Pada draft #8, komentar fasilitator menautkan run yang gagal di LA serta fixture ECONNRESET. Pisahkan penyebab kegagalan CI dari alasan Copilot CLI tidak bisa menerbitkan analisis.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/8#issuecomment-7174584054"
+        ],
+        [
           "Cek selesai latihan",
-          "Jalankan node --test pada fixture koneksi. Error ECONNRESET dan exit gagal adalah keluaran yang dicari, bukan gangguan produksi. Bandingkan dengan GitHub: CI di LA memang gagal karena fixture, tetapi kedua workflow Copilot berhenti pada HTTP 403. Jadi label dan komentar tidak boleh dianggap sudah terbit.",
+          "Issue #7 sekarang berlabel needs-info dengan pertanyaan dari fasilitator. Draft #8 punya diagnosis manual yang menunjuk job LA; Jakarta dan e2e lulus. Kedua workflow automasi tetap gagal HTTP 403. Jangan menghitung fallback sebagai komentar gh-aw.",
           "node --test tests/labs/ci-connection.mjs"
         ],
         [
@@ -1693,21 +1761,27 @@
         "S13-ci-failure.png",
         "S13-triage-auth-error.png",
         "S13-ci-analysis-auth-error.png",
-        "S13-triage-controls.png"
+        "S13-triage-controls.png",
+        "S13-manual-triage.png",
+        "S13-manual-triage-annotated.png",
+        "S13-manual-diagnosis.png",
+        "S13-manual-diagnosis-annotated.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-        "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
+        "live": "Fallback manusia terbit di GitHub · automasi Issue Triage dan CI Fault Analysis tetap HTTP 403",
         "stepEvidence": [
           "S13-ci-failure.png",
           "S13-before.png",
           "S13-triage-controls-annotated.png",
-          "S13-local-result.png",
+          "S13-manual-triage-annotated.png",
+          "S13-manual-diagnosis-annotated.png",
+          "S13-manual-diagnosis-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S13-local-result.png",
-          "learningCheck": "Jalankan node --test pada fixture koneksi. Error ECONNRESET dan exit gagal adalah keluaran yang dicari, bukan gangguan produksi. Bandingkan dengan GitHub: CI di LA memang gagal karena fixture, tetapi kedua workflow Copilot berhenti pada HTTP 403. Jadi label dan komentar tidak boleh dianggap sudah terbit.",
+          "verifiedLearningEvidence": "S13-manual-diagnosis-annotated.png",
+          "learningCheck": "Issue #7 sekarang berlabel needs-info dengan pertanyaan dari fasilitator. Draft #8 punya diagnosis manual yang menunjuk job LA; Jakarta dan e2e lulus. Kedua workflow automasi tetap gagal HTTP 403. Jangan menghitung fallback sebagai komentar gh-aw.",
           "livePrerequisite": "Akun dan PAT untuk Copilot CLI perlu diverifikasi admin jika 403. Jalankan hanya pada issue/pull request latihan. AGENTIC_WORKSHOP_LIVE sementara dimatikan kembali setelah run. Jangan mengganti Secret tersimpan dengan token yang lebih luas untuk mengakali penolakan.",
           "targets": [
             {
@@ -1734,7 +1808,7 @@
           {
             "actor": "Fasilitator",
             "action": "Bedakan sebab dan keluaran",
-            "result": "Seharusnya needs-info atau komentar diagnosis; belum terbit dari workflow ini."
+            "result": "Fasilitator memberi needs-info dan komentar triage serta diagnosis secara manual. Workflow asli tidak menghasilkan keduanya."
           }
         ]
       },
@@ -1748,6 +1822,10 @@
         "S13-triage-auth-error.png": "available",
         "S13-ci-analysis-auth-error.png": "available",
         "S13-triage-controls.png": "available",
+        "S13-manual-triage.png": "available",
+        "S13-manual-triage-annotated.png": "available",
+        "S13-manual-diagnosis.png": "available",
+        "S13-manual-diagnosis-annotated.png": "available",
         "S13-triage-controls-annotated.png": "available"
       }
     },
@@ -1954,17 +2032,22 @@
         ],
         [
           "Periksa empat draf pekerjaan Planner",
-          "Hasil Planner dari branch ADR membagi review ADR, API/UI, tes, dan docs. Issue mencontohkan USD 100 × Rp16.000, sedangkan ADR mengusulkan Rp15.000. Tetapkan satu contoh fiktif sebelum coding. Tidak ada sub-issue baru, implementasi, atau persetujuan otomatis.",
+          "Bukti awal Planner menunjukkan dua contoh yang semula berbeda. Setelah ditinjau, fasilitator menyelaraskan epik ke contoh usulan ADR, USD 100 × Rp15.000. Gambar itu adalah riwayat planning; baca backlog baru untuk keadaan terbaru.",
           "https://github.com/sandy-demo/expense-app-full/pull/2/files"
         ],
         [
+          "Buka empat Sub-issues yang sudah ditautkan",
+          "Di epik #1 buka Sub-issues. Ada empat pekerjaan nyata: review ADR, API/UI, tes, dan docs. Contoh epik sudah disamakan dengan proposal (USD 100 × Rp15.000), tetapi status Proposed belum berubah. Belum ada implementasi atau merge.",
+          "https://github.com/sandy-demo/expense-app-full/issues/1"
+        ],
+        [
           "Cek selesai latihan",
-          "Coba alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca draf Planner, lalu bandingkan USD 100 pada issue dan ADR. Rp1.600.000 dan Rp1.500.000 sama-sama contoh fiktif, bukan hasil fitur; tentukan acuan di review ADR sebelum implementasi.",
+          "Ulangi baseline Rp1.250.000: pending → finance_review → approved. Di epik #1 periksa empat Sub-issues dan contoh usulan USD 100 = Rp1.500.000. Ini bukan nilai kurs pasar atau fitur yang sudah jalan. Review ADR masih mendahului implementasi.",
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
           "Cara merekam hasil live",
-          "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2; selaraskan contoh USD dari issue dan ADR, termasuk kebijakan pembulatan dan batas. Baru lanjut membuat draft implementasi setelah persetujuan desain. Izin merge tetap keputusan terpisah.",
+          "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2. Contoh fiktif dalam epik sudah sama dengan proposal; keputusan pembulatan dan batas tetap perlu ditinjau. Mulai implementasi setelah persetujuan desain; izin merge terpisah.",
           "1. S15-01-epic.png\n   Di repo turunan buka Issues → epik IDR/USD/SGD. Foto scope kurs, pembulatan, nilai IDR untuk limit, dan acceptance criteria; jangan pakai issue template sebagai bukti epik dibuat.\n\n2. S15-02-breakdown.png\n   Buka hasil Planner yang menampilkan ADR, API/UI, tes, docs, dan dependensi. Foto hubungan yang benar; draf di sesi saja harus dilabeli draf.\n\n3. S15-03-adr.png\n   Buka draft ADR 0002. Tunjukkan keputusan sumber kurs, waktu kurs, pembulatan, limit dan audit, beserta persetujuan reviewer yang berwenang sebelum implementasi.\n\n4. S15-04-pr.png\n   Buka draft implementasi dan lihat issue/ADR yang ditautkan. Di Files changed periksa fakta IDR/USD/SGD serta test cases, bukan jumlah file saja.\n\n5. S15-05-ci.png\n   Di Checks buka CI pada commit PR yang sama. Foto hasil tes yang mengecek kurs, pembulatan dan limit, plus e2e; status hijau lama tidak cukup.\n\n6. S15-06-reviews.png\n   Di Conversation dan Checks verifikasi saran review, keputusan reviewer manusia, hasil CodeQL dan resolusi komentar. Review Copilot bukan persetujuan manusia.\n\n7. S15-07-merge.png\n   Hanya Tech Lead di repo turunan dengan izin merge terpisah. Rekam hulu yang mendapat persetujuan, checks lulus dan status Merged yang benar-benar terjadi; jangan memicu merge untuk sekadar menghasilkan foto.\n\n8. S15-08-docs.png\n   Sesudah perubahan diterima, buka run dan draft Docs Sync yang benar. Periksa bahwa output hanya docs yang diizinkan dan menjelaskan aturan mata uang.\n\n9. S15-09-audit.png\n   Tampilkan metadata audit pada aksi latihan yang diizinkan, tanpa argumen atau data akun. Sumber lokal harus disebut lokal; jangan merekam rahasia saat mengambil log.\n\n10. S15-after.png\n   Jalankan ref versi multi-currency yang sudah disetujui di repo turunan. Foto dropdown IDR/USD/SGD serta hasil contoh yang cocok dengan ADR. UI IDR baseline atau grafik ilustrasi bukan hasil after."
         ]
       ],
@@ -1994,7 +2077,9 @@
         "S15-draft-plan-annotated.png",
         "S15-adr-proposed.png",
         "S15-adr-proposed-annotated.png",
-        "S15-02-breakdown-annotated.png"
+        "S15-02-breakdown-annotated.png",
+        "S15-epic-backlog.png",
+        "S15-epic-backlog-annotated.png"
       ],
       "app": {
         "page": "/",
@@ -2004,7 +2089,7 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "Empat tahap Planner dan ADR 0002 tersedia · contoh kurs perlu diselaraskan sebelum persetujuan",
+        "live": "Epik dan 4 sub-issue dibuat · contoh fiktif konsisten, ADR tetap Proposed",
         "stepEvidence": [
           "S15-before-annotated.png",
           "S15-branch-protection-annotated.png",
@@ -2015,13 +2100,14 @@
           "S15-draft-plan-annotated.png",
           "S15-adr-proposed-annotated.png",
           "S15-02-breakdown-annotated.png",
-          "S15-02-breakdown-annotated.png",
+          "S15-epic-backlog-annotated.png",
+          "S15-epic-backlog-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S15-02-breakdown-annotated.png",
-          "learningCheck": "Coba alur IDR baseline: Rp1.250.000 melewati pending → finance_review → approved. Baca draf Planner, lalu bandingkan USD 100 pada issue dan ADR. Rp1.600.000 dan Rp1.500.000 sama-sama contoh fiktif, bukan hasil fitur; tentukan acuan di review ADR sebelum implementasi.",
-          "livePrerequisite": "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2; selaraskan contoh USD dari issue dan ADR, termasuk kebijakan pembulatan dan batas. Baru lanjut membuat draft implementasi setelah persetujuan desain. Izin merge tetap keputusan terpisah.",
+          "verifiedLearningEvidence": "S15-epic-backlog-annotated.png",
+          "learningCheck": "Ulangi baseline Rp1.250.000: pending → finance_review → approved. Di epik #1 periksa empat Sub-issues dan contoh usulan USD 100 = Rp1.500.000. Ini bukan nilai kurs pasar atau fitur yang sudah jalan. Review ADR masih mendahului implementasi.",
+          "livePrerequisite": "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2. Contoh fiktif dalam epik sudah sama dengan proposal; keputusan pembulatan dan batas tetap perlu ditinjau. Mulai implementasi setelah persetujuan desain; izin merge terpisah.",
           "targets": [
             {
               "name": "S15-01-epic.png",
@@ -2069,7 +2155,7 @@
           {
             "actor": "PM dan Architect",
             "action": "Buat epik dan ADR",
-            "result": "Epik #1, ADR 0002 Proposed dan empat draf Planner sudah tersedia. Issue dan ADR memakai contoh kurs USD fiktif yang berbeda."
+            "result": "Epik #1, ADR 0002 Proposed dan empat Sub-issues sudah ada. Contoh USD fiktif pada epik kini mengikuti usulan Rp15.000 per USD."
           },
           {
             "actor": "Aplikasi baseline",
@@ -2079,7 +2165,7 @@
           {
             "actor": "Tech Lead",
             "action": "Tahan implementasi sampai desain disetujui",
-            "result": "Sepakati satu kurs fixture dan minta review ADR. Implementasi dan merge belum dimulai."
+            "result": "Reviewer memeriksa kurs, pembulatan dan limit sebelum menyetujui ADR. Implementasi dan merge belum dimulai."
           }
         ]
       },
@@ -2106,6 +2192,8 @@
         "S15-adr-proposed.png": "available",
         "S15-adr-proposed-annotated.png": "available",
         "S15-02-breakdown-annotated.png": "available",
+        "S15-epic-backlog.png": "available",
+        "S15-epic-backlog-annotated.png": "available",
         "S15-branch-protection-annotated.png": "available"
       }
     }
@@ -2364,6 +2452,24 @@
             "original": "S04-retry-diff.png",
             "alt": "Pemeriksaan tanggal sebelum simpan pada draft Copilot #20.",
             "guide": "1. Bandingkan claimDate dengan dateKey(now); tolak besok dan jangan kirim data ke penyimpanan."
+          },
+          {
+            "name": "S04-ci-approval-required.png",
+            "source": "Screenshot nyata GitHub Actions · draft #20, commit 22bef91",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680",
+            "alt": "CI draft #20 menunggu persetujuan maintainer, tombol Approve and run, status Action required.",
+            "width": 902,
+            "height": 1272
+          },
+          {
+            "name": "S04-ci-approval-required-annotated.png",
+            "source": "Screenshot nyata GitHub Actions · draft #20, commit 22bef91",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680",
+            "alt": "CI draft #20 menunggu persetujuan maintainer, tombol Approve and run, status Action required.",
+            "width": 902,
+            "height": 1272,
+            "original": "S04-ci-approval-required.png",
+            "guide": "1. Baca awaiting approval: belum ada job CI. · 2. Maintainer meninjau diff lalu memilih Approve and run pada run ini. · 3. Action required bukan tes gagal. Izin ini hanya menjalankan CI, bukan review atau merge PR."
           }
         ],
         "changedFiles": 0,
@@ -2417,7 +2523,13 @@
           }
         },
         "retryPrUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/20",
-        "currentSummary": "Draft lama #4 kosong. Copilot pada retry #20 menghasilkan empat file yang relevan, dan API serta 23 tes terverifikasi pada snapshot lokal."
+        "currentSummary": "Draft lama #4 kosong. Copilot pada retry #20 menghasilkan empat file yang relevan, dan API serta 23 tes terverifikasi pada snapshot lokal.",
+        "ciApprovalExample": {
+          "runUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680",
+          "commit": "22bef915e08a125a26c65305127b577293e89923",
+          "observed": "action_required",
+          "jobs": 0
+        }
       },
       "verifiedDraftPractice": {
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/20",
@@ -2800,14 +2912,15 @@
           {
             "name": "S15-02-breakdown.png",
             "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
-            "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama."
+            "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama.",
+            "guide": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama. Foto historis sebelum contoh epik diselaraskan; lihat tangkapan backlog terbaru."
           },
           {
             "name": "S15-02-breakdown-annotated.png",
             "source": "Keluaran Copilot CLI · profil Planner · ADR 0002 Proposed",
             "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama.",
             "original": "S15-02-breakdown.png",
-            "guide": "1. Cocokkan contoh USD 100: issue Rp1.600.000, usulan ADR Rp1.500.000. Keduanya fiktif; reviewer memilih satu acuan. · 2. Putuskan ADR dan kriterianya. · 3. API/UI menunggu keputusan; tes dan docs mengikuti. Ini draf Planner, bukan sub-issue yang sudah didelegasikan."
+            "guide": "1. Cocokkan contoh USD 100: issue Rp1.600.000, usulan ADR Rp1.500.000. Keduanya fiktif; reviewer memilih satu acuan. · 2. Putuskan ADR dan kriterianya. · 3. API/UI menunggu keputusan; tes dan docs mengikuti. Ini draf Planner, bukan sub-issue yang sudah didelegasikan. Foto historis sebelum contoh epik diselaraskan; lihat tangkapan backlog terbaru."
           }
         ]
       },
@@ -2825,7 +2938,8 @@
             "name": "S15-01-epic.png",
             "source": "GitHub Issue · repo latihan expense-app-full",
             "url": "https://github.com/sandy-demo/expense-app-full/issues/1",
-            "alt": "Epik nyata IDR/USD/SGD di repo turunan."
+            "alt": "Epik nyata IDR/USD/SGD di repo turunan.",
+            "guide": "Epik nyata IDR/USD/SGD di repo turunan. Foto historis sebelum contoh epik diselaraskan; lihat tangkapan backlog terbaru."
           },
           {
             "name": "S15-01-epic-annotated.png",
@@ -2833,7 +2947,7 @@
             "url": "https://github.com/sandy-demo/expense-app-full/issues/1",
             "original": "S15-01-epic.png",
             "alt": "Epik nyata IDR/USD/SGD di repo turunan.",
-            "guide": "1. Pastikan repo turunan dan judul epik. · 2. Baca contoh kurs fiktif, acceptance criteria, dan gate review sebelum implementasi."
+            "guide": "1. Pastikan repo turunan dan judul epik. · 2. Baca contoh kurs fiktif, acceptance criteria, dan gate review sebelum implementasi. Foto historis sebelum contoh epik diselaraskan; lihat tangkapan backlog terbaru."
           },
           {
             "name": "S15-draft-plan.png",
@@ -2862,6 +2976,24 @@
             "original": "S15-adr-proposed.png",
             "alt": "ADR 0002 ada di draft #2 dengan status Proposed.",
             "guide": "1. Buka ADR 0002 pada Files changed. · 2. Status Proposed belum memberi izin implementasi. Kurs uji fiktif; jangan memakai sebagai data keuangan."
+          },
+          {
+            "name": "S15-epic-backlog.png",
+            "source": "Screenshot nyata GitHub Issue · epik S15 sesudah penyelarasan",
+            "url": "https://github.com/sandy-demo/expense-app-full/issues/1",
+            "alt": "Epik S15 menampilkan contoh USD 100 menjadi Rp1.500.000 dan empat sub-issue, 0 dari 4 selesai.",
+            "width": 1440,
+            "height": 1117
+          },
+          {
+            "name": "S15-epic-backlog-annotated.png",
+            "source": "Screenshot nyata GitHub Issue · epik S15 sesudah penyelarasan",
+            "url": "https://github.com/sandy-demo/expense-app-full/issues/1",
+            "alt": "Epik S15 menampilkan contoh USD 100 menjadi Rp1.500.000 dan empat sub-issue, 0 dari 4 selesai.",
+            "width": 1440,
+            "height": 1117,
+            "original": "S15-epic-backlog.png",
+            "guide": "1. Cocokkan contoh fiktif USD 100 × Rp15.000 = Rp1.500.000 dengan ADR yang masih Proposed. · 2. Sub-issues 0 of 4 adalah pekerjaan terbuka, bukan sudah lulus. · 3. Mulai dari review ADR. API/UI, tes, dan docs menunggu tahap sebelumnya."
           }
         ],
         "observedWorkshopGate": {
@@ -2877,7 +3009,7 @@
         "issueUrl": "https://github.com/sandy-demo/expense-app-full/issues/1",
         "prUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
         "fixtureRunUrl": "https://github.com/sandy-demo/expense-app-full/actions/runs/45655771427",
-        "currentSummary": "Epik dan ADR Proposed di repo template sudah tersedia. Planner menghasilkan empat draf pekerjaan dari ADR dan mencatat perbedaan contoh kurs USD. Tidak ada persetujuan, perubahan multi-currency, atau merge."
+        "currentSummary": "Fasilitator menyelaraskan contoh fiktif dan menautkan empat Sub-issues nyata. ADR 0002 tetap Proposed dan belum ada implementasi atau merge."
       },
       "template": {
         "url": "https://github.com/sandy-demo/expense-app-full",
@@ -2910,6 +3042,24 @@
           "proposedIdrPerUsd": 15000
         },
         "approved": false
+      },
+      "backlog": {
+        "epicUrl": "https://github.com/sandy-demo/expense-app-full/issues/1",
+        "subIssueNumbers": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "open": 4,
+        "example": {
+          "currency": "USD",
+          "original": 100,
+          "rateToIdr": 15000,
+          "totalIdr": 1500000,
+          "fictitious": true
+        },
+        "adrApproved": false
       }
     },
     "S05": {
@@ -3408,6 +3558,24 @@
             "url": "https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557",
             "alt": "Review Copilot pada retry S04 #20: Approval recommended dan tidak ada masalah review yang aktif.",
             "guide": "1. Approval recommended adalah komentar review Copilot, bukan persetujuan manusia. · 2. Review tidak melaporkan masalah aktif pada diff S04; ini bukan jaminan semua bug ditemukan."
+          },
+          {
+            "name": "S09-s04-panel-recap.png",
+            "source": "Komentar GitHub nyata · fasilitator merangkum Copilot CLI baca-saja",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001",
+            "alt": "Komentar publik S09 pada #20 menuliskan ringkasan Security, Performance dan Compliance.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S09-s04-panel-recap-annotated.png",
+            "source": "Komentar GitHub nyata · fasilitator merangkum Copilot CLI baca-saja",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001",
+            "alt": "Komentar publik S09 pada #20 menuliskan ringkasan Security, Performance dan Compliance.",
+            "width": 1440,
+            "height": 900,
+            "original": "S09-s04-panel-recap.png",
+            "guide": "1. Cocokkan commit 22bef91. · 2. Security memeriksa validasi sebelum tulis. · 3. Performance membedakan query diff dan baseline. · 4. Compliance mencocokkan kontrak dan audit. Ini ringkasan fasilitator, bukan tiga komentar severity atau approval."
           }
         ],
         "reviewerDraftsRead": true,
@@ -3415,7 +3583,19 @@
         "facilitatorRecapUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066",
         "facilitatorRecapCount": 1,
         "s04ReviewedDraftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557",
-        "currentSummary": "Review bawaan Copilot juga dijalankan pada draft S04 #20 dan memberi rekomendasi tanpa temuan aktif. Itu komentar, bukan approval. Sesi spesialis dan ringkasan fasilitator pada #2 tetap bukti terpisah."
+        "currentSummary": "Tiga profil Copilot CLI baca-saja meninjau diff #20. Fasilitator menerbitkan ringkasan; tidak ada regresi baru terverifikasi atau approval manusia."
+      },
+      "verifiedRolePanel": {
+        "commit": "22bef915e08a125a26c65305127b577293e89923",
+        "roles": [
+          "Security",
+          "Performance",
+          "Compliance"
+        ],
+        "source": "Copilot CLI static read-only",
+        "regressionsVerified": 0,
+        "testsRunByReviewers": false,
+        "facilitatorRecapUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001"
       }
     },
     "S12": {
@@ -3628,8 +3808,52 @@
             "alt": "Nomor 1–3 menunjukkan Issue Triage, status Failure dan panel Annotations.",
             "guide": "1. Actions → Issue Triage → pilih run #3. · 2. Periksa status Failure sebelum menyimpulkan label sudah dibuat. · 3. Lihat Annotations, lalu job agent → Execute GitHub Copilot CLI; log terverifikasi HTTP 403.",
             "original": "S13-triage-controls.png"
+          },
+          {
+            "name": "S13-manual-triage.png",
+            "source": "Screenshot nyata GitHub Issue #7 · fallback manual",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/issues/7#issuecomment-7174583618",
+            "alt": "Issue kosong #7 mendapat label needs-info dan pertanyaan fasilitator sebagai contoh manual.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S13-manual-triage-annotated.png",
+            "source": "Screenshot nyata GitHub Issue #7 · fallback manual",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/issues/7#issuecomment-7174583618",
+            "alt": "Issue kosong #7 mendapat label needs-info dan pertanyaan fasilitator sebagai contoh manual.",
+            "width": 1440,
+            "height": 900,
+            "original": "S13-manual-triage.png",
+            "guide": "1. Baca judul triage manual; bukan keluaran gh-aw. · 2. Minta langkah reproduksi, hasil harapan/aktual, dan versi. Sidebar needs-info ditambahkan fasilitator setelah kegagalan workflow."
+          },
+          {
+            "name": "S13-manual-diagnosis.png",
+            "source": "Screenshot nyata GitHub draft #8 · fallback manual",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/8#issuecomment-7174584054",
+            "alt": "Komentar fasilitator menautkan CI LA dan menjelaskan ECONNRESET dari fixture.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S13-manual-diagnosis-annotated.png",
+            "source": "Screenshot nyata GitHub draft #8 · fallback manual",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/8#issuecomment-7174584054",
+            "alt": "Komentar fasilitator menautkan CI LA dan menjelaskan ECONNRESET dari fixture.",
+            "width": 1440,
+            "height": 900,
+            "original": "S13-manual-diagnosis.png",
+            "guide": "1. Baca penanda diagnosis manual. · 2. Cocokkan run LA gagal pada fixture, Jakarta dan e2e lulus. Tidak ada koneksi nyata terputus dan tidak ada output gh-aw yang diklaim."
           }
-        ]
+        ],
+        "currentSummary": "Run awal menunjukkan pemicu dan HTTP 403. Label dan diagnosis kini tersedia sebagai tindakan fasilitator, bukan safe output agent. Tidak mengubah hasil run asli."
+      },
+      "manualFallback": {
+        "actor": "facilitator",
+        "triageCommentUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/7#issuecomment-7174583618",
+        "diagnosisCommentUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/8#issuecomment-7174584054",
+        "needsInfoApplied": true,
+        "automated": false
       }
     },
     "S11": {
@@ -3819,6 +4043,22 @@
             "original": "S01-cli-with-instructions.png",
             "alt": "Prompt identik pada baseline dengan dua file instruksi.",
             "guide": "1. Git menemukan dua file instruksi. · 2. Bandingkan pembatasan akses, prepared statement, pesan Indonesia dan tes. Jawaban bukan perubahan kode."
+          },
+          {
+            "name": "S01-vscode-instructions.png",
+            "source": "Screenshot nyata VS Code Web lokal · v0-baseline",
+            "alt": "Editor membuka .github/copilot-instructions.md pada snapshot v0-baseline.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S01-vscode-instructions-annotated.png",
+            "source": "Screenshot nyata VS Code Web lokal · v0-baseline",
+            "alt": "Editor membuka .github/copilot-instructions.md pada snapshot v0-baseline.",
+            "width": 1440,
+            "height": 900,
+            "original": "S01-vscode-instructions.png",
+            "guide": "1. Di VS Code, buka file copilot-instructions.md. · 2. Baca aturan service, validasi, error Indonesia, log metadata, dan tes. Foto membuktikan file ada, bukan hasil Agent Mode."
           }
         ]
       },
@@ -3889,6 +4129,38 @@
             "original": "S02-draft-app.png",
             "alt": "Klaim Perjalanan S02 tersimpan dari formulir yang memiliki kategori.",
             "guide": "1. Pilih Perjalanan sebelum Submit; field kembali ke default setelah berhasil. · 2. Klaim baru muncul. Pengujian jaringan Playwright membuktikan POST 201 dan GET 200, keduanya Travel."
+          },
+          {
+            "name": "S02-vscode-agent-entry.png",
+            "source": "Screenshot nyata VS Code Web lokal · prompt sebelum dikirim",
+            "alt": "Panel Chat berisi prompt S02 untuk meminta rencana dropdown kategori dan tes POST/GET.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S02-vscode-agent-entry-annotated.png",
+            "source": "Screenshot nyata VS Code Web lokal · prompt sebelum dikirim",
+            "alt": "Panel Chat berisi prompt S02 untuk meminta rencana dropdown kategori dan tes POST/GET.",
+            "width": 1440,
+            "height": 900,
+            "original": "S02-vscode-agent-entry.png",
+            "guide": "1. Isi prompt dan minta rencana sebelum file berubah. · 2. Tombol panah Send mengirim prompt di VS Code. Foto hanya keadaan sebelum respons; rencana tersendiri belum terekam."
+          },
+          {
+            "name": "S02-03-tests-green.png",
+            "source": "Terminal PowerShell nyata di VS Code Web · draft #29 commit 0d46376",
+            "alt": "Terminal VS Code menunjukkan dua file tes, 25 tes lulus, dan exit 0.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S02-03-tests-green-annotated.png",
+            "source": "Terminal PowerShell nyata di VS Code Web · draft #29 commit 0d46376",
+            "alt": "Terminal VS Code menunjukkan dua file tes, 25 tes lulus, dan exit 0.",
+            "width": 1440,
+            "height": 900,
+            "original": "S02-03-tests-green.png",
+            "guide": "1. Jalankan npm test dari checkout yang benar. · 2. Baca Test Files 2 dan Tests 25 passed. · 3. Exit 0 menandakan tes unit selesai; ini bukan GitHub CI, dan tes browser diuji terpisah."
           }
         ]
       },
@@ -3919,7 +4191,9 @@
           "post": 201,
           "get": 200,
           "category": "Travel",
-          "e2ePassed": 4
+          "e2ePassed": 4,
+          "unitPassed": 25,
+          "terminalExit": 0
         }
       }
     },
@@ -3962,6 +4236,22 @@
             "original": "S03-endpoint-runtime.png",
             "alt": "Pemilik 201; Employee lain 404; Manager 403; teks kosong 400.",
             "guide": "1. Pemilik menambah komentar (201). · 2. Persona lain atau teks kosong ditolak sesuai kontrak; jangan log isi komentar."
+          },
+          {
+            "name": "S03-vscode-skill-source.png",
+            "source": "Screenshot nyata VS Code Web lokal · v0-baseline",
+            "alt": "Editor membuka .github/skills/new-endpoint/SKILL.md dan lima langkah prosedur.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S03-vscode-skill-source-annotated.png",
+            "source": "Screenshot nyata VS Code Web lokal · v0-baseline",
+            "alt": "Editor membuka .github/skills/new-endpoint/SKILL.md dan lima langkah prosedur.",
+            "width": 1440,
+            "height": 900,
+            "original": "S03-vscode-skill-source.png",
+            "guide": "1. Di VS Code, buka path skill new-endpoint. · 2. Baca urutan kontrak, peran, service, route/log, dan tes. Ini isi file, bukan notifikasi skill dimuat di Agent Mode."
           }
         ]
       },
@@ -4176,7 +4466,9 @@
           "S04-reference-diff-annotated.png",
           "S04-reference-ci-annotated.png",
           "S04-retry-diff.png",
-          "S04-retry-diff-annotated.png"
+          "S04-retry-diff-annotated.png",
+          "S04-ci-approval-required.png",
+          "S04-ci-approval-required-annotated.png"
         ]
       },
       "S05": {
@@ -4240,7 +4532,7 @@
         ]
       },
       "S09": {
-        "live": "Review Copilot pada #2 dan #20 tercatat · tiga sesi spesialis #2, bukan approval manusia",
+        "live": "Tiga profil meninjau diff #20 · ringkasan nyata terbit, tanpa komentar severity buatan",
         "localDurationSeconds": 1.31,
         "missing": [
           "S09-02-comments.png"
@@ -4260,7 +4552,9 @@
           "S09-performance-finding-annotated.png",
           "S09-after-annotated.png",
           "S09-s04-review.png",
-          "S09-s04-review-annotated.png"
+          "S09-s04-review-annotated.png",
+          "S09-s04-panel-recap.png",
+          "S09-s04-panel-recap-annotated.png"
         ]
       },
       "S12": {
@@ -4283,7 +4577,7 @@
         ]
       },
       "S13": {
-        "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
+        "live": "Fallback manusia terbit di GitHub · automasi Issue Triage dan CI Fault Analysis tetap HTTP 403",
         "localDurationSeconds": 0.14,
         "missing": [
           "S13-01-triage.png",
@@ -4297,7 +4591,11 @@
           "S13-before.png",
           "S13-triage-auth-error.png",
           "S13-ci-analysis-auth-error.png",
-          "S13-triage-controls-annotated.png"
+          "S13-triage-controls-annotated.png",
+          "S13-manual-triage.png",
+          "S13-manual-triage-annotated.png",
+          "S13-manual-diagnosis.png",
+          "S13-manual-diagnosis-annotated.png"
         ]
       },
       "S14": {
@@ -4363,7 +4661,7 @@
         ]
       },
       "S15": {
-        "live": "Empat tahap Planner dan ADR 0002 tersedia · contoh kurs perlu diselaraskan sebelum persetujuan",
+        "live": "Epik dan 4 sub-issue dibuat · contoh fiktif konsisten, ADR tetap Proposed",
         "localDurationSeconds": 0.91,
         "missing": [
           "S15-03-adr.png",
@@ -4390,7 +4688,9 @@
           "S15-draft-plan.png",
           "S15-draft-plan-annotated.png",
           "S15-adr-proposed.png",
-          "S15-adr-proposed-annotated.png"
+          "S15-adr-proposed-annotated.png",
+          "S15-epic-backlog.png",
+          "S15-epic-backlog-annotated.png"
         ]
       },
       "S01": {
@@ -4407,19 +4707,20 @@
           "S01-cli-without-instructions.png",
           "S01-cli-without-instructions-annotated.png",
           "S01-cli-with-instructions.png",
-          "S01-cli-with-instructions-annotated.png"
+          "S01-cli-with-instructions-annotated.png",
+          "S01-vscode-instructions.png",
+          "S01-vscode-instructions-annotated.png"
         ],
         "cloudScreenshots": [
           "S01-02-instructions-file-annotated.png"
         ]
       },
       "S02": {
-        "live": "Draft #29 punya perubahan lintas file; browser dan 4 tes UI lulus lokal",
+        "live": "Kategori berfungsi di draft #29 · terminal VS Code: 25 unit lulus, hasil Agent Mode belum direkam",
         "localDurationSeconds": 1.48,
         "missing": [
           "S02-01-agent-plan.png",
-          "S02-02-files-changed.png",
-          "S02-03-tests-green.png"
+          "S02-02-files-changed.png"
         ],
         "screenshots": [
           "S02-before.png",
@@ -4427,7 +4728,11 @@
           "S02-after-annotated.png",
           "S02-local-result.png",
           "S02-draft-app.png",
-          "S02-draft-app-annotated.png"
+          "S02-draft-app-annotated.png",
+          "S02-vscode-agent-entry.png",
+          "S02-vscode-agent-entry-annotated.png",
+          "S02-03-tests-green.png",
+          "S02-03-tests-green-annotated.png"
         ],
         "cloudScreenshots": [
           "S02-draft-files.png",
@@ -4443,7 +4748,9 @@
         "screenshots": [
           "S03-local-result.png",
           "S03-endpoint-runtime.png",
-          "S03-endpoint-runtime-annotated.png"
+          "S03-endpoint-runtime-annotated.png",
+          "S03-vscode-skill-source.png",
+          "S03-vscode-skill-source-annotated.png"
         ],
         "cloudScreenshots": [
           "S03-before-annotated.png",
