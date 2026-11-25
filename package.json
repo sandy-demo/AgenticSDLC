@@ -9,7 +9,17 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "lint": "node scripts/check-syntax.mjs",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "demo:before": "node scripts/demo.mjs before",
+    "demo:after": "node scripts/demo.mjs after",
+    "demo:compare": "node scripts/demo.mjs compare",
+    "shots": "node scripts/screenshots.mjs",
+    "shots:all": "node scripts/screenshots.mjs all",
+    "metrics": "node scripts/metrics.mjs",
+    "guard:demo": "node scripts/hooks/policy.mjs demo",
+    "reset": "node scripts/reset.mjs",
+    "site:build": "node scripts/site/build.mjs",
+    "site:diagrams": "node scripts/site/diagrams.mjs"
   },
   "dependencies": {
     "better-sqlite3": "13.2.0",
@@ -18,6 +28,8 @@
   "devDependencies": {
     "@playwright/test": "1.65.1",
     "@vitest/coverage-v8": "5.1.0",
+    "chart.js": "4.6.1",
+    "mermaid": "12.3.0",
     "supertest": "7.3.2",
     "vitest": "5.1.0"
   }

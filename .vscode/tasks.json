@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Demo: before", "type": "npm", "script": "demo:before", "problemMatcher": [] },
+    { "label": "Demo: after", "type": "shell", "command": "npm run demo:after -- ${input:ref}", "problemMatcher": [] },
+    { "label": "Demo: compare", "type": "shell", "command": "npm run demo:compare -- ${input:ref}", "problemMatcher": [] },
+    { "label": "Shots: scenario", "type": "shell", "command": "npm run shots -- ${input:scenario}", "problemMatcher": [] },
+    { "label": "Shots: all", "type": "npm", "script": "shots:all", "problemMatcher": [] },
+    { "label": "Reset", "type": "npm", "script": "reset", "problemMatcher": [] }
+  ],
+  "inputs": [
+    { "id": "ref", "type": "pickString", "description": "Ref latihan", "options": ["demo/claim-date", "v1-app-clean"] },
+    { "id": "scenario", "type": "pickString", "description": "Skenario UI lokal", "options": ["S02", "S04", "S06"] }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "owner": "sandy-demo",
+  "repo": "AgenticSDLC",
+  "baseBranch": "main",
+  "baseline": "v0-baseline",
+  "beforePort": 3000,
+  "afterPort": 3001,
+  "screenshotDir": "docs/screenshots",
+  "viewport": { "width": 1180, "height": 780 },
+  "darkMode": false
+}
