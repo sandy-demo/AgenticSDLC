@@ -1,6 +1,12 @@
 {
-  "S04": { "runs": [] },
-  "S08": { "runs": [] },
+  "S04": {
+    "runs": [],
+    "localEvidence": { "date": "2026-11-25", "before": { "ref": "v0-baseline", "status": 201 }, "after": { "ref": "demo/claim-date", "status": 400, "code": "CLAIM_DATE_FUTURE" } }
+  },
+  "S08": {
+    "runs": [],
+    "localCoverage": { "date": "2026-11-25", "file": "src/services/approvalRules.js", "before": 0, "after": 100, "totalLines": 1, "boundaryFailed": true }
+  },
   "S10": { "runs": [] },
   "S14": { "runs": [] },
   "S15": { "runs": [] }

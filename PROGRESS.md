@@ -10,7 +10,7 @@
 | 5 — Agentic Workflows | Ketiga workflow lolos kompilasi strict dengan gh-aw v1.2.2. Tidak ada run GitHub. Default nonaktif sampai pemilik mengizinkan. |
 | 6 — Tooling | Script demo, screenshot, reset lokal, metrik, bare, dan task VS Code tersedia. |
 | 7 — Repo GitHub | Tag baseline dan branch latihan disiapkan lokal. Draft PR, CodeQL, protection, template dan Pages menunggu akses. |
-| 8 — Dry-run | Belum. |
+| 8 — Dry-run | S04 menghasilkan HTTP 201 → 400 dan foto lokal. Coverage S08, sumber S09/S12, dan fixture S14 diperiksa lokal. S10 simulasi dan S15 baru baseline; bukti GitHub ditandai belum ada. |
 | 9 — Situs workshop | Belum. |
 | 10 — Org/EMU | Di luar pengerjaan otomatis; dilakukan pemilik tenant untuk S06 dan S14. |
 

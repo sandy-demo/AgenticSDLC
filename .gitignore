@@ -6,6 +6,8 @@
 .workshop/
 audit/
 coverage/
+coverage-s08-before/
+coverage-s08-after/
 node_modules/
 playwright-report/
 test-results/
