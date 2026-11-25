@@ -21,6 +21,7 @@
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S14</p><p class="kicker">S14 · Level 5 — Governance dan capstone</p>
 <h1>Batasi aksi agent dan ukur biaya</h1><p class="lead">Pisahkan hook, izin Actions, gate branch, dan budget. Dashboard organisasi bukan bagian dari fixture lokal.</p>
 <div class="badges"><span class="badge">Ibu Maya</span><span class="badge">Hendra</span><span class="badge">Yoga</span><span class="badge">Fixture lokal / organisasi</span><span class="badge">8 menit · ilustrasi durasi</span></div>
+<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> pending · sesi cloud/usage; fixture aman saja. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -48,30 +49,31 @@
   class request ai
   class hook,deny,policy gate</code></pre></details>
 </figure></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Jalankan fixture</h3></div>
-    <p>Tidak ada argumen yang dieksekusi; kategori lokasi terlindungi harus ditolak.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-1">npm run guard:demo</code></pre>
-    <button type="button" data-copy="cmd-S14-1" aria-label="Salin: Jalankan fixture" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tinjau audit</h3></div>
-    <p>Lihat waktu, kategori, dan keputusan saja. Jangan buka data rahasia.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-2">audit/tools.log</code></pre>
-    <button type="button" data-copy="cmd-S14-2" aria-label="Salin: Tinjau audit" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau biaya</h3></div>
-    <p>Sumber tarif dan contoh hitung tersedia di halaman Governance.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-3">.github/workflows/docs-sync.md</code></pre>
-    <button type="button" data-copy="cmd-S14-3" aria-label="Salin: Tinjau biaya" hidden>Salin</button></div><p class="feedback" role="status"></p>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Jalankan fixture yang aman</h3></div>
+    <p>Buka Terminal → New Terminal. Jalankan fixture bawaan; ia mengevaluasi dua contoh dan tidak menjalankan argumennya. Jangan membuat issue live berisi permintaan akses rahasia atau perintah penghapusan.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-1">npm run guard:demo</code></pre>
+    <button type="button" data-copy="cmd-S14-1" aria-label="Salin: Jalankan fixture yang aman" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S14-local-result.png"><img src="../assets/screenshots/S14-local-result.png" alt="Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru." width="1440" height="900" loading="lazy"><span>Perbesar S14-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tunjuk kontrol dan jejak audit</h3></div>
+    <p>Buka .github/hooks/guardrails.json dan cari preToolUse. Lihat audit fixture yang baru: waktu, phase, decision, category. Jangan bagikan log sesi lain. Cari deny pada kasus lokasi terlindungi.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-2">.github/hooks/guardrails.json</code></pre>
+    <button type="button" data-copy="cmd-S14-2" aria-label="Salin: Tunjuk kontrol dan jejak audit" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Pisahkan izin dari biaya</h3></div>
+    <p>Buka pengaturan Billing → Usage pada akun latihan bila berwenang. Bandingkan dengan permissions dan safe-outputs di workflow; keduanya bukan metrik biaya. Tidak ada premium request atau biaya live yang terukur.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-3">docs/ORG-SETUP.md</code></pre>
+    <button type="button" data-copy="cmd-S14-3" aria-label="Salin: Pisahkan izin dari biaya" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S14-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S14-after.png</code></div></div>
+    <div class="gallery"><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S14-before.png</code></div><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S14-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Aksi diajukan ke pemeriksa.</td><td>Fixture ditolak; audit hanya menyimpan metadata.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Pemeriksa menerima dua input fixture tanpa mengeksekusinya.</td><td>Keputusan standard-policy/default untuk tes, deny/credential-location untuk lokasi terlindungi. Audit hanya metadata.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum direkam.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>Manusia bisa menunjukkan izin yang dibatasi dan melihat biaya secara terpisah.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S14.md">Template issue S14 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S14-01-hooks-file.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S14-02-usage.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S14-03-gh-aw-permissions.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. pending · sesi cloud/usage; fixture aman saja. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+
+  <div class="gallery"></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S14.md">Template issue S14 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 5 layar yang belum ada</summary><ul><li><code>S14-before.png</code></li><li><code>S14-01-hooks-file.png</code></li><li><code>S14-02-usage.png</code></li><li><code>S14-03-gh-aw-permissions.png</code></li><li><code>S14-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S13.html" class="button">← S13</a>
 <a href="../capstone.html" class="button">Capstone</a>

@@ -28,3 +28,44 @@
 - Reset tidak menghapus PR/issue atau menulis ulang `main`. Demo cloud dipisah dari fixture lokal.
 - Ekspor `bare` meniadakan customizations dan workflow cloud, tetapi tetap memuat panduan offline.
 - Chart tanpa pengukuran GitHub tampil sebagai “belum ada data”; tidak ada angka, alert, atau screenshot rekaan yang disajikan sebagai hasil uji.
+
+## Dry-run 1 — 2026-11-25
+
+### Pre-flight (5 cek)
+
+1. `gh` aktif sebagai `sandy-demo` dengan scope `repo` dan `workflow`.
+2. [CI run 45567707475, percobaan 2](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567707475) lulus. `gh workflow run ci.yml` ditolak (422: tidak ada `workflow_dispatch`); gunakan `gh run rerun` dan `gh run watch` untuk run yang sudah ada.
+3. Secret `COPILOT_GITHUB_TOKEN` tidak ada, CodeQL berstatus `not-configured`, dan `AGENTIC_WORKSHOP_LIVE` belum diatur; bagian agent live tidak dijalankan. gh-aw belum dipasang di CLI ini, sehingga workflow tidak dikompilasi ulang.
+4. Tag `v0-baseline` dan keenam branch latihan ada di remote. Default branch adalah `demo/workshop`, tanpa proteksi; `main` remote dan draft PR stock belum ada. Sesi browser yang masuk akun tidak dipakai; hanya dua halaman Actions publik dipotret.
+5. Bukti hanya dikumpulkan di `evidence/dry-run-1`, dari `main` lokal (commit yang sama dengan `demo/workshop`). Tidak ada merge atau perubahan pada baseline. Template `sandy-demo/expense-app-full` tidak ditemukan oleh API, jadi sinkronisasi belum bisa diverifikasi.
+
+### Yang sudah diverifikasi
+
+- 15 pemeriksaan lokal dijalankan berurutan. S06 khusus organisasi tetap **manual/org**; yang diuji hanya tombol baseline.
+- 16 tangkapan asli (aplikasi dan dua ringkasan Actions; termasuk versi beranotasi), plus 15 render hasil pemeriksaan lokal. Lihat [bukti dan asal setiap tangkapan](docs/BEFORE-AFTER.md) serta [daftar layar pending](docs/screenshots/_missing.json).
+- S04: tanggal besok HTTP 201 → 400, hari ini tetap 201. S08: coverage baris aktual 100% → 100% pada dua suite dengan fokus berbeda; tes tepat Rp1.000.000 sengaja gagal. S15: baseline IDR berhasil, bukan hasil multi-currency.
+- [Metrik per skenario](docs/metrics.json): waktu cek lokal terukur. Durasi PR/revisi, komentar, angka alert dan premium requests tetap `null`. Endpoint usage mengembalikan 404.
+
+### Yang masih perlu dilakukan untuk jalur cloud
+
+1. Buka [Fine-grained tokens](https://github.com/settings/personal-access-tokens/new) pada akun latihan dan pilih **Generate new token**.
+2. Batasi masa berlaku dan akses ke repo latihan, beri **Copilot Requests: Read** pada permission akun. Jangan salin nilai PAT ke chat atau commit.
+3. Masukkan nilainya melalui prompt aman `gh secret set COPILOT_GITHUB_TOKEN -R sandy-demo/AgenticSDLC`, lalu cek nama menggunakan `gh secret list -R sandy-demo/AgenticSDLC`.
+
+Setelah itu cek CodeQL di **Settings → Security → Code security → Code scanning → Set up → Default** dan aktifkan workflow latihan hanya saat anggaran disetujui. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
+
+### Enam momen screenshot manual di VS Code
+
+| Momen | Layar dan nama file | Prompt / tindakan |
+|---|---|---|
+| 1 | S01 diff tanpa instruksi: `S01-01-without-instructions.png` (salin juga sebagai `S01-before.png`) | Buka Chat → Agent: “Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.” Tunjukkan Source Control. |
+| 2 | S01 instruksi dan hasil: `S01-02-instructions-file.png` dan `S01-03-with-instructions.png` (salin hasil sebagai `S01-after.png`) | Buka instructions di checkout dengan aturan; ulangi prompt yang sama, lalu tunjukkan diff. |
+| 3 | S02 rencana: `S02-01-agent-plan.png` | “Tambahkan pilihan Travel, Meals, Equipment, Other pada form klaim. Periksa skema, payload, tampilan daftar, dan tes; jalankan npm test.” |
+| 4 | S02 Changes dan tes: `S02-02-files-changed.png` dan `S02-03-tests-green.png` | Buka Source Control, lalu Terminal; tunggu laporan tes. |
+| 5 | S03 route awal dan skill: `S03-before.png` dan `S03-01-skill-loaded.png` | Buka `src/routes/reports.js`. Kirim “Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim, validasi isi, dan jangan catat isi komentar ke log.” |
+| 6 | S03 hasil: `S03-after.png` | Tunjukkan route + docs di split editor dan tes akses. |
+
+### Reset yang sudah dicoba
+
+- **Data:** Ctrl+C di terminal server, lalu `npm run demo:before`. Pengujian menghasilkan 7 → 8 → 7 klaim. `npm run reset` aman; perintah biasa mencetak petunjuk, bukan menghentikan proses.
+- **Kode:** `npm run reset -- --fresh` membuat checkout baru di tag `v0-baseline`; checkout utama dan GitHub tidak berubah.

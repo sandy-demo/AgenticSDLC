@@ -21,6 +21,7 @@
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S05</p><p class="kicker">S05 · Level 2 — Delegasi asinkron</p>
 <h1>Pulihkan CI merah karena timezone</h1><p class="lead">Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.</p>
 <div class="badges"><span class="badge">Rani</span><span class="badge">Bima</span><span class="badge">Yoga</span><span class="badge">Fixture lokal + GitHub</span><span class="badge">8 menit · ilustrasi durasi</span></div>
+<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> Actions nyata · PR perbaikan pending. <a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102">Lihat run Actions publik</a>. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -33,31 +34,34 @@
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Tanggal 2026-10-15T01:00Z masih 14 Oktober di Los Angeles.</code></pre></details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.</p>
-<div class="rail"><ol><li><strong>Lihat kegagalan.</strong> Jalankan fixture dengan TZ America/Los_Angeles; di Jakarta fixture lulus.</li><li><strong>Tulis issue.</strong> Tautkan run gagal di branch demo/ci-timezone. Minta PR memperbaiki asumsi hari.</li><li><strong>Bandingkan check.</strong> Pastikan tes yang sama lulus di kedua zona waktu, bukan dihapus.</li></ol></div></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Lihat kegagalan</h3></div>
-    <p>Jalankan fixture dengan TZ America/Los_Angeles; di Jakarta fixture lulus.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-1">node --test tests/labs/ci-timezone.mjs</code></pre>
-    <button type="button" data-copy="cmd-S05-1" aria-label="Salin: Lihat kegagalan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tulis issue</h3></div>
-    <p>Tautkan run gagal di branch demo/ci-timezone. Minta PR memperbaiki asumsi hari.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-2">issues/S05.md</code></pre>
-    <button type="button" data-copy="cmd-S05-2" aria-label="Salin: Tulis issue" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan check</h3></div>
-    <p>Pastikan tes yang sama lulus di kedua zona waktu, bukan dihapus.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-3">npm test</code></pre>
-    <button type="button" data-copy="cmd-S05-3" aria-label="Salin: Bandingkan check" hidden>Salin</button></div><p class="feedback" role="status"></p>
+<div class="rail"><ol><li><strong>Buka job yang merah.</strong> GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</li><li><strong>Ulangi fixture di dua timezone.</strong> Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</li><li><strong>Minta tes yang tidak bergantung jam mesin.</strong> Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</li></ol></div></section>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Buka job yang merah</h3></div>
+    <p>GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-1">gh run view 45567770102 --job 139046666825 --log-failed -R sandy-demo/AgenticSDLC</code></pre>
+    <button type="button" data-copy="cmd-S05-1" aria-label="Salin: Buka job yang merah" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S05-before.png"><img src="../assets/screenshots/S05-before.png" alt="Actions publik: ringkasan run CI berstatus Failure dan job LA merah." width="1440" height="1199" loading="lazy"><span>Perbesar S05-before.png</span></a><figcaption><strong>Sumber:</strong> Layar ringkasan GitHub Actions publik · bukan hasil revisi agent. Actions publik: ringkasan run CI berstatus Failure dan job LA merah. Bagian akun disamarkan.</figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ulangi fixture di dua timezone</h3></div>
+    <p>Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</p><div class="cmd"><pre><code translate="no" id="cmd-S05-2">$env:TZ=&#39;Asia/Jakarta&#39;; node --test tests/labs/ci-timezone.mjs
+$env:TZ=&#39;America/Los_Angeles&#39;; node --test tests/labs/ci-timezone.mjs
+Remove-Item Env:TZ</code></pre>
+    <button type="button" data-copy="cmd-S05-2" aria-label="Salin: Ulangi fixture di dua timezone" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-result.png"><img src="../assets/screenshots/S05-local-result.png" alt="Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Minta tes yang tidak bergantung jam mesin</h3></div>
+    <p>Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-3">issues/S05.md</code></pre>
+    <button type="button" data-copy="cmd-S05-3" aria-label="Salin: Minta tes yang tidak bergantung jam mesin" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S05-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S05-after.png</code></div></div>
+    <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S05-before.png"><img src="../assets/screenshots/S05-before.png" alt="Actions publik: ringkasan run CI berstatus Failure dan job LA merah." width="1440" height="1199" loading="lazy"><span>Perbesar S05-before.png</span></a><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S05-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Tanggal lokal menjadi 14 Oktober di LA.</td><td>Harapan tes tetap sama pada dua runner.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Fixture tanpa timezone eksplisit lulus di Jakarta, gagal di LA (14 Oktober vs 15 Oktober).</td><td>Target PR: tetapkan timezone bisnis di tes dengan jam tetap. PR dan checks sesudah belum ada.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Ada tangkapan Actions publik.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>Diagnosis dilacak di PR, bukan hilang di chat.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S05.md">Template issue S05 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S05-01-issue.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S05-02-pr-fix.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. Actions nyata · PR perbaikan pending. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102">Ringkasan CI publik</a> · <a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102/job/139046666825">Job LA</a>. Log langkah bisa memerlukan login; bukti teks yang dapat dibaca offline ada di praktik.</p>
+  <div class="gallery"></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S05.md">Template issue S05 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 3 layar yang belum ada</summary><ul><li><code>S05-01-issue.png</code></li><li><code>S05-02-pr-fix.png</code></li><li><code>S05-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S04.html" class="button">← S04</a>
 <a href="../capstone.html" class="button">Capstone</a>

@@ -1,13 +1,569 @@
 {
   "S04": {
     "runs": [],
-    "localEvidence": { "date": "2026-11-25", "before": { "ref": "v0-baseline", "status": 201 }, "after": { "ref": "demo/claim-date", "status": 400, "code": "CLAIM_DATE_FUTURE" } }
+    "localEvidence": {
+      "date": "2026-11-25",
+      "before": {
+        "ref": "v0-baseline",
+        "status": 201
+      },
+      "after": {
+        "ref": "demo/claim-date",
+        "status": 400,
+        "code": "CLAIM_DATE_FUTURE"
+      }
+    },
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:11.334Z",
+      "status": "verified-local",
+      "durationSeconds": 2.01,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "v0-baseline: HTTP 201",
+          "text": "Klaim #21 tersimpan. Status: menunggu Manager.\nInput: Taksi bandara · Rp250.000 · 2026-11-26\nKlaim baru muncul pada daftar."
+        },
+        {
+          "name": "demo/claim-date: HTTP 400",
+          "text": "Tanggal klaim tidak boleh di masa depan.\nInput: Taksi bandara · Rp250.000 · 2026-11-26\nKode API: CLAIM_DATE_FUTURE"
+        },
+        {
+          "name": "Tes batas: hari ini",
+          "text": "Tanggal 2026-11-25 diterima (HTTP 201). Hanya tanggal masa depan yang ditolak."
+        }
+      ],
+      "images": [
+        {
+          "name": "S04-local-form.png",
+          "alt": "Form lokal yang berisi Taksi bandara, Rp250.000, dan tanggal besok sebelum Submit.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S04-local-form-annotated.png",
+          "alt": "Nomor 1–4 menandai judul, jumlah, tanggal, dan Submit pada form asli.",
+          "source": "v0-baseline · dianotasi"
+        },
+        {
+          "name": "S04-before.png",
+          "alt": "Aplikasi lokal: Klaim #21 tersimpan. Status: menunggu Manager.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S04-before-annotated.png",
+          "alt": "Nomor 5 menandai pesan: Klaim #21 tersimpan. Status: menunggu Manager.",
+          "source": "v0-baseline · dianotasi"
+        },
+        {
+          "name": "S04-after.png",
+          "alt": "Aplikasi lokal: Tanggal klaim tidak boleh di masa depan.",
+          "source": "demo/claim-date"
+        },
+        {
+          "name": "S04-after-annotated.png",
+          "alt": "Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan.",
+          "source": "demo/claim-date · dianotasi"
+        },
+        {
+          "name": "S04-local-result.png",
+          "alt": "Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
   },
   "S08": {
     "runs": [],
-    "localCoverage": { "date": "2026-11-25", "file": "src/services/approvalRules.js", "before": 0, "after": 100, "totalLines": 1, "boundaryFailed": true }
+    "localCoverage": {
+      "date": "2026-11-25",
+      "file": "src/services/approvalRules.js",
+      "before": 100,
+      "after": 100,
+      "totalLines": 1,
+      "boundaryFailed": true
+    },
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:15.220Z",
+      "status": "verified-local",
+      "durationSeconds": 3.23,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Suite reguler",
+          "text": "approvalRules.js: 1/1 baris (100%)\n Test Files  2 passed (2)\n      Tests  20 passed (20)"
+        },
+        {
+          "name": "Reguler pilihan + tes batas QA",
+          "text": "approvalRules.js: 1/1 baris (100%)\n   × aturan bisnis untuk klaim Rp1000000 4ms\n Test Files  1 failed | 1 passed (2)\n      Tests  1 failed | 13 passed (14)\n FAIL  tests/labs/approval-boundary.test.js > aturan bisnis untuk klaim Rp1000000\nAssertionError: expected false to be true // Object.is equality\n      5|   'aturan bisnis untuk klaim Rp%s',"
+        }
+      ],
+      "images": [
+        {
+          "name": "S08-local-result.png",
+          "alt": "Output pemeriksaan lokal S08: Suite reguler; Reguler pilihan + tes batas QA.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
   },
-  "S10": { "runs": [] },
-  "S14": { "runs": [] },
-  "S15": { "runs": [] }
+  "S10": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:18.400Z",
+      "status": "verified-local",
+      "durationSeconds": 0.52,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Query laporan memakai parameter",
+          "text": "v0-baseline:src/db.js:65:    WHERE c.claim_date BETWEEN ? AND ? AND c.status = 'approved'"
+        },
+        {
+          "name": "Akses dan validasi lokal",
+          "text": "Finance + 2026-09: HTTP 200\nManager + 2026-09: HTTP 403\nFinance + 2026-13: HTTP 400 · REPORT_MONTH"
+        }
+      ],
+      "images": [
+        {
+          "name": "S10-local-result.png",
+          "alt": "Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S14": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:17.751Z",
+      "status": "verified-local",
+      "durationSeconds": 0.06,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Keputusan: tidak ada argumen yang dijalankan",
+          "text": "tes biasa: default (standard-policy)\nlokasi terlindungi: deny (credential-location)\nFixture tidak dieksekusi. Jejak tanpa argumen: audit/tools.log"
+        },
+        {
+          "name": "Audit fixture baru",
+          "text": "fixture default standard-policy\nfixture deny credential-location"
+        }
+      ],
+      "images": [
+        {
+          "name": "S14-local-result.png",
+          "alt": "Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S15": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:20.465Z",
+      "status": "verified-local",
+      "durationSeconds": 0.91,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Cabang baseline: Rp1.250.000",
+          "text": "Submit → HTTP 201, pending\nManager Setujui → HTTP 200, finance_review\nFinance Setujui → HTTP 200, approved"
+        }
+      ],
+      "images": [
+        {
+          "name": "S15-before.png",
+          "alt": "Aplikasi baseline: form menunjukkan jumlah IDR dan tidak punya pilihan mata uang.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S15-before-annotated.png",
+          "alt": "Nomor 1 menunjuk field Jumlah (IDR).",
+          "source": "v0-baseline · dianotasi"
+        },
+        {
+          "name": "S15-local-approval.png",
+          "alt": "Setelah alur baseline IDR, klaim pelatihan terlihat Disetujui. Bukan hasil fitur multi-currency.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S15-local-result.png",
+          "alt": "Output pemeriksaan lokal S15: Cabang baseline: Rp1.250.000.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S05": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:11.753Z",
+      "status": "verified-local",
+      "durationSeconds": 0.27,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "TZ=Asia/Jakarta · kode keluar 0",
+          "text": "✔ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (0.5012ms)\nℹ pass 1\nℹ fail 0"
+        },
+        {
+          "name": "TZ=America/Los_Angeles · kode keluar 1",
+          "text": "✖ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (1.0129ms)\nℹ pass 0\nℹ fail 1\n✖ failing tests:\n✖ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (1.0129ms)\n  + actual - expected\n  + '2026-10-14'\n  - '2026-10-15'"
+        }
+      ],
+      "images": [
+        {
+          "name": "S05-local-result.png",
+          "alt": "Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S05-before.png",
+          "alt": "Actions publik: ringkasan run CI berstatus Failure dan job LA merah.",
+          "source": "Layar ringkasan GitHub Actions publik · bukan hasil revisi agent"
+        }
+      ],
+      "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102"
+    }
+  },
+  "S07": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:11.883Z",
+      "status": "verified-local",
+      "durationSeconds": 0,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Kontrak callback terkunci",
+          "text": "200 → \"id,amount\\n1,250000\"\nError transport → transport fixture gagal\n503 → Ekspor CSV gagal."
+        },
+        {
+          "name": "Kontrak sama pada percobaan fetch",
+          "text": "3 dari 3 kasus lulus lagi; fetch diganti respons fixture, tanpa akses jaringan. Adapter repo tetap callback; dua PR belum dibuat."
+        }
+      ],
+      "images": [
+        {
+          "name": "S07-local-result.png",
+          "alt": "Output pemeriksaan lokal S07: Kontrak callback terkunci; Kontrak sama pada percobaan fetch.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S09": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:16.671Z",
+      "status": "verified-local",
+      "durationSeconds": 1.31,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Performance · src/db.js di demo/pr-stock",
+          "text": "-    listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),\n+      const recentClaimIds = listOwn.all(userId);\n+      return recentClaimIds.map(({ id }) => ownListItem.get(id, userId));"
+        },
+        {
+          "name": "Uji regresi GET /claims",
+          "text": "HTTP 200; 7 klaim seed yang sama pada dua ref. Output sama tidak berarti jumlah query sama."
+        },
+        {
+          "name": "Security dan Compliance",
+          "text": "Baca docs/simulations.md: PII dan audit adalah kartu ilustrasi; bukan temuan pada repo atau komentar reviewer live."
+        }
+      ],
+      "images": [
+        {
+          "name": "S09-local-result.png",
+          "alt": "Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S12": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:17.299Z",
+      "status": "verified-local",
+      "durationSeconds": 0.5,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Kontrak lama di docs/api.md",
+          "text": "| `GET /claims` | Employee | — | `200`, `{ items: [...] }` — **kontrak lama, dibuat tidak sinkron untuk S12** |"
+        },
+        {
+          "name": "Respons route aktual",
+          "text": "GET /claims, Employee 01 → HTTP 200\nKey: claims (7 klaim seed)\nKoreksi docs: items → claims. Tidak ada perubahan route atau PR Docs Sync."
+        }
+      ],
+      "images": [
+        {
+          "name": "S12-local-result.png",
+          "alt": "Output pemeriksaan lokal S12: Kontrak lama di docs/api.md; Respons route aktual.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S13": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:17.570Z",
+      "status": "verified-local",
+      "durationSeconds": 0.14,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Diagnosa ECONNRESET fixture",
+          "text": "ℹ fail 1\n  Error: ECONNRESET (fixture S13, bukan insiden sungguhan)\n    code: 'ECONNRESET'"
+        },
+        {
+          "name": "Pemicu triage yang bisa diperiksa",
+          "text": "    types: [opened]\nif: vars.AGENTIC_WORKSHOP_LIVE == 'true' && github.event.issue.title == 'Aplikasi error'\n  add-labels:\n    allowed: [needs-info, agent-ready]"
+        }
+      ],
+      "images": [
+        {
+          "name": "S13-local-result.png",
+          "alt": "Output pemeriksaan lokal S13: Diagnosa ECONNRESET fixture; Pemicu triage yang bisa diperiksa.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S13-ci-failure.png",
+          "alt": "Actions publik: ringkasan run CI berstatus Failure dan job LA merah.",
+          "source": "Layar ringkasan GitHub Actions publik · bukan hasil revisi agent"
+        }
+      ],
+      "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770139"
+    }
+  },
+  "S11": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:19.435Z",
+      "status": "verified-local",
+      "durationSeconds": 0.91,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Templat keputusan, bukan ADR disetujui",
+          "text": "S11 dan S15 menghasilkan draf ADR, bukan desain yang sudah disetujui.\nPakai nama `0001-approval-bertahap.md` dan `0002-multi-currency.md`.\nSertakan konteks, keputusan, alternatif, konsekuensi, acceptance criteria,"
+        },
+        {
+          "name": "Baseline approval yang harus dilindungi",
+          "text": " ✓ tests/unit/api.test.js > mengalihkan klaim besar ke Finance dan menyimpan keputusan akhir 69ms\n      Tests  1 passed | 8 skipped (9)"
+        }
+      ],
+      "images": [
+        {
+          "name": "S11-local-result.png",
+          "alt": "Output pemeriksaan lokal S11: Templat keputusan, bukan ADR disetujui; Baseline approval yang harus dilindungi.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S01": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:20.702Z",
+      "status": "verified-local",
+      "durationSeconds": 0.12,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Perbandingan dua ref latihan",
+          "text": "git diff --name-status v0-baseline demo/s01-no-instructions\nD\t.github/copilot-instructions.md\nD\tAGENTS.md"
+        },
+        {
+          "name": "Aturan yang ada pada baseline",
+          "text": "  prepared statements dari `src/db.js` untuk akses SQLite.\n- Validasi input dan peran demo pada batas API. Error berbentuk `{ code, message }`.\n- Catat metadata non-PII via `src/logger.js`; jangan catat isi klaim, lampiran,\n- Tambah tes untuk perubahan perilaku. Gunakan clock tetap agar tes lintas zona"
+        }
+      ],
+      "images": [
+        {
+          "name": "S01-local-result.png",
+          "alt": "Output pemeriksaan lokal S01: Perbandingan dua ref latihan; Aturan yang ada pada baseline.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S02": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:22.299Z",
+      "status": "verified-local",
+      "durationSeconds": 1.48,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "v0-baseline",
+          "text": "Kategori tidak ada di form\nPOST /claims → HTTP 201 · category=Other\nGET /claims/21 → HTTP 200 · category=Other"
+        },
+        {
+          "name": "v1-app-clean",
+          "text": "Kategori Perjalanan dipilih\nPOST /claims → HTTP 201 · category=Travel\nGET /claims/21 → HTTP 200 · category=Travel"
+        }
+      ],
+      "images": [
+        {
+          "name": "S02-before.png",
+          "alt": "Form baseline terisi, tanpa field Kategori.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S02-after.png",
+          "alt": "Form app bersih dengan Kategori = Perjalanan.",
+          "source": "v1-app-clean"
+        },
+        {
+          "name": "S02-after-annotated.png",
+          "alt": "Nomor 1 menandai pilihan Kategori (Perjalanan).",
+          "source": "v1-app-clean · dianotasi"
+        },
+        {
+          "name": "S02-local-result.png",
+          "alt": "Output pemeriksaan lokal S02: v0-baseline; v1-app-clean.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S03": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:22.935Z",
+      "status": "verified-local",
+      "durationSeconds": 0.53,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Urutan prosedur dalam skill repo",
+          "text": "1. Tulis method, path, status, input, dan output di `docs/api.md`.\n2. Tentukan peran yang boleh memanggil route. Validasi nilai sebelum query.\n3. Tulis service; akses SQLite hanya lewat prepared statements di `src/db.js`.\n4. Route memanggil service dan mengirim hasil. Pakai logger untuk metadata\n5. Uji jalur sukses dan kegagalan di `tests/unit/`; jalankan `npm test`."
+        },
+        {
+          "name": "Cek kontrak sebelum membuat endpoint",
+          "text": "GET /claims/1 dengan pemilik → HTTP 200\nPOST /claims/1/comments → HTTP 404 (belum ada).\nGunakan prosedur skill pada checkout terpisah. Aktivasi dan diff Agent Mode belum direkam."
+        }
+      ],
+      "images": [
+        {
+          "name": "S03-local-result.png",
+          "alt": "Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  },
+  "S06": {
+    "runs": [],
+    "localDryRun": {
+      "recordedAt": "2026-11-25T07:49:23.850Z",
+      "status": "verified-local",
+      "durationSeconds": 0.79,
+      "minutesToPr": null,
+      "revisionMinutes": null,
+      "reviewerComments": null,
+      "alertsBefore": null,
+      "alertsAfter": null,
+      "premiumRequests": null,
+      "checks": [
+        {
+          "name": "Perilaku lokal yang harus tetap sama",
+          "text": "Tombol Submit → HTTP 201\nKlaim #21 tersimpan. Status: menunggu Manager.\nTarget: Ajukan Klaim + bantuan langkah berikutnya. Tiket Jira/Teams tidak dibuat."
+        }
+      ],
+      "images": [
+        {
+          "name": "S06-before.png",
+          "alt": "Tombol asli pada form klaim: Submit.",
+          "source": "v0-baseline"
+        },
+        {
+          "name": "S06-before-annotated.png",
+          "alt": "Nomor 1 menandai tombol Submit yang menjadi target tiket.",
+          "source": "v0-baseline · dianotasi"
+        },
+        {
+          "name": "S06-local-result.png",
+          "alt": "Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama.",
+          "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    }
+  }
 }

@@ -35,7 +35,7 @@
   classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
   class policy gate</code></pre></details>
 </figure>
-<div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js 24 LTS, Git, npm dan browser Chromium untuk screenshot. Tidak perlu secret.</p></article>
+<div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js 24 LTS (disarankan) atau Node.js 26 sesuai <code>^24.0.0 || ^26.0.0</code>, Git, npm, dan Chromium. Tidak perlu secret.</p></article>
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
 <article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
 <section class="section"><h2>2. Siapkan dan coba S04</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pasang dependensi</h3></div>
@@ -54,12 +54,13 @@ git branch --track demo/claim-date origin/demo/claim-date</code></pre>
 npm run reset</code></pre>
     <button type="button" data-copy="cmd-setup-4" aria-label="Salin: Ambil bukti dan ulangi" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol><p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+<section class="section" id="reset"><h2>Reset: data aplikasi atau kode latihan?</h2><dl><dt>Data demo</dt><dd>Di terminal yang menjalankan demo, tekan Ctrl+C. Jalankan <code>npm run reset</code> untuk melihat instruksi, lalu <code>npm run demo:before</code>. Perintah reset biasa tidak me-restart server otomatis. Saat diuji, daftar Employee 01 berubah 7 → 8 → 7 klaim setelah restart.</dd><dt>Kode latihan</dt><dd>Jalankan <code>npm run reset -- --fresh</code> dari root repo. Buka path checkout terpisah yang dicetak di terminal. Checkout baru berada pada tag <code>v0-baseline</code>; pekerjaan yang sudah ada, branch, dan remote tetap utuh.</dd><dt>GitHub</dt><dd>Reset lokal tidak menutup issue, menghapus branch remote, atau mengurungkan merge. Gunakan repo turunan untuk latihan yang melibatkan merge.</dd></dl></section>
 <section class="section"><h2>3. Siapkan demo GitHub</h2>
-<ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>
+<ol class="checklist"><li>Untuk repo ini, branch publik saat diuji adalah <code>demo/workshop</code>. CI yang sudah ada bisa diulang dengan <code>gh run rerun 45567707475 -R sandy-demo/AgenticSDLC</code> lalu <code>gh run watch 45567707475 -R sandy-demo/AgenticSDLC</code>. <code>gh workflow run ci.yml</code> tidak bisa dipakai karena belum ada pemicu manual. Lihat <a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567707475">run yang lulus</a>.</li>
 <li>Seed issue di repo latihan, buka draft PR yang diizinkan, dan cek Copilot pada Assignees.</li>
 <li>Untuk S12/S13, cek budget dan autentikasi gh-aw, lalu aktifkan <code translate="no">AGENTIC_WORKSHOP_LIVE</code> hanya saat latihan.</li>
 <li>Untuk publikasi situs, atur Pages ke sumber GitHub Actions lalu jalankan <strong>Publish workshop</strong> dari main.</li></ol>
-<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/main/docs/ORG-SETUP.md">Prasyarat dan langkah admin di repo (setelah publikasi)</a> · <a href="scenarios/index.html">Langkah untuk semua skenario</a>.</p></section>
+<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/docs/ORG-SETUP.md">Prasyarat dan langkah admin di repo (setelah publikasi)</a> · <a href="scenarios/index.html">Langkah untuk semua skenario</a>.</p></section>
 <section class="section"><h2>Kalau ada masalah</h2>
 <details><summary>Copilot tidak muncul di Assignees</summary><p>Cek plan, kebijakan pemilik repository dan apakah cloud agent diizinkan. Sementara itu pakai bukti lokal S04.</p></details>
 <details><summary>Demo ref atau tag tidak ditemukan</summary><p>Periksa <code>git branch -a</code> dan <code>git tag</code>. ZIP tidak berisi history; gunakan <code>npm run dev</code> bila hanya ingin mencoba baseline.</p></details>

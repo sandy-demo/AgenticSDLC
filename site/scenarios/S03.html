@@ -21,6 +21,7 @@
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S03</p><p class="kicker">S03 · Level 1 — Inner loop</p>
 <h1>Pakai skill untuk endpoint baru</h1><p class="lead">Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.</p>
 <div class="badges"><span class="badge">Rani</span><span class="badge">Yoga</span><span class="badge">VS Code</span><span class="badge">6 menit · ilustrasi durasi</span></div>
+<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> manual pending · VS Code. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -33,31 +34,32 @@
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">res.json({ month, rows: db.report(month) }); // validasi ada, log belum ada</code></pre></details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.</p>
-<div class="rail"><ol><li><strong>Baca route lama.</strong> Perhatikan pola yang belum seragam; jangan cabut validasi.</li><li><strong>Pakai skill.</strong> Jalankan langkahnya untuk route dalam checkout latihan.</li><li><strong>Tinjau kontrak.</strong> Cek tes jalur sukses dan akses ditolak.</li></ol></div></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca route lama</h3></div>
-    <p>Perhatikan pola yang belum seragam; jangan cabut validasi.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-1">src/routes/reports.js</code></pre>
-    <button type="button" data-copy="cmd-S03-1" aria-label="Salin: Baca route lama" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Pakai skill</h3></div>
-    <p>Jalankan langkahnya untuk route dalam checkout latihan.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-2">Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim.</code></pre>
-    <button type="button" data-copy="cmd-S03-2" aria-label="Salin: Pakai skill" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau kontrak</h3></div>
-    <p>Cek tes jalur sukses dan akses ditolak.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-3">npm test</code></pre>
-    <button type="button" data-copy="cmd-S03-3" aria-label="Salin: Tinjau kontrak" hidden>Salin</button></div><p class="feedback" role="status"></p>
+<div class="rail"><ol><li><strong>Temukan prosedur skill.</strong> Di Explorer buka .github/skills/new-endpoint/SKILL.md. Urutannya: kontrak → izin → service → route → tes. Bandingkan dengan src/routes/reports.js; validasi yang sudah ada jangan dihapus.</li><li><strong>Panggil skill lewat Agent Mode.</strong> Di checkout latihan klik Chat → Agent, kirim prompt. Pada baseline, GET detail klaim pemilik menghasilkan 200 sedangkan POST komentar menghasilkan 404.</li><li><strong>Cocokkan file dan perilaku.</strong> Buka Changes di Source Control dan docs/api.md berdampingan. Cari router, service, test untuk sukses dan akses ditolak, logger non-PII, dan kontrak docs. Screenshot diff hasil belum tersedia.</li></ol></div></section>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Temukan prosedur skill</h3></div>
+    <p>Di Explorer buka .github/skills/new-endpoint/SKILL.md. Urutannya: kontrak → izin → service → route → tes. Bandingkan dengan src/routes/reports.js; validasi yang sudah ada jangan dihapus.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-1">.github/skills/new-endpoint/SKILL.md</code></pre>
+    <button type="button" data-copy="cmd-S03-1" aria-label="Salin: Temukan prosedur skill" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S03-local-result.png"><img src="../assets/screenshots/S03-local-result.png" alt="Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint." width="1440" height="900" loading="lazy"><span>Perbesar S03-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Panggil skill lewat Agent Mode</h3></div>
+    <p>Di checkout latihan klik Chat → Agent, kirim prompt. Pada baseline, GET detail klaim pemilik menghasilkan 200 sedangkan POST komentar menghasilkan 404.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-2">Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim, validasi isi, dan jangan catat isi komentar ke log.</code></pre>
+    <button type="button" data-copy="cmd-S03-2" aria-label="Salin: Panggil skill lewat Agent Mode" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Cocokkan file dan perilaku</h3></div>
+    <p>Buka Changes di Source Control dan docs/api.md berdampingan. Cari router, service, test untuk sukses dan akses ditolak, logger non-PII, dan kontrak docs. Screenshot diff hasil belum tersedia.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-3">npm test</code></pre>
+    <button type="button" data-copy="cmd-S03-3" aria-label="Salin: Cocokkan file dan perilaku" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-after.png</code></div></div>
+    <div class="gallery"><div class="placeholder"><strong>manual pending</strong><code translate="no">S03-before.png</code></div><div class="placeholder"><strong>manual pending</strong><code translate="no">S03-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Route lama tidak punya log terstruktur.</td><td>Route baru mengikuti prosedur dan punya tes.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>GET detail sudah ada; POST /claims/1/comments masih HTTP 404.</td><td>Target: POST dengan validasi dan pembatasan akses, tes dan kontrak docs. Belum diimplementasikan.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>manual pending.</td><td>manual pending.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>Prosedur bisa dipakai berulang tanpa menyalin prompt panjang.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S03.md">Template issue S03 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-01-skill-loaded.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. manual pending · VS Code. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+
+  <div class="gallery"></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S03.md">Template issue S03 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>manual pending · 3 layar yang belum ada</summary><ul><li><code>S03-before.png</code></li><li><code>S03-01-skill-loaded.png</code></li><li><code>S03-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S02.html" class="button">← S02</a>
 <a href="../capstone.html" class="button">Capstone</a>

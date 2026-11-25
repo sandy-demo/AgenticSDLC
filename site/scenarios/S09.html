@@ -21,6 +21,7 @@
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S09</p><p class="kicker">S09 · Level 3 — Tim virtual</p>
 <h1>Tinjau PR dengan tiga spesialis</h1><p class="lead">Jalankan tiga reviewer read-only: Security, Performance dan Compliance. Manusia memvalidasi dan memublikasikan draf komentar.</p>
 <div class="badges"><span class="badge">Sari</span><span class="badge">Dimas</span><span class="badge">Bima</span><span class="badge">Review lokal + GitHub</span><span class="badge">10 menit · ilustrasi durasi</span></div>
+<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> pending · Copilot code review dan review board. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -50,30 +51,31 @@
   class lead human
   class sec,perf,comp ai</code></pre></details>
 </figure></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pilih PR</h3></div>
-    <p>Gunakan draft PR S04 atau buka draft dari demo/pr-stock.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-1">issues/S09.md</code></pre>
-    <button type="button" data-copy="cmd-S09-1" aria-label="Salin: Pilih PR" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Pecah review</h3></div>
-    <p>Jalankan tiga agent secara paralel dengan ruang lingkup masing-masing.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-2">Review PR yang ditunjuk. Drafkan lokasi, severity, bukti dan perbaikan; jangan edit.</code></pre>
-    <button type="button" data-copy="cmd-S09-2" aria-label="Salin: Pecah review" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Kumpulkan bukti</h3></div>
-    <p>N+1 bisa dilihat lokal. Kartu PII dan audit bukan temuan nyata.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-3">docs/simulations.md</code></pre>
-    <button type="button" data-copy="cmd-S09-3" aria-label="Salin: Kumpulkan bukti" hidden>Salin</button></div><p class="feedback" role="status"></p>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Bandingkan diff stock</h3></div>
+    <p>Cari recentClaimIds.map dan ownListItem.get di src/db.js. Untuk tujuh klaim, pembacaan per baris adalah risiko N+1. Cek output GET /claims tetap sama sebelum mengusulkan satu query.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-1">git diff v0-baseline demo/pr-stock -- src/db.js</code></pre>
+    <button type="button" data-copy="cmd-S09-1" aria-label="Salin: Bandingkan diff stock" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S09-local-result.png"><img src="../assets/screenshots/S09-local-result.png" alt="Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance." width="1440" height="900" loading="lazy"><span>Perbesar S09-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Jalankan tiga sudut review</h3></div>
+    <p>Di draft PR S04 dan stock, buka reviewer di sidebar → Copilot bila tersedia. Jalankan security-reviewer, perf-reviewer, compliance-reviewer pada PR latihan; minta file/baris, severity, bukti dan saran tanpa mengubah kode.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-2">Review PR latihan dari sudut peranmu. Sebut file, baris, severity, bukti dan saran. Jangan edit atau merge.</code></pre>
+    <button type="button" data-copy="cmd-S09-2" aria-label="Salin: Jalankan tiga sudut review" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Pisahkan bukti dari dugaan</h3></div>
+    <p>Pada Conversation, tunggu komentar tervalidasi. N+1 dapat dibuktikan. Untuk PII dan audit, verifikasi source lebih dulu; jangan berpura-pura ada temuan. Bima memprioritaskan temuan sebelum memutuskan.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-3">docs/simulations.md</code></pre>
+    <button type="button" data-copy="cmd-S09-3" aria-label="Salin: Pisahkan bukti dari dugaan" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S09-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S09-after.png</code></div></div>
+    <div class="gallery"><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S09-before.png</code></div><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S09-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Satu reviewer harus memeriksa semua dimensi.</td><td>Tech Lead menerima tiga ringkasan dengan bukti.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Stock branch dengan satu query daftar ID ditambah query per klaim.</td><td>Uji lokal: output 7 klaim sama. Temuan PII/audit hanya ilustrasi; belum ada komentar reviewer live.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum direkam.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>Review manusia tetap memutuskan temuan mana yang menghalangi merge.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S09.md">Template issue S09 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S09-01-three-sessions.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S09-02-comments.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. pending · Copilot code review dan review board. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+
+  <div class="gallery"></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S09.md">Template issue S09 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 4 layar yang belum ada</summary><ul><li><code>S09-before.png</code></li><li><code>S09-01-three-sessions.png</code></li><li><code>S09-02-comments.png</code></li><li><code>S09-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S08.html" class="button">← S08</a>
 <a href="../capstone.html" class="button">Capstone</a>

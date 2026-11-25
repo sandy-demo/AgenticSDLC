@@ -21,6 +21,7 @@
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S08</p><p class="kicker">S08 · Level 3 — Tim virtual</p>
 <h1>QA menemukan bug tepat di batas</h1><p class="lead">QA Engineer menurunkan tiga input dari aturan bisnis dan melaporkan hasil; perubahan produksi milik implementer.</p>
 <div class="badges"><span class="badge">Sari</span><span class="badge">Hendra</span><span class="badge">Tes lokal + GitHub</span><span class="badge">10 menit · ilustrasi durasi</span></div>
+<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> pending · agent picker, PR dan issue Bug:. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -33,35 +34,37 @@
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">return amount &gt; 1_000_000; // aturan yang benar: ≥.</code></pre></details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>QA Engineer menurunkan tiga input dari aturan bisnis dan melaporkan hasil; perubahan produksi milik implementer.</p>
-<div class="rail"><ol><li><strong>Baca aturan.</strong> Perhatikan Rp1.000.000 tepat, bukan hanya di atas.</li><li><strong>Jalankan tes batas.</strong> PowerShell: kasus tepat Rp1.000.000 sengaja gagal. Coverage bukan bukti bahwa tes lulus.</li><li><strong>Sampaikan hasil.</strong> Siapkan draf issue dan review perubahan tes saja.</li></ol></div></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca aturan</h3></div>
-    <p>Perhatikan Rp1.000.000 tepat, bukan hanya di atas.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-1">docs/business-rules.md</code></pre>
-    <button type="button" data-copy="cmd-S08-1" aria-label="Salin: Baca aturan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Jalankan tes batas</h3></div>
-    <p>PowerShell: kasus tepat Rp1.000.000 sengaja gagal. Coverage bukan bukti bahwa tes lulus.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-2">$env:QA_BOUNDARY=&#39;1&#39;; npm run coverage; Remove-Item Env:QA_BOUNDARY</code></pre>
-    <button type="button" data-copy="cmd-S08-2" aria-label="Salin: Jalankan tes batas" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Sampaikan hasil</h3></div>
-    <p>Siapkan draf issue dan review perubahan tes saja.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-3">issues/S08.md</code></pre>
-    <button type="button" data-copy="cmd-S08-3" aria-label="Salin: Sampaikan hasil" hidden>Salin</button></div><p class="feedback" role="status"></p>
+<div class="rail"><ol><li><strong>Ukur suite reguler.</strong> Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.</li><li><strong>Tambahkan tiga nilai batas lewat fixture.</strong> Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai &gt;, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.</li><li><strong>Delegasikan laporan QA, bukan patch produksi.</strong> Di GitHub Copilot Agents pilih qa-engineer. Minta PR tests/ saja dan issue “Bug: batas approval Rp1.000.000”. Pada Files changed tolak perubahan ke src/. Ini belum dilakukan live.</li></ol></div></section>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Ukur suite reguler</h3></div>
+    <p>Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-1">npm run coverage</code></pre>
+    <button type="button" data-copy="cmd-S08-1" aria-label="Salin: Ukur suite reguler" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S08-local-result.png"><img src="../assets/screenshots/S08-local-result.png" alt="Output pemeriksaan lokal S08: Suite reguler; Reguler pilihan + tes batas QA." width="1440" height="900" loading="lazy"><span>Perbesar S08-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S08: Suite reguler; Reguler pilihan + tes batas QA. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tambahkan tiga nilai batas lewat fixture</h3></div>
+    <p>Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai &gt;, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-2">$env:QA_BOUNDARY=&#39;1&#39;; npm run coverage
+Remove-Item Env:QA_BOUNDARY</code></pre>
+    <button type="button" data-copy="cmd-S08-2" aria-label="Salin: Tambahkan tiga nilai batas lewat fixture" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Delegasikan laporan QA, bukan patch produksi</h3></div>
+    <p>Di GitHub Copilot Agents pilih qa-engineer. Minta PR tests/ saja dan issue “Bug: batas approval Rp1.000.000”. Pada Files changed tolak perubahan ke src/. Ini belum dilakukan live.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-3">Uji approvalRules.js sesuai docs/business-rules.md. Tulis tes di bawah, tepat pada, dan di atas Rp1.000.000. Laporkan bug; jangan edit produksi.</code></pre>
+    <button type="button" data-copy="cmd-S08-3" aria-label="Salin: Delegasikan laporan QA, bukan patch produksi" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S08-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S08-after.png</code></div></div>
+    <div class="gallery"><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S08-before.png</code></div><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S08-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Aturan batas belum tercakup oleh suite reguler.</td><td>Suite QA menangkap perbedaan nilai tepat di batas.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.</td><td>Tes batas menelepon nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum direkam.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table><figure class="chart" data-chart-id="C3">
-  <h3>C3 · Coverage baris approvalRules.js</h3><div class="chart-area" hidden><canvas data-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;label&quot;:&quot;Coverage (%)&quot;,&quot;labels&quot;:[&quot;Suite validasi&quot;,&quot;Ditambah tes batas&quot;],&quot;values&quot;:[0,100],&quot;horiz&quot;:false,&quot;max&quot;:100}" aria-hidden="true"></canvas></div>
+  <h3>C3 · Coverage baris approvalRules.js</h3><div class="chart-area" hidden><canvas data-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;label&quot;:&quot;Coverage (%)&quot;,&quot;labels&quot;:[&quot;Suite reguler&quot;,&quot;Suite QA batas&quot;],&quot;values&quot;:[100,100],&quot;horiz&quot;:false,&quot;max&quot;:100}" aria-hidden="true"></canvas></div>
   <table class="data"><caption>Data untuk grafik</caption><thead><tr><th scope="col">Kategori</th><th scope="col">Coverage (%)</th></tr></thead>
-  <tbody><tr><th scope="row">Suite validasi</th><td>0</td></tr><tr><th scope="row">Ditambah tes batas</th><td>100</td></tr></tbody></table>
-  <figcaption>Vitest v5.1.0, 2026-11-25. Satu baris yang diuji; suite kedua menemukan tes gagal di Rp1.000.000. Bukan total coverage aplikasi.</figcaption></figure></section>
+  <tbody><tr><th scope="row">Suite validasi</th><td>100</td></tr><tr><th scope="row">Ditambah tes batas</th><td>100</td></tr></tbody></table>
+  <figcaption>Vitest v5.1.0, 2026-11-25. Kedua suite menjalankan 1 baris approvalRules.js. Hanya suite QA menguji tepat Rp1.000.000 dan menemukan kegagalan. Coverage baris bukan jumlah tes lulus.</figcaption></figure></section>
 <section class="section"><h2>Manfaat</h2><ul><li>QA mengubah aturan tertulis jadi bukti yang bisa diulang.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S08.md">Template issue S08 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S08-01-agent-picker.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S08-02-bug-issue.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. pending · agent picker, PR dan issue Bug:. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+
+  <div class="gallery"></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S08.md">Template issue S08 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 4 layar yang belum ada</summary><ul><li><code>S08-before.png</code></li><li><code>S08-01-agent-picker.png</code></li><li><code>S08-02-bug-issue.png</code></li><li><code>S08-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S07.html" class="button">← S07</a>
 <a href="../capstone.html" class="button">Capstone</a>

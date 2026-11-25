@@ -15,24 +15,24 @@
       "solution": "Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.",
       "steps": [
         [
-          "Isolasi contoh",
-          "Buka branch demo/s01-no-instructions di checkout latihan.",
-          "git switch demo/s01-no-instructions"
+          "Bandingkan dua checkout",
+          "Dari terminal, bandingkan v0-baseline dengan demo/s01-no-instructions. Hasil D berarti file hanya hilang pada branch latihan, bukan pada baseline.",
+          "git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md"
         ],
         [
-          "Jalankan prompt",
-          "Simpan diff hasil awal, lalu ulangi di checkout yang punya instructions.",
+          "Jalankan prompt yang sama",
+          "Di VS Code pada checkout tanpa instructions, buka ikon Chat → pilih Agent → kirim prompt. Buka Source Control untuk memeriksa diff, lalu ulangi di checkout yang punya instructions. Jangan pakai folder kerja utama.",
           "Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya."
         ],
         [
-          "Tinjau hasil",
-          "Cek nama, error, logger, dan tes; jangan nilai hanya dari panjang kode.",
+          "Cari empat bukti di diff",
+          "Di Explorer buka .github/copilot-instructions.md. Tunjuk logger non-PII, format {code,message}, prepared statement dan test. Verifikasi pemilik bisa membaca klaimnya; pengguna lain tidak. Layar Agent Mode belum direkam.",
           "npm test"
         ]
       ],
       "compare": [
-        "Aturan tersirat di kepala reviewer.",
-        "Aturan tertulis di repo dan bisa diuji."
+        "Branch tanpa AGENTS.md dan copilot-instructions.md.",
+        "Kedua file tersedia pada v0-baseline; perbedaan diff hasil agent belum direkam."
       ],
       "benefit": "Reviewer bisa fokus ke keputusan, bukan mengulang konvensi.",
       "shots": [
@@ -40,15 +40,26 @@
         "S01-01-without-instructions.png",
         "S01-02-instructions-file.png",
         "S01-03-with-instructions.png",
-        "S01-after.png"
+        "S01-after.png",
+        "S01-local-result.png"
       ],
+      "guide": {
+        "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
+        "live": "manual pending · VS Code",
+        "stepEvidence": [
+          "S01-local-result.png",
+          "S01-01-without-instructions.png",
+          "S01-03-with-instructions.png"
+        ]
+      },
       "level": 1,
       "screenshotStatus": {
-        "S01-before.png": "missing",
-        "S01-01-without-instructions.png": "missing",
-        "S01-02-instructions-file.png": "missing",
-        "S01-03-with-instructions.png": "missing",
-        "S01-after.png": "missing"
+        "S01-before.png": "manual pending",
+        "S01-01-without-instructions.png": "manual pending",
+        "S01-02-instructions-file.png": "manual pending",
+        "S01-03-with-instructions.png": "manual pending",
+        "S01-after.png": "manual pending",
+        "S01-local-result.png": "available"
       }
     },
     "S02": {
@@ -65,24 +76,24 @@
       "solution": "Agent Mode usulkan perubahan lintas file. Bima cek rencana dan bukti sebelum meninjau diff.",
       "steps": [
         [
-          "Buka formulir",
-          "Periksa form sebelum perubahan.",
-          "npm run demo:before"
+          "Buka dua versi formulir",
+          "Jalankan perbandingan. Buka 127.0.0.1:3000 (tanpa kategori) dan 127.0.0.1:3001 (ada kategori). Isi judul Taksi pilihan kategori, jumlah 250000, tanggal hari ini.",
+          "npm run demo:compare -- v1-app-clean"
         ],
         [
-          "Minta perubahan",
-          "Pakai Agent Mode di checkout latihan.",
-          "Tambahkan dropdown Travel, Meals, Equipment, Other. Periksa SQLite, API, daftar, tes, dan docs."
-        ],
-        [
-          "Bandingkan",
-          "Screenshot lokal memakai versi app bersih, bukan hasil sesi Copilot.",
+          "Pilih Kategori → Perjalanan",
+          "Di versi :3001, nomor 1 menunjuk dropdown. Pilih Perjalanan (nilai Travel) dan klik Submit. Di baseline, klik Submit tanpa dropdown: POST menyimpan Other. Keduanya HTTP 201; GET /claims/:id membuktikan pilihan tersimpan.",
           "npm run shots -- S02"
+        ],
+        [
+          "Coba Agent Mode di checkout terpisah",
+          "Klik ikon Chat → Agent. Lihat rencana, buka Source Control, lalu periksa Terminal saat tes lulus. Sistem penyimpanan sudah menerima category pada baseline; jangan menambah migration tanpa memeriksa skema. Gambar versi bersih bukan hasil sesi Copilot.",
+          "Tambahkan pilihan Travel, Meals, Equipment, Other pada form klaim. Periksa skema, payload, tampilan daftar, dan tes; jalankan npm test."
         ]
       ],
       "compare": [
-        "Form tidak meminta kategori.",
-        "Form menyediakan pilihan kategori."
+        "Form tidak punya kategori; POST menyimpan Other.",
+        "App bersih: pilih Perjalanan, lalu POST dan GET detail mengembalikan Travel."
       ],
       "benefit": "Bima bisa melihat apakah perubahan dari UI sampai tes lengkap.",
       "shots": [
@@ -90,7 +101,9 @@
         "S02-01-agent-plan.png",
         "S02-02-files-changed.png",
         "S02-03-tests-green.png",
-        "S02-after.png"
+        "S02-after.png",
+        "S02-after-annotated.png",
+        "S02-local-result.png"
       ],
       "app": {
         "after": "v1-app-clean",
@@ -100,13 +113,24 @@
           "#category"
         ]
       },
+      "guide": {
+        "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
+        "live": "manual pending · VS Code",
+        "stepEvidence": [
+          "S02-before.png",
+          "S02-after-annotated.png",
+          "S02-local-result.png"
+        ]
+      },
       "level": 1,
       "screenshotStatus": {
         "S02-before.png": "available",
-        "S02-01-agent-plan.png": "missing",
-        "S02-02-files-changed.png": "missing",
-        "S02-03-tests-green.png": "missing",
-        "S02-after.png": "available"
+        "S02-01-agent-plan.png": "manual pending",
+        "S02-02-files-changed.png": "manual pending",
+        "S02-03-tests-green.png": "manual pending",
+        "S02-after.png": "available",
+        "S02-after-annotated.png": "available",
+        "S02-local-result.png": "available"
       }
     },
     "S03": {
@@ -124,36 +148,47 @@
       "solution": "Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.",
       "steps": [
         [
-          "Baca route lama",
-          "Perhatikan pola yang belum seragam; jangan cabut validasi.",
-          "src/routes/reports.js"
+          "Temukan prosedur skill",
+          "Di Explorer buka .github/skills/new-endpoint/SKILL.md. Urutannya: kontrak → izin → service → route → tes. Bandingkan dengan src/routes/reports.js; validasi yang sudah ada jangan dihapus.",
+          ".github/skills/new-endpoint/SKILL.md"
         ],
         [
-          "Pakai skill",
-          "Jalankan langkahnya untuk route dalam checkout latihan.",
-          "Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim."
+          "Panggil skill lewat Agent Mode",
+          "Di checkout latihan klik Chat → Agent, kirim prompt. Pada baseline, GET detail klaim pemilik menghasilkan 200 sedangkan POST komentar menghasilkan 404.",
+          "Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim, validasi isi, dan jangan catat isi komentar ke log."
         ],
         [
-          "Tinjau kontrak",
-          "Cek tes jalur sukses dan akses ditolak.",
+          "Cocokkan file dan perilaku",
+          "Buka Changes di Source Control dan docs/api.md berdampingan. Cari router, service, test untuk sukses dan akses ditolak, logger non-PII, dan kontrak docs. Screenshot diff hasil belum tersedia.",
           "npm test"
         ]
       ],
       "compare": [
-        "Route lama tidak punya log terstruktur.",
-        "Route baru mengikuti prosedur dan punya tes."
+        "GET detail sudah ada; POST /claims/1/comments masih HTTP 404.",
+        "Target: POST dengan validasi dan pembatasan akses, tes dan kontrak docs. Belum diimplementasikan."
       ],
       "benefit": "Prosedur bisa dipakai berulang tanpa menyalin prompt panjang.",
       "shots": [
         "S03-before.png",
         "S03-01-skill-loaded.png",
-        "S03-after.png"
+        "S03-after.png",
+        "S03-local-result.png"
       ],
+      "guide": {
+        "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
+        "live": "manual pending · VS Code",
+        "stepEvidence": [
+          "S03-local-result.png",
+          "S03-01-skill-loaded.png",
+          "S03-after.png"
+        ]
+      },
       "level": 1,
       "screenshotStatus": {
-        "S03-before.png": "missing",
-        "S03-01-skill-loaded.png": "missing",
-        "S03-after.png": "missing"
+        "S03-before.png": "manual pending",
+        "S03-01-skill-loaded.png": "manual pending",
+        "S03-after.png": "manual pending",
+        "S03-local-result.png": "available"
       }
     },
     "S04": {
@@ -171,29 +206,29 @@
       "solution": "Tulis acceptance criteria, pilih Copilot di Assignees, lalu tinjau draft PR dan minta tes batas hari ini.",
       "steps": [
         [
-          "Coba bug",
-          "Di form lokal isi Taksi bandara, Rp250.000, tanggal besok; data awal menerima tanggal itu.",
-          "npm run demo:before"
+          "Isi form, lalu klik Submit",
+          "Buka :3000. Pada gambar: (1) Judul klaim = Taksi bandara; (2) Jumlah = 250000; (3) ikon kalender di kanan Tanggal klaim → besok; (4) klik Submit. Di baseline lakukan sekali: status tersimpan dan daftar bertambah.",
+          "npm run demo:compare -- demo/claim-date"
         ],
         [
-          "Delegasikan",
-          "Pada issue yang disetujui di repo latihan, periksa kriteria lalu pilih Assignees → Copilot.",
-          "issues/S04.md"
-        ],
-        [
-          "Tinjau",
-          "Buka session dan draft PR. Minta tes tanggal hari ini; periksa CI, jangan merge.",
-          "@copilot tambahkan tes tanggal hari ini dan tunjukkan hasil di kedua zona waktu."
-        ],
-        [
-          "Periksa hasil",
-          "Bandingkan dengan branch perbaikan lokal. API sekarang menolak tanggal besok; tidak ada klaim baru.",
+          "Ulangi persis di versi perbaikan",
+          "Buka :3001 dan isi nilai yang sama. Pada pesan (5), cari Tanggal klaim tidak boleh di masa depan; HTTP 400. Ganti tanggal jadi hari ini tanpa mengubah jumlah, lalu Submit lagi: HTTP 201.",
           "npm run shots -- S04"
+        ],
+        [
+          "Lihat file perbaikan",
+          "Di src/services/validation.js, bandingkan pemeriksaan claimDate dengan dateKey(now). Jika tanggal lebih besar, API mengirim CLAIM_DATE_FUTURE sebelum menulis SQLite. Periksa test tanggal hari ini.",
+          "git diff v0-baseline demo/claim-date -- src/services/validation.js tests/unit/validation.test.js"
+        ],
+        [
+          "Alur Copilot saat akses siap",
+          "GitHub Issues → New issue → isi template S04 → Submit. Di sidebar Assignees, pilih Copilot. Setelah draft muncul, buka Conversation, Files changed, dan Checks. Kirim komentar ini dan tunggu revisi; jangan merge. Gambar hasil di atas dari branch latihan, bukan PR Copilot.",
+          "@copilot tambahkan test untuk tanggal hari ini (boundary) dan pesan error dalam Bahasa Indonesia."
         ]
       ],
       "compare": [
-        "Tanggal besok diterima dan klaim tersimpan.",
-        "Tanggal besok ditolak; pesan dari API muncul."
+        "Tanggal besok diterima: HTTP 201, klaim muncul dalam daftar.",
+        "Tanggal sama ditolak dengan HTTP 400 / CLAIM_DATE_FUTURE; tanggal hari ini tetap HTTP 201."
       ],
       "benefit": "Bima meninjau bukti dan keputusan, tanpa melakukan seluruh perubahan mekanis.",
       "shots": [
@@ -205,7 +240,10 @@
         "S04-05-pr-files.png",
         "S04-06-pr-checks.png",
         "S04-07-revision.png",
-        "S04-after.png"
+        "S04-after.png",
+        "S04-local-form.png",
+        "S04-local-form-annotated.png",
+        "S04-local-result.png"
       ],
       "app": {
         "after": "demo/claim-date",
@@ -214,6 +252,16 @@
         "checks": [
           ".toast",
           ".error"
+        ]
+      },
+      "guide": {
+        "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
+        "live": "pending · Issue, draft PR, revisi Copilot",
+        "stepEvidence": [
+          "S04-local-form-annotated.png",
+          "S04-after-annotated.png",
+          "S04-local-result.png",
+          "S04-07-revision.png"
         ]
       },
       "level": 2,
@@ -226,7 +274,10 @@
         "S04-05-pr-files.png": "missing",
         "S04-06-pr-checks.png": "missing",
         "S04-07-revision.png": "missing",
-        "S04-after.png": "available"
+        "S04-after.png": "available",
+        "S04-local-form.png": "available",
+        "S04-local-form-annotated.png": "available",
+        "S04-local-result.png": "available"
       }
     },
     "S05": {
@@ -245,38 +296,49 @@
       "solution": "Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.",
       "steps": [
         [
-          "Lihat kegagalan",
-          "Jalankan fixture dengan TZ America/Los_Angeles; di Jakarta fixture lulus.",
-          "node --test tests/labs/ci-timezone.mjs"
+          "Buka job yang merah",
+          "GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.",
+          "gh run view 45567770102 --job 139046666825 --log-failed -R sandy-demo/AgenticSDLC"
         ],
         [
-          "Tulis issue",
-          "Tautkan run gagal di branch demo/ci-timezone. Minta PR memperbaiki asumsi hari.",
+          "Ulangi fixture di dua timezone",
+          "Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).",
+          "$env:TZ='Asia/Jakarta'; node --test tests/labs/ci-timezone.mjs\n$env:TZ='America/Los_Angeles'; node --test tests/labs/ci-timezone.mjs\nRemove-Item Env:TZ"
+        ],
+        [
+          "Minta tes yang tidak bergantung jam mesin",
+          "Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.",
           "issues/S05.md"
-        ],
-        [
-          "Bandingkan check",
-          "Pastikan tes yang sama lulus di kedua zona waktu, bukan dihapus.",
-          "npm test"
         ]
       ],
       "compare": [
-        "Tanggal lokal menjadi 14 Oktober di LA.",
-        "Harapan tes tetap sama pada dua runner."
+        "Fixture tanpa timezone eksplisit lulus di Jakarta, gagal di LA (14 Oktober vs 15 Oktober).",
+        "Target PR: tetapkan timezone bisnis di tes dengan jam tetap. PR dan checks sesudah belum ada."
       ],
       "benefit": "Diagnosis dilacak di PR, bukan hilang di chat.",
       "shots": [
         "S05-before.png",
         "S05-01-issue.png",
         "S05-02-pr-fix.png",
-        "S05-after.png"
+        "S05-after.png",
+        "S05-local-result.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "Actions nyata · PR perbaikan pending",
+        "stepEvidence": [
+          "S05-before.png",
+          "S05-local-result.png",
+          "S05-after.png"
+        ]
+      },
       "level": 2,
       "screenshotStatus": {
-        "S05-before.png": "missing",
+        "S05-before.png": "available",
         "S05-01-issue.png": "missing",
         "S05-02-pr-fix.png": "missing",
-        "S05-after.png": "missing"
+        "S05-after.png": "missing",
+        "S05-local-result.png": "available"
       }
     },
     "S06": {
@@ -295,31 +357,33 @@
       "solution": "Delegasikan dari Jira/Teams bila konektor organisasi tersedia. Versi personal memakai GitHub Issue.",
       "steps": [
         [
-          "Lihat tombol",
-          "Di baseline tombol masih berlabel Submit.",
+          "Tunjuk tombol yang mau diganti",
+          "Buka :3000 dan cari (1) Submit. Isi judul Tiket label Submit, jumlah 250000, tanggal hari ini. Klik dan periksa pesan klaim tersimpan (201). Ini baseline, bukan hasil tiket.",
           "npm run demo:before"
         ],
         [
-          "Delegasikan tiket",
-          "Jelaskan label baru dan petunjuk alur approval. Gunakan Issue jika tidak punya konektor.",
+          "Tulis perubahan kecil pada tiket",
+          "Di Jira/Teams latihan gunakan konektor organisasi hanya bila tersedia; versi personal pakai GitHub Issues → New issue. Minta label Ajukan Klaim dan petunjuk “Klaim akan ditinjau Manager.” Targetnya src/public/index.html, bukan logika simpan.",
           "issues/S06.md"
         ],
         [
-          "Cek rujukan",
-          "Pastikan link tiket kembali ke draft PR dan UI bisa dioperasikan dengan keyboard.",
+          "Tinjau perubahan dengan keyboard",
+          "Di draft PR, cari file HTML pada Files changed. Versi sesudah harus punya label baru, fokus Tab terlihat, Enter tetap mengirim klaim sekali, dan draft PR tertaut ke tiket. Belum direkam.",
           "npm run e2e"
         ]
       ],
       "compare": [
-        "Tombol Submit, belum ada petunjuk.",
-        "Target: Ajukan Klaim dan petunjuk langkah berikutnya."
+        "Form menampilkan Submit; klik tetap menyimpan klaim (201).",
+        "Target: Ajukan Klaim dan petunjuk status berikutnya; tiket organisasi dan perubahan UI belum ada."
       ],
       "benefit": "PM tahu perubahan mana yang benar-benar sedang ditinjau.",
       "shots": [
         "S06-before.png",
         "S06-01-ticket.png",
         "S06-02-pr.png",
-        "S06-after.png"
+        "S06-after.png",
+        "S06-before-annotated.png",
+        "S06-local-result.png"
       ],
       "app": {
         "page": "/",
@@ -327,12 +391,23 @@
           "#submit"
         ]
       },
+      "guide": {
+        "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
+        "live": "manual/org · konektor belum dijalankan",
+        "stepEvidence": [
+          "S06-before-annotated.png",
+          "S06-01-ticket.png",
+          "S06-local-result.png"
+        ]
+      },
       "level": 2,
       "screenshotStatus": {
         "S06-before.png": "available",
-        "S06-01-ticket.png": "missing",
-        "S06-02-pr.png": "missing",
-        "S06-after.png": "missing"
+        "S06-01-ticket.png": "manual/org",
+        "S06-02-pr.png": "manual/org",
+        "S06-after.png": "manual/org",
+        "S06-before-annotated.png": "available",
+        "S06-local-result.png": "available"
       }
     },
     "S07": {
@@ -350,38 +425,49 @@
       "solution": "PR pertama mengunci perilaku, PR kedua mengganti adapter dengan fetch yang bisa dites tanpa jaringan.",
       "steps": [
         [
-          "Abadikan perilaku",
-          "Uji CSV sukses, error, dan status bukan 200 dengan transport dummy.",
+          "Kunci kontrak sebelum pindah transport",
+          "Buka src/legacy/csvExport.js. Coba respons dummy 200 dengan “id,amount”, error transport, dan 503. Hasil harus sama ketika transport diganti; tidak ada paket deprecated yang dipasang.",
+          "npm run coverage"
+        ],
+        [
+          "S07a: hanya characterization test",
+          "Buat draft dari issue S07a. Di Files changed cek hanya tes, belum ada perubahan di src/legacy. Catat CSV yang dipakai dan pastikan ketiga test lulus.",
           "issues/S07a.md"
         ],
         [
-          "Ganti adapter",
-          "Gunakan hasil PR tes sebagai dasar perubahan kedua.",
+          "S07b: ganti callback menjadi fetch",
+          "Gunakan branch PR S07a sebagai dasar. Pindahkan pembacaan ke response.text(), pertahankan error “Ekspor CSV gagal.” untuk status bukan 200. Stub fetch agar tidak jaringan; tes S07a harus tetap sama.",
           "issues/S07b.md"
-        ],
-        [
-          "Periksa regresi",
-          "Tes yang sama harus tetap lulus.",
-          "npm test"
         ]
       ],
       "compare": [
-        "Perilaku belum dipatok dengan tes.",
-        "Tes yang sama melindungi perubahan adapter."
+        "Adapter callback asli dites lewat respons 200, error transport dan 503.",
+        "Percobaan fetch dengan transport dummy lulus 3/3 kontrak yang sama. Adapter repo belum diganti."
       ],
       "benefit": "Dua perubahan kecil lebih mudah direview daripada migrasi sekaligus.",
       "shots": [
         "S07-before.png",
         "S07-01-pr-tests.png",
         "S07-02-pr-migration.png",
-        "S07-after.png"
+        "S07-after.png",
+        "S07-local-result.png"
       ],
+      "guide": {
+        "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
+        "live": "pending · dua draft PR S07a/S07b",
+        "stepEvidence": [
+          "S07-local-result.png",
+          "S07-01-pr-tests.png",
+          "S07-02-pr-migration.png"
+        ]
+      },
       "level": 2,
       "screenshotStatus": {
         "S07-before.png": "missing",
         "S07-01-pr-tests.png": "missing",
         "S07-02-pr-migration.png": "missing",
-        "S07-after.png": "missing"
+        "S07-after.png": "missing",
+        "S07-local-result.png": "available"
       }
     },
     "S08": {
@@ -399,38 +485,49 @@
       "solution": "QA Engineer menurunkan tiga input dari aturan bisnis dan melaporkan hasil; perubahan produksi milik implementer.",
       "steps": [
         [
-          "Baca aturan",
-          "Perhatikan Rp1.000.000 tepat, bukan hanya di atas.",
-          "docs/business-rules.md"
+          "Ukur suite reguler",
+          "Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.",
+          "npm run coverage"
         ],
         [
-          "Jalankan tes batas",
-          "PowerShell: kasus tepat Rp1.000.000 sengaja gagal. Coverage bukan bukti bahwa tes lulus.",
-          "$env:QA_BOUNDARY='1'; npm run coverage; Remove-Item Env:QA_BOUNDARY"
+          "Tambahkan tiga nilai batas lewat fixture",
+          "Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai >, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.",
+          "$env:QA_BOUNDARY='1'; npm run coverage\nRemove-Item Env:QA_BOUNDARY"
         ],
         [
-          "Sampaikan hasil",
-          "Siapkan draf issue dan review perubahan tes saja.",
-          "issues/S08.md"
+          "Delegasikan laporan QA, bukan patch produksi",
+          "Di GitHub Copilot Agents pilih qa-engineer. Minta PR tests/ saja dan issue “Bug: batas approval Rp1.000.000”. Pada Files changed tolak perubahan ke src/. Ini belum dilakukan live.",
+          "Uji approvalRules.js sesuai docs/business-rules.md. Tulis tes di bawah, tepat pada, dan di atas Rp1.000.000. Laporkan bug; jangan edit produksi."
         ]
       ],
       "compare": [
-        "Aturan batas belum tercakup oleh suite reguler.",
-        "Suite QA menangkap perbedaan nilai tepat di batas."
+        "Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.",
+        "Tes batas menelepon nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false."
       ],
       "benefit": "QA mengubah aturan tertulis jadi bukti yang bisa diulang.",
       "shots": [
         "S08-before.png",
         "S08-01-agent-picker.png",
         "S08-02-bug-issue.png",
-        "S08-after.png"
+        "S08-after.png",
+        "S08-local-result.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "pending · agent picker, PR dan issue Bug:",
+        "stepEvidence": [
+          "S08-local-result.png",
+          "S08-local-result.png",
+          "S08-02-bug-issue.png"
+        ]
+      },
       "level": 3,
       "screenshotStatus": {
         "S08-before.png": "missing",
         "S08-01-agent-picker.png": "missing",
         "S08-02-bug-issue.png": "missing",
-        "S08-after.png": "missing"
+        "S08-after.png": "missing",
+        "S08-local-result.png": "available"
       }
     },
     "S09": {
@@ -449,38 +546,49 @@
       "solution": "Jalankan tiga reviewer read-only: Security, Performance dan Compliance. Manusia memvalidasi dan memublikasikan draf komentar.",
       "steps": [
         [
-          "Pilih PR",
-          "Gunakan draft PR S04 atau buka draft dari demo/pr-stock.",
-          "issues/S09.md"
+          "Bandingkan diff stock",
+          "Cari recentClaimIds.map dan ownListItem.get di src/db.js. Untuk tujuh klaim, pembacaan per baris adalah risiko N+1. Cek output GET /claims tetap sama sebelum mengusulkan satu query.",
+          "git diff v0-baseline demo/pr-stock -- src/db.js"
         ],
         [
-          "Pecah review",
-          "Jalankan tiga agent secara paralel dengan ruang lingkup masing-masing.",
-          "Review PR yang ditunjuk. Drafkan lokasi, severity, bukti dan perbaikan; jangan edit."
+          "Jalankan tiga sudut review",
+          "Di draft PR S04 dan stock, buka reviewer di sidebar → Copilot bila tersedia. Jalankan security-reviewer, perf-reviewer, compliance-reviewer pada PR latihan; minta file/baris, severity, bukti dan saran tanpa mengubah kode.",
+          "Review PR latihan dari sudut peranmu. Sebut file, baris, severity, bukti dan saran. Jangan edit atau merge."
         ],
         [
-          "Kumpulkan bukti",
-          "N+1 bisa dilihat lokal. Kartu PII dan audit bukan temuan nyata.",
+          "Pisahkan bukti dari dugaan",
+          "Pada Conversation, tunggu komentar tervalidasi. N+1 dapat dibuktikan. Untuk PII dan audit, verifikasi source lebih dulu; jangan berpura-pura ada temuan. Bima memprioritaskan temuan sebelum memutuskan.",
           "docs/simulations.md"
         ]
       ],
       "compare": [
-        "Satu reviewer harus memeriksa semua dimensi.",
-        "Tech Lead menerima tiga ringkasan dengan bukti."
+        "Stock branch dengan satu query daftar ID ditambah query per klaim.",
+        "Uji lokal: output 7 klaim sama. Temuan PII/audit hanya ilustrasi; belum ada komentar reviewer live."
       ],
       "benefit": "Review manusia tetap memutuskan temuan mana yang menghalangi merge.",
       "shots": [
         "S09-before.png",
         "S09-01-three-sessions.png",
         "S09-02-comments.png",
-        "S09-after.png"
+        "S09-after.png",
+        "S09-local-result.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "pending · Copilot code review dan review board",
+        "stepEvidence": [
+          "S09-local-result.png",
+          "S09-01-three-sessions.png",
+          "S09-02-comments.png"
+        ]
+      },
       "level": 3,
       "screenshotStatus": {
         "S09-before.png": "missing",
         "S09-01-three-sessions.png": "missing",
         "S09-02-comments.png": "missing",
-        "S09-after.png": "missing"
+        "S09-after.png": "missing",
+        "S09-local-result.png": "available"
       }
     },
     "S10": {
@@ -498,24 +606,24 @@
       "solution": "Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.",
       "steps": [
         [
-          "Baca kartu alert",
-          "Status dan temuan pada kartu adalah ilustrasi.",
+          "Baca mitigasi yang sudah ada",
+          "Di src/db.js cari BETWEEN ? AND ?. Periode harus jadi parameter, bukan dirakit menjadi teks SQL. Buka src/routes/reports.js dan cari pemeriksaan peran Finance serta validasi month.",
+          "git grep -n \"BETWEEN ? AND ?\" -- src/db.js"
+        ],
+        [
+          "Uji batas API secara defensif",
+          "Buka Laporan pada aplikasi lokal. Pilih bulan 2026-09 dan klik Tampilkan (peran Finance). Untuk verifikasi Manager ditolak, jalankan tes API. Ini contoh mitigasi, bukan alert buatan.",
+          "npm test -- tests/unit/api.test.js"
+        ],
+        [
+          "Baca CodeQL bila sudah diaktifkan",
+          "GitHub → Security → Code scanning. Jika ada temuan nyata, buka alert, lihat usulan perbaikan, tinjau file, jalankan scan ulang. Jika belum ada hasil, jangan isi angka sebelum/sesudah atau membuat celah untuk demo.",
           "docs/simulations.md"
-        ],
-        [
-          "Periksa mitigasi",
-          "Cari prepared statement dan validasi periode di source yang ada.",
-          "src/routes/reports.js"
-        ],
-        [
-          "Tinjau bukti",
-          "Bila konfigurasi CodeQL live tersedia, catat hasil aktual; npm audit terpisah.",
-          "npm audit"
         ]
       ],
       "compare": [
-        "Ilustrasi: alert masih perlu penanganan.",
-        "Ilustrasi: reviewer minta bukti scan ulang."
+        "Query yang ada mengikat nilai periode dengan dua placeholder ?.",
+        "Finance + 2026-09 = 200; Manager yang sama = 403; bulan 2026-13 = 400. Ini bukan autofix/scan."
       ],
       "benefit": "AppSec memeriksa mitigasi dan bukti, bukan sekadar perubahan status.",
       "shots": [
@@ -523,15 +631,26 @@
         "S10-01-assign.png",
         "S10-02-pr-autofix.png",
         "S10-03-alert-closed.png",
-        "S10-after.png"
+        "S10-after.png",
+        "S10-local-result.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "pending · CodeQL default setup belum aktif",
+        "stepEvidence": [
+          "S10-local-result.png",
+          "S10-local-result.png",
+          "S10-before.png"
+        ]
+      },
       "level": 3,
       "screenshotStatus": {
         "S10-before.png": "missing",
         "S10-01-assign.png": "missing",
         "S10-02-pr-autofix.png": "missing",
         "S10-03-alert-closed.png": "missing",
-        "S10-after.png": "missing"
+        "S10-after.png": "missing",
+        "S10-local-result.png": "available"
       }
     },
     "S11": {
@@ -549,38 +668,49 @@
       "solution": "Architect menulis ADR; Bima menyetujui; Implementer bekerja setelah itu dan meminta review.",
       "steps": [
         [
-          "Minta ADR",
-          "Belum boleh ubah kode.",
-          "Buat ADR approval bertingkat, termasuk retry dan audit, beserta task breakdown."
+          "Buka isu dan kontrak yang harus dijaga",
+          "Buka issues/S11.md di Explorer. Untuk klaim Rp1.250.000, Manager mengalihkan ke Finance. Tes juga bisa memastikan keputusan ganda mengikuti gate status.",
+          "npm test -- tests/unit/api.test.js"
         ],
         [
-          "Setujui keputusan",
-          "Tech Lead periksa alternatif dan tulis persetujuan pada draf.",
+          "Tulis keputusan sebelum coding",
+          "Pada GitHub Copilot Agents pilih architect dan arahkan ke issue latihan. Nama target docs/adr/0001-approval-bertahap.md. Tulis alternatif, status, retry dan audit, tanpa menyunting src/.",
+          "Buat draf ADR 0001 untuk approval, retry, pencegahan perubahan ganda dan audit. Sertakan alternatif dan kriteria tes. Jangan menulis implementasi."
+        ],
+        [
+          "Handoff setelah persetujuan manusia",
+          "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
           "docs/adr/README.md"
-        ],
-        [
-          "Handoff",
-          "Implementer dan reviewer membaca ADR yang sama.",
-          "Implementasikan hanya tugas yang sudah disetujui. Tautkan ADR dan tes."
         ]
       ],
       "compare": [
-        "Issue besar langsung masuk coding.",
-        "Keputusan teknis ditinjau sebelum kode berubah."
+        "Template ADR ada; baseline sudah menguji handoff Manager → Finance.",
+        "Target: ADR 0001 menjelaskan retry/status/audit dan disetujui sebelum draft implementasi."
       ],
       "benefit": "Risiko ditangkap saat mengganti desain masih murah.",
       "shots": [
         "S11-before.png",
         "S11-01-adr-pr.png",
         "S11-02-impl-pr.png",
-        "S11-after.png"
+        "S11-after.png",
+        "S11-local-result.png"
       ],
+      "guide": {
+        "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
+        "live": "pending · ADR, persetujuan dan PR implementer",
+        "stepEvidence": [
+          "S11-local-result.png",
+          "S11-01-adr-pr.png",
+          "S11-02-impl-pr.png"
+        ]
+      },
       "level": 3,
       "screenshotStatus": {
         "S11-before.png": "missing",
         "S11-01-adr-pr.png": "missing",
         "S11-02-impl-pr.png": "missing",
-        "S11-after.png": "missing"
+        "S11-after.png": "missing",
+        "S11-local-result.png": "available"
       }
     },
     "S12": {
@@ -598,36 +728,47 @@
       "solution": "Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.",
       "steps": [
         [
-          "Bandingkan kontrak",
-          "Baca jawaban aktual route dan kontrak lama.",
-          "src/routes/claims.js"
+          "Baca dokumentasi dan jalankan route",
+          "Di VS Code buka docs/api.md lalu src/routes/claims.js. Mulai app, kemudian di terminal kedua minta GET /claims sebagai Employee 01. JSON HTTP 200 berisi key claims.",
+          "npm run demo:before\ncurl.exe -fsS -H \"x-demo-user: 1\" http://127.0.0.1:3000/claims"
         ],
         [
-          "Jalankan workflow",
-          "Pemilik mengaktifkan variabel secara sadar, lalu Actions → Docs Sync → Run workflow (atau push terarah).",
-          "gh aw compile --strict"
+          "Tunjuk nilai yang harus berubah",
+          "Pada tabel GET /claims di docs/api.md, ganti items menjadi claims di checkout latihan; jangan mengubah nama field di route. Cek diff memuat satu file saja.",
+          "git diff -- docs/api.md"
         ],
         [
-          "Cek PR",
-          "Dokumen diperbaiki tanpa mengubah route atau merge.",
-          "issues/S12.md"
+          "Jalankan workflow setelah prasyarat live siap",
+          "Pilih Actions → Docs Sync → Run workflow (atau push perubahan latihan ke demo/docs-trigger). Periksa safe output membuat paling banyak satu draft PR yang hanya menyentuh docs/api.md. Jangan merge.",
+          "gh workflow view docs-sync.lock.yml -R sandy-demo/AgenticSDLC"
         ]
       ],
       "compare": [
-        "Dokumen memakai key items.",
-        "Target docs memakai key claims."
+        "docs/api.md menyebut key items.",
+        "GET /claims lokal benar-benar mengirim key claims. Target edit hanya dokumen, bukan route."
       ],
       "benefit": "Tim integrasi memakai kontrak yang sama dengan kode.",
       "shots": [
         "S12-before.png",
         "S12-01-run.png",
-        "S12-after.png"
+        "S12-after.png",
+        "S12-local-result.png"
       ],
+      "guide": {
+        "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
+        "live": "pending · Docs Sync dan draft docs",
+        "stepEvidence": [
+          "S12-local-result.png",
+          "S12-local-result.png",
+          "S12-after.png"
+        ]
+      },
       "level": 4,
       "screenshotStatus": {
         "S12-before.png": "missing",
         "S12-01-run.png": "missing",
-        "S12-after.png": "missing"
+        "S12-after.png": "missing",
+        "S12-local-result.png": "available"
       }
     },
     "S13": {
@@ -645,36 +786,49 @@
       "solution": "Triage memberi label atau pertanyaan; workflow kedua membaca log fixture dan menulis maksimal satu komentar ke PR pemicu.",
       "steps": [
         [
-          "Buat issue latihan",
-          "Maintainer membuat issue berjudul Aplikasi error tanpa body saat workflow diaktifkan.",
-          "issues/S13.md"
-        ],
-        [
-          "Lihat kegagalan",
-          "Fixture berhenti dengan ECONNRESET tanpa membuka koneksi; GitHub perlu draft PR dari branch demo.",
+          "Lihat run publik yang gagal",
+          "Actions → CI pada demo/ci-econnreset. Pilih test (America/Los_Angeles) → Latihan S13 — koneksi putus. Job Jakarta tetap hijau. Jalankan fixture lokal untuk melihat ECONNRESET bila log web tidak terbuka.",
           "node --test tests/labs/ci-connection.mjs"
         ],
         [
-          "Cek safe outputs",
-          "Satu label dan komentar sesuai kondisi. Jangan anggap fixture sebagai insiden.",
-          ".github/workflows/issue-triage.md"
+          "Triage issue tanpa detail",
+          "Pada repo latihan dengan workflow aktif, pilih Issues → New issue. Isi judul persis Aplikasi error, kosongkan body. Periksa sidebar Labels untuk needs-info dan satu pertanyaan klarifikasi, bukan respons yang ditebak.",
+          "Aplikasi error"
+        ],
+        [
+          "Cek diagnosis di PR pemicu",
+          "Buka draft PR cabang demo/ci-econnreset bila cloud siap. Workflow ci-fault-analysis hanya untuk kegagalan event pull_request; run push yang ditampilkan tidak membuktikan komentar agent.",
+          "gh run view 45567770139 --job 139046667307 --log-failed -R sandy-demo/AgenticSDLC"
         ]
       ],
       "compare": [
-        "Issue belum siap dikerjakan dan log mentah.",
-        "Target: needs-info dan diagnosis dengan bukti."
+        "Fixture cabang latihan memberi ECONNRESET tanpa membuka koneksi.",
+        "Target: label needs-info dan satu komentar pada PR pemicu; keduanya belum direkam."
       ],
       "benefit": "Maintainer bisa langsung mengambil issue yang siap.",
       "shots": [
         "S13-before.png",
         "S13-01-triage.png",
-        "S13-after.png"
+        "S13-after.png",
+        "S13-local-result.png",
+        "S13-ci-failure.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "Actions nyata · triage dan komentar agent pending",
+        "stepEvidence": [
+          "S13-ci-failure.png",
+          "S13-01-triage.png",
+          "S13-local-result.png"
+        ]
+      },
       "level": 4,
       "screenshotStatus": {
         "S13-before.png": "missing",
         "S13-01-triage.png": "missing",
-        "S13-after.png": "missing"
+        "S13-after.png": "missing",
+        "S13-local-result.png": "available",
+        "S13-ci-failure.png": "available"
       }
     },
     "S14": {
@@ -694,24 +848,24 @@
       "solution": "Pisahkan hook, izin Actions, gate branch, dan budget. Dashboard organisasi bukan bagian dari fixture lokal.",
       "steps": [
         [
-          "Jalankan fixture",
-          "Tidak ada argumen yang dieksekusi; kategori lokasi terlindungi harus ditolak.",
+          "Jalankan fixture yang aman",
+          "Buka Terminal → New Terminal. Jalankan fixture bawaan; ia mengevaluasi dua contoh dan tidak menjalankan argumennya. Jangan membuat issue live berisi permintaan akses rahasia atau perintah penghapusan.",
           "npm run guard:demo"
         ],
         [
-          "Tinjau audit",
-          "Lihat waktu, kategori, dan keputusan saja. Jangan buka data rahasia.",
-          "audit/tools.log"
+          "Tunjuk kontrol dan jejak audit",
+          "Buka .github/hooks/guardrails.json dan cari preToolUse. Lihat audit fixture yang baru: waktu, phase, decision, category. Jangan bagikan log sesi lain. Cari deny pada kasus lokasi terlindungi.",
+          ".github/hooks/guardrails.json"
         ],
         [
-          "Tinjau biaya",
-          "Sumber tarif dan contoh hitung tersedia di halaman Governance.",
-          ".github/workflows/docs-sync.md"
+          "Pisahkan izin dari biaya",
+          "Buka pengaturan Billing → Usage pada akun latihan bila berwenang. Bandingkan dengan permissions dan safe-outputs di workflow; keduanya bukan metrik biaya. Tidak ada premium request atau biaya live yang terukur.",
+          "docs/ORG-SETUP.md"
         ]
       ],
       "compare": [
-        "Aksi diajukan ke pemeriksa.",
-        "Fixture ditolak; audit hanya menyimpan metadata."
+        "Pemeriksa menerima dua input fixture tanpa mengeksekusinya.",
+        "Keputusan standard-policy/default untuk tes, deny/credential-location untuk lokasi terlindungi. Audit hanya metadata."
       ],
       "benefit": "Manusia bisa menunjukkan izin yang dibatasi dan melihat biaya secara terpisah.",
       "shots": [
@@ -719,15 +873,26 @@
         "S14-01-hooks-file.png",
         "S14-02-usage.png",
         "S14-03-gh-aw-permissions.png",
-        "S14-after.png"
+        "S14-after.png",
+        "S14-local-result.png"
       ],
+      "guide": {
+        "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
+        "live": "pending · sesi cloud/usage; fixture aman saja",
+        "stepEvidence": [
+          "S14-local-result.png",
+          "S14-local-result.png",
+          "S14-02-usage.png"
+        ]
+      },
       "level": 5,
       "screenshotStatus": {
         "S14-before.png": "missing",
         "S14-01-hooks-file.png": "missing",
         "S14-02-usage.png": "missing",
         "S14-03-gh-aw-permissions.png": "missing",
-        "S14-after.png": "missing"
+        "S14-after.png": "missing",
+        "S14-local-result.png": "available"
       }
     },
     "S15": {
@@ -751,24 +916,29 @@
       "solution": "Planner → ADR → draft PR → CI → reviewer dan CodeQL → merge manusia → docs → audit.",
       "steps": [
         [
-          "Pecah epik",
-          "Planner menyiapkan draf issue dan dependensi untuk persetujuan manusia.",
+          "Coba jalur IDR yang sudah berfungsi",
+          "Buka :3000. (1) Jumlah (IDR) = 1250000; judul Klaim pelatihan capstone, tanggal hari ini, lalu Submit. Buka Persetujuan → Manager 01 · Operasional → Setujui klaim itu; pilih Finance 01 → Setujui. Di Klaim saya hasilnya Disetujui.",
+          "npm run demo:before"
+        ],
+        [
+          "Pecah epik, lalu tetapkan nilai sebelum coding",
+          "Tahap 1–3: buka Issues → epik → Planner membagi ADR, API/UI, tes dan docs. Architect tulis docs/adr/0002-multi-currency.md: kurs, waktu kurs, pembulatan dan limit IDR. Tech Lead meninjau sebelum coding.",
           "issues/S15.md"
         ],
         [
-          "Tetapkan kurs dan gate",
-          "ADR disetujui dahulu, lalu implementasi di branch. Review test dan scan pada PR.",
-          "docs/adr/README.md"
+          "Periksa draft, CI, dan review",
+          "Tahap 4–6: draft PR → Files changed untuk pilihan IDR/USD/SGD, penyimpanan nilai dan nilai dasar IDR → Checks → Conversation. Minta review dan bukti scan; manusia harus menyetujui sebelum langkah berikutnya.",
+          "npm test"
         ],
         [
-          "Serahkan",
-          "Hanya Tech Lead yang boleh merge di repo turunan. Pantau docs sync dan cek audit.",
-          "npm run metrics -- S15 start"
+          "Berhenti sebelum merge; periksa docs dan audit sesudahnya",
+          "Tahap 7–8 hanya di repo turunan dan setelah pemilik menyetujui secara eksplisit. Sesudah itu periksa Docs Sync, audit, dan demo:after dari branch hasil. Gambar di bawah hanya hasil persetujuan IDR, bukan S15-after multi-currency.",
+          "npm run demo:after -- main"
         ]
       ],
       "compare": [
-        "Aplikasi baseline hanya IDR.",
-        "Target: pilihan IDR/USD/SGD dengan nilai IDR untuk approval."
+        "Form hanya IDR; Rp1.250.000 melewati pending → finance_review → approved.",
+        "Target IDR/USD/SGD dengan nilai dasar IDR; belum ada hasil multi-currency atau merge."
       ],
       "benefit": "Setiap tahap punya penanggung jawab dan hasil yang bisa ditinjau.",
       "shots": [
@@ -782,12 +952,25 @@
         "S15-07-merge.png",
         "S15-08-docs.png",
         "S15-09-audit.png",
-        "S15-after.png"
+        "S15-after.png",
+        "S15-before-annotated.png",
+        "S15-local-approval.png",
+        "S15-local-result.png"
       ],
       "app": {
         "page": "/",
         "checks": [
           "#amount"
+        ]
+      },
+      "guide": {
+        "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
+        "live": "pending · fitur multi-mata-uang dan gate manusia",
+        "stepEvidence": [
+          "S15-before-annotated.png",
+          "S15-03-adr.png",
+          "S15-06-reviews.png",
+          "S15-local-approval.png"
         ]
       },
       "level": 5,
@@ -802,7 +985,10 @@
         "S15-07-merge.png": "missing",
         "S15-08-docs.png": "missing",
         "S15-09-audit.png": "missing",
-        "S15-after.png": "missing"
+        "S15-after.png": "missing",
+        "S15-before-annotated.png": "available",
+        "S15-local-approval.png": "available",
+        "S15-local-result.png": "available"
       }
     }
   },
@@ -820,6 +1006,68 @@
           "status": 400,
           "code": "CLAIM_DATE_FUTURE"
         }
+      },
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:11.334Z",
+        "status": "verified-local",
+        "durationSeconds": 2.01,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "v0-baseline: HTTP 201",
+            "text": "Klaim #21 tersimpan. Status: menunggu Manager.\nInput: Taksi bandara · Rp250.000 · 2026-11-26\nKlaim baru muncul pada daftar."
+          },
+          {
+            "name": "demo/claim-date: HTTP 400",
+            "text": "Tanggal klaim tidak boleh di masa depan.\nInput: Taksi bandara · Rp250.000 · 2026-11-26\nKode API: CLAIM_DATE_FUTURE"
+          },
+          {
+            "name": "Tes batas: hari ini",
+            "text": "Tanggal 2026-11-25 diterima (HTTP 201). Hanya tanggal masa depan yang ditolak."
+          }
+        ],
+        "images": [
+          {
+            "name": "S04-local-form.png",
+            "alt": "Form lokal yang berisi Taksi bandara, Rp250.000, dan tanggal besok sebelum Submit.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S04-local-form-annotated.png",
+            "alt": "Nomor 1–4 menandai judul, jumlah, tanggal, dan Submit pada form asli.",
+            "source": "v0-baseline · dianotasi"
+          },
+          {
+            "name": "S04-before.png",
+            "alt": "Aplikasi lokal: Klaim #21 tersimpan. Status: menunggu Manager.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S04-before-annotated.png",
+            "alt": "Nomor 5 menandai pesan: Klaim #21 tersimpan. Status: menunggu Manager.",
+            "source": "v0-baseline · dianotasi"
+          },
+          {
+            "name": "S04-after.png",
+            "alt": "Aplikasi lokal: Tanggal klaim tidak boleh di masa depan.",
+            "source": "demo/claim-date"
+          },
+          {
+            "name": "S04-after-annotated.png",
+            "alt": "Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan.",
+            "source": "demo/claim-date · dianotasi"
+          },
+          {
+            "name": "S04-local-result.png",
+            "alt": "Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
       }
     },
     "S08": {
@@ -827,20 +1075,729 @@
       "localCoverage": {
         "date": "2026-11-25",
         "file": "src/services/approvalRules.js",
-        "before": 0,
+        "before": 100,
         "after": 100,
         "totalLines": 1,
         "boundaryFailed": true
+      },
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:15.220Z",
+        "status": "verified-local",
+        "durationSeconds": 3.23,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Suite reguler",
+            "text": "approvalRules.js: 1/1 baris (100%)\n Test Files  2 passed (2)\n      Tests  20 passed (20)"
+          },
+          {
+            "name": "Reguler pilihan + tes batas QA",
+            "text": "approvalRules.js: 1/1 baris (100%)\n   × aturan bisnis untuk klaim Rp1000000 4ms\n Test Files  1 failed | 1 passed (2)\n      Tests  1 failed | 13 passed (14)\n FAIL  tests/labs/approval-boundary.test.js > aturan bisnis untuk klaim Rp1000000\nAssertionError: expected false to be true // Object.is equality\n      5|   'aturan bisnis untuk klaim Rp%s',"
+          }
+        ],
+        "images": [
+          {
+            "name": "S08-local-result.png",
+            "alt": "Output pemeriksaan lokal S08: Suite reguler; Reguler pilihan + tes batas QA.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
       }
     },
     "S10": {
-      "runs": []
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:18.400Z",
+        "status": "verified-local",
+        "durationSeconds": 0.52,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Query laporan memakai parameter",
+            "text": "v0-baseline:src/db.js:65:    WHERE c.claim_date BETWEEN ? AND ? AND c.status = 'approved'"
+          },
+          {
+            "name": "Akses dan validasi lokal",
+            "text": "Finance + 2026-09: HTTP 200\nManager + 2026-09: HTTP 403\nFinance + 2026-13: HTTP 400 · REPORT_MONTH"
+          }
+        ],
+        "images": [
+          {
+            "name": "S10-local-result.png",
+            "alt": "Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
     },
     "S14": {
-      "runs": []
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:17.751Z",
+        "status": "verified-local",
+        "durationSeconds": 0.06,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Keputusan: tidak ada argumen yang dijalankan",
+            "text": "tes biasa: default (standard-policy)\nlokasi terlindungi: deny (credential-location)\nFixture tidak dieksekusi. Jejak tanpa argumen: audit/tools.log"
+          },
+          {
+            "name": "Audit fixture baru",
+            "text": "fixture default standard-policy\nfixture deny credential-location"
+          }
+        ],
+        "images": [
+          {
+            "name": "S14-local-result.png",
+            "alt": "Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
     },
     "S15": {
-      "runs": []
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:20.465Z",
+        "status": "verified-local",
+        "durationSeconds": 0.91,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Cabang baseline: Rp1.250.000",
+            "text": "Submit → HTTP 201, pending\nManager Setujui → HTTP 200, finance_review\nFinance Setujui → HTTP 200, approved"
+          }
+        ],
+        "images": [
+          {
+            "name": "S15-before.png",
+            "alt": "Aplikasi baseline: form menunjukkan jumlah IDR dan tidak punya pilihan mata uang.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S15-before-annotated.png",
+            "alt": "Nomor 1 menunjuk field Jumlah (IDR).",
+            "source": "v0-baseline · dianotasi"
+          },
+          {
+            "name": "S15-local-approval.png",
+            "alt": "Setelah alur baseline IDR, klaim pelatihan terlihat Disetujui. Bukan hasil fitur multi-currency.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S15-local-result.png",
+            "alt": "Output pemeriksaan lokal S15: Cabang baseline: Rp1.250.000.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S05": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:11.753Z",
+        "status": "verified-local",
+        "durationSeconds": 0.27,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "TZ=Asia/Jakarta · kode keluar 0",
+            "text": "✔ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (0.5012ms)\nℹ pass 1\nℹ fail 0"
+          },
+          {
+            "name": "TZ=America/Los_Angeles · kode keluar 1",
+            "text": "✖ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (1.0129ms)\nℹ pass 0\nℹ fail 1\n✖ failing tests:\n✖ fixture lab: jam mesin tidak boleh diasumsikan sama dengan Jakarta (1.0129ms)\n  + actual - expected\n  + '2026-10-14'\n  - '2026-10-15'"
+          }
+        ],
+        "images": [
+          {
+            "name": "S05-local-result.png",
+            "alt": "Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          },
+          {
+            "name": "S05-before.png",
+            "alt": "Actions publik: ringkasan run CI berstatus Failure dan job LA merah.",
+            "source": "Layar ringkasan GitHub Actions publik · bukan hasil revisi agent"
+          }
+        ],
+        "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102"
+      }
+    },
+    "S07": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:11.883Z",
+        "status": "verified-local",
+        "durationSeconds": 0,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Kontrak callback terkunci",
+            "text": "200 → \"id,amount\\n1,250000\"\nError transport → transport fixture gagal\n503 → Ekspor CSV gagal."
+          },
+          {
+            "name": "Kontrak sama pada percobaan fetch",
+            "text": "3 dari 3 kasus lulus lagi; fetch diganti respons fixture, tanpa akses jaringan. Adapter repo tetap callback; dua PR belum dibuat."
+          }
+        ],
+        "images": [
+          {
+            "name": "S07-local-result.png",
+            "alt": "Output pemeriksaan lokal S07: Kontrak callback terkunci; Kontrak sama pada percobaan fetch.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S09": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:16.671Z",
+        "status": "verified-local",
+        "durationSeconds": 1.31,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Performance · src/db.js di demo/pr-stock",
+            "text": "-    listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),\n+      const recentClaimIds = listOwn.all(userId);\n+      return recentClaimIds.map(({ id }) => ownListItem.get(id, userId));"
+          },
+          {
+            "name": "Uji regresi GET /claims",
+            "text": "HTTP 200; 7 klaim seed yang sama pada dua ref. Output sama tidak berarti jumlah query sama."
+          },
+          {
+            "name": "Security dan Compliance",
+            "text": "Baca docs/simulations.md: PII dan audit adalah kartu ilustrasi; bukan temuan pada repo atau komentar reviewer live."
+          }
+        ],
+        "images": [
+          {
+            "name": "S09-local-result.png",
+            "alt": "Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S12": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:17.299Z",
+        "status": "verified-local",
+        "durationSeconds": 0.5,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Kontrak lama di docs/api.md",
+            "text": "| `GET /claims` | Employee | — | `200`, `{ items: [...] }` — **kontrak lama, dibuat tidak sinkron untuk S12** |"
+          },
+          {
+            "name": "Respons route aktual",
+            "text": "GET /claims, Employee 01 → HTTP 200\nKey: claims (7 klaim seed)\nKoreksi docs: items → claims. Tidak ada perubahan route atau PR Docs Sync."
+          }
+        ],
+        "images": [
+          {
+            "name": "S12-local-result.png",
+            "alt": "Output pemeriksaan lokal S12: Kontrak lama di docs/api.md; Respons route aktual.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S13": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:17.570Z",
+        "status": "verified-local",
+        "durationSeconds": 0.14,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Diagnosa ECONNRESET fixture",
+            "text": "ℹ fail 1\n  Error: ECONNRESET (fixture S13, bukan insiden sungguhan)\n    code: 'ECONNRESET'"
+          },
+          {
+            "name": "Pemicu triage yang bisa diperiksa",
+            "text": "    types: [opened]\nif: vars.AGENTIC_WORKSHOP_LIVE == 'true' && github.event.issue.title == 'Aplikasi error'\n  add-labels:\n    allowed: [needs-info, agent-ready]"
+          }
+        ],
+        "images": [
+          {
+            "name": "S13-local-result.png",
+            "alt": "Output pemeriksaan lokal S13: Diagnosa ECONNRESET fixture; Pemicu triage yang bisa diperiksa.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          },
+          {
+            "name": "S13-ci-failure.png",
+            "alt": "Actions publik: ringkasan run CI berstatus Failure dan job LA merah.",
+            "source": "Layar ringkasan GitHub Actions publik · bukan hasil revisi agent"
+          }
+        ],
+        "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770139"
+      }
+    },
+    "S11": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:19.435Z",
+        "status": "verified-local",
+        "durationSeconds": 0.91,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Templat keputusan, bukan ADR disetujui",
+            "text": "S11 dan S15 menghasilkan draf ADR, bukan desain yang sudah disetujui.\nPakai nama `0001-approval-bertahap.md` dan `0002-multi-currency.md`.\nSertakan konteks, keputusan, alternatif, konsekuensi, acceptance criteria,"
+          },
+          {
+            "name": "Baseline approval yang harus dilindungi",
+            "text": " ✓ tests/unit/api.test.js > mengalihkan klaim besar ke Finance dan menyimpan keputusan akhir 69ms\n      Tests  1 passed | 8 skipped (9)"
+          }
+        ],
+        "images": [
+          {
+            "name": "S11-local-result.png",
+            "alt": "Output pemeriksaan lokal S11: Templat keputusan, bukan ADR disetujui; Baseline approval yang harus dilindungi.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S01": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:20.702Z",
+        "status": "verified-local",
+        "durationSeconds": 0.12,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Perbandingan dua ref latihan",
+            "text": "git diff --name-status v0-baseline demo/s01-no-instructions\nD\t.github/copilot-instructions.md\nD\tAGENTS.md"
+          },
+          {
+            "name": "Aturan yang ada pada baseline",
+            "text": "  prepared statements dari `src/db.js` untuk akses SQLite.\n- Validasi input dan peran demo pada batas API. Error berbentuk `{ code, message }`.\n- Catat metadata non-PII via `src/logger.js`; jangan catat isi klaim, lampiran,\n- Tambah tes untuk perubahan perilaku. Gunakan clock tetap agar tes lintas zona"
+          }
+        ],
+        "images": [
+          {
+            "name": "S01-local-result.png",
+            "alt": "Output pemeriksaan lokal S01: Perbandingan dua ref latihan; Aturan yang ada pada baseline.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S02": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:22.299Z",
+        "status": "verified-local",
+        "durationSeconds": 1.48,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "v0-baseline",
+            "text": "Kategori tidak ada di form\nPOST /claims → HTTP 201 · category=Other\nGET /claims/21 → HTTP 200 · category=Other"
+          },
+          {
+            "name": "v1-app-clean",
+            "text": "Kategori Perjalanan dipilih\nPOST /claims → HTTP 201 · category=Travel\nGET /claims/21 → HTTP 200 · category=Travel"
+          }
+        ],
+        "images": [
+          {
+            "name": "S02-before.png",
+            "alt": "Form baseline terisi, tanpa field Kategori.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S02-after.png",
+            "alt": "Form app bersih dengan Kategori = Perjalanan.",
+            "source": "v1-app-clean"
+          },
+          {
+            "name": "S02-after-annotated.png",
+            "alt": "Nomor 1 menandai pilihan Kategori (Perjalanan).",
+            "source": "v1-app-clean · dianotasi"
+          },
+          {
+            "name": "S02-local-result.png",
+            "alt": "Output pemeriksaan lokal S02: v0-baseline; v1-app-clean.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S03": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:22.935Z",
+        "status": "verified-local",
+        "durationSeconds": 0.53,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Urutan prosedur dalam skill repo",
+            "text": "1. Tulis method, path, status, input, dan output di `docs/api.md`.\n2. Tentukan peran yang boleh memanggil route. Validasi nilai sebelum query.\n3. Tulis service; akses SQLite hanya lewat prepared statements di `src/db.js`.\n4. Route memanggil service dan mengirim hasil. Pakai logger untuk metadata\n5. Uji jalur sukses dan kegagalan di `tests/unit/`; jalankan `npm test`."
+          },
+          {
+            "name": "Cek kontrak sebelum membuat endpoint",
+            "text": "GET /claims/1 dengan pemilik → HTTP 200\nPOST /claims/1/comments → HTTP 404 (belum ada).\nGunakan prosedur skill pada checkout terpisah. Aktivasi dan diff Agent Mode belum direkam."
+          }
+        ],
+        "images": [
+          {
+            "name": "S03-local-result.png",
+            "alt": "Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    },
+    "S06": {
+      "runs": [],
+      "localDryRun": {
+        "recordedAt": "2026-11-25T07:49:23.850Z",
+        "status": "verified-local",
+        "durationSeconds": 0.79,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "premiumRequests": null,
+        "checks": [
+          {
+            "name": "Perilaku lokal yang harus tetap sama",
+            "text": "Tombol Submit → HTTP 201\nKlaim #21 tersimpan. Status: menunggu Manager.\nTarget: Ajukan Klaim + bantuan langkah berikutnya. Tiket Jira/Teams tidak dibuat."
+          }
+        ],
+        "images": [
+          {
+            "name": "S06-before.png",
+            "alt": "Tombol asli pada form klaim: Submit.",
+            "source": "v0-baseline"
+          },
+          {
+            "name": "S06-before-annotated.png",
+            "alt": "Nomor 1 menandai tombol Submit yang menjadi target tiket.",
+            "source": "v0-baseline · dianotasi"
+          },
+          {
+            "name": "S06-local-result.png",
+            "alt": "Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama.",
+            "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      }
+    }
+  },
+  "dryRun": {
+    "measuredOn": "2026-11-25",
+    "order": [
+      "S04",
+      "S05",
+      "S07",
+      "S08",
+      "S09",
+      "S12",
+      "S13",
+      "S14",
+      "S10",
+      "S11",
+      "S15",
+      "S01",
+      "S02",
+      "S03",
+      "S06"
+    ],
+    "scenarios": {
+      "S04": {
+        "live": "pending · Issue, draft PR, revisi Copilot",
+        "localDurationSeconds": 2.01,
+        "missing": [
+          "S04-01-issue.png",
+          "S04-02-assigned.png",
+          "S04-03-agent-session.png",
+          "S04-04-pr-summary.png",
+          "S04-05-pr-files.png",
+          "S04-06-pr-checks.png",
+          "S04-07-revision.png"
+        ],
+        "screenshots": [
+          "S04-local-form.png",
+          "S04-local-form-annotated.png",
+          "S04-before.png",
+          "S04-before-annotated.png",
+          "S04-after.png",
+          "S04-after-annotated.png",
+          "S04-local-result.png"
+        ]
+      },
+      "S05": {
+        "live": "Actions nyata · PR perbaikan pending",
+        "localDurationSeconds": 0.27,
+        "missing": [
+          "S05-01-issue.png",
+          "S05-02-pr-fix.png",
+          "S05-after.png"
+        ],
+        "screenshots": [
+          "S05-local-result.png",
+          "S05-before.png"
+        ]
+      },
+      "S07": {
+        "live": "pending · dua draft PR S07a/S07b",
+        "localDurationSeconds": 0,
+        "missing": [
+          "S07-before.png",
+          "S07-01-pr-tests.png",
+          "S07-02-pr-migration.png",
+          "S07-after.png"
+        ],
+        "screenshots": [
+          "S07-local-result.png"
+        ]
+      },
+      "S08": {
+        "live": "pending · agent picker, PR dan issue Bug:",
+        "localDurationSeconds": 3.23,
+        "missing": [
+          "S08-before.png",
+          "S08-01-agent-picker.png",
+          "S08-02-bug-issue.png",
+          "S08-after.png"
+        ],
+        "screenshots": [
+          "S08-local-result.png"
+        ]
+      },
+      "S09": {
+        "live": "pending · Copilot code review dan review board",
+        "localDurationSeconds": 1.31,
+        "missing": [
+          "S09-before.png",
+          "S09-01-three-sessions.png",
+          "S09-02-comments.png",
+          "S09-after.png"
+        ],
+        "screenshots": [
+          "S09-local-result.png"
+        ]
+      },
+      "S12": {
+        "live": "pending · Docs Sync dan draft docs",
+        "localDurationSeconds": 0.5,
+        "missing": [
+          "S12-before.png",
+          "S12-01-run.png",
+          "S12-after.png"
+        ],
+        "screenshots": [
+          "S12-local-result.png"
+        ]
+      },
+      "S13": {
+        "live": "Actions nyata · triage dan komentar agent pending",
+        "localDurationSeconds": 0.14,
+        "missing": [
+          "S13-before.png",
+          "S13-01-triage.png",
+          "S13-after.png"
+        ],
+        "screenshots": [
+          "S13-local-result.png",
+          "S13-ci-failure.png"
+        ]
+      },
+      "S14": {
+        "live": "pending · sesi cloud/usage; fixture aman saja",
+        "localDurationSeconds": 0.06,
+        "missing": [
+          "S14-before.png",
+          "S14-01-hooks-file.png",
+          "S14-02-usage.png",
+          "S14-03-gh-aw-permissions.png",
+          "S14-after.png"
+        ],
+        "screenshots": [
+          "S14-local-result.png"
+        ]
+      },
+      "S10": {
+        "live": "pending · CodeQL default setup belum aktif",
+        "localDurationSeconds": 0.52,
+        "missing": [
+          "S10-before.png",
+          "S10-01-assign.png",
+          "S10-02-pr-autofix.png",
+          "S10-03-alert-closed.png",
+          "S10-after.png"
+        ],
+        "screenshots": [
+          "S10-local-result.png"
+        ]
+      },
+      "S11": {
+        "live": "pending · ADR, persetujuan dan PR implementer",
+        "localDurationSeconds": 0.91,
+        "missing": [
+          "S11-before.png",
+          "S11-01-adr-pr.png",
+          "S11-02-impl-pr.png",
+          "S11-after.png"
+        ],
+        "screenshots": [
+          "S11-local-result.png"
+        ]
+      },
+      "S15": {
+        "live": "pending · fitur multi-mata-uang dan gate manusia",
+        "localDurationSeconds": 0.91,
+        "missing": [
+          "S15-01-epic.png",
+          "S15-02-breakdown.png",
+          "S15-03-adr.png",
+          "S15-04-pr.png",
+          "S15-05-ci.png",
+          "S15-06-reviews.png",
+          "S15-07-merge.png",
+          "S15-08-docs.png",
+          "S15-09-audit.png",
+          "S15-after.png"
+        ],
+        "screenshots": [
+          "S15-before.png",
+          "S15-before-annotated.png",
+          "S15-local-approval.png",
+          "S15-local-result.png"
+        ]
+      },
+      "S01": {
+        "live": "manual pending · VS Code",
+        "localDurationSeconds": 0.12,
+        "missing": [
+          "S01-before.png",
+          "S01-01-without-instructions.png",
+          "S01-02-instructions-file.png",
+          "S01-03-with-instructions.png",
+          "S01-after.png"
+        ],
+        "screenshots": [
+          "S01-local-result.png"
+        ]
+      },
+      "S02": {
+        "live": "manual pending · VS Code",
+        "localDurationSeconds": 1.48,
+        "missing": [
+          "S02-01-agent-plan.png",
+          "S02-02-files-changed.png",
+          "S02-03-tests-green.png"
+        ],
+        "screenshots": [
+          "S02-before.png",
+          "S02-after.png",
+          "S02-after-annotated.png",
+          "S02-local-result.png"
+        ]
+      },
+      "S03": {
+        "live": "manual pending · VS Code",
+        "localDurationSeconds": 0.53,
+        "missing": [
+          "S03-before.png",
+          "S03-01-skill-loaded.png",
+          "S03-after.png"
+        ],
+        "screenshots": [
+          "S03-local-result.png"
+        ]
+      },
+      "S06": {
+        "live": "manual/org · konektor belum dijalankan",
+        "localDurationSeconds": 0.79,
+        "missing": [
+          "S06-01-ticket.png",
+          "S06-02-pr.png",
+          "S06-after.png"
+        ],
+        "screenshots": [
+          "S06-before.png",
+          "S06-before-annotated.png",
+          "S06-local-result.png"
+        ]
+      }
     }
   }
 }
