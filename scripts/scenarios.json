@@ -448,13 +448,18 @@
         "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680"
       ],
       [
+        "Periksa tiga checks setelah izin diberikan",
+        "Maintainer telah menekan Approve and run untuk commit 22bef91. Percobaan 2 lulus: Jakarta 25 detik, Los Angeles 19 detik, e2e 56 detik menurut waktu masing-masing job. Dua peringatan deprekasi Actions tidak menggagalkan run.",
+        "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2"
+      ],
+      [
         "Cek selesai latihan",
-        "Pada draft #20, kirim klaim Taksi bandara Rp250.000 bertanggal besok: 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini 201. 23 tes unit lulus pada commit 22bef91. Pembanding #17 punya CI hijau; itu bukan CI #20.",
+        "Pada draft #20, klaim Taksi bandara Rp250.000 bertanggal besok ditolak 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini diterima (201). Commit 22bef91 punya bukti tes lokal serta CI GitHub Jakarta, Los Angeles dan e2e yang lulus setelah izin maintainer. Tidak ada merge.",
         "npm run demo:compare -- demo/claim-date"
       ],
       [
         "Cara merekam hasil live",
-        "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. API resmi menolak izin untuk run ini (HTTP 403). Sebelum izin, status Action required masih tanpa job. Tombol itu hanya mengizinkan tes, bukan review atau merge.",
+        "Ulangi dengan meninjau diff dulu. Jika daftar jobs masih Action required, maintainer memilih Approve and run, lalu tunggu tiga job. API izin untuk run ini pernah menolak HTTP 403. Foto di atas menunjukkan run 45655420680 percobaan 2 setelah izin; ini bukan approval PR atau merge.",
         "1. S04-06-pr-checks.png\n   Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
       ]
     ],
@@ -492,7 +497,8 @@
       "S04-retry-runtime.png",
       "S04-retry-runtime-annotated.png",
       "S04-ci-approval-required.png",
-      "S04-ci-approval-required-annotated.png"
+      "S04-ci-approval-required-annotated.png",
+      "S04-06-pr-checks-annotated.png"
     ],
     "app": {
       "after": "demo/claim-date",
@@ -505,7 +511,7 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Retry Copilot #20 berfungsi lokal; #4 tetap kosong, CI draft baru masih perlu izin",
+      "live": "Retry Copilot #20 berfungsi dan CI setelah izin lulus · #4 tetap kosong",
       "stepEvidence": [
         "S04-local-form-annotated.png",
         "S04-after-annotated.png",
@@ -517,13 +523,14 @@
         "S04-reference-ci-annotated.png",
         "S04-retry-diff-annotated.png",
         "S04-ci-approval-required-annotated.png",
-        "S04-retry-runtime-annotated.png",
+        "S04-06-pr-checks-annotated.png",
+        "S04-06-pr-checks-annotated.png",
         null
       ],
       "completion": {
-        "verifiedLearningEvidence": "S04-retry-runtime-annotated.png",
-        "learningCheck": "Pada draft #20, kirim klaim Taksi bandara Rp250.000 bertanggal besok: 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini 201. 23 tes unit lulus pada commit 22bef91. Pembanding #17 punya CI hijau; itu bukan CI #20.",
-        "livePrerequisite": "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. API resmi menolak izin untuk run ini (HTTP 403). Sebelum izin, status Action required masih tanpa job. Tombol itu hanya mengizinkan tes, bukan review atau merge.",
+        "verifiedLearningEvidence": "S04-06-pr-checks-annotated.png",
+        "learningCheck": "Pada draft #20, klaim Taksi bandara Rp250.000 bertanggal besok ditolak 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini diterima (201). Commit 22bef91 punya bukti tes lokal serta CI GitHub Jakarta, Los Angeles dan e2e yang lulus setelah izin maintainer. Tidak ada merge.",
+        "livePrerequisite": "Ulangi dengan meninjau diff dulu. Jika daftar jobs masih Action required, maintainer memilih Approve and run, lalu tunggu tiga job. API izin untuk run ini pernah menolak HTTP 403. Foto di atas menunjukkan run 45655420680 percobaan 2 setelah izin; ini bukan approval PR atau merge.",
         "targets": [
           {
             "name": "S04-06-pr-checks.png",
@@ -545,7 +552,7 @@
         {
           "actor": "Fasilitator dan CI",
           "action": "Cek hasil di commit yang sama",
-          "result": "Lokal: 400 tanpa simpan dan 201 untuk hari ini. Persetujuan menjalankan CI GitHub bukan persetujuan merge."
+          "result": "Lokal: 400 tanpa simpan dan 201 untuk hari ini. Maintainer memberi izin CI, lalu Jakarta, Los Angeles, dan e2e lulus pada 22bef91; draft tidak di-merge."
         }
       ]
     }
@@ -1172,13 +1179,23 @@
         "docs/simulations.md"
       ],
       [
+        "Bedakan scan selesai dari jumlah alert",
+        "Pada draft modul #1, CodeQL menyelesaikan analisis Actions dan JavaScript/TypeScript. Itu tidak menyatakan tidak ada temuan. Branch demo/workshop tetap 0 open, sedangkan PR punya satu warning nyata.",
+        "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014"
+      ],
+      [
+        "Tinjau warning yang benar-benar ditemukan",
+        "Di Security and quality, buka Code scanning alert #1 pada refs/pull/1/head. Warning ini soal format sel Markdown, bukan perilaku aplikasi Expense Claim. API Autofix tidak memberi saran; gunakan draft perbaikan biasa tanpa menambah permission atau menutup alert manual.",
+        "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1"
+      ],
+      [
         "Cek selesai latihan",
-        "Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.",
+        "Pada baseline lokal, Finance bulan valid 200, Manager 403, bulan tidak valid 400/REPORT_MONTH. Di GitHub, bedakan branch demo/workshop yang 0 alert dari warning #1 yang benar-benar terbuka di PR #1. CodeQL Success tidak menyatakan semua alert sudah selesai.",
         "Cocokkan hasil:\nFinance 2026-09: 200\nManager 2026-09: 403\nFinance 2026-13: 400 / REPORT_MONTH"
       ],
       [
         "Cara merekam hasil live",
-        "Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan.",
+        "Gunakan hanya alert yang sudah ada pada repo latihan. Warning #1 ada pada draft #1, bukan branch utama. Tombol Autofix tidak tampil; endpoint resmi memberi HTTP 404 No suggested fix found. Jangan memperluas scope hanya untuk demo, dan jangan menyebut draft perbaikan biasa sebagai Copilot Autofix.",
         "1. S10-01-assign.png\n   Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan.\n\n2. S10-02-pr-autofix.png\n   Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan.\n\n3. S10-03-alert-closed.png\n   Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat.\n\n4. S10-after.png\n   Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid."
       ]
     ],
@@ -1194,22 +1211,28 @@
       "S10-03-alert-closed.png",
       "S10-after.png",
       "S10-local-result.png",
-      "S10-codeql-initial-scan.png"
+      "S10-codeql-initial-scan.png",
+      "S10-reference-draft-codeql.png",
+      "S10-reference-draft-codeql-annotated.png",
+      "S10-alert-open.png",
+      "S10-alert-open-annotated.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji",
+      "live": "Warning CodeQL nyata di draft #1 · default 0 alert; Autofix tidak memberi saran",
       "stepEvidence": [
         "S10-local-result.png",
         "S10-local-result.png",
         "S10-before-annotated.png",
-        "S10-local-result.png",
+        "S10-reference-draft-codeql-annotated.png",
+        "S10-alert-open-annotated.png",
+        "S10-alert-open-annotated.png",
         null
       ],
       "completion": {
-        "verifiedLearningEvidence": "S10-local-result.png",
-        "learningCheck": "Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.",
-        "livePrerequisite": "Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan.",
+        "verifiedLearningEvidence": "S10-alert-open-annotated.png",
+        "learningCheck": "Pada baseline lokal, Finance bulan valid 200, Manager 403, bulan tidak valid 400/REPORT_MONTH. Di GitHub, bedakan branch demo/workshop yang 0 alert dari warning #1 yang benar-benar terbuka di PR #1. CodeQL Success tidak menyatakan semua alert sudah selesai.",
+        "livePrerequisite": "Gunakan hanya alert yang sudah ada pada repo latihan. Warning #1 ada pada draft #1, bukan branch utama. Tombol Autofix tidak tampil; endpoint resmi memberi HTTP 404 No suggested fix found. Jangan memperluas scope hanya untuk demo, dan jangan menyebut draft perbaikan biasa sebagai Copilot Autofix.",
         "targets": [
           {
             "name": "S10-01-assign.png",
@@ -1233,12 +1256,12 @@
         {
           "actor": "CodeQL",
           "action": "Pindai source",
-          "result": "Pemindaian asli berhasil dan melaporkan 0 alert terbuka."
+          "result": "Pemindaian utama menunjukkan 0 open; scan draft #1 selesai dan Code scanning menemukan satu warning format tabel."
         },
         {
           "actor": "AppSec",
           "action": "Tentukan apakah ada temuan yang bisa ditangani",
-          "result": "Tidak ada alert untuk Autofix. Uji batas API dan prepared statement tanpa membuat celah."
+          "result": "Tinjau warning yang ada, tanpa menanam celah. Coba API Autofix resmi; jika tidak ada saran, buat draft perbaikan biasa."
         },
         {
           "actor": "Reviewer",

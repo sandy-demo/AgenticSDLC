@@ -270,6 +270,24 @@
           "height": 1272,
           "original": "S04-ci-approval-required.png",
           "guide": "1. Baca awaiting approval: belum ada job CI. · 2. Maintainer meninjau diff lalu memilih Approve and run pada run ini. · 3. Action required bukan tes gagal. Izin ini hanya menjalankan CI, bukan review atau merge PR."
+        },
+        {
+          "name": "S04-06-pr-checks.png",
+          "source": "Screenshot nyata GitHub Actions · draft #20 · commit 22bef91 · percobaan 2",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2",
+          "alt": "CI setelah maintainer menekan Approve and run menunjukkan Success, tes dua zona waktu, dan e2e.",
+          "width": 1440,
+          "height": 1335
+        },
+        {
+          "name": "S04-06-pr-checks-annotated.png",
+          "source": "Screenshot nyata GitHub Actions · draft #20 · commit 22bef91 · percobaan 2",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2",
+          "alt": "CI setelah maintainer menekan Approve and run menunjukkan Success, tes dua zona waktu, dan e2e.",
+          "width": 1440,
+          "height": 1335,
+          "original": "S04-06-pr-checks.png",
+          "guide": "1. Status CI berubah dari Action required menjadi Success setelah maintainer mengizinkan run. · 2. Baca tanda lulus pada Jakarta dan Los Angeles. · 3. e2e juga lulus. Draft tetap draft; ini bukan persetujuan review atau merge."
         }
       ],
       "changedFiles": 0,
@@ -323,7 +341,7 @@
         }
       },
       "retryPrUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/20",
-      "currentSummary": "Draft lama #4 kosong. Copilot pada retry #20 menghasilkan empat file yang relevan, dan API serta 23 tes terverifikasi pada snapshot lokal.",
+      "currentSummary": "Draft lama #4 kosong. Retry #20 memperbaiki tanggal; API dan tes lokal terverifikasi. Maintainer mengizinkan CI, lalu ketiga job lulus pada commit 22bef91.",
       "ciApprovalExample": {
         "runUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680",
         "commit": "22bef915e08a125a26c65305127b577293e89923",
@@ -333,6 +351,30 @@
           "httpStatus": 403,
           "reason": "run is not from a fork pull request or queued by the Actions bot",
           "executed": false
+        },
+        "verifiedAfterMaintainerRun": {
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2",
+          "attempt": 2,
+          "commit": "22bef915e08a125a26c65305127b577293e89923",
+          "conclusion": "success",
+          "jobs": [
+            {
+              "name": "test (Asia/Jakarta)",
+              "conclusion": "success",
+              "seconds": 25
+            },
+            {
+              "name": "test (America/Los_Angeles)",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "e2e",
+              "conclusion": "success",
+              "seconds": 56
+            }
+          ],
+          "merged": false
         }
       }
     },
@@ -542,6 +584,63 @@
         }
       ],
       "alertListVerified": true
+    },
+    "cloudEvidence": {
+      "images": [
+        {
+          "name": "S10-reference-draft-codeql.png",
+          "source": "Screenshot nyata GitHub Actions pada draft bukti #1",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014",
+          "alt": "CodeQL pada draft #1 menampilkan Success dan dua analisis, beserta peringatan bahwa diff penuh tidak diambil.",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "S10-reference-draft-codeql-annotated.png",
+          "source": "Screenshot nyata GitHub Actions pada draft bukti #1",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014",
+          "alt": "CodeQL pada draft #1 menampilkan Success dan dua analisis, beserta peringatan bahwa diff penuh tidak diambil.",
+          "width": 1440,
+          "height": 900,
+          "original": "S10-reference-draft-codeql.png",
+          "guide": "1. Success menunjukkan scanner selesai, bukan berarti tidak ada alert. · 2. Dua job analisis selesai. · 3. Annotations mencatat batas diff pada PR besar; alert yang terukur dibaca terpisah di Code scanning."
+        },
+        {
+          "name": "S10-alert-open.png",
+          "source": "Screenshot nyata CodeQL pada draft bukti #1",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1",
+          "alt": "Alert #1 berstatus Open pada refs/pull/1/head dan menunjuk script penerbit tabel bukti.",
+          "width": 921,
+          "height": 491
+        },
+        {
+          "name": "S10-alert-open-annotated.png",
+          "source": "Screenshot nyata CodeQL pada draft bukti #1",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1",
+          "alt": "Alert #1 berstatus Open pada refs/pull/1/head dan menunjuk script penerbit tabel bukti.",
+          "width": 921,
+          "height": 491,
+          "original": "S10-alert-open.png",
+          "guide": "1. Baca Open dan ref PR: berbeda dari branch utama yang memiliki 0 open alert. · 2. Buka lokasi script. CodeQL melihat karakter pipa diganti dengan dirinya sendiri, sehingga pemisah sel Markdown belum di-escape. Tidak ada celah yang ditanam."
+        }
+      ],
+      "currentSummary": "CodeQL berhasil di branch utama dan draft. Alert format tabel #1 muncul pada ref PR #1, 0 open di branch utama. Autofix resmi tidak memberi saran."
+    },
+    "alertPractice": {
+      "alertUrl": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1",
+      "number": 1,
+      "rule": "js/identity-replacement",
+      "beforeRef": "refs/pull/1/head",
+      "beforeCommit": "a8fe8facff1ba3ba17754319d1858128001639c5",
+      "beforeOpen": 1,
+      "defaultOpen": 0,
+      "beforeScanUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014",
+      "officialAutofix": {
+        "httpStatus": 404,
+        "result": "No suggested fix found",
+        "scopesChanged": false
+      },
+      "fallbackDraftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/36"
     }
   },
   "S14": {
