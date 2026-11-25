@@ -1,12 +1,11 @@
-/** @deprecated Ganti adapter callback ini setelah kontraknya punya characterization test. */
-export function csvExport(readCsv, endpoint) {
-  return new Promise((resolve, reject) => {
-    readCsv(endpoint, (error, response, body) => {
-      if (error) return reject(error);
-      if (response?.statusCode !== 200 || typeof body !== 'string') {
-        return reject(new Error('Ekspor CSV gagal.'));
-      }
-      resolve(body);
-    });
-  });
+export async function csvExport(endpoint, fetcher = globalThis.fetch) {
+  const response = await fetcher(endpoint);
+  if (response?.status !== 200) {
+    throw new Error('Ekspor CSV gagal.');
+  }
+  const body = await response.text();
+  if (typeof body !== 'string') {
+    throw new Error('Ekspor CSV gagal.');
+  }
+  return body;
 }
