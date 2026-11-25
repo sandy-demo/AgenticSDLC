@@ -17,7 +17,7 @@ safe-outputs:
     max: 1
     title-prefix: "[docs-sync] "
     draft: true
-    base-branch: main
+    base-branch: demo/workshop
     allowed-files: ["docs/api.md"]
 timeout-minutes: 10
 max-ai-credits: 2
