@@ -1,5 +1,40 @@
 # Status workshop
 
+## Paket belajar dry-run 1: siap dipakai
+
+Mulai dari [urutan latihan](site/index.html#urutan). Di setiap skenario,
+ikuti **Langkah demo**, cocokkan **Cek selesai latihan**, lalu baca cara reset.
+Bagian yang tidak bisa dijalankan offline bisa dipelajari dengan membaca
+bukti yang tersimpan. Tidak perlu login untuk membaca modul.
+
+- **Dokumentasi:** 15 skenario, 22 halaman offline, 120 PNG (termasuk 37 dengan kotak dan nomor). Caption membedakan gambar aplikasi/GitHub, keluaran tes lokal, dan usulan. File asli tetap disimpan.
+- **Dry-run live:** belum selesai. Untuk 44 layar yang belum terekam, bagian **Cara merekam hasil live** mencatat nama file, prasyarat, letak kontrol, dan hasil yang harus benar-benar terlihat. Bukti lokal tidak menggantikan checkpoint live.
+- **Pengukuran:** C3 dan C6 mengikuti [metrik terukur](docs/metrics.json). C4 dan C5 belum punya perbandingan; angka yang tidak tersedia bukan nol. AI credits bukan tagihan atau jumlah premium requests.
+- **Validasi:** lint, 20 tes unit, 6 e2e, pengambilan ulang foto lokal dan reset aman lulus. Semua halaman diperiksa offline pada 320, 390, 768 dan 1440 px. Build ulang identik; petunjuk tetap terbaca tanpa JavaScript.
+- **Publikasi:** push sebelumnya berhasil pada `644ad60`. Paket ini hanya masuk branch bukti melalui [draft #1](https://github.com/sandy-demo/AgenticSDLC/pull/1). Repo template `sandy-demo/expense-app-full` kembali memberi HTTP 404. Tidak ada merge atau perubahan branch dasar.
+
+| Skenario | Hasil GitHub/VS Code yang diketahui | Layar belum terekam |
+|---|---|---:|
+| [S04](site/scenarios/S04.html#practice) | Contoh #17 punya diff dan CI hijau · PR Copilot #4 tetap tanpa diff | 1 |
+| [S05](site/scenarios/S05.html#practice) | Issue dan draft nyata · guardrail menolak edit; perbaikan belum ada | 2 |
+| [S07](site/scenarios/S07.html#practice) | Issue #14 dan draft #15 nyata · runner tidak mulai; dua tahap kontrak lulus lokal | 3 |
+| [S08](site/scenarios/S08.html#practice) | Bug batas diverifikasi dan dilaporkan di issue #13 oleh fasilitator · PR QA pending | 1 |
+| [S09](site/scenarios/S09.html#practice) | Tiga sesi direkam dan ringkasan fasilitator terbit · 0 komentar severity terbit | 1 |
+| [S12](site/scenarios/S12.html#practice) | Live ditunda · target draft main belum ada di GitHub | 2 |
+| [S13](site/scenarios/S13.html#practice) | Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit | 2 |
+| [S14](site/scenarios/S14.html#practice) | Fixture aman teruji · audit hanya metadata; tidak menjalankan permintaan berisiko live | 3 |
+| [S10](site/scenarios/S10.html#practice) | CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji | 4 |
+| [S11](site/scenarios/S11.html#practice) | Usulan ADR dibaca di sesi Architect · belum disetujui; tidak ada PR implementasi | 3 |
+| [S15](site/scenarios/S15.html#practice) | Manual pending · versi live perlu repo turunan dan persetujuan manusia | 10 |
+| [S01](site/scenarios/S01.html#practice) | File instruksi sudah direkam · perbandingan hasil Agent Mode belum direkam | 4 |
+| [S02](site/scenarios/S02.html#practice) | manual pending · VS Code | 3 |
+| [S03](site/scenarios/S03.html#practice) | Route baseline sudah direkam · penggunaan skill di Agent Mode belum direkam | 2 |
+| [S06](site/scenarios/S06.html#practice) | manual/org · konektor belum dijalankan | 3 |
+
+[Bukti dan sumber](docs/BEFORE-AFTER.md) · [Daftar layar](docs/screenshots/_missing.json)
+
+## Catatan fase awal (historis)
+
 | Fase | Status |
 |---|---|
 | 0 — Repo | Inisialisasi lokal. Repo tujuan `sandy-demo/AgenticSDLC` masih kosong; akun aktif tidak punya izin push. |

@@ -28,6 +28,16 @@
           "Cari empat bukti di diff",
           "Di Explorer buka .github/copilot-instructions.md. Tunjuk logger non-PII, format {code,message}, prepared statement dan test. Verifikasi pemilik bisa membaca klaimnya; pengguna lain tidak. Layar Agent Mode belum direkam.",
           "npm test"
+        ],
+        [
+          "Cek selesai latihan",
+          "Bandingkan dua ref yang sama-sama berasal dari baseline. Hasil uji awal: AGENTS.md dan .github/copilot-instructions.md ditandai D pada demo/s01-no-instructions. Baca empat aturan pada gambar bernomor. Ini cukup untuk memeriksa konteks yang diterima agent, bukan untuk menyimpulkan bahwa agent selalu menghasilkan kode lebih baik.",
+          "git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Siapkan dua checkout latihan terpisah dan Copilot Chat → Agent di VS Code. Perintah dan input harus sama; satu checkout tanpa dan satu dengan instruksi. Tinjau hasil sebelum menerima edit. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S01-before.png\n   Pada checkout tanpa instruksi, jalankan prompt “Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.” Tunjukkan Source Control. Foto baru sah kalau hasil awal benar-benar memiliki diff.\n\n2. S01-01-without-instructions.png\n   Di Source Control buka Changes lalu file yang dibuat; perlihatkan ref tanpa instruksi dan bagian yang disentuh. Jangan promosikan hasilnya sebelum tes.\n\n3. S01-03-with-instructions.png\n   Pada checkout yang memuat instruksi, kirim prompt identik. Buka Changes dan sorot batas otorisasi pemilik, error Indonesia, logging non-PII, dan tes; tandai jika ada yang tidak dibuat.\n\n4. S01-after.png\n   Buka kedua diff di split editor dan bandingkan dengan prompt yang sama. Foto bukan penilaian kualitas otomatis; bukti lulus adalah diff dan tes yang benar."
         ]
       ],
       "compare": [
@@ -49,8 +59,33 @@
         "stepEvidence": [
           "S01-02-instructions-file-annotated.png",
           "S01-01-without-instructions.png",
-          "S01-03-with-instructions.png"
-        ]
+          "S01-03-with-instructions.png",
+          "S01-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S01-local-result.png",
+          "learningCheck": "Bandingkan dua ref yang sama-sama berasal dari baseline. Hasil uji awal: AGENTS.md dan .github/copilot-instructions.md ditandai D pada demo/s01-no-instructions. Baca empat aturan pada gambar bernomor. Ini cukup untuk memeriksa konteks yang diterima agent, bukan untuk menyimpulkan bahwa agent selalu menghasilkan kode lebih baik.",
+          "livePrerequisite": "Siapkan dua checkout latihan terpisah dan Copilot Chat → Agent di VS Code. Perintah dan input harus sama; satu checkout tanpa dan satu dengan instruksi. Tinjau hasil sebelum menerima edit.",
+          "targets": [
+            {
+              "name": "S01-before.png",
+              "instruction": "Pada checkout tanpa instruksi, jalankan prompt “Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.” Tunjukkan Source Control. Foto baru sah kalau hasil awal benar-benar memiliki diff."
+            },
+            {
+              "name": "S01-01-without-instructions.png",
+              "instruction": "Di Source Control buka Changes lalu file yang dibuat; perlihatkan ref tanpa instruksi dan bagian yang disentuh. Jangan promosikan hasilnya sebelum tes."
+            },
+            {
+              "name": "S01-03-with-instructions.png",
+              "instruction": "Pada checkout yang memuat instruksi, kirim prompt identik. Buka Changes dan sorot batas otorisasi pemilik, error Indonesia, logging non-PII, dan tes; tandai jika ada yang tidak dibuat."
+            },
+            {
+              "name": "S01-after.png",
+              "instruction": "Buka kedua diff di split editor dan bandingkan dengan prompt yang sama. Foto bukan penilaian kualitas otomatis; bukti lulus adalah diff dan tes yang benar."
+            }
+          ]
+        }
       },
       "level": 1,
       "screenshotStatus": {
@@ -90,6 +125,16 @@
           "Coba Agent Mode di checkout terpisah",
           "Klik ikon Chat → Agent. Lihat rencana, buka Source Control, lalu periksa Terminal saat tes lulus. Sistem penyimpanan sudah menerima category pada baseline; jangan menambah migration tanpa memeriksa skema. Gambar versi bersih bukan hasil sesi Copilot.",
           "Tambahkan pilihan Travel, Meals, Equipment, Other pada form klaim. Periksa skema, payload, tampilan daftar, dan tes; jalankan npm test."
+        ],
+        [
+          "Cek selesai latihan",
+          "Jalankan dua ref di :3000 dan :3001. Pakai judul baru, Rp250.000, tanggal hari ini. Baseline tidak punya dropdown dan menyimpan Other. Di versi bersih pilih Perjalanan; POST 201 dan GET detail 200 mengembalikan Travel. Hentikan proses dengan Ctrl+C; jangan hanya refresh bila ingin kembali ke data seed.",
+          "npm run demo:compare -- v1-app-clean"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Bukti form memakai ref yang sudah ada, bukan hasil sesi VS Code baru. Untuk merekam Agent Mode, jalankan prompt kategori di checkout terpisah; jangan mengubah penyimpanan sebelum mengecek skema yang sudah ada. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S02-01-agent-plan.png\n   Di VS Code → Chat → Agent kirim prompt yang meminta pilihan Travel, Meals, Equipment, Other dan tes lintas file. Ambil layar ketika rencana yang nyata tampil, sebelum menilai hasilnya.\n\n2. S02-02-files-changed.png\n   Buka Source Control → Changes setelah penulisan berhenti. Tunjukkan form/payload/validasi/tes yang benar-benar berubah. Tidak perlu memaksa migrasi jika skema sudah menyimpan category.\n\n3. S02-03-tests-green.png\n   Buka terminal checkout yang sama; jalankan npm test, dan npm run e2e bila UI berubah. Foto ringkasan saat seluruh tes yang dijalankan lulus. Jangan gunakan tes dari ref lain sebagai bukti."
         ]
       ],
       "compare": [
@@ -120,8 +165,29 @@
         "stepEvidence": [
           "S02-before.png",
           "S02-after-annotated.png",
-          "S02-local-result.png"
-        ]
+          "S02-local-result.png",
+          "S02-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S02-local-result.png",
+          "learningCheck": "Jalankan dua ref di :3000 dan :3001. Pakai judul baru, Rp250.000, tanggal hari ini. Baseline tidak punya dropdown dan menyimpan Other. Di versi bersih pilih Perjalanan; POST 201 dan GET detail 200 mengembalikan Travel. Hentikan proses dengan Ctrl+C; jangan hanya refresh bila ingin kembali ke data seed.",
+          "livePrerequisite": "Bukti form memakai ref yang sudah ada, bukan hasil sesi VS Code baru. Untuk merekam Agent Mode, jalankan prompt kategori di checkout terpisah; jangan mengubah penyimpanan sebelum mengecek skema yang sudah ada.",
+          "targets": [
+            {
+              "name": "S02-01-agent-plan.png",
+              "instruction": "Di VS Code → Chat → Agent kirim prompt yang meminta pilihan Travel, Meals, Equipment, Other dan tes lintas file. Ambil layar ketika rencana yang nyata tampil, sebelum menilai hasilnya."
+            },
+            {
+              "name": "S02-02-files-changed.png",
+              "instruction": "Buka Source Control → Changes setelah penulisan berhenti. Tunjukkan form/payload/validasi/tes yang benar-benar berubah. Tidak perlu memaksa migrasi jika skema sudah menyimpan category."
+            },
+            {
+              "name": "S02-03-tests-green.png",
+              "instruction": "Buka terminal checkout yang sama; jalankan npm test, dan npm run e2e bila UI berubah. Foto ringkasan saat seluruh tes yang dijalankan lulus. Jangan gunakan tes dari ref lain sebagai bukti."
+            }
+          ]
+        }
       },
       "level": 1,
       "screenshotStatus": {
@@ -150,8 +216,8 @@
       "steps": [
         [
           "Kenali route pada baseline",
-          "Buka Code pada tag v0-baseline, lalu file berikut. Di route GET laporan, cari validasi dan peran. Ini contoh awal sebelum peserta membuat POST komentar; tidak ada klaim bahwa laporan belum punya validasi.",
-          "src/routes/reports.js"
+          "Buka src/routes/reports.js pada v0-baseline dan lihat validasi serta perannya. Untuk memeriksa titik awal endpoint komentar, mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua; cari 200 untuk detail klaim dan 404 untuk endpoint komentar yang belum ada.",
+          "$detail = curl.exe -sS -o NUL -w '%{http_code}' -H 'x-demo-user: 1' http://127.0.0.1:3000/claims/1\n$comment = curl.exe -sS -o NUL -w '%{http_code}' -H 'x-demo-user: 1' --json '{\"message\":\"Catatan latihan\"}' http://127.0.0.1:3000/claims/1/comments\n\"GET detail: $detail; POST komentar: $comment\""
         ],
         [
           "Panggil skill lewat Agent Mode",
@@ -162,6 +228,16 @@
           "Cocokkan file dan perilaku",
           "Buka Changes di Source Control dan docs/api.md berdampingan. Cari router, service, test untuk sukses dan akses ditolak, logger non-PII, dan kontrak docs. Screenshot diff hasil belum tersedia.",
           "npm test"
+        ],
+        [
+          "Cek selesai latihan",
+          "Pada baseline, GET /claims/1 sebagai pemilik memberi 200; POST komentar belum ada (404). Ini membuktikan titik awal. Jika endpoint latihan dibuat, uji akses pemilik, tolak pengguna lain sesuai kontrak yang ditulis, validasi isi, dan periksa bahwa logger hanya memuat ID atau metadata, bukan isi komentar.",
+          "Titik awal yang dicari:\nGET detail: 200; POST komentar: 404"
+        ],
+        [
+          "Cara merekam hasil live",
+          "VS Code Agent harus bisa memuat skill new-endpoint. Berikan tugas POST /claims/:id/comments pada checkout latihan. Pakai rute laporan sebagai contoh validasi yang sudah ada, bukan alasan untuk mengasumsikan endpoint komentar sudah tersedia. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S03-01-skill-loaded.png\n   Di Chat → Agent, minta POST /claims/:id/comments menggunakan skill new-endpoint. Foto saat sesi benar-benar memperlihatkan skill dimuat, bukan saat hanya mengetik nama skill.\n\n2. S03-after.png\n   Setelah edit, buka route/service dan docs/api.md berdampingan. Tunjukkan validasi pemilik, format error, logger metadata, serta jalankan tes sukses dan penolakan. Ambil hanya bila diff dan hasil tes berasal dari checkout itu."
         ]
       ],
       "compare": [
@@ -181,8 +257,25 @@
         "stepEvidence": [
           "S03-before-annotated.png",
           "S03-01-skill-loaded.png",
-          "S03-after.png"
-        ]
+          "S03-after.png",
+          "S03-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S03-local-result.png",
+          "learningCheck": "Pada baseline, GET /claims/1 sebagai pemilik memberi 200; POST komentar belum ada (404). Ini membuktikan titik awal. Jika endpoint latihan dibuat, uji akses pemilik, tolak pengguna lain sesuai kontrak yang ditulis, validasi isi, dan periksa bahwa logger hanya memuat ID atau metadata, bukan isi komentar.",
+          "livePrerequisite": "VS Code Agent harus bisa memuat skill new-endpoint. Berikan tugas POST /claims/:id/comments pada checkout latihan. Pakai rute laporan sebagai contoh validasi yang sudah ada, bukan alasan untuk mengasumsikan endpoint komentar sudah tersedia.",
+          "targets": [
+            {
+              "name": "S03-01-skill-loaded.png",
+              "instruction": "Di Chat → Agent, minta POST /claims/:id/comments menggunakan skill new-endpoint. Foto saat sesi benar-benar memperlihatkan skill dimuat, bukan saat hanya mengetik nama skill."
+            },
+            {
+              "name": "S03-after.png",
+              "instruction": "Setelah edit, buka route/service dan docs/api.md berdampingan. Tunjukkan validasi pemilik, format error, logger metadata, serta jalankan tes sukses dan penolakan. Ambil hanya bila diff dan hasil tes berasal dari checkout itu."
+            }
+          ]
+        }
       },
       "level": 1,
       "screenshotStatus": {
@@ -246,6 +339,16 @@
           "Baca hasil CI di dua zona waktu",
           "Buka Actions run pada draft #17. Pastikan Jakarta, Los Angeles, dan e2e berhasil. Bukti aplikasi lokal tetap memakai ref yang sama, demo/claim-date.",
           "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502"
+        ],
+        [
+          "Cek selesai latihan",
+          "Kirim klaim Taksi bandara Rp250.000 untuk besok pada kedua ref. Baseline menerima (201); demo/claim-date mengirim 400/CLAIM_DATE_FUTURE dan jumlah klaim tidak bertambah. Ulangi tanggal hari ini (201). Contoh draft #17 memberi diff dan CI hijau; draft Copilot #4 bukan bukti tersebut.",
+          "npm run demo:compare -- demo/claim-date"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Untuk jalur asli, perbaikan parser harus ditinjau sebelum diadopsi pada ref latihan. Lanjutkan Copilot hanya di repo/branch yang memang diizinkan. Izin menjalankan workflow berbeda dari menyetujui merge. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S04-06-pr-checks.png\n   Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
         ]
       ],
       "compare": [
@@ -298,8 +401,21 @@
           "S04-parser-draft-diff-annotated.png",
           "S04-reference-pr-annotated.png",
           "S04-reference-diff-annotated.png",
-          "S04-reference-ci-annotated.png"
-        ]
+          "S04-reference-ci-annotated.png",
+          "S04-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S04-local-result.png",
+          "learningCheck": "Kirim klaim Taksi bandara Rp250.000 untuk besok pada kedua ref. Baseline menerima (201); demo/claim-date mengirim 400/CLAIM_DATE_FUTURE dan jumlah klaim tidak bertambah. Ulangi tanggal hari ini (201). Contoh draft #17 memberi diff dan CI hijau; draft Copilot #4 bukan bukti tersebut.",
+          "livePrerequisite": "Untuk jalur asli, perbaikan parser harus ditinjau sebelum diadopsi pada ref latihan. Lanjutkan Copilot hanya di repo/branch yang memang diizinkan. Izin menjalankan workflow berbeda dari menyetujui merge.",
+          "targets": [
+            {
+              "name": "S04-06-pr-checks.png",
+              "instruction": "Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
+            }
+          ]
+        }
       },
       "level": 2,
       "screenshotStatus": {
@@ -371,6 +487,16 @@
           "Jalankan kandidat perbaikan tanpa mengubah file",
           "Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.",
           "$previousTz = $env:TZ\ntry {\nforeach ($tz in 'Asia/Jakarta','America/Los_Angeles') {\n  $env:TZ=$tz\n  @'\nimport { strict as assert } from 'node:assert';\nimport { dateKey } from './src/services/validation.js';\nconst instant = new Date('2026-10-15T01:00:00Z');\nconst parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(instant);\nconst stable = ['year','month','day'].map(key => parts.find(part => part.type === key).value).join('-');\nassert.equal(stable, '2026-10-15');\nconsole.log(JSON.stringify({ runner: process.env.TZ, before: dateKey(instant), after: stable }));\n'@ | node --input-type=module -\n}\n} finally { $env:TZ = $previousTz }"
+        ],
+        [
+          "Cek selesai latihan",
+          "Gunakan blok kandidat pada langkah sebelumnya. Input 2026-10-15T01:00Z tetap sama: fungsi lama menghasilkan 15 Oktober di Jakarta dan 14 Oktober di LA. Kandidat menetapkan zona bisnis sehingga kedua proses menghasilkan 15 Oktober. Kegagalan pada fixture lama sengaja dipertahankan.",
+          "Input 2026-10-15T01:00:00Z\nKandidat yang diperiksa: Jakarta → 2026-10-15; Los Angeles → 2026-10-15"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Fix agent masih memerlukan edit yang berfungsi dan CI yang diizinkan. Jangan menyimpulkan fixture lulus hanya dari matriks hijau kalau step Latihan S05 dilewati. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S05-02-pr-fix.png\n   Di draft fix yang benar → Files changed → buka tes tanggal. Perlihatkan waktu yang tetap dan penetapan zona eksplisit; tes yang sebelumnya gagal tidak dihapus atau dibuat skip.\n\n2. S05-after.png\n   Buka Actions run untuk commit fix; buka log test di kedua TZ. Foto hijau hanya sah bila fixture tanggal sendiri dijalankan di Jakarta dan LA atau ada dua hasil uji eksplisit yang dapat ditelusuri pada ref fix."
         ]
       ],
       "compare": [
@@ -396,8 +522,25 @@
           "S05-before.png",
           "S05-local-result.png",
           "S05-after.png",
-          "S05-local-timezone-proof-annotated.png"
-        ]
+          "S05-local-timezone-proof-annotated.png",
+          "S05-local-timezone-proof-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S05-local-timezone-proof-annotated.png",
+          "learningCheck": "Gunakan blok kandidat pada langkah sebelumnya. Input 2026-10-15T01:00Z tetap sama: fungsi lama menghasilkan 15 Oktober di Jakarta dan 14 Oktober di LA. Kandidat menetapkan zona bisnis sehingga kedua proses menghasilkan 15 Oktober. Kegagalan pada fixture lama sengaja dipertahankan.",
+          "livePrerequisite": "Fix agent masih memerlukan edit yang berfungsi dan CI yang diizinkan. Jangan menyimpulkan fixture lulus hanya dari matriks hijau kalau step Latihan S05 dilewati.",
+          "targets": [
+            {
+              "name": "S05-02-pr-fix.png",
+              "instruction": "Di draft fix yang benar → Files changed → buka tes tanggal. Perlihatkan waktu yang tetap dan penetapan zona eksplisit; tes yang sebelumnya gagal tidak dihapus atau dibuat skip."
+            },
+            {
+              "name": "S05-after.png",
+              "instruction": "Buka Actions run untuk commit fix; buka log test di kedua TZ. Foto hijau hanya sah bila fixture tanggal sendiri dijalankan di Jakarta dan LA atau ada dua hasil uji eksplisit yang dapat ditelusuri pada ref fix."
+            }
+          ]
+        }
       },
       "level": 2,
       "screenshotStatus": {
@@ -442,6 +585,16 @@
           "Tinjau perubahan dengan keyboard",
           "Di draft PR, cari file HTML pada Files changed. Versi sesudah harus punya label baru, fokus Tab terlihat, Enter tetap mengirim klaim sekali, dan draft PR tertaut ke tiket. Belum direkam.",
           "npm run e2e"
+        ],
+        [
+          "Cek selesai latihan",
+          "Buka baseline. Tekan Tab sampai tombol Submit menerima fokus lalu Enter dengan form valid. Klaim tersimpan (201) dan menunggu Manager, bukan langsung dibayar. Terjemahan label dan petunjuk di tiket tidak boleh mengubah perilaku ini. Versi organisasi belum diuji; versi Issue personal adalah opsi yang memang disebutkan skenario.",
+          "npm run demo:before"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Untuk Jira atau Teams, siapkan tenant dan konektor organisasi yang diizinkan serta tiket latihan. Jangan memakai data perusahaan asli. Jika memakai GitHub Issue personal, beri label jelas cabangnya berbeda dari integrasi organisasi. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S06-01-ticket.png\n   Di Jira atau Teams latihan, buka tiket label Submit → Ajukan Klaim dan petunjuk menunggu Manager. Foto tiket tanpa informasi perusahaan sensitif. Untuk versi personal, tangkap GitHub Issue dan tulis “versi personal” pada caption.\n\n2. S06-02-pr.png\n   Dari tiket buka tautan draft PR. Di Conversation perlihatkan referensi balik ke tiket yang benar; jangan menganggap draft Copilot lain sebagai hasil konektor.\n\n3. S06-after.png\n   Jalankan ref PR yang ditinjau. Foto tombol Ajukan Klaim dan petunjuk/tooltip saat bisa dibaca dengan fokus keyboard. Kirim data fiktif dan cek status tetap menunggu Manager."
         ]
       ],
       "compare": [
@@ -469,8 +622,29 @@
         "stepEvidence": [
           "S06-before-annotated.png",
           "S06-01-ticket.png",
-          "S06-local-result.png"
-        ]
+          "S06-local-result.png",
+          "S06-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S06-local-result.png",
+          "learningCheck": "Buka baseline. Tekan Tab sampai tombol Submit menerima fokus lalu Enter dengan form valid. Klaim tersimpan (201) dan menunggu Manager, bukan langsung dibayar. Terjemahan label dan petunjuk di tiket tidak boleh mengubah perilaku ini. Versi organisasi belum diuji; versi Issue personal adalah opsi yang memang disebutkan skenario.",
+          "livePrerequisite": "Untuk Jira atau Teams, siapkan tenant dan konektor organisasi yang diizinkan serta tiket latihan. Jangan memakai data perusahaan asli. Jika memakai GitHub Issue personal, beri label jelas cabangnya berbeda dari integrasi organisasi.",
+          "targets": [
+            {
+              "name": "S06-01-ticket.png",
+              "instruction": "Di Jira atau Teams latihan, buka tiket label Submit → Ajukan Klaim dan petunjuk menunggu Manager. Foto tiket tanpa informasi perusahaan sensitif. Untuk versi personal, tangkap GitHub Issue dan tulis “versi personal” pada caption."
+            },
+            {
+              "name": "S06-02-pr.png",
+              "instruction": "Dari tiket buka tautan draft PR. Di Conversation perlihatkan referensi balik ke tiket yang benar; jangan menganggap draft Copilot lain sebagai hasil konektor."
+            },
+            {
+              "name": "S06-after.png",
+              "instruction": "Jalankan ref PR yang ditinjau. Foto tombol Ajukan Klaim dan petunjuk/tooltip saat bisa dibaca dengan fokus keyboard. Kirim data fiktif dan cek status tetap menunggu Manager."
+            }
+          ]
+        }
       },
       "level": 2,
       "screenshotStatus": {
@@ -515,6 +689,16 @@
           "Coba kedua tahap dengan fixture lokal",
           "Salin seluruh blok ke PowerShell. Impor adapter callback yang benar-benar ada. Jalankan status 200, error transport dan 503 pada callback dan kandidat fetch. `fetch` diberi stub; tidak ada URL yang dihubungi.",
           "@'\nimport { strict as assert } from 'node:assert';\nimport { csvExport } from './src/legacy/csvExport.js';\nconst sample = 'id,amount\\n1,250000';\nconst endpoint = 'https://example.invalid/fixture.csv';\nconst transportError = new Error('transport fixture gagal');\nconst legacy = (status, error) => csvExport((url, callback) => {\n  assert.equal(url, endpoint);\n  callback(error, { statusCode: status }, sample);\n}, endpoint);\nconst candidate = async (fetchImpl, url) => {\n  const response = await fetchImpl(url);\n  if (response.status !== 200) throw new Error('Ekspor CSV gagal.');\n  return response.text();\n};\nconst modern = (status, error) => candidate(async url => {\n  assert.equal(url, endpoint);\n  if (error) throw error;\n  return new Response(sample, { status });\n}, endpoint);\nfor (const [phase, run] of [['S07a callback asli', legacy], ['S07b kandidat fetch', modern]]) {\n  assert.equal(await run(200), sample);\n  assert.equal(await run(200, transportError).catch(error => error), transportError);\n  await assert.rejects(run(503), /^Error: Ekspor CSV gagal\\.$/);\n  console.log(phase + ': 3 kontrak lulus (200, error transport, 503).');\n}\n'@ | node --input-type=module -"
+        ],
+        [
+          "Cek selesai latihan",
+          "Jalankan blok yang bisa disalin pada langkah “Coba kedua tahap”. Pada callback asli dan kandidat fetch, status 200 mengembalikan CSV, error transport diteruskan, 503 ditolak. Masing-masing lulus tiga kasus. Ini latihan kontrak tanpa jaringan; bukan bukti Copilot sudah membuat kedua draft.",
+          "Hasil uji lokal yang dicari\nS07a callback asli: 3 kontrak lulus\nS07b kandidat fetch: 3 kontrak lulus"
+        ],
+        [
+          "Cara merekam hasil live",
+          "GitHub belum memberi runner pada tugas S07a, dan percobaan ulang API masih HTTP 500. Jangan mulai migrasi live sebelum tes karakterisasi muncul dan ditinjau. Saat tersedia, gunakan ref latihan yang tetap aktif guardrail-nya. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S07-01-pr-tests.png\n   Buka draft S07a → Files changed. Harus hanya ada file tes dengan tiga kasus (200, error transport, 503), memakai stub. Foto diff dan CI/tes yang menguji adapter lama. Draft #15 masih kosong.\n\n2. S07-02-pr-migration.png\n   Buka draft S07b setelah S07a lolos. Cek base berisi tes S07a, lalu Files changed memperlihatkan transport fetch yang bisa disuntikkan. Jangan minta akses jaringan untuk tes fixture.\n\n3. S07-after.png\n   Buka Checks atau hasil tes untuk ref S07b. Foto hasil yang menunjukkan tiga kontrak yang sama lulus; coverage dan lulus tidak boleh diambil dari run yang tidak memuat tes S07a."
         ]
       ],
       "compare": [
@@ -541,8 +725,29 @@
           "S07-before-annotated.png",
           "S07a-issue-annotated.png",
           "S07a-runner-session-annotated.png",
-          "S07-local-contract-proof-annotated.png"
-        ]
+          "S07-local-contract-proof-annotated.png",
+          "S07-local-contract-proof-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S07-local-contract-proof-annotated.png",
+          "learningCheck": "Jalankan blok yang bisa disalin pada langkah “Coba kedua tahap”. Pada callback asli dan kandidat fetch, status 200 mengembalikan CSV, error transport diteruskan, 503 ditolak. Masing-masing lulus tiga kasus. Ini latihan kontrak tanpa jaringan; bukan bukti Copilot sudah membuat kedua draft.",
+          "livePrerequisite": "GitHub belum memberi runner pada tugas S07a, dan percobaan ulang API masih HTTP 500. Jangan mulai migrasi live sebelum tes karakterisasi muncul dan ditinjau. Saat tersedia, gunakan ref latihan yang tetap aktif guardrail-nya.",
+          "targets": [
+            {
+              "name": "S07-01-pr-tests.png",
+              "instruction": "Buka draft S07a → Files changed. Harus hanya ada file tes dengan tiga kasus (200, error transport, 503), memakai stub. Foto diff dan CI/tes yang menguji adapter lama. Draft #15 masih kosong."
+            },
+            {
+              "name": "S07-02-pr-migration.png",
+              "instruction": "Buka draft S07b setelah S07a lolos. Cek base berisi tes S07a, lalu Files changed memperlihatkan transport fetch yang bisa disuntikkan. Jangan minta akses jaringan untuk tes fixture."
+            },
+            {
+              "name": "S07-after.png",
+              "instruction": "Buka Checks atau hasil tes untuk ref S07b. Foto hasil yang menunjukkan tiga kontrak yang sama lulus; coverage dan lulus tidak boleh diambil dari run yang tidak memuat tes S07a."
+            }
+          ]
+        }
       },
       "level": 2,
       "screenshotStatus": {
@@ -586,7 +791,7 @@
         [
           "Tambahkan tiga nilai batas lewat fixture",
           "Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai >, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.",
-          "$env:QA_BOUNDARY='1'; npm run coverage\nRemove-Item Env:QA_BOUNDARY"
+          "$qaWas = $env:QA_BOUNDARY\ntry {\n  $env:QA_BOUNDARY='1'\n  npm run coverage\n} finally { $env:QA_BOUNDARY=$qaWas }\n# Exit nonzero pada fixture adalah hasil yang dicari; cek Rp1.000.000."
         ],
         [
           "Delegasikan laporan QA, bukan patch produksi",
@@ -597,6 +802,16 @@
           "Bandingkan laporan dengan aturan bisnis",
           "Di Issues, buka laporan nyata #13. Temuan dibuktikan oleh tes lokal. Bug ini tetap ada pada baseline dan belum ada PR yang dibuat oleh QA Engineer.",
           "https://github.com/sandy-demo/AgenticSDLC/issues/13"
+        ],
+        [
+          "Cek selesai latihan",
+          "Jalankan suite biasa, lalu suite QA batas. Reguler 20 lulus; QA 13 lulus dan satu gagal tepat Rp1.000.000. Coverage approvalRules tetap 1/1 baris di kedua run. Temuan sah justru dari salahnya nilai batas meskipun line coverage 100%; jangan memperbaiki source produksi pada tugas QA.",
+          "Cocokkan hasil yang terukur:\nReguler 20 lulus; QA 13 lulus dan 1 gagal di batas.\nCoverage baris approvalRules: 100% pada kedua suite."
+        ],
+        [
+          "Cara merekam hasil live",
+          "Issue #13 dibuat fasilitator dari tes yang benar-benar gagal, bukan laporan otomatis agent. Untuk jalur live, gunakan QA Engineer dan PR test-only pada branch latihan dengan runner siap. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S08-after.png\n   Pada draft QA nyata, buka Files changed, pastikan hanya tests/. Buka hasil coverage pada ref PR dan sorot angka approvalRules.js serta hasil tes tepat di batas. Jangan mengambil angka ilustrasi 95% dari Runbook lama sebagai hasil yang terukur."
         ]
       ],
       "compare": [
@@ -619,8 +834,21 @@
           "S08-before-annotated.png",
           "S08-local-qa-coverage-annotated.png",
           "S08-01-agent-picker.png",
-          "S08-02-bug-issue-annotated.png"
-        ]
+          "S08-02-bug-issue-annotated.png",
+          "S08-local-qa-coverage-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S08-local-qa-coverage-annotated.png",
+          "learningCheck": "Jalankan suite biasa, lalu suite QA batas. Reguler 20 lulus; QA 13 lulus dan satu gagal tepat Rp1.000.000. Coverage approvalRules tetap 1/1 baris di kedua run. Temuan sah justru dari salahnya nilai batas meskipun line coverage 100%; jangan memperbaiki source produksi pada tugas QA.",
+          "livePrerequisite": "Issue #13 dibuat fasilitator dari tes yang benar-benar gagal, bukan laporan otomatis agent. Untuk jalur live, gunakan QA Engineer dan PR test-only pada branch latihan dengan runner siap.",
+          "targets": [
+            {
+              "name": "S08-after.png",
+              "instruction": "Pada draft QA nyata, buka Files changed, pastikan hanya tests/. Buka hasil coverage pada ref PR dan sorot angka approvalRules.js serta hasil tes tepat di batas. Jangan mengambil angka ilustrasi 95% dari Runbook lama sebagai hasil yang terukur."
+            }
+          ]
+        }
       },
       "level": 3,
       "screenshotStatus": {
@@ -669,6 +897,16 @@
           "Baca ringkasan yang benar-benar terbit",
           "Di draft #2 buka Conversation, bukan di tab Agents. Bandingkan saran Copilot dengan ringkasan fasilitator. Ini catatan, bukan persetujuan untuk merge.",
           "https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066"
+        ],
+        [
+          "Cek selesai latihan",
+          "Di Conversation draft #2 bandingkan review bawaan dengan ringkasan fasilitator. Di tab Agents baca tiga sesi. Performance mengusulkan N+1 yang juga ada di baseline: satu query awal + satu per klaim, dampak latensi belum diukur. Security dan Compliance tidak mengklaim temuan tanpa diff. Jangan hitung komentar fasilitator atau status Done sebagai approval.",
+          "Temuan harus punya lokasi + bukti + dampak.\nSaran review, draf sesi, komentar terbit, dan approval adalah empat keadaan berbeda."
+        ],
+        [
+          "Cara merekam hasil live",
+          "Bila spesialis tidak menemukan masalah yang terbukti, tidak perlu membuat tiga komentar hanya untuk mengejar jumlah. Ringkasan yang sudah terbit tetap bisa dipakai belajar. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S09-02-comments.png\n   Di Conversation atau Files changed buka komentar spesialis yang benar-benar dipublikasikan setelah verifikasi. Foto lokasi, severity dan bukti. Jika tidak ada komentar yang layak, catat keputusan “tidak diterbitkan” dan pakai ringkasan fasilitator; jangan membuat temuan palsu."
         ]
       ],
       "compare": [
@@ -695,8 +933,21 @@
           "S09-local-result.png",
           "S09-01-three-sessions-annotated.png",
           "S09-performance-finding-annotated.png",
-          "S09-after-annotated.png"
-        ]
+          "S09-after-annotated.png",
+          "S09-after-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S09-after-annotated.png",
+          "learningCheck": "Di Conversation draft #2 bandingkan review bawaan dengan ringkasan fasilitator. Di tab Agents baca tiga sesi. Performance mengusulkan N+1 yang juga ada di baseline: satu query awal + satu per klaim, dampak latensi belum diukur. Security dan Compliance tidak mengklaim temuan tanpa diff. Jangan hitung komentar fasilitator atau status Done sebagai approval.",
+          "livePrerequisite": "Bila spesialis tidak menemukan masalah yang terbukti, tidak perlu membuat tiga komentar hanya untuk mengejar jumlah. Ringkasan yang sudah terbit tetap bisa dipakai belajar.",
+          "targets": [
+            {
+              "name": "S09-02-comments.png",
+              "instruction": "Di Conversation atau Files changed buka komentar spesialis yang benar-benar dipublikasikan setelah verifikasi. Foto lokasi, severity dan bukti. Jika tidak ada komentar yang layak, catat keputusan “tidak diterbitkan” dan pakai ringkasan fasilitator; jangan membuat temuan palsu."
+            }
+          ]
+        }
       },
       "level": 3,
       "screenshotStatus": {
@@ -736,13 +987,23 @@
         ],
         [
           "Uji batas API secara defensif",
-          "Buka Laporan pada aplikasi lokal. Pilih bulan 2026-09 dan klik Tampilkan (peran Finance). Untuk verifikasi Manager ditolak, jalankan tes API. Ini contoh mitigasi, bukan alert buatan.",
-          "npm test -- tests/unit/api.test.js"
+          "Mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua untuk membandingkan Finance, Manager, dan bulan tidak valid. Pemilih peran hanya untuk aplikasi fiktif di localhost.",
+          "curl.exe -sS -o NUL -w \"Finance 2026-09: %{http_code}\\n\" -H 'x-demo-user: 6' 'http://127.0.0.1:3000/reports?month=2026-09'\ncurl.exe -sS -o NUL -w \"Manager 2026-09: %{http_code}\\n\" -H 'x-demo-user: 4' 'http://127.0.0.1:3000/reports?month=2026-09'\ncurl.exe -sS -w \"\\nFinance 2026-13: %{http_code}\\n\" -H 'x-demo-user: 6' 'http://127.0.0.1:3000/reports?month=2026-13'"
         ],
         [
           "Baca CodeQL bila sudah diaktifkan",
           "GitHub → Security → Code scanning. Jika ada temuan nyata, buka alert, lihat usulan perbaikan, tinjau file, jalankan scan ulang. Jika belum ada hasil, jangan isi angka sebelum/sesudah atau membuat celah untuk demo.",
           "docs/simulations.md"
+        ],
+        [
+          "Cek selesai latihan",
+          "Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.",
+          "Cocokkan hasil:\nFinance 2026-09: 200\nManager 2026-09: 403\nFinance 2026-13: 400 / REPORT_MONTH"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S10-01-assign.png\n   Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan.\n\n2. S10-02-pr-autofix.png\n   Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan.\n\n3. S10-03-alert-closed.png\n   Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat.\n\n4. S10-after.png\n   Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid."
         ]
       ],
       "compare": [
@@ -765,8 +1026,33 @@
         "stepEvidence": [
           "S10-local-result.png",
           "S10-local-result.png",
-          "S10-before-annotated.png"
-        ]
+          "S10-before-annotated.png",
+          "S10-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S10-local-result.png",
+          "learningCheck": "Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.",
+          "livePrerequisite": "Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan.",
+          "targets": [
+            {
+              "name": "S10-01-assign.png",
+              "instruction": "Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan."
+            },
+            {
+              "name": "S10-02-pr-autofix.png",
+              "instruction": "Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan."
+            },
+            {
+              "name": "S10-03-alert-closed.png",
+              "instruction": "Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat."
+            },
+            {
+              "name": "S10-after.png",
+              "instruction": "Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid."
+            }
+          ]
+        }
       },
       "level": 3,
       "screenshotStatus": {
@@ -808,6 +1094,16 @@
           "Handoff setelah persetujuan manusia",
           "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
           "docs/adr/README.md"
+        ],
+        [
+          "Cek selesai latihan",
+          "Baca usulan ADR 0001 pada sesi Architect, lalu uji baseline yang harus dipertahankan: satu klaim besar menunggu Manager kemudian masuk Finance dan persetujuan akhir tercatat. Bandingkan dua opsi retry (konflik status vs. idempotensi) dan cek bahwa opsi pilihan menjaga peran serta satu jejak audit per perubahan. Usulan tidak berarti keputusan sudah disetujui.",
+          "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Architect perlu dapat membuat draft ADR tanpa kode produksi. Tech Lead meninjau dan memberi persetujuan sesuai aturan repo. Jangan klik Approve plan and start work jika tugasnya hanya dokumentasi usulan. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S11-01-adr-pr.png\n   Di draft Architect → Files changed buka docs/adr/0001-approval-bertahap.md. Tunjukkan konteks, opsi, keputusan, risiko, kriterianya. Foto hanya setelah file ADR benar-benar ada di draft, bukan screenshot usulan sesi.\n\n2. S11-02-impl-pr.png\n   Sesudah ADR disetujui reviewer yang berwenang, buka draft implementer yang menautkan ADR dan tes. Foto scope perubahan dan status checks yang tepat.\n\n3. S11-after.png\n   Buka hasil review keamanan defensif pada draft implementasi; cek validasi peran dan audit dari tes. Tunjukkan keputusan reviewer nyata, tanpa menyerang target atau menganggap komentar sama dengan approval."
         ]
       ],
       "compare": [
@@ -821,16 +1117,38 @@
         "S11-02-impl-pr.png",
         "S11-after.png",
         "S11-local-result.png",
-        "S11-architect-proposal.png"
+        "S11-architect-proposal.png",
+        "S11-architect-proposal-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
         "live": "Usulan ADR dibaca di sesi Architect · belum disetujui; tidak ada PR implementasi",
         "stepEvidence": [
           "S11-before.png",
-          "S11-architect-proposal.png",
-          "S11-02-impl-pr.png"
-        ]
+          "S11-architect-proposal-annotated.png",
+          "S11-02-impl-pr.png",
+          "S11-architect-proposal-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S11-architect-proposal-annotated.png",
+          "learningCheck": "Baca usulan ADR 0001 pada sesi Architect, lalu uji baseline yang harus dipertahankan: satu klaim besar menunggu Manager kemudian masuk Finance dan persetujuan akhir tercatat. Bandingkan dua opsi retry (konflik status vs. idempotensi) dan cek bahwa opsi pilihan menjaga peran serta satu jejak audit per perubahan. Usulan tidak berarti keputusan sudah disetujui.",
+          "livePrerequisite": "Architect perlu dapat membuat draft ADR tanpa kode produksi. Tech Lead meninjau dan memberi persetujuan sesuai aturan repo. Jangan klik Approve plan and start work jika tugasnya hanya dokumentasi usulan.",
+          "targets": [
+            {
+              "name": "S11-01-adr-pr.png",
+              "instruction": "Di draft Architect → Files changed buka docs/adr/0001-approval-bertahap.md. Tunjukkan konteks, opsi, keputusan, risiko, kriterianya. Foto hanya setelah file ADR benar-benar ada di draft, bukan screenshot usulan sesi."
+            },
+            {
+              "name": "S11-02-impl-pr.png",
+              "instruction": "Sesudah ADR disetujui reviewer yang berwenang, buka draft implementer yang menautkan ADR dan tes. Foto scope perubahan dan status checks yang tepat."
+            },
+            {
+              "name": "S11-after.png",
+              "instruction": "Buka hasil review keamanan defensif pada draft implementasi; cek validasi peran dan audit dari tes. Tunjukkan keputusan reviewer nyata, tanpa menyerang target atau menganggap komentar sama dengan approval."
+            }
+          ]
+        }
       },
       "level": 3,
       "screenshotStatus": {
@@ -839,7 +1157,8 @@
         "S11-02-impl-pr.png": "missing",
         "S11-after.png": "missing",
         "S11-local-result.png": "available",
-        "S11-architect-proposal.png": "available"
+        "S11-architect-proposal.png": "available",
+        "S11-architect-proposal-annotated.png": "available"
       }
     },
     "S12": {
@@ -858,8 +1177,8 @@
       "steps": [
         [
           "Bandingkan dokumen dengan respons nyata",
-          "GitHub → Code → docs/api.md → Preview. Di baris GET /claims, kontrak lama memakai items. Jalankan aplikasi lokal lalu panggil endpoint untuk membuktikan respons aktual.",
-          "npm run demo:before\ncurl.exe -fsS -H \"x-demo-user: 1\" http://127.0.0.1:3000/claims"
+          "GitHub → Code → docs/api.md → Preview. Di baris GET /claims, kontrak lama memakai items. Jalankan npm run demo:before di terminal pertama. Di terminal PowerShell kedua, tampilkan hanya nama key respons, bukan isi klaim.",
+          "$response = Invoke-RestMethod 'http://127.0.0.1:3000/claims' -Headers @{'x-demo-user'='1'}\n$response.PSObject.Properties.Name"
         ],
         [
           "Konfirmasi nilai di route, lalu koreksi dokumen",
@@ -870,6 +1189,16 @@
           "Jalankan workflow setelah prasyarat live siap",
           "Pilih Actions → Docs Sync → Run workflow (atau push perubahan latihan ke demo/docs-trigger). Periksa safe output membuat paling banyak satu draft PR yang hanya menyentuh docs/api.md. Jangan merge.",
           "gh workflow view docs-sync.lock.yml -R sandy-demo/AgenticSDLC"
+        ],
+        [
+          "Cek selesai latihan",
+          "Pada branch baseline, kolom respons docs/api.md menulis items. Buka API latihan sebagai Employee 01: GET /claims 200, key claims dengan tujuh klaim seed pada proses baru. Perubahan tutorial adalah koreksi docs dari items menjadi claims; bukan perubahan kode route.",
+          "Nama key pada kontrak lama: items\nNama key pada respons nyata: claims"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Docs Sync saat ini menunjuk main yang tidak ada. Siapkan PR konfigurasi yang mengarahkan safe-outputs create-pull-request ke demo/workshop, kompilasi gh aw compile --strict docs-sync, dan tinjau perubahan. Sebelum menyalakan pemicu, akun pemilik PAT harus boleh memakai Copilot CLI; jangan membagikan token atau melonggarkan izin. Sesudah run latihan, kembalikan variabel pemicu ke nilai awal. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S12-01-run.png\n   Setelah target serta akses siap, Actions → Docs Sync → Run workflow pada branch latihan, atau gunakan pemicu demo/docs-trigger. Foto run yang benar beserta safe_outputs. Pastikan agent bukan HTTP 403.\n\n2. S12-after.png\n   Buka draft [docs-sync] → Files changed → docs/api.md. Hanya file itu boleh berubah; kolom GET /claims sekarang claims. Cocokkan ke API 200 dan run yang membuat draft. Jangan merge sebagai bagian panduan."
         ]
       ],
       "compare": [
@@ -890,8 +1219,25 @@
         "stepEvidence": [
           "S12-before-annotated.png",
           "S12-actual-route-annotated.png",
-          "S12-after.png"
-        ]
+          "S12-after.png",
+          "S12-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S12-local-result.png",
+          "learningCheck": "Pada branch baseline, kolom respons docs/api.md menulis items. Buka API latihan sebagai Employee 01: GET /claims 200, key claims dengan tujuh klaim seed pada proses baru. Perubahan tutorial adalah koreksi docs dari items menjadi claims; bukan perubahan kode route.",
+          "livePrerequisite": "Docs Sync saat ini menunjuk main yang tidak ada. Siapkan PR konfigurasi yang mengarahkan safe-outputs create-pull-request ke demo/workshop, kompilasi gh aw compile --strict docs-sync, dan tinjau perubahan. Sebelum menyalakan pemicu, akun pemilik PAT harus boleh memakai Copilot CLI; jangan membagikan token atau melonggarkan izin. Sesudah run latihan, kembalikan variabel pemicu ke nilai awal.",
+          "targets": [
+            {
+              "name": "S12-01-run.png",
+              "instruction": "Setelah target serta akses siap, Actions → Docs Sync → Run workflow pada branch latihan, atau gunakan pemicu demo/docs-trigger. Foto run yang benar beserta safe_outputs. Pastikan agent bukan HTTP 403."
+            },
+            {
+              "name": "S12-after.png",
+              "instruction": "Buka draft [docs-sync] → Files changed → docs/api.md. Hanya file itu boleh berubah; kolom GET /claims sekarang claims. Cocokkan ke API 200 dan run yang membuat draft. Jangan merge sebagai bagian panduan."
+            }
+          ]
+        }
       },
       "level": 4,
       "screenshotStatus": {
@@ -931,7 +1277,17 @@
         [
           "Pisahkan pemicu, fixture dan gagal autentikasi",
           "Pada draft #8, CI LA gagal sesuai fixture. Setelahnya CI Fault Analysis terpicu. Issue Triage dan CI Fault Analysis sama-sama ditolak provider; jangan gunakan output kosong sebagai diagnosis berhasil.",
-          "gh run view 45567770139 --job 139046667307 --log-failed -R sandy-demo/AgenticSDLC"
+          "gh run view 45596624154 -R sandy-demo/AgenticSDLC"
+        ],
+        [
+          "Cek selesai latihan",
+          "Jalankan node --test pada fixture koneksi. Error ECONNRESET dan exit gagal adalah keluaran yang dicari, bukan gangguan produksi. Bandingkan dengan GitHub: CI di LA memang gagal karena fixture, tetapi kedua workflow Copilot berhenti pada HTTP 403. Jadi label dan komentar tidak boleh dianggap sudah terbit.",
+          "node --test tests/labs/ci-connection.mjs"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Akun dan PAT untuk Copilot CLI perlu diverifikasi admin jika 403. Jalankan hanya pada issue/pull request latihan. AGENTIC_WORKSHOP_LIVE sementara dimatikan kembali setelah run. Jangan mengganti Secret tersimpan dengan token yang lebih luas untuk mengakali penolakan. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S13-01-triage.png\n   Setelah Issue Triage selesai sukses, buka Issues → Aplikasi error yang body awalnya kosong. Foto sidebar Labels dengan needs-info dan komentar pertanyaan klarifikasi; jangan pakai label yang ditambahkan manual sebagai bukti agent.\n\n2. S13-after.png\n   Buka draft cabang demo/ci-econnreset → Conversation. Foto komentar diagnosis yang benar-benar terbit dari CI Fault Analysis dan menaut ke job LA. Pastikan komentar menyebut ECONNRESET fixture dan bukan kesalahan autentikasi agent."
         ]
       ],
       "compare": [
@@ -955,8 +1311,25 @@
         "stepEvidence": [
           "S13-ci-failure.png",
           "S13-before.png",
-          "S13-triage-controls-annotated.png"
-        ]
+          "S13-triage-controls-annotated.png",
+          "S13-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S13-local-result.png",
+          "learningCheck": "Jalankan node --test pada fixture koneksi. Error ECONNRESET dan exit gagal adalah keluaran yang dicari, bukan gangguan produksi. Bandingkan dengan GitHub: CI di LA memang gagal karena fixture, tetapi kedua workflow Copilot berhenti pada HTTP 403. Jadi label dan komentar tidak boleh dianggap sudah terbit.",
+          "livePrerequisite": "Akun dan PAT untuk Copilot CLI perlu diverifikasi admin jika 403. Jalankan hanya pada issue/pull request latihan. AGENTIC_WORKSHOP_LIVE sementara dimatikan kembali setelah run. Jangan mengganti Secret tersimpan dengan token yang lebih luas untuk mengakali penolakan.",
+          "targets": [
+            {
+              "name": "S13-01-triage.png",
+              "instruction": "Setelah Issue Triage selesai sukses, buka Issues → Aplikasi error yang body awalnya kosong. Foto sidebar Labels dengan needs-info dan komentar pertanyaan klarifikasi; jangan pakai label yang ditambahkan manual sebagai bukti agent."
+            },
+            {
+              "name": "S13-after.png",
+              "instruction": "Buka draft cabang demo/ci-econnreset → Conversation. Foto komentar diagnosis yang benar-benar terbit dari CI Fault Analysis dan menaut ke job LA. Pastikan komentar menyebut ECONNRESET fixture dan bukan kesalahan autentikasi agent."
+            }
+          ]
+        }
       },
       "level": 4,
       "screenshotStatus": {
@@ -1006,6 +1379,16 @@
           "Cek apa yang tercatat setelah uji",
           "Jalankan demo fixture, lalu lihat gambar audit beranotasi. Fokus pada kolom decision dan category. Tidak ada perintah destruktif yang dijalankan.",
           "npm run guard:demo"
+        ],
+        [
+          "Cek selesai latihan",
+          "Jalankan fixture bawaan. Hasil yang dicari adalah default pada kasus biasa dan deny untuk kategori lokasi terlindungi, tanpa benar-benar menjalankan isi fixture. Audit hanya at, phase, decision dan category. Bandingkan dengan permissions read, safe-outputs, dan cap workflow di foto sumber.",
+          "npm run guard:demo"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Gunakan fixture aman untuk pembelajaran, jangan meminta agent membaca credential atau menghapus file sungguhan. Untuk usage, pilih data sesi latihan; tutup identitas, pembayaran dan nilai sensitif sebelum menyimpan gambar. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S14-before.png\n   Tampilkan input fixture aman sebelum menjalankan demo. Pada caption tulis bahwa input hanya diperiksa, bukan operasi terhadap file sensitif sungguhan. Foto pengaturan hook saja bukan bukti eksekusi.\n\n2. S14-02-usage.png\n   Buka panel penggunaan sesi workshop (atau Usage organisasi yang diizinkan). Foto hanya jumlah/unit untuk sesi latihan. Jangan menangkap data pembayaran, token atau dashboard akun lain. Cap konfigurasi bukan biaya faktual.\n\n3. S14-after.png\n   Foto hasil nyata setelah npm run guard:demo: default dan deny serta metadata audit. Bila memakai foto fixture lokal, tulis jelas “fixture lokal”; jangan mengklaim itu bukti sesi agent cloud."
         ]
       ],
       "compare": [
@@ -1029,8 +1412,29 @@
           "S14-local-result.png",
           "S14-01-hooks-file-annotated.png",
           "S14-03-gh-aw-permissions-annotated.png",
-          "S14-local-audit-annotated.png"
-        ]
+          "S14-local-audit-annotated.png",
+          "S14-local-audit-annotated.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S14-local-audit-annotated.png",
+          "learningCheck": "Jalankan fixture bawaan. Hasil yang dicari adalah default pada kasus biasa dan deny untuk kategori lokasi terlindungi, tanpa benar-benar menjalankan isi fixture. Audit hanya at, phase, decision dan category. Bandingkan dengan permissions read, safe-outputs, dan cap workflow di foto sumber.",
+          "livePrerequisite": "Gunakan fixture aman untuk pembelajaran, jangan meminta agent membaca credential atau menghapus file sungguhan. Untuk usage, pilih data sesi latihan; tutup identitas, pembayaran dan nilai sensitif sebelum menyimpan gambar.",
+          "targets": [
+            {
+              "name": "S14-before.png",
+              "instruction": "Tampilkan input fixture aman sebelum menjalankan demo. Pada caption tulis bahwa input hanya diperiksa, bukan operasi terhadap file sensitif sungguhan. Foto pengaturan hook saja bukan bukti eksekusi."
+            },
+            {
+              "name": "S14-02-usage.png",
+              "instruction": "Buka panel penggunaan sesi workshop (atau Usage organisasi yang diizinkan). Foto hanya jumlah/unit untuk sesi latihan. Jangan menangkap data pembayaran, token atau dashboard akun lain. Cap konfigurasi bukan biaya faktual."
+            },
+            {
+              "name": "S14-after.png",
+              "instruction": "Foto hasil nyata setelah npm run guard:demo: default dan deny serta metadata audit. Bila memakai foto fixture lokal, tulis jelas “fixture lokal”; jangan mengklaim itu bukti sesi agent cloud."
+            }
+          ]
+        }
       },
       "level": 5,
       "screenshotStatus": {
@@ -1089,7 +1493,17 @@
         [
           "Berhenti sebelum merge; periksa docs dan audit sesudahnya",
           "Tahap 7–8 hanya di repo turunan dan setelah pemilik menyetujui secara eksplisit. Sesudah itu periksa Docs Sync, audit, dan demo:after dari branch hasil. Gambar di bawah hanya hasil persetujuan IDR, bukan S15-after multi-currency.",
-          "npm run demo:after -- main"
+          "# Hanya pada repo turunan, ganti REF_HASIL_MERGE dengan ref yang sudah disetujui.\nnpm run demo:after -- REF_HASIL_MERGE"
+        ],
+        [
+          "Cek selesai latihan",
+          "Pada baseline IDR, ajukan Rp1.250.000. Cek pending, keputusan Manager menghasilkan finance_review, dan keputusan Finance menghasilkan approved. Bandingkan gerbang di contoh Settings: satu approval manusia, Jakarta, Los Angeles, dan e2e. Ini latihan alur persetujuan yang teruji, bukan hasil multi-currency atau merge.",
+          "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
+        ],
+        [
+          "Cara merekam hasil live",
+          "Gunakan repo turunan latihan dari v0-baseline yang sudah diizinkan; template yang diminta belum ditemukan. Jalur multi-currency memerlukan ADR dan review manusia setelah checks. Jangan merge di repo workshop atau mengubah pengaturan agar merge lolos; izin merge nanti harus terpisah. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.",
+          "1. S15-01-epic.png\n   Di repo turunan buka Issues → epik IDR/USD/SGD. Foto scope kurs, pembulatan, nilai IDR untuk limit, dan acceptance criteria; jangan pakai issue template sebagai bukti epik dibuat.\n\n2. S15-02-breakdown.png\n   Buka hasil Planner yang menampilkan ADR, API/UI, tes, docs, dan dependensi. Foto hubungan yang benar; draf di sesi saja harus dilabeli draf.\n\n3. S15-03-adr.png\n   Buka draft ADR 0002. Tunjukkan keputusan sumber kurs, waktu kurs, pembulatan, limit dan audit, beserta persetujuan reviewer yang berwenang sebelum implementasi.\n\n4. S15-04-pr.png\n   Buka draft implementasi dan lihat issue/ADR yang ditautkan. Di Files changed periksa fakta IDR/USD/SGD serta test cases, bukan jumlah file saja.\n\n5. S15-05-ci.png\n   Di Checks buka CI pada commit PR yang sama. Foto hasil tes yang mengecek kurs, pembulatan dan limit, plus e2e; status hijau lama tidak cukup.\n\n6. S15-06-reviews.png\n   Di Conversation dan Checks verifikasi saran review, keputusan reviewer manusia, hasil CodeQL dan resolusi komentar. Review Copilot bukan persetujuan manusia.\n\n7. S15-07-merge.png\n   Hanya Tech Lead di repo turunan dengan izin merge terpisah. Rekam hulu yang mendapat persetujuan, checks lulus dan status Merged yang benar-benar terjadi; jangan memicu merge untuk sekadar menghasilkan foto.\n\n8. S15-08-docs.png\n   Sesudah perubahan diterima, buka run dan draft Docs Sync yang benar. Periksa bahwa output hanya docs yang diizinkan dan menjelaskan aturan mata uang.\n\n9. S15-09-audit.png\n   Tampilkan metadata audit pada aksi latihan yang diizinkan, tanpa argumen atau data akun. Sumber lokal harus disebut lokal; jangan merekam rahasia saat mengambil log.\n\n10. S15-after.png\n   Jalankan ref versi multi-currency yang sudah disetujui di repo turunan. Foto dropdown IDR/USD/SGD serta hasil contoh yang cocok dengan ADR. UI IDR baseline atau grafik ilustrasi bukan hasil after."
         ]
       ],
       "compare": [
@@ -1128,8 +1542,57 @@
           "S15-branch-protection-annotated.png",
           "S15-03-adr.png",
           "S15-06-reviews.png",
-          "S15-local-approval.png"
-        ]
+          "S15-local-approval.png",
+          "S15-local-result.png",
+          null
+        ],
+        "completion": {
+          "verifiedLearningEvidence": "S15-local-result.png",
+          "learningCheck": "Pada baseline IDR, ajukan Rp1.250.000. Cek pending, keputusan Manager menghasilkan finance_review, dan keputusan Finance menghasilkan approved. Bandingkan gerbang di contoh Settings: satu approval manusia, Jakarta, Los Angeles, dan e2e. Ini latihan alur persetujuan yang teruji, bukan hasil multi-currency atau merge.",
+          "livePrerequisite": "Gunakan repo turunan latihan dari v0-baseline yang sudah diizinkan; template yang diminta belum ditemukan. Jalur multi-currency memerlukan ADR dan review manusia setelah checks. Jangan merge di repo workshop atau mengubah pengaturan agar merge lolos; izin merge nanti harus terpisah.",
+          "targets": [
+            {
+              "name": "S15-01-epic.png",
+              "instruction": "Di repo turunan buka Issues → epik IDR/USD/SGD. Foto scope kurs, pembulatan, nilai IDR untuk limit, dan acceptance criteria; jangan pakai issue template sebagai bukti epik dibuat."
+            },
+            {
+              "name": "S15-02-breakdown.png",
+              "instruction": "Buka hasil Planner yang menampilkan ADR, API/UI, tes, docs, dan dependensi. Foto hubungan yang benar; draf di sesi saja harus dilabeli draf."
+            },
+            {
+              "name": "S15-03-adr.png",
+              "instruction": "Buka draft ADR 0002. Tunjukkan keputusan sumber kurs, waktu kurs, pembulatan, limit dan audit, beserta persetujuan reviewer yang berwenang sebelum implementasi."
+            },
+            {
+              "name": "S15-04-pr.png",
+              "instruction": "Buka draft implementasi dan lihat issue/ADR yang ditautkan. Di Files changed periksa fakta IDR/USD/SGD serta test cases, bukan jumlah file saja."
+            },
+            {
+              "name": "S15-05-ci.png",
+              "instruction": "Di Checks buka CI pada commit PR yang sama. Foto hasil tes yang mengecek kurs, pembulatan dan limit, plus e2e; status hijau lama tidak cukup."
+            },
+            {
+              "name": "S15-06-reviews.png",
+              "instruction": "Di Conversation dan Checks verifikasi saran review, keputusan reviewer manusia, hasil CodeQL dan resolusi komentar. Review Copilot bukan persetujuan manusia."
+            },
+            {
+              "name": "S15-07-merge.png",
+              "instruction": "Hanya Tech Lead di repo turunan dengan izin merge terpisah. Rekam hulu yang mendapat persetujuan, checks lulus dan status Merged yang benar-benar terjadi; jangan memicu merge untuk sekadar menghasilkan foto."
+            },
+            {
+              "name": "S15-08-docs.png",
+              "instruction": "Sesudah perubahan diterima, buka run dan draft Docs Sync yang benar. Periksa bahwa output hanya docs yang diizinkan dan menjelaskan aturan mata uang."
+            },
+            {
+              "name": "S15-09-audit.png",
+              "instruction": "Tampilkan metadata audit pada aksi latihan yang diizinkan, tanpa argumen atau data akun. Sumber lokal harus disebut lokal; jangan merekam rahasia saat mengambil log."
+            },
+            {
+              "name": "S15-after.png",
+              "instruction": "Jalankan ref versi multi-currency yang sudah disetujui di repo turunan. Foto dropdown IDR/USD/SGD serta hasil contoh yang cocok dengan ADR. UI IDR baseline atau grafik ilustrasi bukan hasil after."
+            }
+          ]
+        }
       },
       "level": 5,
       "screenshotStatus": {
@@ -2345,6 +2808,13 @@
             "guide": "Buka sesi Architect → View full plan. Bandingkan konflik status dan transaksi dengan kunci idempotensi. Jangan klik Approve plan and start work sampai Tech Lead meninjau. Ini bukan PR ADR.",
             "width": 966,
             "height": 819
+          },
+          {
+            "name": "S11-architect-proposal-annotated.png",
+            "original": "S11-architect-proposal.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+            "alt": "Usulan Architect S11: nomor 1 menyorot audit, 2 menyorot tes dan mitigasi, 3 menandai pilihan yang belum ditekan.",
+            "guide": "1. Baca aturan audit: satu event per transisi, retry tidak menggandakannya. · 2. Cek usulan tes batas, akses, retry, dan rollback. · 3. Kenali Approve plan and start work, tetapi jangan tekan untuk latihan membaca usulan. Tidak ada persetujuan, perubahan kode, atau PR ADR dari sesi ini."
           }
         ]
       }
@@ -2734,7 +3204,8 @@
         ],
         "cloudScreenshots": [
           "S11-before.png",
-          "S11-architect-proposal.png"
+          "S11-architect-proposal.png",
+          "S11-architect-proposal-annotated.png"
         ]
       },
       "S15": {

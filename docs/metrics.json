@@ -1191,6 +1191,13 @@
           "guide": "Buka sesi Architect → View full plan. Bandingkan konflik status dan transaksi dengan kunci idempotensi. Jangan klik Approve plan and start work sampai Tech Lead meninjau. Ini bukan PR ADR.",
           "width": 966,
           "height": 819
+        },
+        {
+          "name": "S11-architect-proposal-annotated.png",
+          "original": "S11-architect-proposal.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+          "alt": "Usulan Architect S11: nomor 1 menyorot audit, 2 menyorot tes dan mitigasi, 3 menandai pilihan yang belum ditekan.",
+          "guide": "1. Baca aturan audit: satu event per transisi, retry tidak menggandakannya. · 2. Cek usulan tes batas, akses, retry, dan rollback. · 3. Kenali Approve plan and start work, tetapi jangan tekan untuk latihan membaca usulan. Tidak ada persetujuan, perubahan kode, atau PR ADR dari sesi ini."
         }
       ]
     }
