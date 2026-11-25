@@ -125,6 +125,16 @@ Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu menin
 - **46 layar yang belum tercapai** tercatat di [daftar pending](docs/screenshots/_missing.json), bukan diganti gambar rekaan. Lanjutkan kasus edit sesudah perbaikan parser disetujui; S12/S13 juga perlu konfigurasi target dan akses Copilot CLI yang benar. S06 masih perlu konektor organisasinya; S10 tidak punya alert; S11/S15 tetap mengikuti persetujuan manusia.
 - Verifikasi ulang: 22 halaman offline pada 320, 390, 768 dan 1440 px, tanpa gambar rusak atau error konsol; dua build identik. 20 unit test, 6 e2e, lint, dan reset aman lulus.
 
+### Latihan ulang — hasil dan screenshot terbaru
+
+- Panduan 15 skenario sekarang memuat **119 PNG**; **30 berkas beranotasi** punya kotak dan nomor yang cocok dengan caption. Versi sumber asli dipertahankan. **44 layar yang belum terjadi** masih tercatat di [daftar pending](docs/screenshots/_missing.json).
+- [S04](site/scenarios/S04.html#practice): [draft pembanding #17](https://github.com/sandy-demo/AgenticSDLC/pull/17) dibuka dari `demo/claim-date`. File validasi, tes dan kontrak docs terlihat. [CI](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502) lulus di Jakarta, LA, dan e2e. Ini contoh yang berfungsi, **bukan** hasil sesi Copilot #4 yang tetap tanpa diff.
+- [S07](site/scenarios/S07.html#practice): [issue #14](https://github.com/sandy-demo/AgenticSDLC/issues/14) ditugaskan ke Copilot pada `training/hook-input`. [Draft #15](https://github.com/sandy-demo/AgenticSDLC/pull/15/files) muncul, tetapi job tidak diambil runner. Percobaan ulang API mendapat HTTP 500, jadi tidak membuat sesi baru atau menganggap hook telah diuji di cloud. S07b belum dimulai karena tes dari S07a belum ada di draft.
+- Jalur belajar lokal yang benar-benar dijalankan: [S05](site/scenarios/S05.html#practice) stabil pada 15 Oktober saat zona waktu dinyatakan; [S07](site/scenarios/S07.html#practice) callback asli dan kandidat fetch masing-masing lulus tiga kontrak tanpa jaringan; [S08](site/scenarios/S08.html#practice) 20/20 pada suite reguler, 13 lulus dan 1 gagal pada suite batas, keduanya 100% baris approvalRules. Perintah PowerShell yang bisa disalin sudah diuji.
+- [S09](site/scenarios/S09.html#practice): [ringkasan fasilitator](https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066) benar-benar terbit. Tidak ada tambahan komentar severity atau approval. [S14](site/scenarios/S14.html#practice) memakai gambar audit fixture saja; [S15](site/scenarios/S15.html#practice) menunjukkan letak aturan satu approval dan tiga checks yang sudah aktif, tanpa menyimpan perubahan pengaturan.
+- S12 masih menarget branch yang tidak ada dan S13 ditolak provider. Usulan edit workflow S12 tidak diterapkan saat tool edit menolak input; tidak ada guardrail yang dilewati. Login ulang tidak diperlukan untuk paket bukti ini. Tidak ada PR yang di-merge atau branch dasar yang diubah.
+- Pemeriksaan ulang lulus: `npm run shots:all`, `npm run site:build` (dua build identik), lint, 20 unit test, 6 e2e, dan 22 halaman offline tanpa gambar rusak atau error konsol pada empat ukuran layar.
+
 ### Reset yang sudah dicoba
 
 - **Data:** Ctrl+C di terminal server, lalu `npm run demo:before`. Pengujian menghasilkan 7 → 8 → 7 klaim. `npm run reset` aman; perintah biasa mencetak petunjuk, bukan menghentikan proses.

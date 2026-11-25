@@ -34,7 +34,7 @@
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Tanggal 2026-10-15T01:00Z masih 14 Oktober di Los Angeles.</code></pre></details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.</p>
-<div class="rail"><ol><li><strong>Buka job yang merah.</strong> GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</li><li><strong>Ulangi fixture di dua timezone.</strong> Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</li><li><strong>Minta tes yang tidak bergantung jam mesin.</strong> Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</li></ol></div></section>
+<div class="rail"><ol><li><strong>Buka job yang merah.</strong> GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</li><li><strong>Ulangi fixture di dua timezone.</strong> Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</li><li><strong>Minta tes yang tidak bergantung jam mesin.</strong> Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</li><li><strong>Jalankan kandidat perbaikan tanpa mengubah file.</strong> Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.</li></ol></div></section>
 <section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Buka job yang merah</h3></div>
     <p>GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-1">gh run view 45567770102 --job 139046666825 --log-failed -R sandy-demo/AgenticSDLC</code></pre>
     <button type="button" data-copy="cmd-S05-1" aria-label="Salin: Buka job yang merah" hidden>Salin</button></div><p class="feedback" role="status"></p>
@@ -46,7 +46,24 @@ Remove-Item Env:TZ</code></pre>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-result.png"><img src="../assets/screenshots/S05-local-result.png" alt="Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1.</figcaption></figure></div></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Minta tes yang tidak bergantung jam mesin</h3></div>
     <p>Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-3">issues/S05.md</code></pre>
     <button type="button" data-copy="cmd-S05-3" aria-label="Salin: Minta tes yang tidak bergantung jam mesin" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li></ol></section>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Jalankan kandidat perbaikan tanpa mengubah file</h3></div>
+    <p>Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-4">$previousTz = $env:TZ
+try {
+foreach ($tz in &#39;Asia/Jakarta&#39;,&#39;America/Los_Angeles&#39;) {
+  $env:TZ=$tz
+  @&#39;
+import { strict as assert } from &#39;node:assert&#39;;
+import { dateKey } from &#39;./src/services/validation.js&#39;;
+const instant = new Date(&#39;2026-10-15T01:00:00Z&#39;);
+const parts = new Intl.DateTimeFormat(&#39;en-CA&#39;, { timeZone: &#39;Asia/Jakarta&#39;, year: &#39;numeric&#39;, month: &#39;2-digit&#39;, day: &#39;2-digit&#39; }).formatToParts(instant);
+const stable = [&#39;year&#39;,&#39;month&#39;,&#39;day&#39;].map(key =&gt; parts.find(part =&gt; part.type === key).value).join(&#39;-&#39;);
+assert.equal(stable, &#39;2026-10-15&#39;);
+console.log(JSON.stringify({ runner: process.env.TZ, before: dateKey(instant), after: stable }));
+&#39;@ | node --input-type=module -
+}
+} finally { $env:TZ = $previousTz }</code></pre>
+    <button type="button" data-copy="cmd-S05-4" aria-label="Salin: Jalankan kandidat perbaikan tanpa mengubah file" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-timezone-proof-annotated.png"><img src="../assets/screenshots/S05-local-timezone-proof-annotated.png" alt="Output perbandingan hari pada dua proses dengan zona waktu berbeda." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-timezone-proof-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Dengan TZ Asia/Jakarta, fungsi lama dan kandidat sama-sama menghasilkan 2026-10-15. · 2. Dengan TZ America/Los_Angeles, hasil lokal lama 2026-10-14, tetapi kandidat zona waktu bisnis tetap 2026-10-15. Ini uji lokal, bukan PR #6.</figcaption></figure></div></li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
     <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S05-before.png"><img src="../assets/screenshots/S05-before.png" alt="Actions publik: ringkasan run CI berstatus Failure dan job LA merah." width="1440" height="1199" loading="lazy"><span>Perbesar S05-before.png</span></a><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S05-after.png</code></div></div>

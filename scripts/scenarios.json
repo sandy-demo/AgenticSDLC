@@ -202,6 +202,21 @@
         "Tinjau kenapa edit berhenti",
         "Di Conversation pilih View session. Penolakan invalid-input berasal dari format argumen edit. Lihat draft #12 untuk koreksi parser; CI draft itu lulus, tetapi perubahan belum masuk ke branch dasar. Ini bukan PR perbaikan tanggal.",
         "https://github.com/sandy-demo/AgenticSDLC/pull/12/files"
+      ],
+      [
+        "Buka pembanding yang benar-benar lulus",
+        "Bandingkan dengan draft referensi #17 dari branch demo/claim-date. Pada gambar, lihat judul Draft, Files changed, lalu Checks. Jangan menyebut draft ini sebagai keberhasilan sesi Copilot #4.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/17"
+      ],
+      [
+        "Cari nilai yang berubah di diff",
+        "Periksa validasi tanggal: tanggal setelah hari ini ditolak dengan kode CLAIM_DATE_FUTURE. Tanggal hari ini tetap lolos. Cek nama file tes dan docs, bukan hanya screenshot pesan error.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/17/files"
+      ],
+      [
+        "Baca hasil CI di dua zona waktu",
+        "Buka Actions run pada draft #17. Pastikan Jakarta, Los Angeles, dan e2e berhasil. Bukti aplikasi lokal tetap memakai ref yang sama, demo/claim-date.",
+        "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502"
       ]
     ],
     "compare": [
@@ -229,7 +244,10 @@
       "S04-pr-tabs.png",
       "S04-parser-draft-diff.png",
       "S04-checks-codeql-only.png",
-      "S04-parser-draft-ci.png"
+      "S04-parser-draft-ci.png",
+      "S04-reference-pr.png",
+      "S04-reference-diff.png",
+      "S04-reference-ci.png"
     ],
     "app": {
       "after": "demo/claim-date",
@@ -242,13 +260,16 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Draft Copilot #4 tanpa diff · perbaikan parser ada di draft #12 untuk review",
+      "live": "Contoh #17 punya diff dan CI hijau · PR Copilot #4 tetap tanpa diff",
       "stepEvidence": [
         "S04-local-form-annotated.png",
         "S04-after-annotated.png",
         "S04-local-result.png",
         "S04-pr-tabs-annotated.png",
-        "S04-parser-draft-diff-annotated.png"
+        "S04-parser-draft-diff-annotated.png",
+        "S04-reference-pr-annotated.png",
+        "S04-reference-diff-annotated.png",
+        "S04-reference-ci-annotated.png"
       ]
     }
   },
@@ -281,6 +302,11 @@
         "Minta tes yang tidak bergantung jam mesin",
         "Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.",
         "issues/S05.md"
+      ],
+      [
+        "Jalankan kandidat perbaikan tanpa mengubah file",
+        "Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.",
+        "$previousTz = $env:TZ\ntry {\nforeach ($tz in 'Asia/Jakarta','America/Los_Angeles') {\n  $env:TZ=$tz\n  @'\nimport { strict as assert } from 'node:assert';\nimport { dateKey } from './src/services/validation.js';\nconst instant = new Date('2026-10-15T01:00:00Z');\nconst parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(instant);\nconst stable = ['year','month','day'].map(key => parts.find(part => part.type === key).value).join('-');\nassert.equal(stable, '2026-10-15');\nconsole.log(JSON.stringify({ runner: process.env.TZ, before: dateKey(instant), after: stable }));\n'@ | node --input-type=module -\n}\n} finally { $env:TZ = $previousTz }"
       ]
     ],
     "compare": [
@@ -296,7 +322,8 @@
       "S05-local-result.png",
       "S05-pr-draft.png",
       "S05-pr-empty.png",
-      "S05-agent-diagnostic.png"
+      "S05-agent-diagnostic.png",
+      "S05-local-timezone-proof.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
@@ -304,7 +331,8 @@
       "stepEvidence": [
         "S05-before.png",
         "S05-local-result.png",
-        "S05-after.png"
+        "S05-after.png",
+        "S05-local-timezone-proof-annotated.png"
       ]
     }
   },
@@ -388,14 +416,19 @@
         "npm run coverage"
       ],
       [
-        "S07a: hanya characterization test",
-        "Buat draft dari issue S07a. Di Files changed cek hanya tes, belum ada perubahan di src/legacy. Catat CSV yang dipakai dan pastikan ketiga test lulus.",
-        "issues/S07a.md"
+        "S07a: tetapkan kontrak lewat issue",
+        "Buka issue #14, lihat kriteria serta Assignees. Draft #15 menarget training/hook-input. Saya tidak mengganti kode atau mengubah pengaturan untuk memaksa agent berjalan.",
+        "https://github.com/sandy-demo/AgenticSDLC/issues/14"
       ],
       [
-        "S07b: ganti callback menjadi fetch",
-        "Gunakan branch PR S07a sebagai dasar. Pindahkan pembacaan ke response.text(), pertahankan error “Ekspor CSV gagal.” untuk status bukan 200. Stub fetch agar tidak jaringan; tes S07a harus tetap sama.",
-        "issues/S07b.md"
+        "S07b: ganti transport hanya sesudah tes ada",
+        "Buka sesi S07a dan cek View run. GitHub tidak memberikan runner. Draft #15 masih kosong, jadi jangan teruskan cloud S07b dengan menganggap tes sudah ada. Pelajari kedua tahap dengan uji lokal di bawah.",
+        "https://github.com/sandy-demo/AgenticSDLC/tasks/45f9169a-d900-45a8-b01d-5a33066f7a67"
+      ],
+      [
+        "Coba kedua tahap dengan fixture lokal",
+        "Salin seluruh blok ke PowerShell. Impor adapter callback yang benar-benar ada. Jalankan status 200, error transport dan 503 pada callback dan kandidat fetch. `fetch` diberi stub; tidak ada URL yang dihubungi.",
+        "@'\nimport { strict as assert } from 'node:assert';\nimport { csvExport } from './src/legacy/csvExport.js';\nconst sample = 'id,amount\\n1,250000';\nconst endpoint = 'https://example.invalid/fixture.csv';\nconst transportError = new Error('transport fixture gagal');\nconst legacy = (status, error) => csvExport((url, callback) => {\n  assert.equal(url, endpoint);\n  callback(error, { statusCode: status }, sample);\n}, endpoint);\nconst candidate = async (fetchImpl, url) => {\n  const response = await fetchImpl(url);\n  if (response.status !== 200) throw new Error('Ekspor CSV gagal.');\n  return response.text();\n};\nconst modern = (status, error) => candidate(async url => {\n  assert.equal(url, endpoint);\n  if (error) throw error;\n  return new Response(sample, { status });\n}, endpoint);\nfor (const [phase, run] of [['S07a callback asli', legacy], ['S07b kandidat fetch', modern]]) {\n  assert.equal(await run(200), sample);\n  assert.equal(await run(200, transportError).catch(error => error), transportError);\n  await assert.rejects(run(503), /^Error: Ekspor CSV gagal\\.$/);\n  console.log(phase + ': 3 kontrak lulus (200, error transport, 503).');\n}\n'@ | node --input-type=module -"
       ]
     ],
     "compare": [
@@ -408,15 +441,21 @@
       "S07-01-pr-tests.png",
       "S07-02-pr-migration.png",
       "S07-after.png",
-      "S07-local-result.png"
+      "S07-local-result.png",
+      "S07a-issue.png",
+      "S07a-draft-blocked.png",
+      "S07a-runner-failed.png",
+      "S07a-runner-session.png",
+      "S07-local-contract-proof.png"
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-      "live": "Live ditunda · S07a perlu editor agent; S07b menunggu tes S07a",
+      "live": "Issue #14 dan draft #15 nyata · runner tidak mulai; dua tahap kontrak lulus lokal",
       "stepEvidence": [
         "S07-before-annotated.png",
-        "S07-01-pr-tests.png",
-        "S07-02-pr-migration.png"
+        "S07a-issue-annotated.png",
+        "S07a-runner-session-annotated.png",
+        "S07-local-contract-proof-annotated.png"
       ]
     }
   },
@@ -465,14 +504,15 @@
       "S08-01-agent-picker.png",
       "S08-02-bug-issue.png",
       "S08-after.png",
-      "S08-local-result.png"
+      "S08-local-result.png",
+      "S08-local-qa-coverage.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
       "live": "Bug batas diverifikasi dan dilaporkan di issue #13 oleh fasilitator · PR QA pending",
       "stepEvidence": [
-        "S08-local-result.png",
-        "S08-local-result.png",
+        "S08-before-annotated.png",
+        "S08-local-qa-coverage-annotated.png",
         "S08-01-agent-picker.png",
         "S08-02-bug-issue-annotated.png"
       ]
@@ -507,6 +547,11 @@
         "Baca hasil spesialis tanpa mengarang komentar",
         "Di tab Agents buka tugas Performance, Security, dan Compliance. Performance memberi satu draf. Dua reviewer lainnya menjelaskan bahwa diff PR tidak terverifikasi di sesi. Status Done tidak berarti ada komentar di Conversation.",
         "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo"
+      ],
+      [
+        "Baca ringkasan yang benar-benar terbit",
+        "Di draft #2 buka Conversation, bukan di tab Agents. Bandingkan saran Copilot dengan ringkasan fasilitator. Ini catatan, bukan persetujuan untuk merge.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066"
       ]
     ],
     "compare": [
@@ -528,11 +573,12 @@
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "1 review Copilot dan 3 sesi spesialis direkam · 1 draf temuan; tidak ada komentar severity terbit",
+      "live": "Tiga sesi direkam dan ringkasan fasilitator terbit · 0 komentar severity terbit",
       "stepEvidence": [
         "S09-local-result.png",
-        "S09-01-three-sessions.png",
-        "S09-performance-finding.png"
+        "S09-01-three-sessions-annotated.png",
+        "S09-performance-finding-annotated.png",
+        "S09-after-annotated.png"
       ]
     }
   },
@@ -780,6 +826,11 @@
         "Pisahkan izin dari biaya",
         "Buka pengaturan Billing → Usage pada akun latihan bila berwenang. Bandingkan dengan permissions dan safe-outputs di workflow; keduanya bukan metrik biaya. Tidak ada premium request atau biaya live yang terukur.",
         "docs/ORG-SETUP.md"
+      ],
+      [
+        "Cek apa yang tercatat setelah uji",
+        "Jalankan demo fixture, lalu lihat gambar audit beranotasi. Fokus pada kolom decision dan category. Tidak ada perintah destruktif yang dijalankan.",
+        "npm run guard:demo"
       ]
     ],
     "compare": [
@@ -802,7 +853,8 @@
       "stepEvidence": [
         "S14-local-result.png",
         "S14-01-hooks-file-annotated.png",
-        "S14-03-gh-aw-permissions-annotated.png"
+        "S14-03-gh-aw-permissions-annotated.png",
+        "S14-local-audit-annotated.png"
       ]
     }
   },
@@ -830,6 +882,11 @@
         "Coba jalur IDR yang sudah berfungsi",
         "Buka :3000. (1) Jumlah (IDR) = 1250000; judul Klaim pelatihan capstone, tanggal hari ini, lalu Submit. Buka Persetujuan → Manager 01 · Operasional → Setujui klaim itu; pilih Finance 01 → Setujui. Di Klaim saya hasilnya Disetujui.",
         "npm run demo:before"
+      ],
+      [
+        "Kenali gerbang yang tidak boleh dilewati",
+        "Lihat pengaturan branch workshop sebagai contoh untuk repo turunan. Review dan checks harus lulus di PR yang benar. Di layar ini hanya baca; tidak klik Save changes atau Merge.",
+        "https://github.com/sandy-demo/AgenticSDLC/settings/branches"
       ],
       [
         "Pecah epik, lalu tetapkan nilai sebelum coding",
@@ -866,7 +923,8 @@
       "S15-after.png",
       "S15-before-annotated.png",
       "S15-local-approval.png",
-      "S15-local-result.png"
+      "S15-local-result.png",
+      "S15-branch-protection.png"
     ],
     "app": {
       "page": "/",
@@ -879,6 +937,7 @@
       "live": "Manual pending · versi live perlu repo turunan dan persetujuan manusia",
       "stepEvidence": [
         "S15-before-annotated.png",
+        "S15-branch-protection-annotated.png",
         "S15-03-adr.png",
         "S15-06-reviews.png",
         "S15-local-approval.png"

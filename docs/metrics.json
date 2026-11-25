@@ -205,6 +205,27 @@
           "alt": "Nomor 1–3 menunjukkan Success, e2e dan matriks test pada CI draft #12.",
           "guide": "1. Di Actions, cek Status: Success pada run draft #12. · 2. Lihat e2e. · 3. Buka matriks test untuk hasil Asia/Jakarta dan America/Los_Angeles. CI ini milik parser, bukan S04 #4.",
           "original": "S04-parser-draft-ci.png"
+        },
+        {
+          "name": "S04-reference-pr-annotated.png",
+          "original": "S04-reference-pr.png",
+          "alt": "Draft #17 pada ref contoh, dengan tiga file dan Checks.",
+          "guide": "1. Buka draft contoh #17 dari demo/claim-date. Ini bukan draft Copilot #4. · 2. Files changed memperlihatkan 3 file: validasi, tes, dan docs. · 3. Buka Checks untuk hasil CI pada ref contoh.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/17"
+        },
+        {
+          "name": "S04-reference-diff-annotated.png",
+          "original": "S04-reference-diff.png",
+          "alt": "Diff pada validation.js memperlihatkan tanggal setelah hari ini ditolak.",
+          "guide": "1. Di Files changed buka src/services/validation.js. · 2. Cari kondisi claimDate > dateKey(now): tanggal besok ditolak dengan CLAIM_DATE_FUTURE; tanggal hari ini tidak memenuhi kondisi.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/17/files"
+        },
+        {
+          "name": "S04-reference-ci-annotated.png",
+          "original": "S04-reference-ci.png",
+          "alt": "Run draft contoh #17 sukses: e2e dan matriks test.",
+          "guide": "1. Status Success adalah milik draft contoh #17, bukan PR Copilot #4. · 2. Lihat job e2e. · 3. Buka dua job test, Asia/Jakarta dan America/Los_Angeles; keduanya lulus.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502"
         }
       ],
       "changedFiles": 0,
@@ -243,6 +264,19 @@
         "state": "draft",
         "checks": "success",
         "defaultHookChanged": false
+      },
+      "referenceDraft": {
+        "url": "https://github.com/sandy-demo/AgenticSDLC/pull/17",
+        "baseRef": "demo/workshop",
+        "headRef": "demo/claim-date",
+        "origin": "existing-example-not-copilot-pr-4",
+        "changedFiles": 3,
+        "ciRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502",
+        "ci": {
+          "Asia/Jakarta": "success",
+          "America/Los_Angeles": "success",
+          "e2e": "success"
+        }
       }
     }
   },
@@ -254,7 +288,11 @@
       "before": 100,
       "after": 100,
       "totalLines": 1,
-      "boundaryFailed": true
+      "boundaryFailed": true,
+      "regularPass": 20,
+      "regularFail": 0,
+      "qaPass": 13,
+      "qaFail": 1
     },
     "localDryRun": {
       "recordedAt": "2026-11-25T07:49:15.220Z",
@@ -281,6 +319,20 @@
           "name": "S08-local-result.png",
           "alt": "Output pemeriksaan lokal S08: Suite reguler; Reguler pilihan + tes batas QA.",
           "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S08-before-annotated.png",
+          "original": "S08-before.png",
+          "alt": "Suite Vitest reguler: approvalRules.js 1/1 baris dan 20 tes lulus.",
+          "guide": "1. Coverage approvalRules.js adalah 1/1 baris (100%). · 2. Suite reguler di ref panduan: 20 tes lulus. Kesimpulan ini belum menguji tepat Rp1.000.000.",
+          "source": "Output uji lokal yang dirender"
+        },
+        {
+          "name": "S08-local-qa-coverage-annotated.png",
+          "original": "S08-local-qa-coverage.png",
+          "alt": "Suite QA lokal: 13 lulus, 1 gagal, meskipun 100% baris tercakup.",
+          "guide": "1. Satu baris masih tercakup (100%), sama seperti sebelum fixture. · 2. Hasil suite QA: 13 lulus, 1 gagal. · 3. Lihat Rp1.000.000: expected false to be true. Yang terbukti gagal adalah aturan di batas, bukan pengukur coverage.",
+          "source": "Output uji lokal yang dirender"
         }
       ]
     },
@@ -412,6 +464,13 @@
           "guide": "Baca audit fixture: operasi hanya diklasifikasikan. Tidak ada argumen yang dijalankan atau disalin ke bukti.",
           "width": 1440,
           "height": 900
+        },
+        {
+          "name": "S14-local-audit-annotated.png",
+          "original": "S14-local-audit.png",
+          "alt": "Dua baris audit fixture dan penjelasan bahwa hanya metadata yang dicatat.",
+          "guide": "1. Fixture normal mendapatkan keputusan default. · 2. Fixture lokasi terlindungi mendapatkan keputusan deny tanpa menjalankan argumennya. · 3. Keluaran audit hanya waktu, fase, keputusan, kategori. Tidak ada token, isi klaim, atau log cloud yang diambil.",
+          "source": "Output uji lokal yang dirender"
         }
       ]
     },
@@ -505,7 +564,26 @@
       ]
     },
     "cloudEvidence": {
-      "status": "not-started-needs-isolated-repository-and-human-gates"
+      "status": "not-started-needs-isolated-repository-and-human-gates",
+      "images": [
+        {
+          "name": "S15-branch-protection-annotated.png",
+          "original": "S15-branch-protection.png",
+          "alt": "Pengaturan terlindungi yang ada, satu approval dan checks Jakarta, LA dan e2e.",
+          "guide": "1. Settings → Branches → demo/workshop → menu aturan → Edit untuk melihat. Require approvals aktif. · 2. Jumlah approval yang diperlukan adalah 1. · 3. Require status checks to pass before merging juga aktif. · 4. Cocokkan Jakarta, Los Angeles, dan e2e. Ini contoh guardrail, bukan review atau merge capstone; tidak ada pengaturan disimpan.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/settings/branch_protection_rules/86864245"
+        }
+      ],
+      "observedWorkshopGate": {
+        "branch": "demo/workshop",
+        "requiredApprovals": 1,
+        "checks": [
+          "test (Asia/Jakarta)",
+          "test (America/Los_Angeles)",
+          "e2e"
+        ],
+        "settingsChanged": false
+      }
     }
   },
   "S05": {
@@ -559,9 +637,31 @@
           "name": "S05-before.png",
           "alt": "Actions publik: ringkasan run CI berstatus Failure dan job LA merah.",
           "source": "Layar ringkasan GitHub Actions publik · bukan hasil revisi agent"
+        },
+        {
+          "name": "S05-local-timezone-proof-annotated.png",
+          "original": "S05-local-timezone-proof.png",
+          "alt": "Output perbandingan hari pada dua proses dengan zona waktu berbeda.",
+          "guide": "1. Dengan TZ Asia/Jakarta, fungsi lama dan kandidat sama-sama menghasilkan 2026-10-15. · 2. Dengan TZ America/Los_Angeles, hasil lokal lama 2026-10-14, tetapi kandidat zona waktu bisnis tetap 2026-10-15. Ini uji lokal, bukan PR #6.",
+          "source": "Output uji lokal yang dirender"
         }
       ],
-      "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102"
+      "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102",
+      "replay": {
+        "results": [
+          {
+            "runner": "Asia/Jakarta",
+            "before": "2026-10-15",
+            "after": "2026-10-15"
+          },
+          {
+            "runner": "America/Los_Angeles",
+            "before": "2026-10-14",
+            "after": "2026-10-15"
+          }
+        ],
+        "command": "$previousTz = $env:TZ\ntry {\nforeach ($tz in 'Asia/Jakarta','America/Los_Angeles') {\n  $env:TZ=$tz\n  @'\nimport { strict as assert } from 'node:assert';\nimport { dateKey } from './src/services/validation.js';\nconst instant = new Date('2026-10-15T01:00:00Z');\nconst parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(instant);\nconst stable = ['year','month','day'].map(key => parts.find(part => part.type === key).value).join('-');\nassert.equal(stable, '2026-10-15');\nconsole.log(JSON.stringify({ runner: process.env.TZ, before: dateKey(instant), after: stable }));\n'@ | node --input-type=module -\n}\n} finally { $env:TZ = $previousTz }"
+      }
     },
     "cloudEvidence": {
       "status": "blocked-hook-invalid-input",
@@ -609,7 +709,20 @@
     }
   },
   "S07": {
-    "runs": [],
+    "runs": [
+      {
+        "date": "2026-11-25",
+        "startedAt": "2026-11-25T15:42:41.643Z",
+        "stoppedAt": "2026-11-25T15:48:06.108Z",
+        "durationSeconds": 324,
+        "prAt": "2026-11-25T15:42:54Z",
+        "minutesToPr": 0.21,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "premiumRequests": null,
+        "outcome": "blocked-runner-not-acquired"
+      }
+    ],
     "localDryRun": {
       "recordedAt": "2026-11-25T07:49:11.883Z",
       "status": "verified-local",
@@ -635,11 +748,25 @@
           "name": "S07-local-result.png",
           "alt": "Output pemeriksaan lokal S07: Kontrak callback terkunci; Kontrak sama pada percobaan fetch.",
           "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S07-local-contract-proof-annotated.png",
+          "original": "S07-local-contract-proof.png",
+          "alt": "Dua variasi adapter lulus tiga kontrak yang sama di lokal.",
+          "guide": "1. S07a: jalankan tiga kontrak pada callback asli. · 2. S07b: ulangi input dan ekspektasi yang sama pada kandidat fetch dengan stub. Tidak ada panggilan jaringan atau PR migrasi dari eksekusi ini.",
+          "source": "Output uji lokal yang dirender"
         }
-      ]
+      ],
+      "replay": {
+        "results": [
+          "S07a callback asli: 3 kontrak lulus (200, error transport, 503).",
+          "S07b kandidat fetch: 3 kontrak lulus (200, error transport, 503)."
+        ],
+        "command": "@'\nimport { strict as assert } from 'node:assert';\nimport { csvExport } from './src/legacy/csvExport.js';\nconst sample = 'id,amount\\n1,250000';\nconst endpoint = 'https://example.invalid/fixture.csv';\nconst transportError = new Error('transport fixture gagal');\nconst legacy = (status, error) => csvExport((url, callback) => {\n  assert.equal(url, endpoint);\n  callback(error, { statusCode: status }, sample);\n}, endpoint);\nconst candidate = async (fetchImpl, url) => {\n  const response = await fetchImpl(url);\n  if (response.status !== 200) throw new Error('Ekspor CSV gagal.');\n  return response.text();\n};\nconst modern = (status, error) => candidate(async url => {\n  assert.equal(url, endpoint);\n  if (error) throw error;\n  return new Response(sample, { status });\n}, endpoint);\nfor (const [phase, run] of [['S07a callback asli', legacy], ['S07b kandidat fetch', modern]]) {\n  assert.equal(await run(200), sample);\n  assert.equal(await run(200, transportError).catch(error => error), transportError);\n  await assert.rejects(run(503), /^Error: Ekspor CSV gagal\\.$/);\n  console.log(phase + ': 3 kontrak lulus (200, error transport, 503).');\n}\n'@ | node --input-type=module -"
+      }
     },
     "cloudEvidence": {
-      "status": "not-started-edit-prerequisite",
+      "status": "blocked-runner-not-acquired",
       "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review.",
       "images": [
         {
@@ -648,8 +775,44 @@
           "alt": "Dua kotak menunjukkan file adapter CSV dan kode berbasis callback.",
           "guide": "1. Di Code buka src → legacy → csvExport.js. · 2. Cari readCsv dengan callback. Catat tiga kontrak: CSV dari status 200, error transport, dan error untuk status bukan 200. Belum ada dua PR migrasi dari agent.",
           "original": "S07-before.png"
+        },
+        {
+          "name": "S07a-issue-annotated.png",
+          "original": "S07a-issue.png",
+          "alt": "Issue S07a #14 ditugaskan ke Copilot dengan kriteria tes saja.",
+          "guide": "1. Issues → #14, pastikan judul S07a (tes karakterisasi). · 2. Baca Acceptance criteria: tiga kasus, transport dummy, tidak menyentuh produksi. · 3. Assignees menampilkan Copilot; assignment bukan bukti tes sudah ditulis.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/issues/14"
+        },
+        {
+          "name": "S07a-draft-blocked-annotated.png",
+          "original": "S07a-draft-blocked.png",
+          "alt": "Draft #15 tidak berisi diff untuk latihan S07a.",
+          "guide": "1. Buka draft #15 dari issue. · 2. Klik Files changed. Angkanya 0. · 3. No changes to show: belum ada tes baru yang bisa diteruskan ke S07b.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/15/files"
+        },
+        {
+          "name": "S07a-runner-failed-annotated.png",
+          "original": "S07a-runner-failed.png",
+          "alt": "Actions memperlihatkan run Copilot S07a gagal.",
+          "guide": "1. Di Actions buka Running Copilot cloud agent. · 2. Status Failure ada di ringkasan. · 3. Job copilot tidak memperoleh runner. Ini berbeda dari tes CSV yang gagal.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648297381"
+        },
+        {
+          "name": "S07a-runner-session-annotated.png",
+          "original": "S07a-runner-session.png",
+          "alt": "Sesi S07a menyatakan job tidak diambil oleh runner.",
+          "guide": "1. Lihat sesi berstatus Failed. · 2. Pesan menyatakan job tidak diambil runner. Belum sampai tahap menguji guardrail atau kode. · 3. Klik View run untuk melihat run yang terkait.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/45f9169a-d900-45a8-b01d-5a33066f7a67"
         }
-      ]
+      ],
+      "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/14",
+      "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/15",
+      "agentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648297381",
+      "baseRef": "training/hook-input",
+      "changedFiles": 0,
+      "ranTests": false,
+      "retryHttpStatus": 500,
+      "followUpMigrationStarted": false
     }
   },
   "S09": {
@@ -776,10 +939,33 @@
           "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/8f8b0623-2064-4817-9418-a1a856331833",
           "alt": "Sesi Compliance Reviewer tidak mengklaim perubahan audit tanpa bukti diff.",
           "guide": "Pada Task activity Compliance, baca alasan tidak mengirim komentar severity. Jangan menyalin dugaan ke PR."
+        },
+        {
+          "name": "S09-01-three-sessions-annotated.png",
+          "original": "S09-01-three-sessions.png",
+          "alt": "Tiga kotak menandai judul tugas spesialis yang benar-benar tercatat.",
+          "guide": "1. Security: keterbatasan bukti akses dan logging, bukan temuan palsu. · 2. Compliance: periksa hasil audit, jangan nilai regulasi dari snapshot saja. · 3. Performance: buka draf N+1, lalu cek bukti pada diff.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo"
+        },
+        {
+          "name": "S09-performance-finding-annotated.png",
+          "original": "S09-performance-finding.png",
+          "alt": "Draf Severity 3 menunjukkan query per klaim, maksimum 101, latensi belum diukur.",
+          "guide": "1. Lihat judul [SEV-3] pada sesi, bukan komentar di PR. · 2. Baca pola 1 + N query, maksimum 101 dengan LIMIT 100. · 3. Latensinya belum diukur; pola sudah ada di baseline sehingga tidak terbukti sebagai regresi PR.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/b72ba60b-f3cf-45dc-9b36-987b0ac625c5"
+        },
+        {
+          "name": "S09-after-annotated.png",
+          "original": "S09-after.png",
+          "alt": "Percakapan draft #2 berisi komentar review bawaan dan ringkasan fasilitator terbit.",
+          "guide": "1. Approval recommended adalah saran review bawaan, bukan approval manusia. · 2. Baca Ringkasan fasilitator S09 yang dipublikasikan. Tidak ada tiga komentar severity atau merge.",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066"
         }
       ],
       "reviewerDraftsRead": true,
-      "observedSeverityDrafts": 1
+      "observedSeverityDrafts": 1,
+      "facilitatorRecapUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066",
+      "facilitatorRecapCount": 1
     }
   },
   "S12": {
