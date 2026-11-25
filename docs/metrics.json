@@ -622,9 +622,27 @@
           "height": 491,
           "original": "S10-alert-open.png",
           "guide": "1. Baca Open dan ref PR: berbeda dari branch utama yang memiliki 0 open alert. · 2. Buka lokasi script. CodeQL melihat karakter pipa diganti dengan dirinya sendiri, sehingga pemisah sel Markdown belum di-escape. Tidak ada celah yang ditanam."
+        },
+        {
+          "name": "S10-remediation-diff.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/36/files",
+          "source": "Screenshot nyata GitHub Files changed · perbaikan biasa draft #36",
+          "alt": "Draft #36 mengubah formatter Markdown dan menambah regresi satu sel untuk pipa dan newline.",
+          "width": 1440,
+          "height": 1401
+        },
+        {
+          "name": "S10-remediation-diff-annotated.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/36/files",
+          "source": "Screenshot nyata GitHub Files changed · perbaikan biasa draft #36",
+          "alt": "Draft #36 mengubah formatter Markdown dan menambah regresi satu sel untuk pipa dan newline.",
+          "width": 1440,
+          "height": 1401,
+          "original": "S10-remediation-diff.png",
+          "guide": "1. Pastikan hanya formatter dan unit test. · 2. Baca escape pipa yang menambahkan backslash untuk tabel Markdown. · 3. Tes input dengan pipa dan newline menjaga satu sel. Ini draft perbaikan biasa, bukan PR dari tombol Autofix."
         }
       ],
-      "currentSummary": "CodeQL berhasil di branch utama dan draft. Alert format tabel #1 muncul pada ref PR #1, 0 open di branch utama. Autofix resmi tidak memberi saran."
+      "currentSummary": "Alert format tabel #1 muncul pada ref PR #1. Autofix resmi tidak memberi saran; biasa diperbaiki lewat draft #36 dan diuji terhadap baris Markdown nyata. Scan ulang membuktikan hasil secara terpisah."
     },
     "alertPractice": {
       "alertUrl": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1",
@@ -640,7 +658,14 @@
         "result": "No suggested fix found",
         "scopesChanged": false
       },
-      "fallbackDraftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/36"
+      "fallbackDraftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/36",
+      "verifiedRepair": {
+        "draftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/36",
+        "sourceCommit": "83fd87122d73bfd3072a3b940b1b048ba5f17e48",
+        "focusedTestsPassed": 1,
+        "markdownIntegration": true,
+        "autofix": false
+      }
     }
   },
   "S14": {

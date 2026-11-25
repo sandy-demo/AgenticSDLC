@@ -1189,6 +1189,11 @@
         "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1"
       ],
       [
+        "Uji perbaikan biasa sebelum memindai lagi",
+        "Draft #36 memperbaiki formatter dan menambah satu regresi. Tes fokus lulus. Saya juga memeriksa baris laporan yang benar-benar dihasilkan: CI | e2e tetap satu sel meski input awal berisi newline. Jalur ini berbeda dari Copilot Autofix.",
+        "npm test -- workshop-evidence.test.js"
+      ],
+      [
         "Cek selesai latihan",
         "Pada baseline lokal, Finance bulan valid 200, Manager 403, bulan tidak valid 400/REPORT_MONTH. Di GitHub, bedakan branch demo/workshop yang 0 alert dari warning #1 yang benar-benar terbuka di PR #1. CodeQL Success tidak menyatakan semua alert sudah selesai.",
         "Cocokkan hasil:\nFinance 2026-09: 200\nManager 2026-09: 403\nFinance 2026-13: 400 / REPORT_MONTH"
@@ -1215,17 +1220,20 @@
       "S10-reference-draft-codeql.png",
       "S10-reference-draft-codeql-annotated.png",
       "S10-alert-open.png",
-      "S10-alert-open-annotated.png"
+      "S10-alert-open-annotated.png",
+      "S10-remediation-diff.png",
+      "S10-remediation-diff-annotated.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "Warning CodeQL nyata di draft #1 · default 0 alert; Autofix tidak memberi saran",
+      "live": "Warning CodeQL nyata di draft #1 · koreksi format teruji lokal, menunggu scan ulang",
       "stepEvidence": [
         "S10-local-result.png",
         "S10-local-result.png",
         "S10-before-annotated.png",
         "S10-reference-draft-codeql-annotated.png",
         "S10-alert-open-annotated.png",
+        "S10-remediation-diff-annotated.png",
         "S10-alert-open-annotated.png",
         null
       ],
@@ -1266,7 +1274,7 @@
         {
           "actor": "Reviewer",
           "action": "Cek ulang bila ada perbaikan nyata",
-          "result": "Bandingkan sebelum/sesudah hanya jika kedua hasil dan alert yang relevan terukur."
+          "result": "Perbaikan biasa telah diuji pada tabel yang dihasilkan. Baru bandingkan jumlah alert setelah CodeQL memindai ulang ref yang sama."
         }
       ]
     }
