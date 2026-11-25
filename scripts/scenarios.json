@@ -219,7 +219,8 @@
       "S04-local-result.png",
       "S04-agent-actions.png",
       "S04-ci-approval-pending.png",
-      "S04-feedback-request.png"
+      "S04-feedback-request.png",
+      "S04-hook-parser.png"
     ],
     "app": {
       "after": "demo/claim-date",
@@ -555,7 +556,8 @@
       "S10-02-pr-autofix.png",
       "S10-03-alert-closed.png",
       "S10-after.png",
-      "S10-local-result.png"
+      "S10-local-result.png",
+      "S10-codeql-initial-scan.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",

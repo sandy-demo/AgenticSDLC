@@ -246,7 +246,8 @@
         "S04-local-result.png",
         "S04-agent-actions.png",
         "S04-ci-approval-pending.png",
-        "S04-feedback-request.png"
+        "S04-feedback-request.png",
+        "S04-hook-parser.png"
       ],
       "app": {
         "after": "demo/claim-date",
@@ -283,7 +284,8 @@
         "S04-local-result.png": "available",
         "S04-agent-actions.png": "available",
         "S04-ci-approval-pending.png": "available",
-        "S04-feedback-request.png": "available"
+        "S04-feedback-request.png": "available",
+        "S04-hook-parser.png": "available"
       }
     },
     "S05": {
@@ -644,7 +646,8 @@
         "S10-02-pr-autofix.png",
         "S10-03-alert-closed.png",
         "S10-after.png",
-        "S10-local-result.png"
+        "S10-local-result.png",
+        "S10-codeql-initial-scan.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
@@ -662,7 +665,8 @@
         "S10-02-pr-autofix.png": "missing",
         "S10-03-alert-closed.png": "missing",
         "S10-after.png": "missing",
-        "S10-local-result.png": "available"
+        "S10-local-result.png": "available",
+        "S10-codeql-initial-scan.png": "available"
       }
     },
     "S11": {
@@ -900,9 +904,9 @@
       "level": 5,
       "screenshotStatus": {
         "S14-before.png": "missing",
-        "S14-01-hooks-file.png": "missing",
+        "S14-01-hooks-file.png": "available",
         "S14-02-usage.png": "missing",
-        "S14-03-gh-aw-permissions.png": "missing",
+        "S14-03-gh-aw-permissions.png": "available",
         "S14-after.png": "missing",
         "S14-local-result.png": "available"
       }
@@ -1167,6 +1171,14 @@
             "alt": "Timeline setelah sesi revisi selesai. Tidak ada commit perubahan, jadi ini bukti upaya revisi, bukan perbaikan.",
             "width": 1440,
             "height": 1363
+          },
+          {
+            "name": "S04-hook-parser.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/scripts/hooks/policy.mjs#L13",
+            "alt": "File policy.mjs di GitHub; baris 13 memanggil JSON.parse pada argumen alat edit.",
+            "guide": "Buka Code → scripts → hooks → policy.mjs. Lihat baris 13: argumen berbentuk teks langsung diproses sebagai JSON. Ini penyebab penolakan edit, bukan letak bug tanggal.",
+            "width": 1440,
+            "height": 1517
           }
         ],
         "changedFiles": 0,
@@ -1277,7 +1289,17 @@
       "preflight": {
         "scanUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587014329",
         "defaultSetup": "configured",
-        "openAlerts": 0
+        "openAlerts": 0,
+        "images": [
+          {
+            "name": "S10-codeql-initial-scan.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587014329",
+            "alt": "Ringkasan CodeQL Setup berstatus Success; kedua job Analyze selesai.",
+            "guide": "Buka Actions → CodeQL → CodeQL Setup #1. Pastikan dua job Analyze hijau. API melaporkan 0 alert terbuka; screenshot ini tidak menunjukkan autofix atau hasil sesudah perbaikan.",
+            "width": 1440,
+            "height": 832
+          }
+        ]
       }
     },
     "S14": {
@@ -1307,6 +1329,27 @@
             "name": "S14-local-result.png",
             "alt": "Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      },
+      "cloudEvidence": {
+        "status": "public-configuration-only",
+        "images": [
+          {
+            "name": "S14-01-hooks-file.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/hooks/guardrails.json#L7",
+            "alt": "guardrails.json menampilkan preToolUse yang memanggil policy.mjs sebelum alat berjalan.",
+            "guide": "Buka Code → .github → hooks → guardrails.json. Pada preToolUse, lihat panggilan ke policy.mjs dengan mode pre. Jangan mengubah file untuk melihat cara kerja hook.",
+            "width": 1440,
+            "height": 1000
+          },
+          {
+            "name": "S14-03-gh-aw-permissions.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/workflows/docs-sync.md?plain=1",
+            "alt": "Tampilan Code pada docs-sync.md: contents read, safe-outputs, dan max-ai-credits.",
+            "guide": "Buka Code → .github → workflows → docs-sync.md, lalu pilih tab Code. Lihat contents: read (izin baca), safe-outputs (maksimal satu draft PR khusus docs/api.md), dan max-ai-credits: 2 (batas yang disetel, bukan biaya aktual).",
+            "width": 1440,
+            "height": 1000
           }
         ]
       }
@@ -1860,7 +1903,8 @@
           "S04-ci-approval-pending.png",
           "S04-feedback-request.png",
           "S04-05-pr-files.png",
-          "S04-07-revision.png"
+          "S04-07-revision.png",
+          "S04-hook-parser.png"
         ]
       },
       "S05": {
@@ -1952,13 +1996,15 @@
         "localDurationSeconds": 0.06,
         "missing": [
           "S14-before.png",
-          "S14-01-hooks-file.png",
           "S14-02-usage.png",
-          "S14-03-gh-aw-permissions.png",
           "S14-after.png"
         ],
         "screenshots": [
           "S14-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S14-01-hooks-file.png",
+          "S14-03-gh-aw-permissions.png"
         ]
       },
       "S10": {
@@ -1973,6 +2019,9 @@
         ],
         "screenshots": [
           "S10-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S10-codeql-initial-scan.png"
         ]
       },
       "S11": {
