@@ -115,6 +115,16 @@ Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu menin
 - `npm run lint`, `npm test` (20 tes), `npm run e2e` (6 tes), `npm run shots:all`, dan `npm run site:build` lulus. Dua build menghasilkan file identik.
 - C3 dan C6 mengikuti pengukuran yang tersedia. C4 tidak punya hasil sesudah Autofix; C5 tidak punya durasi capstone live. Angka yang tidak tersedia tidak diisi dengan nol.
 
+### Lanjutan modul: langkah GitHub dengan nomor
+
+- Panduan sekarang memuat **90 PNG**. Ada **14 gambar GitHub beranotasi** dengan penjelasan bernomor di samping gambar; versi asli tetap disimpan. Coba [S04](site/scenarios/S04.html#practice), [S08](site/scenarios/S08.html#practice), [S12](site/scenarios/S12.html#practice), dan [S14](site/scenarios/S14.html#s14-controls).
+- [Draft #12](https://github.com/sandy-demo/AgenticSDLC/pull/12/files) memperbaiki parser guardrail pada branch `training/hook-input`. Fixture memverifikasi penolakan input rusak dan akses lokasi terlindungi tetap berlaku. [CI draft](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45641962687) lulus di kedua zona waktu dan e2e; CodeQL juga lulus. Belum di-review/merge, sehingga hook aktif dan draft tanggal/CI masih belum berubah.
+- S08: uji batas lokal menghasilkan dua kasus lulus dan satu gagal tepat Rp1.000.000; [Issue #13](https://github.com/sandy-demo/AgenticSDLC/issues/13) melaporkan temuan oleh fasilitator. Ini bukan PR atau komentar dari QA Engineer.
+- S09: sesi terautentikasi menunjukkan satu draf Performance `[SEV-3]`. Security dan Compliance tidak menyatakan temuan yang tidak terbukti. Tidak ada komentar severity terbit. Tampilan tiga sesi spesialis berjumlah 16,9 AI credits dan dicatat di C6 (bukan tagihan).
+- S01 dan S03 sekarang punya layar file sumber di GitHub; hasil percakapan atau perubahan Agent Mode masih pending. S07 punya bukti adapter callback yang asli. S12 punya dua layar sesuai sumber, `items` di dokumen dan `claims` di route; workflow belum berhasil menghasilkan draft.
+- **46 layar yang belum tercapai** tercatat di [daftar pending](docs/screenshots/_missing.json), bukan diganti gambar rekaan. Lanjutkan kasus edit sesudah perbaikan parser disetujui; S12/S13 juga perlu konfigurasi target dan akses Copilot CLI yang benar. S06 masih perlu konektor organisasinya; S10 tidak punya alert; S11/S15 tetap mengikuti persetujuan manusia.
+- Verifikasi ulang: 22 halaman offline pada 320, 390, 768 dan 1440 px, tanpa gambar rusak atau error konsol; dua build identik. 20 unit test, 6 e2e, lint, dan reset aman lulus.
+
 ### Reset yang sudah dicoba
 
 - **Data:** Ctrl+C di terminal server, lalu `npm run demo:before`. Pengujian menghasilkan 7 → 8 → 7 klaim. `npm run reset` aman; perintah biasa mencetak petunjuk, bukan menghentikan proses.

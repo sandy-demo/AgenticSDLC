@@ -14,8 +14,8 @@
     "solution": "Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.",
     "steps": [
       [
-        "Bandingkan dua checkout",
-        "Dari terminal, bandingkan v0-baseline dengan demo/s01-no-instructions. Hasil D berarti file hanya hilang pada branch latihan, bukan pada baseline.",
+        "Temukan instruksi repo",
+        "Di tab Code, cek branch demo/workshop dan buka .github/copilot-instructions.md. Gambar menunjukkan empat aturan yang akan kamu cari di hasil agent. Untuk membandingkan file yang dihapus, jalankan perintah berikut.",
         "git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md"
       ],
       [
@@ -44,9 +44,9 @@
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-      "live": "manual pending · VS Code",
+      "live": "File instruksi sudah direkam · perbandingan hasil Agent Mode belum direkam",
       "stepEvidence": [
-        "S01-local-result.png",
+        "S01-02-instructions-file-annotated.png",
         "S01-01-without-instructions.png",
         "S01-03-with-instructions.png"
       ]
@@ -128,9 +128,9 @@
     "solution": "Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.",
     "steps": [
       [
-        "Temukan prosedur skill",
-        "Di Explorer buka .github/skills/new-endpoint/SKILL.md. Urutannya: kontrak → izin → service → route → tes. Bandingkan dengan src/routes/reports.js; validasi yang sudah ada jangan dihapus.",
-        ".github/skills/new-endpoint/SKILL.md"
+        "Kenali route pada baseline",
+        "Buka Code pada tag v0-baseline, lalu file berikut. Di route GET laporan, cari validasi dan peran. Ini contoh awal sebelum peserta membuat POST komentar; tidak ada klaim bahwa laporan belum punya validasi.",
+        "src/routes/reports.js"
       ],
       [
         "Panggil skill lewat Agent Mode",
@@ -156,9 +156,9 @@
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-      "live": "manual pending · VS Code",
+      "live": "Route baseline sudah direkam · penggunaan skill di Agent Mode belum direkam",
       "stepEvidence": [
-        "S03-local-result.png",
+        "S03-before-annotated.png",
         "S03-01-skill-loaded.png",
         "S03-after.png"
       ]
@@ -194,9 +194,14 @@
         "git diff v0-baseline demo/claim-date -- src/services/validation.js tests/unit/validation.test.js"
       ],
       [
-        "Alur Copilot saat akses siap",
-        "GitHub Issues → New issue → isi template S04 → Submit. Di sidebar Assignees, pilih Copilot. Setelah draft muncul, buka Conversation, Files changed, dan Checks. Kirim komentar ini dan tunggu revisi; jangan merge. Gambar hasil di atas dari branch latihan, bukan PR Copilot.",
-        "@copilot tambahkan test untuk tanggal hari ini (boundary) dan pesan error dalam Bahasa Indonesia."
+        "Telusuri issue, draft, dan checks",
+        "Di GitHub buka Issues → #3. Lihat Copilot di Assignees, lalu buka draft #4 dari timeline. Pilih Conversation, Files changed, dan Checks menurut nomor. Pada percobaan ini agent selesai tanpa perubahan; jangan klik izin CI sebelum ada diff yang ditinjau.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/4"
+      ],
+      [
+        "Tinjau kenapa edit berhenti",
+        "Di Conversation pilih View session. Penolakan invalid-input berasal dari format argumen edit. Lihat draft #12 untuk koreksi parser; CI draft itu lulus, tetapi perubahan belum masuk ke branch dasar. Ini bukan PR perbaikan tanggal.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/12/files"
       ]
     ],
     "compare": [
@@ -220,7 +225,11 @@
       "S04-agent-actions.png",
       "S04-ci-approval-pending.png",
       "S04-feedback-request.png",
-      "S04-hook-parser.png"
+      "S04-hook-parser.png",
+      "S04-pr-tabs.png",
+      "S04-parser-draft-diff.png",
+      "S04-checks-codeql-only.png",
+      "S04-parser-draft-ci.png"
     ],
     "app": {
       "after": "demo/claim-date",
@@ -233,12 +242,13 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Timeout 25 menit · draft nyata, 3 sesi tanpa diff karena guardrail",
+      "live": "Draft Copilot #4 tanpa diff · perbaikan parser ada di draft #12 untuk review",
       "stepEvidence": [
         "S04-local-form-annotated.png",
         "S04-after-annotated.png",
         "S04-local-result.png",
-        "S04-07-revision.png"
+        "S04-pr-tabs-annotated.png",
+        "S04-parser-draft-diff-annotated.png"
       ]
     }
   },
@@ -373,8 +383,8 @@
     "solution": "PR pertama mengunci perilaku, PR kedua mengganti adapter dengan fetch yang bisa dites tanpa jaringan.",
     "steps": [
       [
-        "Kunci kontrak sebelum pindah transport",
-        "Buka src/legacy/csvExport.js. Coba respons dummy 200 dengan “id,amount”, error transport, dan 503. Hasil harus sama ketika transport diganti; tidak ada paket deprecated yang dipasang.",
+        "Baca adapter lama sebelum mengubahnya",
+        "Di Code buka src/legacy/csvExport.js. Lihat callback dan tes kontrak nyata yang sudah dijalankan secara lokal. Jangan mengganti adapter sebelum tes bisa membedakan sukses dan error.",
         "npm run coverage"
       ],
       [
@@ -404,7 +414,7 @@
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
       "live": "Live ditunda · S07a perlu editor agent; S07b menunggu tes S07a",
       "stepEvidence": [
-        "S07-local-result.png",
+        "S07-before-annotated.png",
         "S07-01-pr-tests.png",
         "S07-02-pr-migration.png"
       ]
@@ -438,6 +448,11 @@
         "Delegasikan laporan QA, bukan patch produksi",
         "Di GitHub Copilot Agents pilih qa-engineer. Minta PR tests/ saja dan issue “Bug: batas approval Rp1.000.000”. Pada Files changed tolak perubahan ke src/. Ini belum dilakukan live.",
         "Uji approvalRules.js sesuai docs/business-rules.md. Tulis tes di bawah, tepat pada, dan di atas Rp1.000.000. Laporkan bug; jangan edit produksi."
+      ],
+      [
+        "Bandingkan laporan dengan aturan bisnis",
+        "Di Issues, buka laporan nyata #13. Temuan dibuktikan oleh tes lokal. Bug ini tetap ada pada baseline dan belum ada PR yang dibuat oleh QA Engineer.",
+        "https://github.com/sandy-demo/AgenticSDLC/issues/13"
       ]
     ],
     "compare": [
@@ -454,11 +469,12 @@
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "Live ditunda · PR tes QA perlu koreksi guardrail",
+      "live": "Bug batas diverifikasi dan dilaporkan di issue #13 oleh fasilitator · PR QA pending",
       "stepEvidence": [
         "S08-local-result.png",
         "S08-local-result.png",
-        "S08-01-agent-picker.png"
+        "S08-01-agent-picker.png",
+        "S08-02-bug-issue-annotated.png"
       ]
     }
   },
@@ -488,9 +504,9 @@
         "Review PR latihan dari sudut peranmu. Sebut file, baris, severity, bukti dan saran. Jangan edit atau merge."
       ],
       [
-        "Pisahkan bukti dari dugaan",
-        "Pada Conversation, tunggu komentar tervalidasi. N+1 dapat dibuktikan. Untuk PII dan audit, verifikasi source lebih dulu; jangan berpura-pura ada temuan. Bima memprioritaskan temuan sebelum memutuskan.",
-        "docs/simulations.md"
+        "Baca hasil spesialis tanpa mengarang komentar",
+        "Di tab Agents buka tugas Performance, Security, dan Compliance. Performance memberi satu draf. Dua reviewer lainnya menjelaskan bahwa diff PR tidak terverifikasi di sesi. Status Done tidak berarti ada komentar di Conversation.",
+        "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo"
       ]
     ],
     "compare": [
@@ -504,15 +520,19 @@
       "S09-02-comments.png",
       "S09-after.png",
       "S09-local-result.png",
-      "S09-builtin-review.png"
+      "S09-builtin-review.png",
+      "S09-performance-finding.png",
+      "S09-performance-task.png",
+      "S09-security-task.png",
+      "S09-compliance-task.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada",
+      "live": "1 review Copilot dan 3 sesi spesialis direkam · 1 draf temuan; tidak ada komentar severity terbit",
       "stepEvidence": [
         "S09-local-result.png",
         "S09-01-three-sessions.png",
-        "S09-02-comments.png"
+        "S09-performance-finding.png"
       ]
     }
   },
@@ -566,7 +586,7 @@
       "stepEvidence": [
         "S10-local-result.png",
         "S10-local-result.png",
-        "S10-before.png"
+        "S10-before-annotated.png"
       ]
     }
   },
@@ -638,13 +658,13 @@
     "solution": "Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.",
     "steps": [
       [
-        "Baca dokumentasi dan jalankan route",
-        "Di VS Code buka docs/api.md lalu src/routes/claims.js. Mulai app, kemudian di terminal kedua minta GET /claims sebagai Employee 01. JSON HTTP 200 berisi key claims.",
+        "Bandingkan dokumen dengan respons nyata",
+        "GitHub → Code → docs/api.md → Preview. Di baris GET /claims, kontrak lama memakai items. Jalankan aplikasi lokal lalu panggil endpoint untuk membuktikan respons aktual.",
         "npm run demo:before\ncurl.exe -fsS -H \"x-demo-user: 1\" http://127.0.0.1:3000/claims"
       ],
       [
-        "Tunjuk nilai yang harus berubah",
-        "Pada tabel GET /claims di docs/api.md, ganti items menjadi claims di checkout latihan; jangan mengubah nama field di route. Cek diff memuat satu file saja.",
+        "Konfirmasi nilai di route, lalu koreksi dokumen",
+        "Buka src/routes/claims.js pada branch yang sama. Cari res.json({ claims: ... }). Pada checkout latihan, ganti key items → claims hanya di dokumentasi; jangan sentuh route.",
         "git diff -- docs/api.md"
       ],
       [
@@ -662,14 +682,15 @@
       "S12-before.png",
       "S12-01-run.png",
       "S12-after.png",
-      "S12-local-result.png"
+      "S12-local-result.png",
+      "S12-actual-route.png"
     ],
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
       "live": "Live ditunda · target draft main belum ada di GitHub",
       "stepEvidence": [
-        "S12-local-result.png",
-        "S12-local-result.png",
+        "S12-before-annotated.png",
+        "S12-actual-route-annotated.png",
         "S12-after.png"
       ]
     }
@@ -699,8 +720,8 @@
         "Aplikasi error"
       ],
       [
-        "Cek diagnosis di PR pemicu",
-        "Buka draft PR cabang demo/ci-econnreset bila cloud siap. Workflow ci-fault-analysis hanya untuk kegagalan event pull_request; run push yang ditampilkan tidak membuktikan komentar agent.",
+        "Pisahkan pemicu, fixture dan gagal autentikasi",
+        "Pada draft #8, CI LA gagal sesuai fixture. Setelahnya CI Fault Analysis terpicu. Issue Triage dan CI Fault Analysis sama-sama ditolak provider; jangan gunakan output kosong sebagai diagnosis berhasil.",
         "gh run view 45567770139 --job 139046667307 --log-failed -R sandy-demo/AgenticSDLC"
       ]
     ],
@@ -716,7 +737,8 @@
       "S13-local-result.png",
       "S13-ci-failure.png",
       "S13-triage-auth-error.png",
-      "S13-ci-analysis-auth-error.png"
+      "S13-ci-analysis-auth-error.png",
+      "S13-triage-controls.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
@@ -724,7 +746,7 @@
       "stepEvidence": [
         "S13-ci-failure.png",
         "S13-before.png",
-        "S13-local-result.png"
+        "S13-triage-controls-annotated.png"
       ]
     }
   },
@@ -779,8 +801,8 @@
       "live": "Fixture aman teruji · audit hanya metadata; tidak menjalankan permintaan berisiko live",
       "stepEvidence": [
         "S14-local-result.png",
-        "S14-local-audit.png",
-        "S14-02-usage.png"
+        "S14-01-hooks-file-annotated.png",
+        "S14-03-gh-aw-permissions-annotated.png"
       ]
     }
   },
