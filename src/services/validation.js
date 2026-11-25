@@ -58,6 +58,14 @@ export function validateId(value) {
   return Number(value);
 }
 
+export function validateIdempotencyKey(value) {
+  if (value === undefined) return undefined;
+  if (typeof value !== 'string' || value.length < 1 || value.length > 128 || /[^A-Za-z0-9._-]/.test(value)) {
+    throw new InputError('IDEMPOTENCY_KEY', 'Kunci idempotensi harus berisi 1–128 karakter ASCII: huruf, angka, titik, garis bawah, atau tanda hubung.');
+  }
+  return value;
+}
+
 export function validateMonth(value) {
   if (typeof value !== 'string' || !/^[1-9]\d{3}-(0[1-9]|1[0-2])$/.test(value)) {
     throw new InputError('REPORT_MONTH', 'Pilih bulan laporan yang valid.');
