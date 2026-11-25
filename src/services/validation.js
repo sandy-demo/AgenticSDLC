@@ -58,6 +58,10 @@ export function validateId(value) {
   return Number(value);
 }
 
+export function validateComment(value) {
+  return text(value?.text, 500, 'COMMENT_TEXT', 'Isi komentar (maksimal 500 karakter).');
+}
+
 export function validateMonth(value) {
   if (typeof value !== 'string' || !/^[1-9]\d{3}-(0[1-9]|1[0-2])$/.test(value)) {
     throw new InputError('REPORT_MONTH', 'Pilih bulan laporan yang valid.');

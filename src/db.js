@@ -28,6 +28,10 @@ export function createDatabase(now = new Date()) {
       actor_id INTEGER NOT NULL REFERENCES users(id), at TEXT NOT NULL,
       from_status TEXT, to_status TEXT NOT NULL
     );
+    CREATE TABLE claim_comments (
+      id INTEGER PRIMARY KEY, claim_id INTEGER NOT NULL REFERENCES claims(id),
+      author_id INTEGER NOT NULL REFERENCES users(id), text TEXT NOT NULL
+    );
   `);
   const addUser = db.prepare('INSERT INTO users VALUES (?, ?, ?, ?)');
   const addClaim = db.prepare(`
@@ -35,6 +39,8 @@ export function createDatabase(now = new Date()) {
     VALUES (@employeeId, @title, @category, @amount, @claimDate, @attachment, @notes)
   `);
   const addEvent = db.prepare('INSERT INTO claim_events (claim_id, actor_id, at, from_status, to_status) VALUES (?, ?, ?, ?, ?)');
+  const addComment = db.prepare('INSERT INTO claim_comments (claim_id, author_id, text) VALUES (?, ?, ?)');
+  const selectComment = db.prepare('SELECT id, claim_id AS claimId, author_id AS authorId, text FROM claim_comments WHERE id = ?');
   const selectClaim = db.prepare(`
     SELECT c.id, c.employee_id AS employeeId, c.title, c.category, c.amount, c.claim_date AS claimDate,
            c.attachment, c.notes, c.status, u.department
@@ -100,6 +106,11 @@ export function createDatabase(now = new Date()) {
     close: () => db.close(),
     getUser: (id) => getUser.get(id),
     getClaim: (id) => selectClaim.get(id),
+    getComment: (id) => selectComment.get(id),
+    insertComment: (claimId, authorId, text) => {
+      const id = Number(addComment.run(claimId, authorId, text).lastInsertRowid);
+      return selectComment.get(id);
+    },
     listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),
     approvalQueue: (user) => user.role === 'manager' ? listForManager.all(user.department) : listForFinance.all(),
     history: (id) => history.all(id),
