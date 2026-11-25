@@ -46,7 +46,7 @@
 - S04: tanggal besok HTTP 201 → 400, hari ini tetap 201. S08: coverage baris aktual 100% → 100% pada dua suite dengan fokus berbeda; tes tepat Rp1.000.000 sengaja gagal. S15: baseline IDR berhasil, bukan hasil multi-currency.
 - [Metrik per skenario](docs/metrics.json): waktu cek lokal terukur. Durasi PR/revisi, komentar, angka alert dan premium requests tetap `null`. Endpoint usage mengembalikan 404.
 
-### S04 live — sudah sampai draft PR
+### S04 live — timeout: draft PR tidak punya perubahan
 
 - [Issue #3](https://github.com/sandy-demo/AgenticSDLC/issues/3) ditugaskan ke Copilot. [Draft PR #4](https://github.com/sandy-demo/AgenticSDLC/pull/4) muncul dalam **0,19 menit** tanpa mengubah branch dasar.
 - Tiga sesi Copilot selesai tanpa diff. [Percobaan terakhir](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45589865167) mengonfirmasi guardrail `invalid-input`; yang lulus hanya 11 tes baseline di masing-masing Jakarta dan LA, belum termasuk kasus tanggal besok.
@@ -63,7 +63,7 @@
 2. Batasi masa berlaku dan akses ke repo latihan, beri **Copilot Requests: Read** pada permission akun. Jangan salin nilai PAT ke chat atau commit.
 3. Masukkan nilainya melalui prompt aman `gh secret set COPILOT_GITHUB_TOKEN -R sandy-demo/AgenticSDLC`, lalu cek nama menggunakan `gh secret list -R sandy-demo/AgenticSDLC`.
 
-Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu meninjau koreksi parser melalui PR terpisah dengan guardrail tetap aktif. Ringkasan sesi sudah diberikan oleh pemilik; screenshot halaman sesi masih belum ada. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. S05 dan seterusnya belum dimulai live. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
+Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu meninjau koreksi parser melalui PR terpisah dengan guardrail tetap aktif. Ringkasan sesi sudah diberikan oleh pemilik; screenshot halaman sesi masih belum ada. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. Batas 25 menit S04 sudah lewat; draft #4 tetap tanpa diff. S04 tidak diulang sebelum koreksi parser ditinjau. Skenario live berikutnya: S05. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
 
 ### Enam momen screenshot manual di VS Code
 

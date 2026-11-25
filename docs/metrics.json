@@ -17,7 +17,7 @@
         "stoppedAt": "2026-11-25T09:47:53.579Z",
         "durationSeconds": 512,
         "revisionSessionEndedAt": "2026-11-25T09:45:55Z",
-        "outcome": "blocked-hook-invalid-input",
+        "outcome": "timeout-guardrail-no-diff",
         "aiCredits": 21.9,
         "aiCreditsSource": "Tampilan tiga sesi Copilot S04 yang dibagikan oleh pemilik repo; angka tampilan dijumlahkan, bukan tagihan."
       }
@@ -97,7 +97,7 @@
       ]
     },
     "cloudEvidence": {
-      "status": "blocked-hook-invalid-input",
+      "status": "timeout-guardrail-no-diff",
       "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/3",
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
       "initialAgentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587506410",
@@ -190,7 +190,9 @@
         {
           "aiCredits": 4.2
         }
-      ]
+      ],
+      "deadlineAt": "2026-11-25T10:04:21.803Z",
+      "statusCheckedAt": "2026-11-25T10:06:02.210Z"
     }
   },
   "S08": {
