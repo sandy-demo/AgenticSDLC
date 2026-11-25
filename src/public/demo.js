@@ -54,7 +54,7 @@ if (document.body.dataset.page === 'employee') {
   $('claimDate').value = today;
   const loadClaims = () => showList(
     async () => (await api('/claims', '1')).claims,
-    (claim) => item(claim.title, `${currency.format(claim.amount)} · ${statusNames[claim.status]}`),
+    (claim) => item(claim.title, `${categoryNames[claim.category]} · ${currency.format(claim.amount)} · ${statusNames[claim.status]}`),
     'Belum ada klaim.',
   );
   form.addEventListener('submit', async (event) => {

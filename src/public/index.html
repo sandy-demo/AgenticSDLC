@@ -26,6 +26,14 @@
             <label class="wide">Judul klaim <input id="title" name="title" maxlength="100" required></label>
             <label>Jumlah (IDR) <input id="amount" name="amount" type="number" inputmode="numeric" min="1" max="50000000" required></label>
             <label>Tanggal klaim <input id="claimDate" name="claimDate" type="date" required></label>
+            <label>Kategori
+              <select id="category" name="category">
+                <option value="Travel">Perjalanan</option>
+                <option value="Meals">Makan</option>
+                <option value="Equipment">Peralatan</option>
+                <option value="Other" selected>Lainnya</option>
+              </select>
+            </label>
             <label>Lampiran (nama file saja) <input name="attachment" maxlength="100"></label>
             <label class="wide">Catatan (opsional) <textarea name="notes" rows="2" maxlength="500"></textarea></label>
           </div>
