@@ -1328,14 +1328,19 @@
         "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
       ],
       [
-        "Handoff setelah persetujuan manusia",
-        "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
-        "docs/adr/README.md"
-      ],
-      [
         "Baca dokumen ADR yang benar-benar dibuat",
         "Draft #22 berisi satu file ADR. Bandingkan opsi konflik 409 yang sekarang dengan usulan idempotency key dan audit atomik. Reviewer manusia menentukan apakah desain diterima.",
         "https://github.com/sandy-demo/AgenticSDLC/pull/22/files"
+      ],
+      [
+        "Buka panel review ADR",
+        "Lihat kotak 1 dan 2. Buka Files changed di draft #22, baca perubahan ADR, lalu klik Review. Membuka panel tidak mengirim review.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes"
+      ],
+      [
+        "Bedakan komentar dari persetujuan",
+        "Lihat kotak 3 sampai 5. Comment hanya memberi masukan; pembuat PR tidak bisa memilih Approve. Jika desain diterima, reviewer lain yang berwenang memilih Approve lalu Submit review. Cek approval tercatat di Conversation sebelum memberi Implementer tautan ADR dan tes.",
+        "https://github.com/sandy-demo/AgenticSDLC/pull/22"
       ],
       [
         "Periksa gate yang benar-benar menghentikan Implementer",
@@ -1384,7 +1389,11 @@
       "S11-reference-prototype-diff.png",
       "S11-reference-prototype-diff-annotated.png",
       "S11-reference-prototype-runtime.png",
-      "S11-reference-prototype-runtime-annotated.png"
+      "S11-reference-prototype-runtime-annotated.png",
+      "S11-adr-review-entry.png",
+      "S11-adr-review-entry-annotated.png",
+      "S11-adr-review-author.png",
+      "S11-adr-review-author-annotated.png"
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
@@ -1394,8 +1403,9 @@
         null,
         "S11-plan-ready-annotated.png",
         "S11-architect-proposal-annotated.png",
-        "S11-02-impl-pr.png",
         "S11-01-adr-pr-annotated.png",
+        "S11-adr-review-entry-annotated.png",
+        "S11-adr-review-author-annotated.png",
         "S11-implementer-blocked-annotated.png",
         "S11-reference-prototype-diff-annotated.png",
         "S11-reference-prototype-runtime-annotated.png",
@@ -1405,7 +1415,7 @@
       "completion": {
         "verifiedLearningEvidence": "S11-reference-prototype-runtime-annotated.png",
         "learningCheck": "Pada klaim fiktif Rp1.250.000, baseline mengembalikan 409 untuk retry; prototipe #37 mengembalikan 200 dengan status awal finance_review meski Finance sudah membuat status aktual approved. Kedua ref punya tiga event dan dua log keputusan. Tanpa key, retry tetap 409. Sebanyak 48 tes lulus pada commit 7f08e16. Ini bukan hasil Implementer resmi atau approval ADR.",
-        "livePrerequisite": "Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
+        "livePrerequisite": "Buka Files changed lalu Review di draft #22. Hanya reviewer lain yang berwenang yang dapat memilih Approve. Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
         "targets": [
           {
             "name": "S11-01-adr-pr.png",

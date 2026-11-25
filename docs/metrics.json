@@ -2114,10 +2114,46 @@
           "height": 900,
           "original": "S11-reference-prototype-diff.png",
           "guide": "1. Cocokkan judul Draft #37, bukan PR Implementer #34. · 2. Baca satu transaksi untuk status, event audit, dan metadata hasil keputusan. · 3. Buka tes prototipe. GitHub belum mencatat approval resmi ADR."
+        },
+        {
+          "name": "S11-adr-review-entry.png",
+          "source": "GitHub Files changed, draft ADR #22",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+          "alt": "Draft ADR #22 membuka tab Files changed dan tombol Review.",
+          "width": 906,
+          "height": 416
+        },
+        {
+          "name": "S11-adr-review-entry-annotated.png",
+          "source": "GitHub Files changed, draft ADR #22",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+          "alt": "Draft ADR #22 membuka tab Files changed dan tombol Review.",
+          "width": 906,
+          "height": 416,
+          "original": "S11-adr-review-entry.png",
+          "guide": "1. Buka Files changed dan baca ADR 0001 sebelum memilih keputusan. · 2. Klik Review untuk membuka panel. Membuka panel tidak mengirim review atau menjalankan Implementer."
+        },
+        {
+          "name": "S11-adr-review-author.png",
+          "source": "GitHub Finish your review, akun pembuat draft ADR #22",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+          "alt": "Dialog review menunjukkan bahwa pembuat PR tidak bisa memilih Approve.",
+          "width": 924,
+          "height": 810
+        },
+        {
+          "name": "S11-adr-review-author-annotated.png",
+          "source": "GitHub Finish your review, akun pembuat draft ADR #22",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+          "alt": "Dialog review menunjukkan bahwa pembuat PR tidak bisa memilih Approve.",
+          "width": 924,
+          "height": 810,
+          "original": "S11-adr-review-author.png",
+          "guide": "3. Comment memberi masukan tanpa menyetujui ADR. · 4. Approve nonaktif bagi pembuat PR. Reviewer lain yang berwenang memilihnya hanya jika menerima desain. · 5. Reviewer tersebut menekan Submit review. Baru lanjutkan handoff ketika approval tercatat di Conversation dan Implementer dapat membaca keputusan dari akses yang diizinkan."
         }
       ],
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
-      "currentSummary": "ADR #22 masih Proposed dan Implementer resmi #34 berhenti tanpa diff. Prototipe terpisah #37 membuktikan retry dan audit di lokal pada 7f08e16; bukan persetujuan atau merge."
+      "currentSummary": "ADR #22 masih Proposed dan Implementer resmi #34 berhenti tanpa diff. Prototipe terpisah #37 membuktikan retry dan audit di lokal pada 7f08e16; bukan persetujuan atau merge. Screenshot pembuat PR menunjukkan Approve dinonaktifkan; panel ditutup tanpa mengirim review."
     },
     "implementationAttempt": {
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/34",

@@ -1523,14 +1523,19 @@
           "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
         ],
         [
-          "Handoff setelah persetujuan manusia",
-          "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
-          "docs/adr/README.md"
-        ],
-        [
           "Baca dokumen ADR yang benar-benar dibuat",
           "Draft #22 berisi satu file ADR. Bandingkan opsi konflik 409 yang sekarang dengan usulan idempotency key dan audit atomik. Reviewer manusia menentukan apakah desain diterima.",
           "https://github.com/sandy-demo/AgenticSDLC/pull/22/files"
+        ],
+        [
+          "Buka panel review ADR",
+          "Lihat kotak 1 dan 2. Buka Files changed di draft #22, baca perubahan ADR, lalu klik Review. Membuka panel tidak mengirim review.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes"
+        ],
+        [
+          "Bedakan komentar dari persetujuan",
+          "Lihat kotak 3 sampai 5. Comment hanya memberi masukan; pembuat PR tidak bisa memilih Approve. Jika desain diterima, reviewer lain yang berwenang memilih Approve lalu Submit review. Cek approval tercatat di Conversation sebelum memberi Implementer tautan ADR dan tes.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/22"
         ],
         [
           "Periksa gate yang benar-benar menghentikan Implementer",
@@ -1579,7 +1584,11 @@
         "S11-reference-prototype-diff.png",
         "S11-reference-prototype-diff-annotated.png",
         "S11-reference-prototype-runtime.png",
-        "S11-reference-prototype-runtime-annotated.png"
+        "S11-reference-prototype-runtime-annotated.png",
+        "S11-adr-review-entry.png",
+        "S11-adr-review-entry-annotated.png",
+        "S11-adr-review-author.png",
+        "S11-adr-review-author-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
@@ -1589,8 +1598,9 @@
           null,
           "S11-plan-ready-annotated.png",
           "S11-architect-proposal-annotated.png",
-          "S11-02-impl-pr.png",
           "S11-01-adr-pr-annotated.png",
+          "S11-adr-review-entry-annotated.png",
+          "S11-adr-review-author-annotated.png",
           "S11-implementer-blocked-annotated.png",
           "S11-reference-prototype-diff-annotated.png",
           "S11-reference-prototype-runtime-annotated.png",
@@ -1600,7 +1610,7 @@
         "completion": {
           "verifiedLearningEvidence": "S11-reference-prototype-runtime-annotated.png",
           "learningCheck": "Pada klaim fiktif Rp1.250.000, baseline mengembalikan 409 untuk retry; prototipe #37 mengembalikan 200 dengan status awal finance_review meski Finance sudah membuat status aktual approved. Kedua ref punya tiga event dan dua log keputusan. Tanpa key, retry tetap 409. Sebanyak 48 tes lulus pada commit 7f08e16. Ini bukan hasil Implementer resmi atau approval ADR.",
-          "livePrerequisite": "Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
+          "livePrerequisite": "Buka Files changed lalu Review di draft #22. Hanya reviewer lain yang berwenang yang dapat memilih Approve. Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
           "targets": [
             {
               "name": "S11-01-adr-pr.png",
@@ -1651,7 +1661,11 @@
         "S11-reference-prototype-diff.png": "available",
         "S11-reference-prototype-diff-annotated.png": "available",
         "S11-reference-prototype-runtime.png": "available",
-        "S11-reference-prototype-runtime-annotated.png": "available"
+        "S11-reference-prototype-runtime-annotated.png": "available",
+        "S11-adr-review-entry.png": "available",
+        "S11-adr-review-entry-annotated.png": "available",
+        "S11-adr-review-author.png": "available",
+        "S11-adr-review-author-annotated.png": "available"
       }
     },
     "S12": {
@@ -4424,10 +4438,46 @@
             "height": 900,
             "original": "S11-reference-prototype-diff.png",
             "guide": "1. Cocokkan judul Draft #37, bukan PR Implementer #34. · 2. Baca satu transaksi untuk status, event audit, dan metadata hasil keputusan. · 3. Buka tes prototipe. GitHub belum mencatat approval resmi ADR."
+          },
+          {
+            "name": "S11-adr-review-entry.png",
+            "source": "GitHub Files changed, draft ADR #22",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+            "alt": "Draft ADR #22 membuka tab Files changed dan tombol Review.",
+            "width": 906,
+            "height": 416
+          },
+          {
+            "name": "S11-adr-review-entry-annotated.png",
+            "source": "GitHub Files changed, draft ADR #22",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+            "alt": "Draft ADR #22 membuka tab Files changed dan tombol Review.",
+            "width": 906,
+            "height": 416,
+            "original": "S11-adr-review-entry.png",
+            "guide": "1. Buka Files changed dan baca ADR 0001 sebelum memilih keputusan. · 2. Klik Review untuk membuka panel. Membuka panel tidak mengirim review atau menjalankan Implementer."
+          },
+          {
+            "name": "S11-adr-review-author.png",
+            "source": "GitHub Finish your review, akun pembuat draft ADR #22",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+            "alt": "Dialog review menunjukkan bahwa pembuat PR tidak bisa memilih Approve.",
+            "width": 924,
+            "height": 810
+          },
+          {
+            "name": "S11-adr-review-author-annotated.png",
+            "source": "GitHub Finish your review, akun pembuat draft ADR #22",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/22/changes",
+            "alt": "Dialog review menunjukkan bahwa pembuat PR tidak bisa memilih Approve.",
+            "width": 924,
+            "height": 810,
+            "original": "S11-adr-review-author.png",
+            "guide": "3. Comment memberi masukan tanpa menyetujui ADR. · 4. Approve nonaktif bagi pembuat PR. Reviewer lain yang berwenang memilihnya hanya jika menerima desain. · 5. Reviewer tersebut menekan Submit review. Baru lanjutkan handoff ketika approval tercatat di Conversation dan Implementer dapat membaca keputusan dari akses yang diizinkan."
           }
         ],
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
-        "currentSummary": "ADR #22 masih Proposed dan Implementer resmi #34 berhenti tanpa diff. Prototipe terpisah #37 membuktikan retry dan audit di lokal pada 7f08e16; bukan persetujuan atau merge."
+        "currentSummary": "ADR #22 masih Proposed dan Implementer resmi #34 berhenti tanpa diff. Prototipe terpisah #37 membuktikan retry dan audit di lokal pada 7f08e16; bukan persetujuan atau merge. Screenshot pembuat PR menunjukkan Approve dinonaktifkan; panel ditutup tanpa mengirim review."
       },
       "implementationAttempt": {
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
@@ -5179,7 +5229,11 @@
           "S11-plan-ready.png",
           "S11-plan-ready-annotated.png",
           "S11-reference-prototype-diff.png",
-          "S11-reference-prototype-diff-annotated.png"
+          "S11-reference-prototype-diff-annotated.png",
+          "S11-adr-review-entry.png",
+          "S11-adr-review-entry-annotated.png",
+          "S11-adr-review-author.png",
+          "S11-adr-review-author-annotated.png"
         ]
       },
       "S15": {
