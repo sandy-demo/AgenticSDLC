@@ -75,6 +75,12 @@
 - Akun browser workshop sudah terverifikasi. Tujuh layar yang sebelumnya tertutup login sudah dipotret: sesi S04 dan S05, pemilih QA S08, daftar tiga sesi S09, 0 alert terbuka S10, serta [dua layar setup PAT/secret](site/setup.html#pat-copilot-screenshots). Perekaman hanya mencakup area yang relevan; tidak ada password, kode MFA, atau nilai token.
 - Di sesi S05, GitHub menampilkan **1,4 AI credits**. Angka ini menambah C6; bukan jumlah premium requests atau tagihan.
 
+### S12 dan S13 — hasil lanjutan
+
+- S12 tidak dijalankan live: tindakan membuat draft Docs Sync menunjuk ke `main`, sedangkan repo memakai `demo/workshop` dan tidak punya `main`. Pemeriksaan kontrak lokal tetap tersedia.
+- [Issue S13 #7](https://github.com/sandy-demo/AgenticSDLC/issues/7) memicu [Issue Triage](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596615909); [draft latihan #8](https://github.com/sandy-demo/AgenticSDLC/pull/8) memicu [CI](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596624154) dan [CI Fault Analysis](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596785536). LA gagal dengan `ECONNRESET` sebagai fixture, Jakarta dan e2e lulus. Kedua workflow agent berhenti di `Execute GitHub Copilot CLI` dengan HTTP 403 dari provider, tanpa label atau komentar. Secret ada; penyebab spesifik penolakan provider belum terbukti.
+- [Bukti S13 di panduan](site/scenarios/S13.html#s13-cloud-evidence) menunjukkan issue kosong dan kedua ringkasan. Variabel sementara `AGENTIC_WORKSHOP_LIVE` sudah dikembalikan ke kondisi tidak ada. Tidak ada merge.
+
 ### Yang masih perlu dilakukan untuk jalur cloud
 
 [Panduan PAT Copilot untuk S12 dan S13](docs/ORG-SETUP.md#pat-copilot-untuk-s12-dan-s13) menjelaskan kenapa izin ada di tab **Account** dan kapan token tidak diperlukan.

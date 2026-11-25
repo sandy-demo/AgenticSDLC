@@ -665,7 +665,7 @@
     ],
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "pending · Docs Sync dan draft docs",
+      "live": "Live ditunda · target draft main belum ada di GitHub",
       "stepEvidence": [
         "S12-local-result.png",
         "S12-local-result.png",
@@ -713,11 +713,13 @@
       "S13-01-triage.png",
       "S13-after.png",
       "S13-local-result.png",
-      "S13-ci-failure.png"
+      "S13-ci-failure.png",
+      "S13-triage-auth-error.png",
+      "S13-ci-analysis-auth-error.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "Actions nyata · triage dan komentar agent pending",
+      "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
       "stepEvidence": [
         "S13-ci-failure.png",
         "S13-01-triage.png",

@@ -680,10 +680,31 @@
           "source": "Output lokal yang dirender · bukan layar portal"
         }
       ]
+    },
+    "cloudEvidence": {
+      "status": "not-started-base-branch-missing",
+      "targetBaseRef": "main",
+      "observedDefaultRef": "demo/workshop"
     }
   },
   "S13": {
-    "runs": [],
+    "runs": [
+      {
+        "date": "2026-11-25",
+        "startedAt": "2026-11-25T10:36:29.189Z",
+        "stoppedAt": "2026-11-25T10:43:09.898Z",
+        "durationSeconds": 401,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": 0,
+        "premiumRequests": null,
+        "coverageBefore": null,
+        "coverageAfter": null,
+        "alertsBefore": null,
+        "alertsAfter": null,
+        "outcome": "blocked-copilot-provider-403"
+      }
+    ],
     "localDryRun": {
       "recordedAt": "2026-11-25T07:49:17.570Z",
       "status": "verified-local",
@@ -717,6 +738,51 @@
         }
       ],
       "relatedActionsRun": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770139"
+    },
+    "cloudEvidence": {
+      "status": "blocked-copilot-provider-403",
+      "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/7",
+      "fixtureDraftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/8",
+      "fixtureRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596624154",
+      "fixtureJobs": {
+        "Asia/Jakarta": "success",
+        "America/Los_Angeles": "failure",
+        "e2e": "success"
+      },
+      "triageRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596615909",
+      "analysisRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596785536",
+      "failedStep": "Execute GitHub Copilot CLI",
+      "providerHttpStatus": 403,
+      "needsInfoApplied": false,
+      "issueCommentCount": 0,
+      "prCommentCount": 0,
+      "activationRestored": true,
+      "images": [
+        {
+          "name": "S13-before.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/issues/7",
+          "alt": "Issue #7 berjudul Aplikasi error, tanpa deskripsi dan label.",
+          "guide": "Buka Issues → New issue. Ini keadaan awal: hanya judul Aplikasi error dan No description provided.",
+          "width": 1038,
+          "height": 2462
+        },
+        {
+          "name": "S13-triage-auth-error.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596615909",
+          "alt": "Actions: Issue Triage gagal pada job agent; tidak ada label atau komentar baru.",
+          "guide": "Buka Actions → Issue Triage → agent. Log Execute GitHub Copilot CLI menampilkan HTTP 403. Gambar menunjukkan ringkasan kegagalan, bukan hasil triage.",
+          "width": 1440,
+          "height": 1503
+        },
+        {
+          "name": "S13-ci-analysis-auth-error.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596785536",
+          "alt": "Actions: CI Fault Analysis terpicu setelah CI draft dan gagal pada job agent.",
+          "guide": "Buka Actions → CI Fault Analysis → agent. Ini workflow diagnosis, terpisah dari job CI Los Angeles yang sengaja gagal.",
+          "width": 1440,
+          "height": 1503
+        }
+      ]
     }
   },
   "S11": {
