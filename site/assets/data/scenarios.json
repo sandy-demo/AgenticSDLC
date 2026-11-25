@@ -173,8 +173,8 @@
           "git fetch origin copilot/add-category-selection-local-expense-claim\nnpm run demo:compare -- 0d4637686c0b6fc95eef5c541eb2ac4190b46caa"
         ],
         [
-          "Siapkan prompt di Chat VS Code",
-          "Buka Chat dan minta rencana sebelum melihat perubahan. Dalam percobaan ini, menjalankan Copilot di VS Code Web memerlukan sign-in tersendiri; gambar hanya menunjukkan input, bukan hasil rencana.",
+          "Baca rencana asli di VS Code Desktop",
+          "Di VS Code Desktop, kirim prompt pada checkout v0-baseline. Baca rencana sebelum mengedit: kolom category sudah ada, jadi tidak perlu migrasi. Kotak 1–4 menunjukkan judul sesi, keputusan skema, tes unit/API, dan tes browser. Foto ini bukan hasil implementasi.",
           "Tulis Rencana S02 untuk dropdown kategori Travel, Meals, Equipment, Other dan tes nilai Travel melalui POST serta GET. Jangan edit file sebelum rencana diperiksa."
         ],
         [
@@ -189,12 +189,12 @@
         ],
         [
           "Cek selesai latihan",
-          "Pada snapshot #29, pilih Perjalanan: POST 201 dan GET 200 mengembalikan Travel. Baseline tanpa pilihan menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Screenshot prompt belum merupakan rencana Agent.",
+          "Pada snapshot #29, pilihan Perjalanan tersimpan: POST 201 dan GET 200 mengembalikan Travel. Tanpa dropdown, baseline menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Tangkapan rencana dari sesi baca-saja pada v0-baseline menjelaskan kenapa migrasi tidak perlu.",
           "npm run demo:compare -- v1-app-clean"
         ],
         [
           "Cara merekam hasil live",
-          "Bukti Source Control dan terminal sudah ada pada clone yang sama dengan draft #29. Untuk tahap sebelumnya, gunakan Copilot yang sudah login di VS Code, minta rencana, lalu foto respons nyata sebelum menerima edit. Screenshot input prompt bukan hasil rencana.",
+          "Untuk mengulang, minta Agent menulis rencana di checkout latihan terpisah. Bukti rencana dari v0-baseline berbeda dengan bukti file dan tes pada draft #29. Cek commit masing-masing sebelum menyimpulkan bahwa kode atau tes sudah berjalan.",
           "1. S02-01-agent-plan.png\n   Di VS Code → Chat → Agent kirim prompt yang meminta pilihan Travel, Meals, Equipment, Other dan tes lintas file. Ambil layar ketika rencana yang nyata tampil, sebelum menilai hasilnya.\n\n2. S02-02-files-changed.png\n   Buka Source Control → Changes setelah penulisan berhenti. Tunjukkan form/payload/validasi/tes yang benar-benar berubah. Tidak perlu memaksa migrasi jika skema sudah menyimpan category.\n\n3. S02-03-tests-green.png\n   Buka terminal checkout yang sama; jalankan npm test, dan npm run e2e bila UI berubah. Foto ringkasan saat seluruh tes yang dijalankan lulus. Jangan gunakan tes dari ref lain sebagai bukti."
         ]
       ],
@@ -218,7 +218,8 @@
         "S02-vscode-agent-entry.png",
         "S02-vscode-agent-entry-annotated.png",
         "S02-03-tests-green-annotated.png",
-        "S02-02-files-changed-annotated.png"
+        "S02-02-files-changed-annotated.png",
+        "S02-01-agent-plan-annotated.png"
       ],
       "app": {
         "after": "v1-app-clean",
@@ -230,13 +231,13 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "Source Control nyata pada 5 file draft #29; 25 unit lulus di VS Code; rencana Agent Mode belum direkam",
+        "live": "Rencana Agent terekam di VS Code Desktop; Source Control 5 file dan 25 tes unit draft #29 terverifikasi terpisah",
         "stepEvidence": [
           "S02-before.png",
           "S02-after-annotated.png",
           "S02-local-result.png",
           "S02-draft-files-annotated.png",
-          "S02-vscode-agent-entry-annotated.png",
+          "S02-01-agent-plan-annotated.png",
           "S02-02-files-changed-annotated.png",
           "S02-03-tests-green-annotated.png",
           "S02-03-tests-green-annotated.png",
@@ -244,8 +245,8 @@
         ],
         "completion": {
           "verifiedLearningEvidence": "S02-03-tests-green-annotated.png",
-          "learningCheck": "Pada snapshot #29, pilih Perjalanan: POST 201 dan GET 200 mengembalikan Travel. Baseline tanpa pilihan menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Screenshot prompt belum merupakan rencana Agent.",
-          "livePrerequisite": "Bukti Source Control dan terminal sudah ada pada clone yang sama dengan draft #29. Untuk tahap sebelumnya, gunakan Copilot yang sudah login di VS Code, minta rencana, lalu foto respons nyata sebelum menerima edit. Screenshot input prompt bukan hasil rencana.",
+          "learningCheck": "Pada snapshot #29, pilihan Perjalanan tersimpan: POST 201 dan GET 200 mengembalikan Travel. Tanpa dropdown, baseline menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Tangkapan rencana dari sesi baca-saja pada v0-baseline menjelaskan kenapa migrasi tidak perlu.",
+          "livePrerequisite": "Untuk mengulang, minta Agent menulis rencana di checkout latihan terpisah. Bukti rencana dari v0-baseline berbeda dengan bukti file dan tes pada draft #29. Cek commit masing-masing sebelum menyimpulkan bahwa kode atau tes sudah berjalan.",
           "targets": [
             {
               "name": "S02-01-agent-plan.png",
@@ -282,7 +283,7 @@
       "level": 1,
       "screenshotStatus": {
         "S02-before.png": "available",
-        "S02-01-agent-plan.png": "manual pending",
+        "S02-01-agent-plan.png": "available",
         "S02-02-files-changed.png": "available",
         "S02-03-tests-green.png": "available",
         "S02-after.png": "available",
@@ -295,7 +296,8 @@
         "S02-vscode-agent-entry.png": "available",
         "S02-vscode-agent-entry-annotated.png": "available",
         "S02-03-tests-green-annotated.png": "available",
-        "S02-02-files-changed-annotated.png": "available"
+        "S02-02-files-changed-annotated.png": "available",
+        "S02-01-agent-plan-annotated.png": "available"
       }
     },
     "S03": {
@@ -4682,7 +4684,7 @@
             "width": 1440,
             "height": 900,
             "original": "S02-vscode-agent-entry.png",
-            "guide": "1. Isi prompt dan minta rencana sebelum file berubah. · 2. Tombol panah Send mengirim prompt di VS Code. Foto hanya keadaan sebelum respons; rencana tersendiri belum terekam."
+            "guide": "1. Isi prompt dan minta rencana sebelum file berubah. · 2. Tombol panah Send mengirim prompt di VS Code. Foto hanya keadaan sebelum respons; hasil rencana dari VS Code Desktop tersedia di langkah terpisah."
           },
           {
             "name": "S02-03-tests-green.png",
@@ -4715,6 +4717,22 @@
             "height": 900,
             "original": "S02-02-files-changed.png",
             "guide": "1. Baca lima Staged Changes: kontrak, form, payload, tes API dan e2e. Klik index.html untuk melihat diff. · 2. Di sebelah kanan, dropdown menambah Travel (Perjalanan), Meals, Equipment, dan Other. Ini perubahan actual draft #29 yang disiapkan ulang di clone lokal, bukan sesi native Agent yang membuat kode."
+          },
+          {
+            "name": "S02-01-agent-plan.png",
+            "source": "Potongan screenshot nyata VS Code Desktop · rencana Agent S02 pada v0-baseline",
+            "alt": "Sesi Copilot menampilkan rencana kategori, menyatakan tidak perlu migrasi, dan merencanakan tes unit, API, dan browser.",
+            "width": 1426,
+            "height": 680
+          },
+          {
+            "name": "S02-01-agent-plan-annotated.png",
+            "source": "Potongan screenshot nyata VS Code Desktop · rencana Agent S02 pada v0-baseline",
+            "alt": "Kotak 1 menandai judul sesi Agent, 2 keputusan SQLite, 3 tes unit dan API, dan 4 tes browser.",
+            "width": 1426,
+            "height": 680,
+            "original": "S02-01-agent-plan.png",
+            "guide": "1. Baca judul sesi Workshop S02; bagian bawah menunjukkan jawaban Agent, bukan hanya input. · 2. SQLite dan API sudah menyimpan category; rencana tidak menambah migrasi. · 3. Tes unit dan API akan membandingkan Travel dan default Other. · 4. Tes browser akan memeriksa label setelah reload. Sesi ini berhenti di rencana; belum ada file atau tes yang dijalankan."
           }
         ]
       },
@@ -4755,6 +4773,13 @@
           "source": "VS Code Web on isolated prepared clone",
           "recordedNativeAgentPlan": false
         }
+      },
+      "nativePlan": {
+        "source": "VS Code Desktop Agent",
+        "baselineCommit": "61441c469c1247ea6aaec2fb923398f6e184be28",
+        "mode": "read-only plan",
+        "changedFiles": 0,
+        "testsRun": false
       }
     },
     "S03": {
@@ -5297,11 +5322,9 @@
         ]
       },
       "S02": {
-        "live": "Source Control nyata pada 5 file draft #29; 25 unit lulus di VS Code; rencana Agent Mode belum direkam",
+        "live": "Rencana Agent terekam di VS Code Desktop; Source Control 5 file dan 25 tes unit draft #29 terverifikasi terpisah",
         "localDurationSeconds": 1.48,
-        "missing": [
-          "S02-01-agent-plan.png"
-        ],
+        "missing": [],
         "screenshots": [
           "S02-before.png",
           "S02-after.png",
@@ -5314,7 +5337,9 @@
           "S02-03-tests-green.png",
           "S02-03-tests-green-annotated.png",
           "S02-02-files-changed.png",
-          "S02-02-files-changed-annotated.png"
+          "S02-02-files-changed-annotated.png",
+          "S02-01-agent-plan.png",
+          "S02-01-agent-plan-annotated.png"
         ],
         "cloudScreenshots": [
           "S02-draft-files.png",

@@ -2358,7 +2358,7 @@
           "width": 1440,
           "height": 900,
           "original": "S02-vscode-agent-entry.png",
-          "guide": "1. Isi prompt dan minta rencana sebelum file berubah. · 2. Tombol panah Send mengirim prompt di VS Code. Foto hanya keadaan sebelum respons; rencana tersendiri belum terekam."
+          "guide": "1. Isi prompt dan minta rencana sebelum file berubah. · 2. Tombol panah Send mengirim prompt di VS Code. Foto hanya keadaan sebelum respons; hasil rencana dari VS Code Desktop tersedia di langkah terpisah."
         },
         {
           "name": "S02-03-tests-green.png",
@@ -2391,6 +2391,22 @@
           "height": 900,
           "original": "S02-02-files-changed.png",
           "guide": "1. Baca lima Staged Changes: kontrak, form, payload, tes API dan e2e. Klik index.html untuk melihat diff. · 2. Di sebelah kanan, dropdown menambah Travel (Perjalanan), Meals, Equipment, dan Other. Ini perubahan actual draft #29 yang disiapkan ulang di clone lokal, bukan sesi native Agent yang membuat kode."
+        },
+        {
+          "name": "S02-01-agent-plan.png",
+          "source": "Potongan screenshot nyata VS Code Desktop · rencana Agent S02 pada v0-baseline",
+          "alt": "Sesi Copilot menampilkan rencana kategori, menyatakan tidak perlu migrasi, dan merencanakan tes unit, API, dan browser.",
+          "width": 1426,
+          "height": 680
+        },
+        {
+          "name": "S02-01-agent-plan-annotated.png",
+          "source": "Potongan screenshot nyata VS Code Desktop · rencana Agent S02 pada v0-baseline",
+          "alt": "Kotak 1 menandai judul sesi Agent, 2 keputusan SQLite, 3 tes unit dan API, dan 4 tes browser.",
+          "width": 1426,
+          "height": 680,
+          "original": "S02-01-agent-plan.png",
+          "guide": "1. Baca judul sesi Workshop S02; bagian bawah menunjukkan jawaban Agent, bukan hanya input. · 2. SQLite dan API sudah menyimpan category; rencana tidak menambah migrasi. · 3. Tes unit dan API akan membandingkan Travel dan default Other. · 4. Tes browser akan memeriksa label setelah reload. Sesi ini berhenti di rencana; belum ada file atau tes yang dijalankan."
         }
       ]
     },
@@ -2431,6 +2447,13 @@
         "source": "VS Code Web on isolated prepared clone",
         "recordedNativeAgentPlan": false
       }
+    },
+    "nativePlan": {
+      "source": "VS Code Desktop Agent",
+      "baselineCommit": "61441c469c1247ea6aaec2fb923398f6e184be28",
+      "mode": "read-only plan",
+      "changedFiles": 0,
+      "testsRun": false
     }
   },
   "S03": {
