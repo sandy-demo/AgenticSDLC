@@ -282,7 +282,9 @@ for (const [index, id] of ids.entries()) {
     : 'Ukur suite yang sama sebelum dan setelah tes batas ditambahkan.')
     : id === 'S10' ? chart('C4', 'Alert CodeQL terbuka', scan ? {
       type:'bar', label:'Jumlah alert', labels:['Sebelum', 'Sesudah'], values:[scan.alertsBefore, scan.alertsAfter],
-    } : undefined, preflight ? 'Pemindaian awal tidak menemukan alert. Perbandingan Autofix membutuhkan hasil sebelum dan sesudah.' : 'Isi saat kedua scan live sudah diverifikasi.') : '';
+    } : undefined, typeof scan?.comparisonContext === 'string' && scan.comparisonContext.trim()
+      ? scan.comparisonContext
+      : preflight ? 'Pemindaian awal tidak menemukan alert. Perbandingan Autofix membutuhkan hasil sebelum dan sesudah.' : 'Isi saat kedua scan live sudah diverifikasi.') : '';
   document(`scenarios/${id}.html`, `${id} · ${s.title}`, `
 <p class="breadcrumb">${link('index.html', 'Semua skenario')} / ${id}</p><p class="kicker">${id} · Level ${levelOf(id)} — ${escape(levels[levelOf(id) - 1])}</p>
 <h1>${escape(s.title)}</h1><p class="lead">${escape(s.solution)}</p>
