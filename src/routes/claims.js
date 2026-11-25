@@ -5,7 +5,8 @@ export function claimsRouter(db, clock, logger) {
   const router = Router();
   router.get('/', (req, res) => {
     requireRole(req.demoUser, 'employee');
-    res.json({ claims: db.listOwn(req.demoUser.id) });
+    const claims = db.listOwn(req.demoUser.id);
+    res.json({ claims });
   });
   router.post('/', (req, res) => {
     const claim = createClaim(db, req.demoUser, req.body, clock());
