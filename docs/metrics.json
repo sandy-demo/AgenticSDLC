@@ -1621,6 +1621,24 @@
           "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan.",
           "original": "S11-implementer-blocked.png",
           "guide": "1. Baca alasan tidak ada implementasi; Files changed menampilkan 0. · 2. Buka ADR #22: belum ada approval GitHub; ringkasan juga menyebut tidak ada tes yang dijalankan. Bukan bukti perubahan atau review lulus."
+        },
+        {
+          "name": "S11-plan-ready.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+          "alt": "Sesi Architect ADR 0001 selesai menyusun usulan. Panel Plan ready for review dan ikon View full plan terlihat.",
+          "source": "Screenshot nyata GitHub Copilot Agents · sesi Architect",
+          "width": 902,
+          "height": 735
+        },
+        {
+          "name": "S11-plan-ready-annotated.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+          "alt": "Sesi Architect ADR 0001 selesai menyusun usulan. Panel Plan ready for review dan ikon View full plan terlihat.",
+          "source": "Screenshot nyata GitHub Copilot Agents · sesi Architect",
+          "width": 902,
+          "height": 735,
+          "original": "S11-plan-ready.png",
+          "guide": "1. Cocokkan judul sesi ADR 0001; tanda centang berarti sesi selesai menyusun usulan. · 2. Plan ready for review berarti siap dibaca, bukan disetujui. · 3. Klik ikon View full plan untuk membaca rencana tanpa memulai implementasi."
         }
       ],
       "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",

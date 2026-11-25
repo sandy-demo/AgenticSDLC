@@ -1219,6 +1219,16 @@
         "Buat draf ADR 0001 untuk approval, retry, pencegahan perubahan ganda dan audit. Sertakan alternatif dan kriteria tes. Jangan menulis implementasi."
       ],
       [
+        "Buka View full plan",
+        "Di tab Agents, buka sesi ADR 0001. Periksa Plan ready for review, lalu klik ikon View full plan untuk membaca usulan. Jangan samakan tanda centang sesi dengan approval PR.",
+        "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
+      ],
+      [
+        "Baca isi usulan tanpa memulai kerja",
+        "Baca bagian tes dan mitigasi: satu perubahan status harus mencatat satu event. Di panel Plan, Approve plan and start work memulai pekerjaan agent dan bukan review PR ADR #22; jangan tekan hanya untuk melihat rencananya.",
+        "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
+      ],
+      [
         "Handoff setelah persetujuan manusia",
         "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
         "docs/adr/README.md"
@@ -1259,13 +1269,17 @@
       "S11-architect-proposal-annotated.png",
       "S11-01-adr-pr-annotated.png",
       "S11-implementer-blocked.png",
-      "S11-implementer-blocked-annotated.png"
+      "S11-implementer-blocked-annotated.png",
+      "S11-plan-ready.png",
+      "S11-plan-ready-annotated.png"
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
       "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
       "stepEvidence": [
         "S11-before.png",
+        null,
+        "S11-plan-ready-annotated.png",
         "S11-architect-proposal-annotated.png",
         "S11-02-impl-pr.png",
         "S11-01-adr-pr-annotated.png",

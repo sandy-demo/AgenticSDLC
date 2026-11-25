@@ -1393,6 +1393,16 @@
           "Buat draf ADR 0001 untuk approval, retry, pencegahan perubahan ganda dan audit. Sertakan alternatif dan kriteria tes. Jangan menulis implementasi."
         ],
         [
+          "Buka View full plan",
+          "Di tab Agents, buka sesi ADR 0001. Periksa Plan ready for review, lalu klik ikon View full plan untuk membaca usulan. Jangan samakan tanda centang sesi dengan approval PR.",
+          "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
+        ],
+        [
+          "Baca isi usulan tanpa memulai kerja",
+          "Baca bagian tes dan mitigasi: satu perubahan status harus mencatat satu event. Di panel Plan, Approve plan and start work memulai pekerjaan agent dan bukan review PR ADR #22; jangan tekan hanya untuk melihat rencananya.",
+          "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711"
+        ],
+        [
           "Handoff setelah persetujuan manusia",
           "Tech Lead baca Files changed, setujui ADR melalui review. Baru beri implementer tautan ADR dan tes. Minta review defensif pada draft implementasi tanpa merge.",
           "docs/adr/README.md"
@@ -1433,13 +1443,17 @@
         "S11-architect-proposal-annotated.png",
         "S11-01-adr-pr-annotated.png",
         "S11-implementer-blocked.png",
-        "S11-implementer-blocked-annotated.png"
+        "S11-implementer-blocked-annotated.png",
+        "S11-plan-ready.png",
+        "S11-plan-ready-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
         "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
         "stepEvidence": [
           "S11-before.png",
+          null,
+          "S11-plan-ready-annotated.png",
           "S11-architect-proposal-annotated.png",
           "S11-02-impl-pr.png",
           "S11-01-adr-pr-annotated.png",
@@ -1495,7 +1509,9 @@
         "S11-architect-proposal-annotated.png": "available",
         "S11-01-adr-pr-annotated.png": "available",
         "S11-implementer-blocked.png": "available",
-        "S11-implementer-blocked-annotated.png": "available"
+        "S11-implementer-blocked-annotated.png": "available",
+        "S11-plan-ready.png": "available",
+        "S11-plan-ready-annotated.png": "available"
       }
     },
     "S12": {
@@ -3717,6 +3733,24 @@
             "alt": "Draft #34 dengan 0 file berubah, ADR belum disetujui dan tes belum dijalankan.",
             "original": "S11-implementer-blocked.png",
             "guide": "1. Baca alasan tidak ada implementasi; Files changed menampilkan 0. · 2. Buka ADR #22: belum ada approval GitHub; ringkasan juga menyebut tidak ada tes yang dijalankan. Bukan bukti perubahan atau review lulus."
+          },
+          {
+            "name": "S11-plan-ready.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+            "alt": "Sesi Architect ADR 0001 selesai menyusun usulan. Panel Plan ready for review dan ikon View full plan terlihat.",
+            "source": "Screenshot nyata GitHub Copilot Agents · sesi Architect",
+            "width": 902,
+            "height": 735
+          },
+          {
+            "name": "S11-plan-ready-annotated.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+            "alt": "Sesi Architect ADR 0001 selesai menyusun usulan. Panel Plan ready for review dan ikon View full plan terlihat.",
+            "source": "Screenshot nyata GitHub Copilot Agents · sesi Architect",
+            "width": 902,
+            "height": 735,
+            "original": "S11-plan-ready.png",
+            "guide": "1. Cocokkan judul sesi ADR 0001; tanda centang berarti sesi selesai menyusun usulan. · 2. Plan ready for review berarti siap dibaca, bukan disetujui. · 3. Klik ikon View full plan untuk membaca rencana tanpa memulai implementasi."
           }
         ],
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
@@ -4323,7 +4357,9 @@
           "S11-01-adr-pr.png",
           "S11-01-adr-pr-annotated.png",
           "S11-implementer-blocked.png",
-          "S11-implementer-blocked-annotated.png"
+          "S11-implementer-blocked-annotated.png",
+          "S11-plan-ready.png",
+          "S11-plan-ready-annotated.png"
         ]
       },
       "S15": {

@@ -4,7 +4,7 @@
 
 Buka [urutan belajar offline](site/index.html#urutan). Tiap bab punya alur interaktif, langkah praktik, **Cek hasil**, **Langkah live**, dan cara reset. Klik langkah alur untuk melihat peran dan keluaran; klik screenshot untuk memperbesar.
 
-**Bukti:** 15 skenario, 22 halaman offline, 182 PNG, 68 versi bernomor. 28 nama tangkapan yang benar-benar belum ada tetap tercantum di [daftar pending](docs/screenshots/_missing.json). Hasil lokal, screenshot portal, dan usulan tidak saling menggantikan.
+**Bukti:** 15 skenario, 22 halaman offline, 184 PNG, 69 versi bernomor. 28 nama tangkapan yang benar-benar belum ada tetap tercantum di [daftar pending](docs/screenshots/_missing.json). Hasil lokal, screenshot portal, dan usulan tidak saling menggantikan.
 
 | Skenario | Hasil yang diverifikasi |
 |---|---|
