@@ -24,18 +24,12 @@
         <form id="claim-form">
           <div class="fields">
             <label class="wide">Judul klaim <input id="title" name="title" maxlength="100" required></label>
-            <label>Kategori
-              <select id="category" name="category" required>
-                <option value="">Pilih kategori</option><option value="Travel">Perjalanan</option>
-                <option value="Meals">Makan</option><option value="Equipment">Peralatan</option><option value="Other">Lainnya</option>
-              </select>
-            </label>
             <label>Jumlah (IDR) <input id="amount" name="amount" type="number" inputmode="numeric" min="1" max="50000000" required></label>
             <label>Tanggal klaim <input id="claimDate" name="claimDate" type="date" required></label>
             <label>Lampiran (nama file saja) <input name="attachment" maxlength="100"></label>
             <label class="wide">Catatan (opsional) <textarea name="notes" rows="2" maxlength="500"></textarea></label>
           </div>
-          <div class="actions"><button id="submit" type="submit">Ajukan klaim</button></div>
+          <div class="actions"><button id="submit" type="submit">Submit</button></div>
           <p class="feedback" id="feedback" role="status"></p>
         </form>
       </section>

@@ -4,7 +4,7 @@
 |---|---|
 | 0 — Repo | Inisialisasi lokal. Repo tujuan `sandy-demo/AgenticSDLC` masih kosong; akun aktif tidak punya izin push. |
 | 1 — Aplikasi dan CI | Lokal: 24 tes Vitest dan 3 tes Playwright lulus; workflow CI belum dijalankan di GitHub. |
-| 2 — Baseline latihan | Belum. |
+| 2 — Baseline latihan | Bug bisnis dan masalah DX ada di baseline; kegagalan CI hanya pada branch latihan. S10 dan sebagian S09/S14 memakai simulasi yang tidak menjalankan aksi berisiko. |
 | 3 — Issue | Belum. |
 | 4 — Customizations | Belum. |
 | 5 — Agentic Workflows | Belum. |
@@ -22,3 +22,5 @@
   Eksekusi awal diverifikasi di Node 26. Aplikasi hanya mendengarkan di `127.0.0.1`;
   pemilih peran bukan autentikasi dan SQLite di memori hanya berisi data fiktif.
 - CSS tersedia lokal agar tidak bergantung pada CDN.
+- S04 mempertahankan field tanggal di baseline agar bug bisa dicoba nyata: perbaikan menolak tanggal masa depan, bukan menambahkan field. S08 mengikuti batas `≥ 1.000.000` di templat aturan bisnis.
+- S03 tidak menghapus validasi input. S07 memakai adapter callback fiktif, bukan paket rentan. S09 mempertahankan audit trail dan tidak menulis data pribadi ke log. S10 memakai simulasi alert; tidak ada SQL injection atau dependensi yang sengaja dibuat rentan.

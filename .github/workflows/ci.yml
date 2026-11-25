@@ -22,6 +22,12 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run coverage
+      - name: Latihan S05 — timezone
+        if: github.ref_name == 'demo/ci-timezone' || github.head_ref == 'demo/ci-timezone'
+        run: node --test tests/labs/ci-timezone.mjs
+      - name: Latihan S13 — koneksi putus
+        if: (github.ref_name == 'demo/ci-econnreset' || github.head_ref == 'demo/ci-econnreset') && matrix.timezone.id == 'los-angeles'
+        run: node --test tests/labs/ci-connection.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.timezone.id }}

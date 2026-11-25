@@ -5,7 +5,8 @@ export function approvalsRouter(db, clock, logger) {
   const router = Router();
   router.get('/', (req, res) => {
     requireRole(req.demoUser, 'manager', 'finance');
-    res.json({ claims: db.approvalQueue(req.demoUser) });
+    const claim_rows = db.approvalQueue(req.demoUser);
+    res.json({ claims: claim_rows });
   });
   router.post('/:id', (req, res) => {
     const claim = decideClaim(db, req.demoUser, req.params.id, req.body?.action, clock());

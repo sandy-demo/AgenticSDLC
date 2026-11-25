@@ -29,7 +29,7 @@ export function createApp({ clock = () => new Date(), logger = log, db = createD
   };
   app.use('/claims', selectDemoUser, claimsRouter(db, clock, logger));
   app.use('/approvals', selectDemoUser, approvalsRouter(db, clock, logger));
-  app.use('/reports', selectDemoUser, reportsRouter(db, logger));
+  app.use('/reports', selectDemoUser, reportsRouter(db));
   app.use((_req, _res, next) => next(new InputError('NOT_FOUND', 'Halaman atau endpoint tidak ditemukan.', 404)));
   app.use((error, req, res, _next) => {
     const response = error instanceof InputError ? error

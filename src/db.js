@@ -41,8 +41,11 @@ export function createDatabase(now = new Date()) {
     FROM claims c JOIN users u ON u.id = c.employee_id WHERE c.id = ?
   `);
   const listOwn = db.prepare(`
+    SELECT id FROM claims WHERE employee_id = ? ORDER BY id DESC LIMIT 100
+  `);
+  const ownListItem = db.prepare(`
     SELECT id, employee_id AS employeeId, title, category, amount, claim_date AS claimDate, status
-    FROM claims WHERE employee_id = ? ORDER BY id DESC LIMIT 100
+    FROM claims WHERE id = ? AND employee_id = ?
   `);
   const listForManager = db.prepare(`
     SELECT c.id, c.title, c.amount, c.category, c.status, u.alias AS employee
@@ -97,7 +100,7 @@ export function createDatabase(now = new Date()) {
     close: () => db.close(),
     getUser: (id) => getUser.get(id),
     getClaim: (id) => selectClaim.get(id),
-    listOwn: (userId) => listOwn.all(userId),
+    listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),
     approvalQueue: (user) => user.role === 'manager' ? listForManager.all(user.department) : listForFinance.all(),
     history: (id) => history.all(id),
     insertClaim,

@@ -19,7 +19,6 @@ describe('validasi klaim', () => {
     [{ amount: 50_000_001 }, 'CLAIM_AMOUNT'],
     [{ amount: 2.5 }, 'CLAIM_AMOUNT'],
     [{ claimDate: '2026-02-31' }, 'CLAIM_DATE_INVALID'],
-    [{ claimDate: dateKey(shiftDay(now, 1)) }, 'CLAIM_DATE_FUTURE'],
     [{ claimDate: dateKey(shiftDay(now, -91)) }, 'CLAIM_DATE_OLD'],
     [{ attachment: 'folder/receipt.pdf' }, 'CLAIM_ATTACHMENT'],
   ])('menolak payload %j dengan %s', (changes, code) => {
