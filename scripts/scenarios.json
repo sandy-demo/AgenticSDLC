@@ -161,6 +161,11 @@
         "Tulis Rencana S02 untuk dropdown kategori Travel, Meals, Equipment, Other dan tes nilai Travel melalui POST serta GET. Jangan edit file sebelum rencana diperiksa."
       ],
       [
+        "Baca Source Control dan diff dropdown",
+        "Buka Source Control pada clone latihan yang terverifikasi. Jika clone sendiri masih Restricted Mode, periksa asalnya terlebih dahulu dan percayai hanya folder latihan itu, bukan folder induk. Pilih index.html pada Staged Changes lalu cocokkan pilihan kategori dan file payload/tes. Pada foto, path lokal disamarkan.",
+        "git diff --cached --stat"
+      ],
+      [
         "Jalankan tes di terminal VS Code",
         "Buka terminal pada snapshot draft #29, commit 0d46376. Jalankan tes unit. Pada gambar, npm.cmd test dipakai di PowerShell agar launcher Windows jelas. Untuk UI, lakukan tes browser secara terpisah.",
         "npm test\nnpm run e2e -- expense.spec.js"
@@ -172,7 +177,7 @@
       ],
       [
         "Cara merekam hasil live",
-        "Untuk foto rencana, gunakan Copilot yang sudah login di VS Code; sesi Web lokal dapat membuka Chat, tetapi belum menghasilkan respons model. Rekam Source Control pada perubahan yang benar-benar dilihat; Git sudah memverifikasi lima file draft meski panel SCM tidak terdaftar untuk worktree ini.",
+        "Bukti Source Control dan terminal sudah ada pada clone yang sama dengan draft #29. Untuk tahap sebelumnya, gunakan Copilot yang sudah login di VS Code, minta rencana, lalu foto respons nyata sebelum menerima edit. Screenshot input prompt bukan hasil rencana.",
         "1. S02-01-agent-plan.png\n   Di VS Code → Chat → Agent kirim prompt yang meminta pilihan Travel, Meals, Equipment, Other dan tes lintas file. Ambil layar ketika rencana yang nyata tampil, sebelum menilai hasilnya.\n\n2. S02-02-files-changed.png\n   Buka Source Control → Changes setelah penulisan berhenti. Tunjukkan form/payload/validasi/tes yang benar-benar berubah. Tidak perlu memaksa migrasi jika skema sudah menyimpan category.\n\n3. S02-03-tests-green.png\n   Buka terminal checkout yang sama; jalankan npm test, dan npm run e2e bila UI berubah. Foto ringkasan saat seluruh tes yang dijalankan lulus. Jangan gunakan tes dari ref lain sebagai bukti."
       ]
     ],
@@ -195,7 +200,8 @@
       "S02-draft-app-annotated.png",
       "S02-vscode-agent-entry.png",
       "S02-vscode-agent-entry-annotated.png",
-      "S02-03-tests-green-annotated.png"
+      "S02-03-tests-green-annotated.png",
+      "S02-02-files-changed-annotated.png"
     ],
     "app": {
       "after": "v1-app-clean",
@@ -207,13 +213,14 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Kategori berfungsi di draft #29 · terminal VS Code: 25 unit lulus, hasil Agent Mode belum direkam",
+      "live": "Source Control nyata pada 5 file draft #29; 25 unit lulus di VS Code; rencana Agent Mode belum direkam",
       "stepEvidence": [
         "S02-before.png",
         "S02-after-annotated.png",
         "S02-local-result.png",
         "S02-draft-files-annotated.png",
         "S02-vscode-agent-entry-annotated.png",
+        "S02-02-files-changed-annotated.png",
         "S02-03-tests-green-annotated.png",
         "S02-03-tests-green-annotated.png",
         null
@@ -221,7 +228,7 @@
       "completion": {
         "verifiedLearningEvidence": "S02-03-tests-green-annotated.png",
         "learningCheck": "Pada snapshot #29, pilih Perjalanan: POST 201 dan GET 200 mengembalikan Travel. Baseline tanpa pilihan menyimpan Other. Terminal VS Code pada 0d46376 mencatat 25 tes unit lulus; 4 tes browser lulus terpisah. Screenshot prompt belum merupakan rencana Agent.",
-        "livePrerequisite": "Untuk foto rencana, gunakan Copilot yang sudah login di VS Code; sesi Web lokal dapat membuka Chat, tetapi belum menghasilkan respons model. Rekam Source Control pada perubahan yang benar-benar dilihat; Git sudah memverifikasi lima file draft meski panel SCM tidak terdaftar untuk worktree ini.",
+        "livePrerequisite": "Bukti Source Control dan terminal sudah ada pada clone yang sama dengan draft #29. Untuk tahap sebelumnya, gunakan Copilot yang sudah login di VS Code, minta rencana, lalu foto respons nyata sebelum menerima edit. Screenshot input prompt bukan hasil rencana.",
         "targets": [
           {
             "name": "S02-01-agent-plan.png",
@@ -447,7 +454,7 @@
       ],
       [
         "Cara merekam hasil live",
-        "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. Ini hanya membuka job CI. Sebelum izin, status Action required masih tanpa job. Jangan menggunakan tes lokal atau CI draft #17 sebagai CI draft #20.",
+        "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. API resmi menolak izin untuk run ini (HTTP 403). Sebelum izin, status Action required masih tanpa job. Tombol itu hanya mengizinkan tes, bukan review atau merge.",
         "1. S04-06-pr-checks.png\n   Buka draft yang benar-benar berisi perbaikan dari Copilot → Files changed. Tinjau diff; maintainer dapat memilih Approve and run workflows bila diminta. Di Checks foto setelah test Jakarta, test Los Angeles dan e2e lulus pada commit itu, bukan hanya CodeQL. Pembanding yang sudah berjalan: draft #17."
       ]
     ],
@@ -516,7 +523,7 @@
       "completion": {
         "verifiedLearningEvidence": "S04-retry-runtime-annotated.png",
         "learningCheck": "Pada draft #20, kirim klaim Taksi bandara Rp250.000 bertanggal besok: 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini 201. 23 tes unit lulus pada commit 22bef91. Pembanding #17 punya CI hijau; itu bukan CI #20.",
-        "livePrerequisite": "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. Ini hanya membuka job CI. Sebelum izin, status Action required masih tanpa job. Jangan menggunakan tes lokal atau CI draft #17 sebagai CI draft #20.",
+        "livePrerequisite": "Pada Actions run 45655420680, maintainer meninjau diff draft #20 lalu memilih Approve and run. API resmi menolak izin untuk run ini (HTTP 403). Sebelum izin, status Action required masih tanpa job. Tombol itu hanya mengizinkan tes, bukan review atau merge.",
         "targets": [
           {
             "name": "S04-06-pr-checks.png",
@@ -1795,6 +1802,11 @@
         "https://github.com/sandy-demo/expense-app-full/issues/1"
       ],
       [
+        "Bandingkan audit aplikasi dan audit tool",
+        "Jalankan contoh baseline Rp1.250.000. Di claim_events, tiga perubahan status memakai jam uji tetap. Di latihan hook yang terpisah, tiga panggilan lokal mencatat waktu, fase, keputusan, kategori. Tidak ada argumen tool atau isi klaim di audit hook. Foto ini bukan hasil merge.",
+        "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
+      ],
+      [
         "Cek selesai latihan",
         "Ulangi baseline Rp1.250.000: pending → finance_review → approved. Di epik #1 periksa empat Sub-issues dan contoh usulan USD 100 = Rp1.500.000. Ini bukan nilai kurs pasar atau fitur yang sudah jalan. Review ADR masih mendahului implementasi.",
         "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
@@ -1833,7 +1845,8 @@
       "S15-adr-proposed-annotated.png",
       "S15-02-breakdown-annotated.png",
       "S15-epic-backlog.png",
-      "S15-epic-backlog-annotated.png"
+      "S15-epic-backlog-annotated.png",
+      "S15-09-audit-annotated.png"
     ],
     "app": {
       "page": "/",
@@ -1843,7 +1856,7 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "Epik dan 4 sub-issue dibuat · contoh fiktif konsisten, ADR tetap Proposed",
+      "live": "Epik, 4 sub-issue, dan latihan audit lokal terverifikasi · ADR tetap Proposed",
       "stepEvidence": [
         "S15-before-annotated.png",
         "S15-branch-protection-annotated.png",
@@ -1855,6 +1868,7 @@
         "S15-adr-proposed-annotated.png",
         "S15-02-breakdown-annotated.png",
         "S15-epic-backlog-annotated.png",
+        "S15-09-audit-annotated.png",
         "S15-epic-backlog-annotated.png",
         null
       ],

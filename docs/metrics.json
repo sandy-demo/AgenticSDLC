@@ -328,7 +328,12 @@
         "runUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680",
         "commit": "22bef915e08a125a26c65305127b577293e89923",
         "observed": "action_required",
-        "jobs": 0
+        "jobs": 0,
+        "officialApiAttempt": {
+          "httpStatus": 403,
+          "reason": "run is not from a fork pull request or queued by the Actions bot",
+          "executed": false
+        }
       }
     },
     "verifiedDraftPractice": {
@@ -721,6 +726,22 @@
           "alt": "Planner merinci review ADR, API/UI, tes, dan docs; dua contoh kurs USD fiktif tidak sama.",
           "original": "S15-02-breakdown.png",
           "guide": "1. Cocokkan contoh USD 100: issue Rp1.600.000, usulan ADR Rp1.500.000. Keduanya fiktif; reviewer memilih satu acuan. · 2. Putuskan ADR dan kriterianya. · 3. API/UI menunggu keputusan; tes dan docs mengikuti. Ini draf Planner, bukan sub-issue yang sudah didelegasikan. Foto historis sebelum contoh epik diselaraskan; lihat tangkapan backlog terbaru."
+        },
+        {
+          "name": "S15-09-audit.png",
+          "source": "Keluaran latihan lokal pada snapshot capstone berbasis baseline 8834ed7; ditampilkan ulang",
+          "alt": "Tiga event status dari SQLite dan tiga catatan metadata dari panggilan hook lokal.",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "S15-09-audit-annotated.png",
+          "source": "Keluaran latihan lokal pada snapshot capstone berbasis baseline 8834ed7; ditampilkan ulang",
+          "alt": "Tiga event status dari SQLite dan tiga catatan metadata dari panggilan hook lokal.",
+          "width": 1440,
+          "height": 900,
+          "original": "S15-09-audit.png",
+          "guide": "1. Cocokkan audit aplikasi: Employee membuat pending, Manager mengalihkan ke Finance, Finance menyetujui. · 2. Baca audit tool: session, pre dan post menghasilkan default/standard-policy. Panggilan hook sengaja dijalankan untuk latihan; ini bukan log otomatis Planner atau bukti setelah merge."
         }
       ]
     },
@@ -860,6 +881,30 @@
         "fictitious": true
       },
       "adrApproved": false
+    },
+    "auditPractice": {
+      "commit": "8834ed7eea1b43d2c86e327229b9f8de1776718c",
+      "scope": "local baseline snapshot",
+      "fixtureAmountIdr": 1250000,
+      "applicationTransitions": [
+        "pending",
+        "finance_review",
+        "approved"
+      ],
+      "hookPhases": [
+        "session",
+        "pre",
+        "post"
+      ],
+      "hookDecision": "default",
+      "metadataFields": [
+        "at",
+        "phase",
+        "decision",
+        "category"
+      ],
+      "explicitHookInvocation": true,
+      "postMerge": false
     }
   },
   "S05": {
@@ -1961,6 +2006,22 @@
           "height": 900,
           "original": "S02-03-tests-green.png",
           "guide": "1. Jalankan npm test dari checkout yang benar. · 2. Baca Test Files 2 dan Tests 25 passed. · 3. Exit 0 menandakan tes unit selesai; ini bukan GitHub CI, dan tes browser diuji terpisah."
+        },
+        {
+          "name": "S02-02-files-changed.png",
+          "source": "Screenshot nyata VS Code Web · clone lokal terisolasi, isi staging cocok dengan commit 0d46376",
+          "alt": "Source Control memperlihatkan lima Staged Changes dan diff dropdown Kategori di index.html. Path lokal disamarkan.",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "S02-02-files-changed-annotated.png",
+          "source": "Screenshot nyata VS Code Web · clone lokal terisolasi, isi staging cocok dengan commit 0d46376",
+          "alt": "Source Control memperlihatkan lima Staged Changes dan diff dropdown Kategori di index.html. Path lokal disamarkan.",
+          "width": 1440,
+          "height": 900,
+          "original": "S02-02-files-changed.png",
+          "guide": "1. Baca lima Staged Changes: kontrak, form, payload, tes API dan e2e. Klik index.html untuk melihat diff. · 2. Di sebelah kanan, dropdown menambah Travel (Perjalanan), Meals, Equipment, dan Other. Ini perubahan actual draft #29 yang disiapkan ulang di clone lokal, bukan sesi native Agent yang membuat kode."
         }
       ]
     },
@@ -1994,6 +2055,12 @@
         "e2ePassed": 4,
         "unitPassed": 25,
         "terminalExit": 0
+      },
+      "sourceControl": {
+        "commit": "0d4637686c0b6fc95eef5c541eb2ac4190b46caa",
+        "files": 5,
+        "source": "VS Code Web on isolated prepared clone",
+        "recordedNativeAgentPlan": false
       }
     }
   },

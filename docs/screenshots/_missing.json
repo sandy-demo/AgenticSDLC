@@ -18,14 +18,12 @@
     "S15-06-reviews.png",
     "S15-07-merge.png",
     "S15-08-docs.png",
-    "S15-09-audit.png",
     "S15-after.png",
     "S01-before.png",
     "S01-01-without-instructions.png",
     "S01-03-with-instructions.png",
     "S01-after.png",
     "S02-01-agent-plan.png",
-    "S02-02-files-changed.png",
     "S03-01-skill-loaded.png"
   ],
   "errors": [],
@@ -35,7 +33,6 @@
     "S01-03-with-instructions.png",
     "S01-after.png",
     "S02-01-agent-plan.png",
-    "S02-02-files-changed.png",
     "S03-01-skill-loaded.png"
   ],
   "manualOrg": []
