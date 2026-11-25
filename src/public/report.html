@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laporan | Expense Claim App</title>
+  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/demo.css">
+  <script defer src="/demo.js"></script>
+</head>
+<body data-page="reports">
+  <header class="top">
+    <div class="wrap"><p class="brand">Expense Claim App</p><nav aria-label="Halaman aplikasi">
+      <a href="/">Klaim saya</a><a href="/manager.html">Persetujuan</a><a href="/report.html" aria-current="page">Laporan</a>
+    </nav></div>
+  </header>
+  <main class="wrap">
+    <p class="muted">PT Nusantara Finansial · Data fiktif</p>
+    <h1>Laporan Finance</h1>
+    <p class="help">Lihat total klaim yang sudah disetujui, per kategori dan departemen. Bulan mengikuti tanggal klaim.</p>
+    <form class="toolbar" id="report-form">
+      <label>Bulan <input id="month" name="month" type="month" required></label>
+      <button type="submit">Tampilkan laporan</button>
+    </form>
+    <section aria-labelledby="list-heading">
+      <h2 id="list-heading">Ringkasan klaim disetujui</h2>
+      <ul class="quiet" id="items"></ul>
+      <p class="feedback" id="list-status" role="status">Memuat laporan…</p>
+    </section>
+  </main>
+</body>
+</html>

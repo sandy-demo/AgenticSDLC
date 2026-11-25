@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klaim saya | Expense Claim App</title>
+  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/demo.css">
+  <script defer src="/demo.js"></script>
+</head>
+<body data-page="employee">
+  <header class="top">
+    <div class="wrap"><p class="brand">Expense Claim App</p><nav aria-label="Halaman aplikasi">
+      <a href="/" aria-current="page">Klaim saya</a><a href="/manager.html">Persetujuan</a><a href="/report.html">Laporan</a>
+    </nav></div>
+  </header>
+  <main class="wrap">
+    <p class="muted">PT Nusantara Finansial · Data fiktif</p>
+    <h1>Klaim biaya karyawan</h1>
+    <p class="help">Ajukan biaya dalam rupiah, lalu lihat statusnya. Aplikasi lokal ini tidak memakai login sungguhan dan mengulang data awal saat dimulai ulang.</p>
+    <div class="stage">
+      <section aria-labelledby="create-heading">
+        <h2 id="create-heading">Klaim baru</h2>
+        <form id="claim-form">
+          <div class="fields">
+            <label class="wide">Judul klaim <input id="title" name="title" maxlength="100" required></label>
+            <label>Kategori
+              <select id="category" name="category" required>
+                <option value="">Pilih kategori</option><option value="Travel">Perjalanan</option>
+                <option value="Meals">Makan</option><option value="Equipment">Peralatan</option><option value="Other">Lainnya</option>
+              </select>
+            </label>
+            <label>Jumlah (IDR) <input id="amount" name="amount" type="number" inputmode="numeric" min="1" max="50000000" required></label>
+            <label>Tanggal klaim <input id="claimDate" name="claimDate" type="date" required></label>
+            <label>Lampiran (nama file saja) <input name="attachment" maxlength="100"></label>
+            <label class="wide">Catatan (opsional) <textarea name="notes" rows="2" maxlength="500"></textarea></label>
+          </div>
+          <div class="actions"><button id="submit" type="submit">Ajukan klaim</button></div>
+          <p class="feedback" id="feedback" role="status"></p>
+        </form>
+      </section>
+      <section aria-labelledby="list-heading">
+        <h2 id="list-heading">Klaim terbaru</h2>
+        <p class="muted">Pengguna demo: Employee 01</p>
+        <ul class="quiet" id="items"></ul>
+        <p class="feedback" id="list-status" role="status">Memuat daftar…</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

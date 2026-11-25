@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persetujuan | Expense Claim App</title>
+  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/demo.css">
+  <script defer src="/demo.js"></script>
+</head>
+<body data-page="approvals">
+  <header class="top">
+    <div class="wrap"><p class="brand">Expense Claim App</p><nav aria-label="Halaman aplikasi">
+      <a href="/">Klaim saya</a><a href="/manager.html" aria-current="page">Persetujuan</a><a href="/report.html">Laporan</a>
+    </nav></div>
+  </header>
+  <main class="wrap">
+    <p class="muted">PT Nusantara Finansial · Data fiktif</p>
+    <h1>Antrean persetujuan</h1>
+    <p class="help">Manager memeriksa klaim timnya. Klaim bernilai Rp1.000.000 atau lebih perlu keputusan Finance setelah disetujui Manager.</p>
+    <div class="toolbar">
+      <label>Pengguna demo <select id="approval-user">
+        <option value="4">Manager 01 · Operasional</option><option value="5">Manager 02 · Teknologi</option><option value="6">Finance 01</option>
+      </select></label>
+    </div>
+    <section aria-labelledby="list-heading">
+      <h2 id="list-heading">Menunggu keputusan</h2>
+      <p class="feedback" id="feedback" role="status"></p>
+      <ul class="quiet" id="items"></ul>
+      <p class="feedback" id="list-status" role="status">Memuat antrean…</p>
+    </section>
+  </main>
+</body>
+</html>
