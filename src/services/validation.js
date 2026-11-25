@@ -38,6 +38,9 @@ export function validateClaim(value, now = new Date()) {
   if (Number.isNaN(+timestamp) || timestamp.toISOString().slice(0, 10) !== claimDate) {
     throw new InputError('CLAIM_DATE_INVALID', 'Isi tanggal klaim yang valid.');
   }
+  if (claimDate > dateKey(now)) {
+    throw new InputError('CLAIM_DATE_FUTURE', 'Tanggal klaim tidak boleh di masa depan.');
+  }
   if (claimDate < dateKey(shiftDay(now, -90))) {
     throw new InputError('CLAIM_DATE_OLD', 'Tanggal klaim maksimal 90 hari ke belakang.');
   }

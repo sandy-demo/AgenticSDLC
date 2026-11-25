@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { dateKey, shiftDay, validateClaim, validateMonth } from '../../src/services/validation.js';
 
-const now = new Date(2026, 9, 15, 12);
+const now = new Date(2026, 9, 15, 0, 30);
 const valid = { title: 'Taksi bandara', category: 'Travel', amount: 250_000, claimDate: dateKey(now) };
 
 describe('validasi klaim', () => {
   it('menerima hari ini dan merapikan judul', () => {
     expect(validateClaim({ ...valid, title: '  Taksi bandara  ' }, now)).toMatchObject(valid);
+  });
+  it('menerima tanggal kemarin', () => {
+    const claimDate = '2026-10-14';
+    expect(validateClaim({ ...valid, claimDate }, now).claimDate).toBe(claimDate);
   });
   it('menerima tepat 90 hari ke belakang', () => {
     const claimDate = dateKey(shiftDay(now, -90));
@@ -18,7 +22,8 @@ describe('validasi klaim', () => {
     [{ amount: 0 }, 'CLAIM_AMOUNT'],
     [{ amount: 50_000_001 }, 'CLAIM_AMOUNT'],
     [{ amount: 2.5 }, 'CLAIM_AMOUNT'],
-    [{ claimDate: '2026-02-31' }, 'CLAIM_DATE_INVALID'],
+    [{ claimDate: '2026-11-31' }, 'CLAIM_DATE_INVALID'],
+    [{ claimDate: '2026-10-16' }, 'CLAIM_DATE_FUTURE'],
     [{ claimDate: dateKey(shiftDay(now, -91)) }, 'CLAIM_DATE_OLD'],
     [{ attachment: 'folder/receipt.pdf' }, 'CLAIM_ATTACHMENT'],
   ])('menolak payload %j dengan %s', (changes, code) => {

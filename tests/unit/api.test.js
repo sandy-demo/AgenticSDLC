@@ -2,7 +2,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../../src/server.js';
 
-const now = new Date(2026, 9, 15, 12);
+const now = new Date(2026, 9, 15, 23, 30);
 const taxi = { title: 'Taksi bandara', category: 'Travel', amount: 250_000, claimDate: '2026-10-15' };
 let app;
 let log;
@@ -17,11 +17,21 @@ it('mengembalikan seed milik satu karyawan saja', async () => {
   expect(body.claims).toHaveLength(7);
   expect(body.claims.every(({ employeeId }) => employeeId === 1)).toBe(true);
 });
-it('menyimpan klaim dan status awal; log tidak berisi judul atau catatan', async () => {
+it('menyimpan klaim hari ini dan status awal; log tidak berisi judul atau catatan', async () => {
   const { body } = await request(app).post('/claims').set('x-demo-user', '1').send(taxi).expect(201);
   expect(body.claim).toMatchObject({ ...taxi, status: 'pending', employeeId: 1 });
   expect(app.locals.db.history(body.claim.id)[0]).toMatchObject({ fromStatus: null, toStatus: 'pending' });
   expect(log).toHaveBeenCalledWith('info', 'claim.created', { claimId: body.claim.id });
+});
+it('menolak klaim tanggal besok sebelum menulis ke SQLite', async () => {
+  const db = app.locals.db;
+  const before = db.listOwn(1);
+  const insertClaim = vi.spyOn(db, 'insertClaim');
+  await request(app).post('/claims').set('x-demo-user', '1')
+    .send({ ...taxi, claimDate: '2026-10-16' })
+    .expect(400, { code: 'CLAIM_DATE_FUTURE', message: 'Tanggal klaim tidak boleh di masa depan.' });
+  expect(insertClaim).not.toHaveBeenCalled();
+  expect(db.listOwn(1)).toEqual(before);
 });
 it('menolak permintaan tanpa pengguna demo', async () => {
   await request(app).get('/claims').expect(401).expect(({ body }) => expect(body.code).toBe('DEMO_USER_REQUIRED'));
