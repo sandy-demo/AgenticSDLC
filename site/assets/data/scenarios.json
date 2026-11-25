@@ -1538,8 +1538,18 @@
           "https://github.com/sandy-demo/AgenticSDLC/pull/34"
         ],
         [
+          "Buka prototipe terpisah",
+          "Draft #37 memakai proposal retry sebagai referensi latihan, bukan hasil approval GitHub. Prepared statement menyimpan metadata keputusan dengan perubahan status dan event audit dalam transaksi yang sama. Baseline dan draft Implementer #34 tidak disentuh.",
+          "https://github.com/sandy-demo/AgenticSDLC/pull/37/files"
+        ],
+        [
+          "Bandingkan respons retry dan audit",
+          "Jalankan tes pada checkout terpisah commit 7f08e16. Dengan jam tetap, Manager dan Finance mengubah klaim fiktif Rp1.250.000. Retry baseline ditolak 409; prototipe mengembalikan hasil awal 200 tanpa menulis event baru atau log keputusan baru. Status aktual tetap approved. Perintah tes fokus di bawah menghasilkan 28 tes lulus pada masing-masing zona Jakarta dan Los Angeles; 48 adalah jumlah pada suite penuh snapshot prototipe.",
+          "git fetch origin copilot/s11-workshop-reference-prototype\ngit worktree add --detach \".\\.worktrees\\lesson-s11-prototype\" 7f08e16546ad40aeeb4cbeb5dd7b3129d2419c10\nSet-Location \".\\.worktrees\\lesson-s11-prototype\"\nnpm ci\nnpm test -- approval-prototype.test.js"
+        ],
+        [
           "Cek selesai latihan",
-          "Baca draft #34: Files changed 0, tes tidak dijalankan, dan ADR #22 belum disetujui di GitHub. Yang diuji di sini adalah titik henti, bukan implementasi retry. Untuk dasar perilaku, jalankan tes baseline; klaim besar masih masuk Finance setelah Manager.",
+          "Pada klaim fiktif Rp1.250.000, baseline mengembalikan 409 untuk retry; prototipe #37 mengembalikan 200 dengan status awal finance_review meski Finance sudah membuat status aktual approved. Kedua ref punya tiga event dan dua log keputusan. Tanpa key, retry tetap 409. Sebanyak 48 tes lulus pada commit 7f08e16. Ini bukan hasil Implementer resmi atau approval ADR.",
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
@@ -1565,11 +1575,15 @@
         "S11-implementer-blocked.png",
         "S11-implementer-blocked-annotated.png",
         "S11-plan-ready.png",
-        "S11-plan-ready-annotated.png"
+        "S11-plan-ready-annotated.png",
+        "S11-reference-prototype-diff.png",
+        "S11-reference-prototype-diff-annotated.png",
+        "S11-reference-prototype-runtime.png",
+        "S11-reference-prototype-runtime-annotated.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-        "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
+        "live": "Prototipe #37 teruji lokal: retry 200 tanpa event ganda · ADR resmi masih Proposed",
         "stepEvidence": [
           "S11-before.png",
           null,
@@ -1578,12 +1592,14 @@
           "S11-02-impl-pr.png",
           "S11-01-adr-pr-annotated.png",
           "S11-implementer-blocked-annotated.png",
-          "S11-implementer-blocked-annotated.png",
+          "S11-reference-prototype-diff-annotated.png",
+          "S11-reference-prototype-runtime-annotated.png",
+          "S11-reference-prototype-runtime-annotated.png",
           null
         ],
         "completion": {
-          "verifiedLearningEvidence": "S11-implementer-blocked-annotated.png",
-          "learningCheck": "Baca draft #34: Files changed 0, tes tidak dijalankan, dan ADR #22 belum disetujui di GitHub. Yang diuji di sini adalah titik henti, bukan implementasi retry. Untuk dasar perilaku, jalankan tes baseline; klaim besar masih masuk Finance setelah Manager.",
+          "verifiedLearningEvidence": "S11-reference-prototype-runtime-annotated.png",
+          "learningCheck": "Pada klaim fiktif Rp1.250.000, baseline mengembalikan 409 untuk retry; prototipe #37 mengembalikan 200 dengan status awal finance_review meski Finance sudah membuat status aktual approved. Kedua ref punya tiga event dan dua log keputusan. Tanpa key, retry tetap 409. Sebanyak 48 tes lulus pada commit 7f08e16. Ini bukan hasil Implementer resmi atau approval ADR.",
           "livePrerequisite": "Reviewer manusia selain pembuat PR meninjau ADR #22 dan mencatat hasil review di GitHub. Setelah itu, pastikan Implementer bisa membaca keputusan dan issue dari akses yang diizinkan. Retry #34 ditahan HTTP 403; jangan mengakali pembatasan akses runner atau menganggap sesi selesai sebagai kode jadi.",
           "targets": [
             {
@@ -1614,7 +1630,7 @@
           {
             "actor": "Implementer",
             "action": "Mulai setelah handoff yang berwenang",
-            "result": "Draft #34 mencatat HTTP 403 saat memverifikasi konteks. Tidak ada perubahan kode atau hasil tes baru."
+            "result": "Implementer resmi #34 tertahan; prototipe #37 memberi latihan yang benar-benar dapat diuji dengan audit tepat sekali, tanpa menggantikan approval."
           }
         ]
       },
@@ -1631,7 +1647,11 @@
         "S11-implementer-blocked.png": "available",
         "S11-implementer-blocked-annotated.png": "available",
         "S11-plan-ready.png": "available",
-        "S11-plan-ready-annotated.png": "available"
+        "S11-plan-ready-annotated.png": "available",
+        "S11-reference-prototype-diff.png": "available",
+        "S11-reference-prototype-diff-annotated.png": "available",
+        "S11-reference-prototype-runtime.png": "available",
+        "S11-reference-prototype-runtime-annotated.png": "available"
       }
     },
     "S12": {
@@ -2108,8 +2128,18 @@
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
+          "Tinjau apakah fixture bisa menguji pembulatan",
+          "Baca review pada draft ADR. Kurs fiktif Rp15.000 dan Rp11.000 memberi Rp150 dan Rp110 per sen, jadi tidak bisa menghasilkan nilai setengah rupiah. Pisahkan tes roundHalfUp dengan fixture unit tersendiri, dan gunakan nilai USD/SGD yang benar-benar dapat mencapai sisi bawah/atas ambang.",
+          "https://github.com/sandy-demo/expense-app-full/pull/2#pullrequestreview-6065644052"
+        ],
+        [
+          "Periksa revisi kriteria ADR sebelum memberi keputusan",
+          "Pada versi 6c17f2e, kriteria tes pembulatan terpisah dari tes alur approval. Cocokkan contoh yang dihitung dengan review sebelumnya. Yang berubah hanya bagian tes penerimaan; kurs fiktif capstone dan status Proposed tetap sama.",
+          "https://github.com/sandy-demo/expense-app-full/blob/6c17f2ea519520e94825052f254591c6dd8e03e5/docs/adr/0002-multi-currency.md#kriteria-tes-penerimaan"
+        ],
+        [
           "Cek selesai latihan",
-          "Ulangi baseline Rp1.250.000: pending → finance_review → approved. Di epik #1 periksa empat Sub-issues dan contoh usulan USD 100 = Rp1.500.000. Ini bukan nilai kurs pasar atau fitur yang sudah jalan. Review ADR masih mendahului implementasi.",
+          "Coba baseline Rp1.250.000: pending → finance_review → approved. Periksa empat Sub-issues pada epik dan revisi ADR 6c17f2e: tes pembulatan terpisah dari fixture alur persetujuan. Contoh kurs fiktif tidak berubah dan fitur multi-currency belum dibuat. Review manusia masih mendahului implementasi.",
           "npm test -- api.test.js -t 'mengalihkan klaim besar ke Finance'"
         ],
         [
@@ -2147,7 +2177,11 @@
         "S15-02-breakdown-annotated.png",
         "S15-epic-backlog.png",
         "S15-epic-backlog-annotated.png",
-        "S15-09-audit-annotated.png"
+        "S15-09-audit-annotated.png",
+        "S15-adr-review-rounding.png",
+        "S15-adr-review-rounding-annotated.png",
+        "S15-adr-rounding-revised.png",
+        "S15-adr-rounding-revised-annotated.png"
       ],
       "app": {
         "page": "/",
@@ -2157,7 +2191,7 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "Epik, 4 sub-issue, dan latihan audit lokal terverifikasi · ADR tetap Proposed",
+        "live": "Kriteria pembulatan ADR diperbaiki dan terverifikasi · desain masih Proposed",
         "stepEvidence": [
           "S15-before-annotated.png",
           "S15-branch-protection-annotated.png",
@@ -2170,12 +2204,14 @@
           "S15-02-breakdown-annotated.png",
           "S15-epic-backlog-annotated.png",
           "S15-09-audit-annotated.png",
+          "S15-adr-review-rounding-annotated.png",
+          "S15-adr-rounding-revised-annotated.png",
           "S15-epic-backlog-annotated.png",
           null
         ],
         "completion": {
           "verifiedLearningEvidence": "S15-epic-backlog-annotated.png",
-          "learningCheck": "Ulangi baseline Rp1.250.000: pending → finance_review → approved. Di epik #1 periksa empat Sub-issues dan contoh usulan USD 100 = Rp1.500.000. Ini bukan nilai kurs pasar atau fitur yang sudah jalan. Review ADR masih mendahului implementasi.",
+          "learningCheck": "Coba baseline Rp1.250.000: pending → finance_review → approved. Periksa empat Sub-issues pada epik dan revisi ADR 6c17f2e: tes pembulatan terpisah dari fixture alur persetujuan. Contoh kurs fiktif tidak berubah dan fitur multi-currency belum dibuat. Review manusia masih mendahului implementasi.",
           "livePrerequisite": "Reviewer manusia meninjau ADR 0002 di draft sandy-demo/expense-app-full#2. Contoh fiktif dalam epik sudah sama dengan proposal; keputusan pembulatan dan batas tetap perlu ditinjau. Mulai implementasi setelah persetujuan desain; izin merge terpisah.",
           "targets": [
             {
@@ -2234,7 +2270,7 @@
           {
             "actor": "Tech Lead",
             "action": "Tahan implementasi sampai desain disetujui",
-            "result": "Reviewer memeriksa kurs, pembulatan dan limit sebelum menyetujui ADR. Implementasi dan merge belum dimulai."
+            "result": "ADR 6c17f2e sudah punya kriteria tes yang dapat dijalankan. Reviewer masih perlu memeriksa kurs, pembulatan, dan limit sebelum menyetujui desain."
           }
         ]
       },
@@ -2264,6 +2300,10 @@
         "S15-epic-backlog.png": "available",
         "S15-epic-backlog-annotated.png": "available",
         "S15-09-audit-annotated.png": "available",
+        "S15-adr-review-rounding.png": "available",
+        "S15-adr-review-rounding-annotated.png": "available",
+        "S15-adr-rounding-revised.png": "available",
+        "S15-adr-rounding-revised-annotated.png": "available",
         "S15-branch-protection-annotated.png": "available"
       }
     }
@@ -3281,6 +3321,42 @@
             "height": 1117,
             "original": "S15-epic-backlog.png",
             "guide": "1. Cocokkan contoh fiktif USD 100 × Rp15.000 = Rp1.500.000 dengan ADR yang masih Proposed. · 2. Sub-issues 0 of 4 adalah pekerjaan terbuka, bukan sudah lulus. · 3. Mulai dari review ADR. API/UI, tes, dan docs menunggu tahap sebelumnya."
+          },
+          {
+            "name": "S15-adr-review-rounding.png",
+            "source": "Screenshot nyata GitHub review COMMENTED · ADR 0002 yang masih Proposed",
+            "alt": "Catatan fasilitator: fixture USD/SGD tidak mencapai pecahan setengah, sehingga tes unit dan tes batas harus dipisah.",
+            "url": "https://github.com/sandy-demo/expense-app-full/pull/2#pullrequestreview-6065644052",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S15-adr-review-rounding-annotated.png",
+            "source": "Screenshot nyata GitHub review COMMENTED · ADR 0002 yang masih Proposed",
+            "alt": "Catatan fasilitator: fixture USD/SGD tidak mencapai pecahan setengah, sehingga tes unit dan tes batas harus dipisah.",
+            "url": "https://github.com/sandy-demo/expense-app-full/pull/2#pullrequestreview-6065644052",
+            "width": 1440,
+            "height": 900,
+            "original": "S15-adr-review-rounding.png",
+            "guide": "1. Ini komentar teknis, bukan approval. · 2. USD/SGD pada fixture awal menghasilkan rupiah utuh per sen; kasus setengah memakai rate sintetis khusus tes unit. · 3. Pilih nilai nyata dari fixture di dua sisi batas, dan uji nilai tepat Rp1.000.000 memakai IDR."
+          },
+          {
+            "name": "S15-adr-rounding-revised.png",
+            "source": "Screenshot nyata GitHub Preview · revisi ADR 0002 yang masih Proposed",
+            "url": "https://github.com/sandy-demo/expense-app-full/blob/6c17f2ea519520e94825052f254591c6dd8e03e5/docs/adr/0002-multi-currency.md#kriteria-tes-penerimaan",
+            "alt": "ADR memisahkan tes unit pembulatan dari fixture capstone, serta menegaskan persetujuan desain belum diberikan.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S15-adr-rounding-revised-annotated.png",
+            "source": "Screenshot nyata GitHub Preview · revisi ADR 0002 yang masih Proposed",
+            "url": "https://github.com/sandy-demo/expense-app-full/blob/6c17f2ea519520e94825052f254591c6dd8e03e5/docs/adr/0002-multi-currency.md#kriteria-tes-penerimaan",
+            "alt": "ADR memisahkan tes unit pembulatan dari fixture capstone, serta menegaskan persetujuan desain belum diberikan.",
+            "width": 1440,
+            "height": 900,
+            "original": "S15-adr-rounding-revised.png",
+            "guide": "1. Tes unit khusus memakai angka fiktif Rp15.550: satu sen memberi Rp155,5 dan dibulatkan menjadi Rp156. · 2. Fixture capstone tetap sama untuk USD dan SGD; nilai tepat Rp1.000.000 diuji lewat IDR. · 3. Gate handoff tetap meminta persetujuan reviewer; perubahan teks bukan approval."
           }
         ],
         "observedWorkshopGate": {
@@ -3296,7 +3372,7 @@
         "issueUrl": "https://github.com/sandy-demo/expense-app-full/issues/1",
         "prUrl": "https://github.com/sandy-demo/expense-app-full/pull/2",
         "fixtureRunUrl": "https://github.com/sandy-demo/expense-app-full/actions/runs/45655771427",
-        "currentSummary": "Fasilitator menyelaraskan contoh fiktif dan menautkan empat Sub-issues nyata. ADR 0002 tetap Proposed dan belum ada implementasi atau merge."
+        "currentSummary": "Epik, audit lokal, dan empat Sub-issues terverifikasi. Komentar rounding menghasilkan revisi pada satu dokumen ADR, bukan persetujuan atau implementasi. Fixture utama tidak diubah."
       },
       "template": {
         "url": "https://github.com/sandy-demo/expense-app-full",
@@ -3371,6 +3447,34 @@
         ],
         "explicitHookInvocation": true,
         "postMerge": false
+      },
+      "adrRoundingReview": {
+        "url": "https://github.com/sandy-demo/expense-app-full/pull/2#pullrequestreview-6065644052",
+        "reviewState": "COMMENTED",
+        "contextCommit": "8834ed7eea1b43d2c86e327229b9f8de1776718c",
+        "fictitious": true,
+        "unitCase": {
+          "idrPerUnit": 15550,
+          "minorAmount": 1,
+          "roundedIdr": 156
+        },
+        "fixtureCases": {
+          "USD": {
+            "stepIdrPerCent": 150,
+            "belowIdr": 999900,
+            "aboveIdr": 1000050
+          },
+          "SGD": {
+            "stepIdrPerCent": 110,
+            "belowIdr": 999900,
+            "aboveIdr": 1000010
+          }
+        },
+        "idRSameThreshold": 1000000,
+        "approved": false,
+        "revisionCommit": "6c17f2ea519520e94825052f254591c6dd8e03e5",
+        "revisionUrl": "https://github.com/sandy-demo/expense-app-full/blob/6c17f2ea519520e94825052f254591c6dd8e03e5/docs/adr/0002-multi-currency.md#kriteria-tes-penerimaan",
+        "changedFile": "docs/adr/0002-multi-currency.md"
       }
     },
     "S05": {
@@ -4208,6 +4312,22 @@
             "name": "S11-local-result.png",
             "alt": "Output pemeriksaan lokal S11: Templat keputusan, bukan ADR disetujui; Baseline approval yang harus dilindungi.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          },
+          {
+            "name": "S11-reference-prototype-runtime.png",
+            "source": "Respons HTTP dan tes lokal aktual · v0-baseline dan draft #37 commit 7f08e16",
+            "alt": "Baseline retry 409, prototipe retry 200, dengan tiga event audit di kedua ref.",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S11-reference-prototype-runtime-annotated.png",
+            "source": "Respons HTTP dan tes lokal aktual · v0-baseline dan draft #37 commit 7f08e16",
+            "alt": "Baseline retry 409, prototipe retry 200, dengan tiga event audit di kedua ref.",
+            "width": 1440,
+            "height": 900,
+            "original": "S11-reference-prototype-runtime.png",
+            "guide": "1. Baseline memberi 409 pada retry. · 2. Prototipe memutar ulang status finance_review meski klaim tersimpan approved. · 3. Kedua ref punya tiga event (pengajuan dan dua keputusan); prototipe menolak kunci invalid, tindakan berbeda, dan departemen lain. 48 tes lulus pada snapshot ini."
           }
         ]
       },
@@ -4286,10 +4406,28 @@
             "height": 735,
             "original": "S11-plan-ready.png",
             "guide": "1. Cocokkan judul sesi ADR 0001; tanda centang berarti sesi selesai menyusun usulan. · 2. Plan ready for review berarti siap dibaca, bukan disetujui. · 3. Klik ikon View full plan untuk membaca rencana tanpa memulai implementasi."
+          },
+          {
+            "name": "S11-reference-prototype-diff.png",
+            "source": "Screenshot nyata GitHub Files changed · prototipe terpisah #37",
+            "alt": "Draft prototipe #37 memuat perubahan transaksi SQLite dan unit test.",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/37/files",
+            "width": 1440,
+            "height": 900
+          },
+          {
+            "name": "S11-reference-prototype-diff-annotated.png",
+            "source": "Screenshot nyata GitHub Files changed · prototipe terpisah #37",
+            "alt": "Draft prototipe #37 memuat perubahan transaksi SQLite dan unit test.",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/37/files",
+            "width": 1440,
+            "height": 900,
+            "original": "S11-reference-prototype-diff.png",
+            "guide": "1. Cocokkan judul Draft #37, bukan PR Implementer #34. · 2. Baca satu transaksi untuk status, event audit, dan metadata hasil keputusan. · 3. Buka tes prototipe. GitHub belum mencatat approval resmi ADR."
           }
         ],
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/22",
-        "currentSummary": "ADR #22 masih Proposed. Handoff Implementer #34 mencoba memverifikasi review dan aksesnya ditolak HTTP 403. Runner selesai tanpa perubahan atau tes; paket ini tidak mengisi bukti implementasi."
+        "currentSummary": "ADR #22 masih Proposed dan Implementer resmi #34 berhenti tanpa diff. Prototipe terpisah #37 membuktikan retry dan audit di lokal pada 7f08e16; bukan persetujuan atau merge."
       },
       "implementationAttempt": {
         "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/34",
@@ -4301,6 +4439,45 @@
         "changedFiles": 0,
         "testsRun": false,
         "githubReviewApproved": false
+      },
+      "referencePrototype": {
+        "draftUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/37",
+        "commit": "7f08e16546ad40aeeb4cbeb5dd7b3129d2419c10",
+        "baseline": "v0-baseline",
+        "scope": "isolated reference only",
+        "gitHubAdrApproved": false,
+        "merged": false,
+        "unitTestsPassed": 48,
+        "majorCase": {
+          "amountIdr": 1250000,
+          "baselineRetry": 409,
+          "prototypeRetry": 200,
+          "baselineRetryAfterFinance": 409,
+          "prototypeRetryAfterFinance": 200,
+          "replayedStatus": "finance_review",
+          "storedStatus": "approved",
+          "appEvents": [
+            3,
+            3
+          ],
+          "operationalDecisionLogs": [
+            2,
+            2
+          ]
+        },
+        "guards": {
+          "invalidKeyHttp": 400,
+          "differentDepartmentHttp": 404,
+          "actionMismatchHttp": 409,
+          "retryWithoutKeyHttp": 409,
+          "thresholdIdr": 1000000,
+          "thresholdStatus": "finance_review"
+        },
+        "focusedSuite": {
+          "command": "npm test -- approval-prototype.test.js",
+          "AsiaJakartaPassed": 28,
+          "AmericaLosAngelesPassed": 28
+        }
       }
     },
     "S01": {
@@ -4980,14 +5157,16 @@
         ]
       },
       "S11": {
-        "live": "ADR #22 Proposed · Implementer #34 berhenti tanpa diff, akses runner ditolak",
+        "live": "Prototipe #37 teruji lokal: retry 200 tanpa event ganda · ADR resmi masih Proposed",
         "localDurationSeconds": 0.91,
         "missing": [
           "S11-02-impl-pr.png",
           "S11-after.png"
         ],
         "screenshots": [
-          "S11-local-result.png"
+          "S11-local-result.png",
+          "S11-reference-prototype-runtime.png",
+          "S11-reference-prototype-runtime-annotated.png"
         ],
         "cloudScreenshots": [
           "S11-before.png",
@@ -4998,11 +5177,13 @@
           "S11-implementer-blocked.png",
           "S11-implementer-blocked-annotated.png",
           "S11-plan-ready.png",
-          "S11-plan-ready-annotated.png"
+          "S11-plan-ready-annotated.png",
+          "S11-reference-prototype-diff.png",
+          "S11-reference-prototype-diff-annotated.png"
         ]
       },
       "S15": {
-        "live": "Epik, 4 sub-issue, dan latihan audit lokal terverifikasi · ADR tetap Proposed",
+        "live": "Kriteria pembulatan ADR diperbaiki dan terverifikasi · desain masih Proposed",
         "localDurationSeconds": 0.91,
         "missing": [
           "S15-03-adr.png",
@@ -5032,7 +5213,11 @@
           "S15-adr-proposed.png",
           "S15-adr-proposed-annotated.png",
           "S15-epic-backlog.png",
-          "S15-epic-backlog-annotated.png"
+          "S15-epic-backlog-annotated.png",
+          "S15-adr-review-rounding.png",
+          "S15-adr-review-rounding-annotated.png",
+          "S15-adr-rounding-revised.png",
+          "S15-adr-rounding-revised-annotated.png"
         ]
       },
       "S01": {
