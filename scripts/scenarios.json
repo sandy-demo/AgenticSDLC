@@ -285,7 +285,8 @@
       "S05-after.png",
       "S05-local-result.png",
       "S05-pr-draft.png",
-      "S05-pr-empty.png"
+      "S05-pr-empty.png",
+      "S05-agent-diagnostic.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
@@ -441,7 +442,7 @@
     ],
     "compare": [
       "Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.",
-      "Tes batas menelepon nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false."
+      "Tes batas memakai nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false."
     ],
     "benefit": "QA mengubah aturan tertulis jadi bukti yang bisa diulang.",
     "shots": [

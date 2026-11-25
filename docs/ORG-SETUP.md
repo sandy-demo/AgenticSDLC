@@ -41,6 +41,8 @@
 2. **Pilih izin di tab Account.** Klik **Permissions > Account > Add permissions**, cari **Copilot Requests**, lalu pilih **Read** (*Read-only*). Tidak perlu menambah izin tulis. Klik **Generate token**.
 3. **Simpan di Settings repo.** Buka [Actions secrets repo AgenticSDLC](https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions) (**Settings > Secrets and variables > Actions > Secrets**). Klik **New repository secret**, isi **Name** dengan `COPILOT_GITHUB_TOKEN`, tempel nilai PAT di kolom **Secret**, lalu klik **Add secret**. Jangan masukkan nilai token ke chat, commit, atau screenshot.
 
+Lihat [posisi Account → Copilot Requests: Read-only](screenshots/setup-copilot-pat.png) dan [daftar Repository secrets](screenshots/setup-copilot-secret.png). Tangkapan pertama diambil sebelum token dibuat; tangkapan kedua hanya menampilkan nama secret.
+
 **Cara cek:** jalankan `gh secret list -R sandy-demo/AgenticSDLC`. Nama `COPILOT_GITHUB_TOKEN` harus muncul, bukan nilainya. Menyimpan secret tidak otomatis menyalakan workflow. Izin untuk operasi GitHub tetap dikontrol terpisah lewat `permissions` dan `safe-outputs`. [Panduan autentikasi gh-aw](https://github.github.com/gh-aw/reference/auth/#copilot_github_token).
 
 ## Agentic Workflows dan biaya (S12–S14)

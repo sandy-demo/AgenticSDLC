@@ -104,7 +104,7 @@
       "ciUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262",
       "revisionCommentUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467",
       "ciConclusion": "action_required",
-      "sessionScreenshotStatus": "needs-authenticated-browser",
+      "sessionScreenshotStatus": "captured-authenticated",
       "images": [
         {
           "name": "S04-01-issue.png",
@@ -169,6 +169,14 @@
           "guide": "Buka Code → scripts → hooks → policy.mjs. Lihat baris 13: argumen berbentuk teks langsung diproses sebagai JSON. Ini penyebab penolakan edit, bukan letak bug tanggal.",
           "width": 1440,
           "height": 1517
+        },
+        {
+          "name": "S04-03-agent-session.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
+          "alt": "Sesi S04 terakhir: guardrail invalid-input, tanpa perubahan kode, hanya 11 tes baseline di setiap zona waktu.",
+          "guide": "Di Conversation draft #4, klik View session untuk sesi terakhir. Panel Task activity menunjukkan alasan edit ditolak. Tes baseline Jakarta dan LA lulus; belum ada tes baru untuk tanggal besok.",
+          "width": 1038,
+          "height": 368
         }
       ],
       "changedFiles": 0,
@@ -243,7 +251,18 @@
     },
     "cloudEvidence": {
       "status": "not-started-edit-prerequisite",
-      "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review."
+      "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review.",
+      "images": [
+        {
+          "name": "S08-01-agent-picker.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo",
+          "alt": "Menu Custom agents pada repo menampilkan QA Engineer.",
+          "guide": "Di Agents, klik ikon Copilot di bawah kotak prompt untuk membuka Custom agents. QA Engineer muncul di daftar. Foto ini hanya menunjukkan pilihan; sesi QA belum dijalankan.",
+          "width": 1038,
+          "height": 2145
+        }
+      ],
+      "pickerScreenshotStatus": "captured-not-launched"
     }
   },
   "S10": {
@@ -288,8 +307,17 @@
           "guide": "Buka Actions → CodeQL → CodeQL Setup #1. Pastikan dua job Analyze hijau. API melaporkan 0 alert terbuka; screenshot ini tidak menunjukkan autofix atau hasil sesudah perbaikan.",
           "width": 1440,
           "height": 832
+        },
+        {
+          "name": "S10-before.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning?query=is%3Aopen+branch%3Ademo%2Fworkshop",
+          "alt": "Code scanning pada demo/workshop memperlihatkan 0 Open dan 0 Closed.",
+          "guide": "Buka Security and quality → Code scanning. Filter is:open branch:demo/workshop menunjukkan 0 Open. Tidak ada alert untuk dicoba dengan Autofix.",
+          "width": 1038,
+          "height": 1437
         }
-      ]
+      ],
+      "alertListVerified": true
     }
   },
   "S14": {
@@ -402,7 +430,9 @@
         "coverageAfter": null,
         "alertsBefore": null,
         "alertsAfter": null,
-        "outcome": "blocked-hook-invalid-input"
+        "outcome": "blocked-hook-invalid-input",
+        "aiCredits": 1.4,
+        "aiCreditsSource": "Tampilan sesi Copilot S05 di GitHub; bukan tagihan."
       }
     ],
     "localDryRun": {
@@ -471,8 +501,17 @@
           "alt": "Files changed 0: tidak ada perbaikan yang bisa ditinjau.",
           "width": 1440,
           "height": 488
+        },
+        {
+          "name": "S05-agent-diagnostic.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/pull/6",
+          "alt": "Sesi S05 mengonfirmasi selisih tanggal dan penolakan edit oleh guardrail.",
+          "guide": "Di Conversation draft #6, klik View session. Konfirmasi tanggal UTC terlihat sebagai 14 Oktober di LA. Tidak ada patch karena edit ditolak.",
+          "width": 1038,
+          "height": 368
         }
-      ]
+      ],
+      "sessionScreenshotStatus": "captured-authenticated"
     }
   },
   "S07": {
@@ -585,7 +624,7 @@
           "completedAt": "2026-11-25T10:14:41Z"
         }
       ],
-      "sessionScreenshotStatus": "needs-authenticated-browser",
+      "sessionScreenshotStatus": "captured-authenticated",
       "images": [
         {
           "name": "S09-before.png",
@@ -600,6 +639,14 @@
           "alt": "Copilot Code Review memberi satu komentar Approval recommended, bukan approval manusia.",
           "width": 1440,
           "height": 1066
+        },
+        {
+          "name": "S09-01-three-sessions.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo",
+          "alt": "Tiga baris teratas pada Sessions menunjukkan Security, Compliance dan Performance sudah Done.",
+          "guide": "Buka Agents pada repo. Tiga tugas teratas berstatus Done. Ini bukti sesi berjalan, bukan bukti komentar [SEV-…] sudah dipublikasikan.",
+          "width": 990,
+          "height": 806
         }
       ]
     }

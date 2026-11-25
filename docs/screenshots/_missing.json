@@ -1,6 +1,5 @@
 {
   "missing": [
-    "S04-03-agent-session.png",
     "S04-06-pr-checks.png",
     "S05-02-pr-fix.png",
     "S05-after.png",
@@ -9,10 +8,8 @@
     "S07-02-pr-migration.png",
     "S07-after.png",
     "S08-before.png",
-    "S08-01-agent-picker.png",
     "S08-02-bug-issue.png",
     "S08-after.png",
-    "S09-01-three-sessions.png",
     "S09-02-comments.png",
     "S09-after.png",
     "S12-before.png",
@@ -24,7 +21,6 @@
     "S14-before.png",
     "S14-02-usage.png",
     "S14-after.png",
-    "S10-before.png",
     "S10-01-assign.png",
     "S10-02-pr-autofix.png",
     "S10-03-alert-closed.png",

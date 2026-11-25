@@ -22,7 +22,7 @@ const sections = [
 const repo = 'https://github.com/sandy-demo/AgenticSDLC';
 const pngInfo = new Map();
 const knownShots = [...new Set(Object.values(scenarios).flatMap(({ shots }) => shots)),
-  'S04-before-annotated.png', 'S04-after-annotated.png'];
+  'S04-before-annotated.png', 'S04-after-annotated.png', 'setup-copilot-pat.png', 'setup-copilot-secret.png'];
 
 for (const directory of ['scenarios', 'assets/screenshots', 'assets/vendor', 'assets/data']) {
   mkdirSync(join(site, directory), { recursive: true });
@@ -109,6 +109,8 @@ function chart(id, title, { type, label, labels, values, horiz = false, max, sec
 }
 
 const shotAlts = {
+  'setup-copilot-pat.png': 'Form baru tanpa nilai token; Account menampilkan Copilot Requests dengan akses Read-only.',
+  'setup-copilot-secret.png': 'Settings repo, Actions secrets, tombol New repository secret, dan nama COPILOT_GITHUB_TOKEN yang sudah tersimpan.',
   'S04-before.png': 'S04 baseline lokal: klaim Taksi bandara Rp250.000 tersimpan setelah tanggal besok dikirim.',
   'S04-after.png': 'S04 branch perbaikan lokal: form menampilkan pesan tanggal klaim tidak boleh di masa depan.',
   'S04-before-annotated.png': 'Langkah 1: kotak menyorot status klaim tersimpan pada baseline lokal.',
@@ -320,7 +322,7 @@ document('governance.html', 'Governance dan biaya', `
 <section class="section"><h2>Berapa biayanya?</h2>
 ${note('<strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI credits, 25 × US$0,01 = US$0,25. Bukan estimasi satu sesi dan bukan tagihan.')}
 <p>Tarif konversi diambil dari ${link('https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing', 'GitHub Docs — Usage-based billing for individuals')}, diperiksa 25 November 2026. Satuan USD per AI credit untuk akun personal; contoh tidak memasukkan langganan, pajak, atau biaya Actions. Token yang digunakan dan model menentukan jumlah kredit. Periksa dashboard paketmu untuk pemakaian aktual.</p>
-${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. S04 menjumlahkan tampilan dari tiga sesi; ini bukan tagihan atau jumlah premium requests.')}
+${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. Angka tampilan sesi S04 dan S05 bukan tagihan atau jumlah premium requests.')}
 </section>`, { charts: billed.length > 0 });
 
 document('setup.html', 'Cara demo', `
@@ -350,6 +352,8 @@ document('setup.html', 'Cara demo', `
 <li><strong>Pilih izin di tab Account.</strong> Klik <strong>Permissions &gt; Account &gt; Add permissions</strong>, cari <strong>Copilot Requests</strong>, lalu pilih <strong>Read</strong> (<em>Read-only</em>). Tidak perlu menambah izin tulis. Klik <strong>Generate token</strong>.</li>
 <li><strong>Simpan di Settings repo.</strong> Buka <a href="https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions">Actions secrets repo AgenticSDLC</a> (<strong>Settings &gt; Secrets and variables &gt; Actions &gt; Secrets</strong>). Klik <strong>New repository secret</strong>, isi <strong>Name</strong> dengan <code translate="no">COPILOT_GITHUB_TOKEN</code>, tempel nilai PAT di kolom <strong>Secret</strong>, lalu klik <strong>Add secret</strong>. Jangan masukkan nilai token ke chat, commit, atau screenshot.</li>
 </ol>
+<div class="gallery" id="pat-copilot-screenshots"><figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail('setup-copilot-pat.png')}<figcaption><a href="https://github.com/settings/personal-access-tokens/new?name=COPILOT_GITHUB_TOKEN&amp;user_copilot_requests=read">Sumber GitHub</a> · Cari Account → Copilot Requests → Read-only. Ini contoh form sebelum Generate token. Sesuaikan masa berlaku dan batasi akses sesuai petunjuk.</figcaption></figure>
+<figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail('setup-copilot-secret.png')}<figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions">Sumber GitHub</a> · Settings → Secrets and variables → Actions → Secrets. Klik New repository secret untuk menambahkan. Setelah tersimpan, daftar hanya menunjukkan nama COPILOT_GITHUB_TOKEN.</figcaption></figure></div>
 <p><strong>Cara cek:</strong> jalankan <code translate="no">gh secret list -R sandy-demo/AgenticSDLC</code>. Nama <code translate="no">COPILOT_GITHUB_TOKEN</code> harus muncul, bukan nilainya. Menyimpan secret tidak otomatis menyalakan workflow. Izin untuk operasi GitHub tetap dikontrol terpisah lewat <code translate="no">permissions</code> dan <code translate="no">safe-outputs</code>. <a href="https://github.github.com/gh-aw/reference/auth/#copilot_github_token">Panduan autentikasi gh-aw</a>.</p>
 <p>${link(`${repo}/blob/main/docs/ORG-SETUP.md`, 'Prasyarat dan langkah admin di repo (setelah publikasi)')} · ${link('scenarios/index.html', 'Langkah untuk semua skenario')}.</p></section>
 <section class="section"><h2>Kalau ada masalah</h2>

@@ -51,7 +51,7 @@ Remove-Item Env:QA_BOUNDARY</code></pre>
     <div class="gallery"><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S08-before.png</code></div><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S08-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.</td><td>Tes batas menelepon nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.</td><td>Tes batas memakai nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false.</td></tr>
 <tr><th scope="row">Bukti visual</th><td>Belum direkam.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table><figure class="chart" data-chart-id="C3">
@@ -62,8 +62,8 @@ Remove-Item Env:QA_BOUNDARY</code></pre>
 <section class="section"><h2>Manfaat</h2><ul><li>QA mengubah aturan tertulis jadi bukti yang bisa diulang.</li></ul></section>
 <section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. Live ditunda · PR tes QA perlu koreksi guardrail. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
 
-  <div class="gallery"></div>
-  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S08.md">Template issue S08 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 4 layar yang belum ada</summary><ul><li><code>S08-before.png</code></li><li><code>S08-01-agent-picker.png</code></li><li><code>S08-02-bug-issue.png</code></li><li><code>S08-after.png</code></li></ul></details></section>
+  <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-01-agent-picker.png"><img src="../assets/screenshots/S08-01-agent-picker.png" alt="Menu Custom agents pada repo menampilkan QA Engineer." width="1038" height="2145" loading="lazy"><span>Perbesar S08-01-agent-picker.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo">Sumber GitHub</a> · Di Agents, klik ikon Copilot di bawah kotak prompt untuk membuka Custom agents. QA Engineer muncul di daftar. Foto ini hanya menunjukkan pilihan; sesi QA belum dijalankan.</figcaption></figure></div>
+  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S08.md">Template issue S08 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>Belum direkam · 3 layar yang belum ada</summary><ul><li><code>S08-before.png</code></li><li><code>S08-02-bug-issue.png</code></li><li><code>S08-after.png</code></li></ul></details></section>
 <section class="section" id="reset"><h2>Ulangi latihan</h2><p>Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.</p><pre><code>npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S07.html" class="button">← S07</a>

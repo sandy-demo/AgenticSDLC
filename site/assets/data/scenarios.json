@@ -273,7 +273,7 @@
         "S04-before.png": "available",
         "S04-01-issue.png": "available",
         "S04-02-assigned.png": "available",
-        "S04-03-agent-session.png": "missing",
+        "S04-03-agent-session.png": "available",
         "S04-04-pr-summary.png": "available",
         "S04-05-pr-files.png": "available",
         "S04-06-pr-checks.png": "missing",
@@ -331,7 +331,8 @@
         "S05-after.png",
         "S05-local-result.png",
         "S05-pr-draft.png",
-        "S05-pr-empty.png"
+        "S05-pr-empty.png",
+        "S05-agent-diagnostic.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
@@ -350,7 +351,8 @@
         "S05-after.png": "missing",
         "S05-local-result.png": "available",
         "S05-pr-draft.png": "available",
-        "S05-pr-empty.png": "available"
+        "S05-pr-empty.png": "available",
+        "S05-agent-diagnostic.png": "available"
       }
     },
     "S06": {
@@ -514,7 +516,7 @@
       ],
       "compare": [
         "Suite reguler melewati baris approvalRules.js tetapi tidak menguji tepat Rp1.000.000.",
-        "Tes batas menelepon nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false."
+        "Tes batas memakai nilai 999999, 1000000, 1000001. Hanya input tengah gagal: expected true, actual false."
       ],
       "benefit": "QA mengubah aturan tertulis jadi bukti yang bisa diulang.",
       "shots": [
@@ -536,7 +538,7 @@
       "level": 3,
       "screenshotStatus": {
         "S08-before.png": "missing",
-        "S08-01-agent-picker.png": "missing",
+        "S08-01-agent-picker.png": "available",
         "S08-02-bug-issue.png": "missing",
         "S08-after.png": "missing",
         "S08-local-result.png": "available"
@@ -598,7 +600,7 @@
       "level": 3,
       "screenshotStatus": {
         "S09-before.png": "available",
-        "S09-01-three-sessions.png": "missing",
+        "S09-01-three-sessions.png": "available",
         "S09-02-comments.png": "missing",
         "S09-after.png": "missing",
         "S09-local-result.png": "available",
@@ -660,7 +662,7 @@
       },
       "level": 3,
       "screenshotStatus": {
-        "S10-before.png": "missing",
+        "S10-before.png": "available",
         "S10-01-assign.png": "missing",
         "S10-02-pr-autofix.png": "missing",
         "S10-03-alert-closed.png": "missing",
@@ -1114,7 +1116,7 @@
         "ciUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262",
         "revisionCommentUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467",
         "ciConclusion": "action_required",
-        "sessionScreenshotStatus": "needs-authenticated-browser",
+        "sessionScreenshotStatus": "captured-authenticated",
         "images": [
           {
             "name": "S04-01-issue.png",
@@ -1179,6 +1181,14 @@
             "guide": "Buka Code → scripts → hooks → policy.mjs. Lihat baris 13: argumen berbentuk teks langsung diproses sebagai JSON. Ini penyebab penolakan edit, bukan letak bug tanggal.",
             "width": 1440,
             "height": 1517
+          },
+          {
+            "name": "S04-03-agent-session.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
+            "alt": "Sesi S04 terakhir: guardrail invalid-input, tanpa perubahan kode, hanya 11 tes baseline di setiap zona waktu.",
+            "guide": "Di Conversation draft #4, klik View session untuk sesi terakhir. Panel Task activity menunjukkan alasan edit ditolak. Tes baseline Jakarta dan LA lulus; belum ada tes baru untuk tanggal besok.",
+            "width": 1038,
+            "height": 368
           }
         ],
         "changedFiles": 0,
@@ -1253,7 +1263,18 @@
       },
       "cloudEvidence": {
         "status": "not-started-edit-prerequisite",
-        "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review."
+        "reason": "False positive guardrail terverifikasi pada S04 dan S05; tidak memulai sesi edit tambahan sebelum review.",
+        "images": [
+          {
+            "name": "S08-01-agent-picker.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo",
+            "alt": "Menu Custom agents pada repo menampilkan QA Engineer.",
+            "guide": "Di Agents, klik ikon Copilot di bawah kotak prompt untuk membuka Custom agents. QA Engineer muncul di daftar. Foto ini hanya menunjukkan pilihan; sesi QA belum dijalankan.",
+            "width": 1038,
+            "height": 2145
+          }
+        ],
+        "pickerScreenshotStatus": "captured-not-launched"
       }
     },
     "S10": {
@@ -1298,8 +1319,17 @@
             "guide": "Buka Actions → CodeQL → CodeQL Setup #1. Pastikan dua job Analyze hijau. API melaporkan 0 alert terbuka; screenshot ini tidak menunjukkan autofix atau hasil sesudah perbaikan.",
             "width": 1440,
             "height": 832
+          },
+          {
+            "name": "S10-before.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning?query=is%3Aopen+branch%3Ademo%2Fworkshop",
+            "alt": "Code scanning pada demo/workshop memperlihatkan 0 Open dan 0 Closed.",
+            "guide": "Buka Security and quality → Code scanning. Filter is:open branch:demo/workshop menunjukkan 0 Open. Tidak ada alert untuk dicoba dengan Autofix.",
+            "width": 1038,
+            "height": 1437
           }
-        ]
+        ],
+        "alertListVerified": true
       }
     },
     "S14": {
@@ -1412,7 +1442,9 @@
           "coverageAfter": null,
           "alertsBefore": null,
           "alertsAfter": null,
-          "outcome": "blocked-hook-invalid-input"
+          "outcome": "blocked-hook-invalid-input",
+          "aiCredits": 1.4,
+          "aiCreditsSource": "Tampilan sesi Copilot S05 di GitHub; bukan tagihan."
         }
       ],
       "localDryRun": {
@@ -1481,8 +1513,17 @@
             "alt": "Files changed 0: tidak ada perbaikan yang bisa ditinjau.",
             "width": 1440,
             "height": 488
+          },
+          {
+            "name": "S05-agent-diagnostic.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/6",
+            "alt": "Sesi S05 mengonfirmasi selisih tanggal dan penolakan edit oleh guardrail.",
+            "guide": "Di Conversation draft #6, klik View session. Konfirmasi tanggal UTC terlihat sebagai 14 Oktober di LA. Tidak ada patch karena edit ditolak.",
+            "width": 1038,
+            "height": 368
           }
-        ]
+        ],
+        "sessionScreenshotStatus": "captured-authenticated"
       }
     },
     "S07": {
@@ -1595,7 +1636,7 @@
             "completedAt": "2026-11-25T10:14:41Z"
           }
         ],
-        "sessionScreenshotStatus": "needs-authenticated-browser",
+        "sessionScreenshotStatus": "captured-authenticated",
         "images": [
           {
             "name": "S09-before.png",
@@ -1610,6 +1651,14 @@
             "alt": "Copilot Code Review memberi satu komentar Approval recommended, bukan approval manusia.",
             "width": 1440,
             "height": 1066
+          },
+          {
+            "name": "S09-01-three-sessions.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo",
+            "alt": "Tiga baris teratas pada Sessions menunjukkan Security, Compliance dan Performance sudah Done.",
+            "guide": "Buka Agents pada repo. Tiga tugas teratas berstatus Done. Ini bukti sesi berjalan, bukan bukti komentar [SEV-…] sudah dipublikasikan.",
+            "width": 990,
+            "height": 806
           }
         ]
       }
@@ -1883,7 +1932,6 @@
         "live": "Timeout 25 menit · draft nyata, 3 sesi tanpa diff karena guardrail",
         "localDurationSeconds": 2.01,
         "missing": [
-          "S04-03-agent-session.png",
           "S04-06-pr-checks.png"
         ],
         "screenshots": [
@@ -1904,7 +1952,8 @@
           "S04-feedback-request.png",
           "S04-05-pr-files.png",
           "S04-07-revision.png",
-          "S04-hook-parser.png"
+          "S04-hook-parser.png",
+          "S04-03-agent-session.png"
         ]
       },
       "S05": {
@@ -1921,7 +1970,8 @@
         "cloudScreenshots": [
           "S05-01-issue.png",
           "S05-pr-draft.png",
-          "S05-pr-empty.png"
+          "S05-pr-empty.png",
+          "S05-agent-diagnostic.png"
         ]
       },
       "S07": {
@@ -1942,19 +1992,20 @@
         "localDurationSeconds": 3.23,
         "missing": [
           "S08-before.png",
-          "S08-01-agent-picker.png",
           "S08-02-bug-issue.png",
           "S08-after.png"
         ],
         "screenshots": [
           "S08-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S08-01-agent-picker.png"
         ]
       },
       "S09": {
         "live": "1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada",
         "localDurationSeconds": 1.31,
         "missing": [
-          "S09-01-three-sessions.png",
           "S09-02-comments.png",
           "S09-after.png"
         ],
@@ -1963,7 +2014,8 @@
         ],
         "cloudScreenshots": [
           "S09-before.png",
-          "S09-builtin-review.png"
+          "S09-builtin-review.png",
+          "S09-01-three-sessions.png"
         ]
       },
       "S12": {
@@ -2011,7 +2063,6 @@
         "live": "CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji",
         "localDurationSeconds": 0.52,
         "missing": [
-          "S10-before.png",
           "S10-01-assign.png",
           "S10-02-pr-autofix.png",
           "S10-03-alert-closed.png",
@@ -2021,7 +2072,8 @@
           "S10-local-result.png"
         ],
         "cloudScreenshots": [
-          "S10-codeql-initial-scan.png"
+          "S10-codeql-initial-scan.png",
+          "S10-before.png"
         ]
       },
       "S11": {
@@ -2115,5 +2167,23 @@
         ]
       }
     }
-  }
+  },
+  "setupEvidence": [
+    {
+      "name": "setup-copilot-pat.png",
+      "url": "https://github.com/settings/personal-access-tokens/new?name=COPILOT_GITHUB_TOKEN&user_copilot_requests=read",
+      "alt": "Form baru tanpa nilai token; Account menampilkan Copilot Requests dengan akses Read-only.",
+      "guide": "Cari Account → Copilot Requests → Read-only. Ini contoh form sebelum Generate token. Sesuaikan masa berlaku dan batasi akses sesuai petunjuk.",
+      "width": 918,
+      "height": 1884
+    },
+    {
+      "name": "setup-copilot-secret.png",
+      "url": "https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions",
+      "alt": "Settings repo, Actions secrets, tombol New repository secret, dan nama COPILOT_GITHUB_TOKEN yang sudah tersimpan.",
+      "guide": "Settings → Secrets and variables → Actions → Secrets. Klik New repository secret untuk menambahkan. Setelah tersimpan, daftar hanya menunjukkan nama COPILOT_GITHUB_TOKEN.",
+      "width": 1038,
+      "height": 1317
+    }
+  ]
 }
