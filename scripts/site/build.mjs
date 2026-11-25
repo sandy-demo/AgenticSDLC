@@ -26,7 +26,9 @@ const pngInfo = new Map();
 const allEvidence = Object.fromEntries(ids.map((id) => [id, evidenceImages(metrics[id])]));
 const imageDetails = new Map(Object.values(allEvidence).flatMap(({ local, github }) =>
   [...local, ...github].map((image) => [image.name, image])));
-const knownShots = [...new Set([...setupShots, ...ids.flatMap((id) => shotNames(scenarios[id], metrics[id]))])];
+const knownShots = [...new Set([...setupShots, ...ids.flatMap((id) => [
+  ...shotNames(scenarios[id], metrics[id]), scenarios[id].guide.completion?.verifiedLearningEvidence,
+].filter(Boolean))])];
 
 for (const directory of ['scenarios', 'assets/screenshots', 'assets/vendor', 'assets/data']) {
   mkdirSync(join(site, directory), { recursive: true });
@@ -176,16 +178,38 @@ function comparison(id) {
   </div>`;
 }
 
+const learningStepTitle = 'Cek selesai latihan';
+const liveStepTitle = 'Cara merekam hasil live';
+const indexedSteps = (list) => list.map(([title, detail, command], index) => ({ title, detail, command, index }));
+
+function stepEvidence(id, index) {
+  const sequence = scenarios[id]?.guide?.stepEvidence ?? [];
+  const name = sequence[index];
+  return sequence.indexOf(name) === index && pngInfo.has(name) ? name : null;
+}
+
+function evidenceGallery(names) {
+  return names.length ? `<div class="gallery">${names.map((name) => evidenceFigure(name)).join('')}</div>` : '';
+}
+
 function steps(id, list) {
-  return `<ol class="steps">${list.map(([title, detail, command], index) => {
+  return `<ol class="steps">${list.map(({ title, detail, command, index }) => {
     const codeId = `cmd-${id}-${index + 1}`;
-    const sequence = scenarios[id]?.guide?.stepEvidence ?? [];
-    const annotated = sequence.indexOf(sequence[index]) === index ? sequence[index] : null;
-    return `<li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3></div>
+    const annotated = stepEvidence(id, index);
+    return `<li class="step" value="${index + 1}"><div class="step-top"><span class="step-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3></div>
     <p>${escape(detail)}</p><div class="cmd">${snippet(command, codeId)}
     <button type="button" data-copy="${codeId}" aria-label="Salin: ${escape(title)}" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    ${annotated && pngInfo.has(annotated) ? `<div class="gallery">${evidenceFigure(annotated)}</div>` : ''}</li>`;
+    ${annotated ? evidenceGallery([annotated]) : ''}</li>`;
   }).join('')}</ol>`;
+}
+
+function workflowPath(flow) {
+  return `<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+  ${flow.map(({ actor, action, result }) => `<li><details>
+    <summary><strong>${escape(actor)}</strong> · ${escape(action)}</summary>
+    <p><strong>Hasil:</strong> ${escape(result)}</p>
+  </details></li>`).join('')}
+</ol>`;
 }
 
 const titlesByRole = [
@@ -257,7 +281,16 @@ for (const [index, id] of ids.entries()) {
   const cloud = metrics[id]?.cloudEvidence;
   const preflight = metrics[id]?.preflight;
   const remaining = missingByScenario[id];
-  const seenInSteps = new Set(s.guide.stepEvidence);
+  const { learningCheck, verifiedLearningEvidence, livePrerequisite, targets } = s.guide.completion;
+  const allSteps = indexedSteps(s.steps);
+  const lessonSteps = allSteps.filter(({ title }) => title !== learningStepTitle && title !== liveStepTitle);
+  const movedEvidence = (stepTitle) => allSteps.filter(({ title }) => title === stepTitle)
+    .map(({ index }) => stepEvidence(id, index)).filter(Boolean);
+  const learningEvidence = [...new Set([verifiedLearningEvidence, ...movedEvidence(learningStepTitle)])]
+    .filter((name) => pngInfo.has(name));
+  const liveEvidence = movedEvidence(liveStepTitle);
+  const pendingTargets = targets.filter(({ name }) => !pngInfo.has(name));
+  const seenInSteps = new Set([...s.guide.stepEvidence, ...learningEvidence]);
   const localGallery = local.filter(({ name }) => !seenInSteps.has(name) && pngInfo.has(name));
   const cloudGallery = github.filter(({ name }) => pngInfo.has(name));
   const cloudAnchor = { S10: 'codeql-initial-scan', S14: 's14-controls' }[id] ?? id.toLowerCase() + '-cloud-evidence';
@@ -286,7 +319,7 @@ for (const [index, id] of ids.entries()) {
   document(`scenarios/${id}.html`, `${id} · ${s.title}`, `
 <p class="breadcrumb">${link('index.html', 'Semua skenario')} / ${id}</p><p class="kicker">${id} · Level ${levelOf(id)} — ${escape(levels[levelOf(id) - 1])}</p>
 <h1>${escape(s.title)}</h1><p class="lead">${escape(s.solution)}</p>
-${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#practice', 'Ikuti langkah')} · ${link('#reset', 'Ulangi dari awal')}.`)}
+${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#practice', 'Ikuti langkah')} · ${link('#learning-check', 'Cek hasil')} · ${link('#live-steps', 'Langkah live')} · ${link('#reset', 'Ulangi dari awal')}.`)}
 <div class="badges">${[...s.roles, s.kind, `${s.minutes} · ilustrasi durasi`].map(badge).join('')}</div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
@@ -300,8 +333,22 @@ ${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#pract
   <details><summary>Lihat potongan atau catatan sumber</summary>${snippet(s.sample)}</details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>${escape(s.solution)}</p>
-${graph ? diagram(graph, '../') : `<div class="rail"><ol>${s.steps.map(([stepTitle, detail]) => `<li><strong>${escape(stepTitle)}.</strong> ${escape(detail)}</li>`).join('')}</ol></div>`}</section>
-<section class="section" id="practice"><h2>Langkah demo</h2>${steps(id, s.steps)}</section>
+${s.guide.flow?.length ? workflowPath(s.guide.flow) : ''}
+${graph ? diagram(graph, '../') : `<div class="rail"><ol>${lessonSteps.map(({ title, detail }) => `<li><strong>${escape(title)}.</strong> ${escape(detail)}</li>`).join('')}</ol></div>`}</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>${steps(id, lessonSteps)}</section>
+<section class="section" id="learning-check" aria-labelledby="learning-check-title">
+  <h2 id="learning-check-title">Cek hasil</h2><p>${escape(learningCheck)}</p>
+  ${learningEvidence.length ? `<h3>Bukti latihan terverifikasi</h3>${evidenceGallery(learningEvidence)}` : ''}
+</section>
+<section class="section" id="live-steps" aria-labelledby="live-steps-title">
+  <h2 id="live-steps-title">Langkah live</h2>
+  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>${escape(livePrerequisite)}</p>
+    ${pendingTargets.length ? `<ul>${pendingTargets.map(({ name, instruction }) =>
+      `<li><strong><code translate="no">${escape(name)}</code></strong><p>${escape(instruction)}</p></li>`).join('')}</ul>`
+    : '<p>Tidak ada target bukti live yang belum direkam.</p>'}
+  </details>
+  ${evidenceGallery(liveEvidence)}
+</section>
 <section class="section"><h2>Sebelum dan sesudah</h2>${comparison(id)}
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
 <tr><th scope="row">Perilaku</th><td>${escape(s.compare[0])}</td><td>${escape(s.compare[1])}</td></tr>
@@ -394,12 +441,12 @@ document('setup.html', 'Cara demo', `
 <div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js <code>${escape(nodeRange)}</code> sesuai package.json, Git, npm, dan Chromium untuk screenshot. Tidak perlu secret.</p></article>
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
 <article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
-<section class="section"><h2>2. Siapkan dan coba S04</h2>${steps('setup', [
+<section class="section"><h2>2. Siapkan dan coba S04</h2>${steps('setup', indexedSteps([
   ['Pasang dependensi', 'Buka terminal di root repo. Gunakan tag v0-baseline jika tersedia.', 'npm ci\nnpx playwright install chromium'],
   ['Ambil ref demo', 'Pada hasil clone GitHub biasa, v0-baseline adalah tag dan demo/claim-date disimpan sebagai remote branch. Jangan jalankan ref yang tidak kamu tinjau.', 'git fetch origin --tags\ngit branch --track demo/claim-date origin/demo/claim-date'],
   ['Bandingkan perilaku', 'Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.', 'npm run demo:compare -- demo/claim-date'],
   ['Ambil bukti dan ulangi', 'Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.', 'npm run shots -- S04\nnpm run reset'],
-])}<p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+]))}<p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
 <section class="section" id="reset"><h2>Reset: data aplikasi atau kode latihan?</h2><dl><dt>Data demo</dt><dd>Di terminal yang menjalankan demo, tekan Ctrl+C. Jalankan <code>npm run reset</code> untuk melihat instruksi, lalu <code>npm run demo:before</code>. Perintah reset biasa tidak me-restart server otomatis. Saat diuji, daftar Employee 01 berubah 7 → 8 → 7 klaim setelah restart.</dd><dt>Kode latihan</dt><dd>Jalankan <code>npm run reset -- --fresh</code> dari root repo. Buka path checkout terpisah yang dicetak di terminal. Checkout baru berada pada tag <code>v0-baseline</code>; pekerjaan yang sudah ada, branch, dan remote tetap utuh.</dd><dt>GitHub</dt><dd>Reset lokal tidak menutup issue, menghapus branch remote, atau mengurungkan merge. Gunakan repo turunan untuk latihan yang melibatkan merge.</dd></dl></section>
 <section class="section"><h2>3. Siapkan demo GitHub</h2>
 <ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>
