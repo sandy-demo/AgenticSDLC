@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -90,6 +90,7 @@ test.describe('tanpa JavaScript', () => {
         { actor: 'CI', action: 'Jalankan tes', result: 'Status pemeriksaan' },
       ];
       scenarios.S04.guide.flow = flow;
+      delete scenarios.S01.guide.flow;
       writeFileSync(input, JSON.stringify(scenarios));
       execFileSync(process.execPath, [join(fixture, 'scripts', 'site', 'build.mjs')]);
 
@@ -107,7 +108,9 @@ test.describe('tanpa JavaScript', () => {
       await expect(page).toHaveURL(/#live-steps$/);
       const live = page.getByRole('region', { name: 'Langkah live' });
       await expect(live.getByText(completion.livePrerequisite)).toBeVisible();
-      for (const { name, instruction } of completion.targets) {
+      const pendingTargets = completion.targets.filter(({ name }) => !existsSync(join(fixture, 'docs', 'screenshots', name)));
+      await expect(live.getByRole('listitem')).toHaveCount(pendingTargets.length);
+      for (const { name, instruction } of pendingTargets) {
         await expect(live.getByRole('listitem').filter({ hasText: name })).toContainText(instruction);
       }
       await expect(live.locator('pre, [data-copy]')).toHaveCount(0);
