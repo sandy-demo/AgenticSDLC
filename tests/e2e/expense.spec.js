@@ -4,9 +4,21 @@ test('karyawan mengajukan klaim dan melihat status', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Judul klaim').fill('Taksi bandara · Tes');
   await page.getByLabel('Jumlah (IDR)').fill('250000');
-  await page.locator('#submit').click();
+  const submit = page.getByRole('button', { name: 'Ajukan Klaim' });
+  const hint = 'Klaim yang valid masuk ke antrean Manager, bukan langsung dibayar.';
+  await expect(page.getByText(hint)).toBeVisible();
+  await page.getByLabel('Catatan (opsional)').focus();
+  await page.keyboard.press('Tab');
+  await expect(submit).toBeFocused();
+  await expect(submit).toHaveAccessibleDescription(hint);
+  const response = page.waitForResponse((result) => result.url().endsWith('/claims') && result.request().method() === 'POST');
+  await page.keyboard.press('Enter');
+  expect((await response).status()).toBe(201);
   await expect(page.locator('#feedback')).toContainText('tersimpan');
-  await expect(page.getByRole('heading', { name: 'Taksi bandara · Tes' })).toBeVisible();
+  const claim = page.getByRole('listitem').filter({ has: page.getByRole('heading', { name: 'Taksi bandara · Tes' }) });
+  await expect(claim).toContainText('Menunggu Manager');
+  await page.reload();
+  await expect(claim).toContainText('Menunggu Manager');
 });
 
 test('manager menyetujui klaim fiktif di antrean timnya', async ({ page }) => {

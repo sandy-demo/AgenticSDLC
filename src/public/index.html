@@ -29,7 +29,8 @@
             <label>Lampiran (nama file saja) <input name="attachment" maxlength="100"></label>
             <label class="wide">Catatan (opsional) <textarea name="notes" rows="2" maxlength="500"></textarea></label>
           </div>
-          <div class="actions"><button id="submit" type="submit">Submit</button></div>
+          <p class="hint" id="submit-hint">Klaim yang valid masuk ke antrean Manager, bukan langsung dibayar.</p>
+          <div class="actions"><button id="submit" type="submit" aria-describedby="submit-hint">Ajukan Klaim</button></div>
           <p class="feedback" id="feedback" role="status"></p>
         </form>
       </section>
