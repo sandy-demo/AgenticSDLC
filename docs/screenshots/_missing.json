@@ -1,12 +1,7 @@
 {
   "missing": [
-    "S04-01-issue.png",
-    "S04-02-assigned.png",
     "S04-03-agent-session.png",
-    "S04-04-pr-summary.png",
-    "S04-05-pr-files.png",
     "S04-06-pr-checks.png",
-    "S04-07-revision.png",
     "S05-01-issue.png",
     "S05-02-pr-fix.png",
     "S05-after.png",

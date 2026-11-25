@@ -35,8 +35,8 @@
 
 1. `gh` aktif sebagai `sandy-demo` dengan scope `repo` dan `workflow`.
 2. [CI run 45567707475, percobaan 2](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567707475) lulus. `gh workflow run ci.yml` ditolak (422: tidak ada `workflow_dispatch`); gunakan `gh run rerun` dan `gh run watch` untuk run yang sudah ada.
-3. Secret `COPILOT_GITHUB_TOKEN` tidak ada, CodeQL berstatus `not-configured`, dan `AGENTIC_WORKSHOP_LIVE` belum diatur; bagian agent live tidak dijalankan. gh-aw belum dipasang di CLI ini, sehingga workflow tidak dikompilasi ulang.
-4. Tag `v0-baseline` dan keenam branch latihan ada di remote. Default branch adalah `demo/workshop`, tanpa proteksi; `main` remote dan draft PR stock belum ada. Sesi browser yang masuk akun tidak dipakai; hanya dua halaman Actions publik dipotret.
+3. Nama secret `COPILOT_GITHUB_TOKEN` terverifikasi tanpa membaca nilainya. `gh aw compile --strict` lolos untuk ketiga workflow, dan Docs Sync, Issue Triage, serta CI Fault Analysis berstatus aktif. `AGENTIC_WORKSHOP_LIVE` belum diatur. [Scan awal CodeQL](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587014329) lulus; API melaporkan **0 alert terbuka**.
+4. Tag `v0-baseline` dan keenam branch latihan ada di remote. Branch default `demo/workshop` sekarang dilindungi: 1 approval, tiga checks CI, dan force-push nonaktif. `main` remote belum ada. [Draft stock #2](https://github.com/sandy-demo/AgenticSDLC/pull/2) terbuka. Screenshot berasal dari halaman publik; View session memerlukan login.
 5. Bukti hanya dikumpulkan di `evidence/dry-run-1`, dari `main` lokal (commit yang sama dengan `demo/workshop`). Tidak ada merge atau perubahan pada baseline. Template `sandy-demo/expense-app-full` tidak ditemukan oleh API, jadi sinkronisasi belum bisa diverifikasi.
 
 ### Yang sudah diverifikasi
@@ -46,13 +46,21 @@
 - S04: tanggal besok HTTP 201 → 400, hari ini tetap 201. S08: coverage baris aktual 100% → 100% pada dua suite dengan fokus berbeda; tes tepat Rp1.000.000 sengaja gagal. S15: baseline IDR berhasil, bukan hasil multi-currency.
 - [Metrik per skenario](docs/metrics.json): waktu cek lokal terukur. Durasi PR/revisi, komentar, angka alert dan premium requests tetap `null`. Endpoint usage mengembalikan 404.
 
+### S04 live — sudah sampai draft PR
+
+- [Issue #3](https://github.com/sandy-demo/AgenticSDLC/issues/3) ditugaskan ke Copilot. [Draft PR #4](https://github.com/sandy-demo/AgenticSDLC/pull/4) muncul dalam **0,19 menit** tanpa mengubah branch dasar.
+- Kedua sesi Copilot selesai tanpa diff. [Komentar revisi](https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467) meminta tes batas dan pesan error, tetapi [run revisi](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45588240268) tidak menghasilkan commit perubahan. `revisionMinutes` tetap `null`; belum ada perbaikan aplikasi dari PR.
+- [CI biasa](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262) meminta persetujuan maintainer. Ini berbeda dari CodeQL dan berbeda dari merge. Delapan screenshot S04 live tersedia di [panduan S04](site/scenarios/S04.html#s04-cloud-evidence).
+
 ### Yang masih perlu dilakukan untuk jalur cloud
+
+[Panduan PAT Copilot untuk S12 dan S13](docs/ORG-SETUP.md#pat-copilot-untuk-s12-dan-s13) menjelaskan kenapa izin ada di tab **Account** dan kapan token tidak diperlukan.
 
 1. Buka [Fine-grained tokens](https://github.com/settings/personal-access-tokens/new) pada akun latihan dan pilih **Generate new token**.
 2. Batasi masa berlaku dan akses ke repo latihan, beri **Copilot Requests: Read** pada permission akun. Jangan salin nilai PAT ke chat atau commit.
 3. Masukkan nilainya melalui prompt aman `gh secret set COPILOT_GITHUB_TOKEN -R sandy-demo/AgenticSDLC`, lalu cek nama menggunakan `gh secret list -R sandy-demo/AgenticSDLC`.
 
-Setelah itu cek CodeQL di **Settings → Security → Code security → Code scanning → Set up → Default** dan aktifkan workflow latihan hanya saat anggaran disetujui. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
+Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, buka [View session revisi](https://github.com/sandy-demo/AgenticSDLC/sessions/ef1e59ca-a080-4b7b-9a00-1051cd9759ae) saat login sebagai `sandy-demo`; halaman ini tidak bisa dibuka tanpa login. S04 baru sampai draft tanpa perubahan, jangan merge atau menyetujui workflow sebagai bukti perbaikan yang belum ada. S05 dan seterusnya belum dimulai live. Untuk S12/S13, aktifkan pemicu workshop hanya saat anggaran disetujui; variabelnya masih nonaktif. S14 memakai fixture aman, bukan issue yang meminta akses rahasia. S15 berhenti sebelum merge; syaratnya review manusia dan persetujuan eksplisit.
 
 ### Enam momen screenshot manual di VS Code
 

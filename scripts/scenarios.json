@@ -216,7 +216,10 @@
       "S04-after.png",
       "S04-local-form.png",
       "S04-local-form-annotated.png",
-      "S04-local-result.png"
+      "S04-local-result.png",
+      "S04-agent-actions.png",
+      "S04-ci-approval-pending.png",
+      "S04-feedback-request.png"
     ],
     "app": {
       "after": "demo/claim-date",
@@ -229,7 +232,7 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "pending · Issue, draft PR, revisi Copilot",
+      "live": "Issue dan draft Copilot nyata · 2 sesi selesai tanpa diff; CI belum dijalankan",
       "stepEvidence": [
         "S04-local-form-annotated.png",
         "S04-after-annotated.png",
@@ -553,7 +556,7 @@
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "pending · CodeQL default setup belum aktif",
+      "live": "CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji",
       "stepEvidence": [
         "S10-local-result.png",
         "S10-local-result.png",

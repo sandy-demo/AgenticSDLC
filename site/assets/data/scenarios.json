@@ -243,7 +243,10 @@
         "S04-after.png",
         "S04-local-form.png",
         "S04-local-form-annotated.png",
-        "S04-local-result.png"
+        "S04-local-result.png",
+        "S04-agent-actions.png",
+        "S04-ci-approval-pending.png",
+        "S04-feedback-request.png"
       ],
       "app": {
         "after": "demo/claim-date",
@@ -256,7 +259,7 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "pending · Issue, draft PR, revisi Copilot",
+        "live": "Issue dan draft Copilot nyata · 2 sesi selesai tanpa diff; CI belum dijalankan",
         "stepEvidence": [
           "S04-local-form-annotated.png",
           "S04-after-annotated.png",
@@ -267,17 +270,20 @@
       "level": 2,
       "screenshotStatus": {
         "S04-before.png": "available",
-        "S04-01-issue.png": "missing",
-        "S04-02-assigned.png": "missing",
+        "S04-01-issue.png": "available",
+        "S04-02-assigned.png": "available",
         "S04-03-agent-session.png": "missing",
-        "S04-04-pr-summary.png": "missing",
-        "S04-05-pr-files.png": "missing",
+        "S04-04-pr-summary.png": "available",
+        "S04-05-pr-files.png": "available",
         "S04-06-pr-checks.png": "missing",
-        "S04-07-revision.png": "missing",
+        "S04-07-revision.png": "available",
         "S04-after.png": "available",
         "S04-local-form.png": "available",
         "S04-local-form-annotated.png": "available",
-        "S04-local-result.png": "available"
+        "S04-local-result.png": "available",
+        "S04-agent-actions.png": "available",
+        "S04-ci-approval-pending.png": "available",
+        "S04-feedback-request.png": "available"
       }
     },
     "S05": {
@@ -636,7 +642,7 @@
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-        "live": "pending · CodeQL default setup belum aktif",
+        "live": "CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji",
         "stepEvidence": [
           "S10-local-result.png",
           "S10-local-result.png",
@@ -994,7 +1000,26 @@
   },
   "metrics": {
     "S04": {
-      "runs": [],
+      "runs": [
+        {
+          "date": "2026-11-25",
+          "startedAt": "2026-11-25T09:39:21.803Z",
+          "prAt": "2026-11-25T09:39:33Z",
+          "minutesToPr": 0.19,
+          "revisionRequestedAt": "2026-11-25T09:44:08Z",
+          "revisionMinutes": null,
+          "reviewerComments": 1,
+          "premiumRequests": null,
+          "coverageBefore": null,
+          "coverageAfter": null,
+          "alertsBefore": null,
+          "alertsAfter": null,
+          "stoppedAt": "2026-11-25T09:47:53.579Z",
+          "durationSeconds": 512,
+          "revisionSessionEndedAt": "2026-11-25T09:45:55Z",
+          "outcome": "blocked-no-code-diff"
+        }
+      ],
       "localEvidence": {
         "date": "2026-11-25",
         "before": {
@@ -1068,6 +1093,77 @@
             "source": "Output lokal yang dirender · bukan layar portal"
           }
         ]
+      },
+      "cloudEvidence": {
+        "status": "blocked-no-code-diff",
+        "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/3",
+        "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
+        "initialAgentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587506410",
+        "ciUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262",
+        "revisionCommentUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467",
+        "ciConclusion": "action_required",
+        "sessionScreenshotStatus": "needs-authenticated-browser",
+        "images": [
+          {
+            "name": "S04-01-issue.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/issues/3",
+            "alt": "Issue #3: kriteria penerimaan sebelum ditugaskan.",
+            "width": 1440,
+            "height": 936
+          },
+          {
+            "name": "S04-02-assigned.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/issues/3",
+            "alt": "Issue #3: Copilot ada di Assignees, dan draft #4 muncul di timeline.",
+            "width": 1440,
+            "height": 991
+          },
+          {
+            "name": "S04-04-pr-summary.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
+            "alt": "Conversation pada draft PR #4 ketika Copilot mulai bekerja.",
+            "width": 1440,
+            "height": 1478
+          },
+          {
+            "name": "S04-agent-actions.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587506410",
+            "alt": "Ringkasan Actions: proses agent pertama selesai. Ini bukan log View session atau bukti patch.",
+            "width": 1440,
+            "height": 832
+          },
+          {
+            "name": "S04-ci-approval-pending.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587509262",
+            "alt": "CI biasa berstatus Action required: menunggu izin menjalankan workflow.",
+            "width": 1440,
+            "height": 804
+          },
+          {
+            "name": "S04-feedback-request.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4#issuecomment-7158729467",
+            "alt": "Komentar meminta revisi untuk tes tanggal hari ini dan pesan error dalam Bahasa Indonesia. Ini bukan hasil revisi.",
+            "width": 1440,
+            "height": 1341
+          },
+          {
+            "name": "S04-05-pr-files.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4/files",
+            "alt": "Files changed 0: GitHub menampilkan No changes to show.",
+            "width": 1440,
+            "height": 488
+          },
+          {
+            "name": "S04-07-revision.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/4",
+            "alt": "Timeline setelah sesi revisi selesai. Tidak ada commit perubahan, jadi ini bukti upaya revisi, bukan perbaikan.",
+            "width": 1440,
+            "height": 1363
+          }
+        ],
+        "changedFiles": 0,
+        "revisionRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45588240268",
+        "revisionSessionUrl": "https://github.com/sandy-demo/AgenticSDLC/sessions/ef1e59ca-a080-4b7b-9a00-1051cd9759ae"
       }
     },
     "S08": {
@@ -1138,6 +1234,11 @@
             "source": "Output lokal yang dirender · bukan layar portal"
           }
         ]
+      },
+      "preflight": {
+        "scanUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45587014329",
+        "defaultSetup": "configured",
+        "openAlerts": 0
       }
     },
     "S14": {
@@ -1582,16 +1683,11 @@
     ],
     "scenarios": {
       "S04": {
-        "live": "pending · Issue, draft PR, revisi Copilot",
+        "live": "Issue dan draft Copilot nyata · 2 sesi selesai tanpa diff; CI belum dijalankan",
         "localDurationSeconds": 2.01,
         "missing": [
-          "S04-01-issue.png",
-          "S04-02-assigned.png",
           "S04-03-agent-session.png",
-          "S04-04-pr-summary.png",
-          "S04-05-pr-files.png",
-          "S04-06-pr-checks.png",
-          "S04-07-revision.png"
+          "S04-06-pr-checks.png"
         ],
         "screenshots": [
           "S04-local-form.png",
@@ -1601,6 +1697,16 @@
           "S04-after.png",
           "S04-after-annotated.png",
           "S04-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S04-01-issue.png",
+          "S04-02-assigned.png",
+          "S04-04-pr-summary.png",
+          "S04-agent-actions.png",
+          "S04-ci-approval-pending.png",
+          "S04-feedback-request.png",
+          "S04-05-pr-files.png",
+          "S04-07-revision.png"
         ]
       },
       "S05": {
@@ -1695,7 +1801,7 @@
         ]
       },
       "S10": {
-        "live": "pending · CodeQL default setup belum aktif",
+        "live": "CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji",
         "localDurationSeconds": 0.52,
         "missing": [
           "S10-before.png",

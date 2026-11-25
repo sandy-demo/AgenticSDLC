@@ -27,13 +27,26 @@
    branch. Buat tag `v0-baseline` pada commit awal sebelum memulai latihan.
    Untuk varian peserta, `bash scripts/make-bare.sh` menghasilkan ZIP lokal.
 
+## PAT Copilot untuk S12 dan S13
+
+**PAT (Personal Access Token)** adalah kredensial yang mewakili akunmu. Saat Docs Sync (S12), Issue Triage, atau CI Fault Analysis (S13) butuh bantuan AI, GitHub Actions memakai secret `COPILOT_GITHUB_TOKEN` untuk mengirim permintaan ke Copilot atas nama akun `sandy-demo`. Job Actions tidak memakai sesi login browser kamu.
+
+**Kapan boleh dilewati?** PAT ini tidak diperlukan untuk materi offline, aplikasi lokal, CI biasa, atau memilih Copilot lewat **Assignees** di S04. Untuk Assignees, GitHub mengecek akses Copilot akun yang sedang login.
+
+**Kenapa di tab Account?** Copilot memeriksa akses layanan pada akun pemilik token, bukan pengaturan repo. **Copilot Requests: Read** adalah izin minimum untuk memanggil Copilot lewat PAT. Izin ini bukan izin mengubah file atau membuka PR. **Copilot agent settings** di tab **Repositories** mengatur konfigurasi agent, jadi bukan penggantinya.
+
+### Buat dan simpan token
+
+1. **Buat di Settings akun.** Dari foto profil, pilih **Settings > Developer settings > Personal access tokens > Fine-grained tokens > Generate new token**, atau buka [form fine-grained PAT](https://github.com/settings/personal-access-tokens/new?name=COPILOT_GITHUB_TOKEN&user_copilot_requests=read). Di **Resource owner** pilih akun pribadi **sandy-demo**. Pilih masa berlaku singkat dan batasi akses repo ke **AgenticSDLC**.
+2. **Pilih izin di tab Account.** Klik **Permissions > Account > Add permissions**, cari **Copilot Requests**, lalu pilih **Read** (*Read-only*). Tidak perlu menambah izin tulis. Klik **Generate token**.
+3. **Simpan di Settings repo.** Buka [Actions secrets repo AgenticSDLC](https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions) (**Settings > Secrets and variables > Actions > Secrets**). Klik **New repository secret**, isi **Name** dengan `COPILOT_GITHUB_TOKEN`, tempel nilai PAT di kolom **Secret**, lalu klik **Add secret**. Jangan masukkan nilai token ke chat, commit, atau screenshot.
+
+**Cara cek:** jalankan `gh secret list -R sandy-demo/AgenticSDLC`. Nama `COPILOT_GITHUB_TOKEN` harus muncul, bukan nilainya. Menyimpan secret tidak otomatis menyalakan workflow. Izin untuk operasi GitHub tetap dikontrol terpisah lewat `permissions` dan `safe-outputs`. [Panduan autentikasi gh-aw](https://github.github.com/gh-aw/reference/auth/#copilot_github_token).
+
 ## Agentic Workflows dan biaya (S12–S14)
 
 - Baca [autentikasi gh-aw](https://github.github.com/gh-aw/reference/auth/) dan
   periksa plan, izin Actions, dan budget sebelum mengaktifkan.
-- Personal: buat fine-grained PAT dengan **Copilot Requests: Read** pada
-  pengaturan akun sendiri. Masukkan lewat UI Secrets repository dengan nama
-  `COPILOT_GITHUB_TOKEN`; jangan taruh nilainya di chat, terminal history, atau commit.
 - Organisasi: admin memastikan kebijakan billing organisasi mengizinkan
   `copilot-requests: write` atau penggunaan PAT disetujui. Perubahan izin pada
   frontmatter perlu dikompilasi ulang dan ditinjau sebelum publikasi.
