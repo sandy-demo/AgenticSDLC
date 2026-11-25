@@ -8,9 +8,13 @@ const restrictions = [
   ['environment-dump', /\bprintenv\b/i],
 ];
 
+const patchEnvelope = /^\*\*\* Begin Patch\r?\n\*\*\* (?:Add|Delete|Update) File: [^\r\n]+\r?\n(?:[\s\S]*\r?\n)?\*\*\* End Patch(?:\r?\n)?$/;
+
 export function check(input) {
   if (!input || typeof input.toolName !== 'string' || !input.toolName.trim()) return 'invalid-input';
-  const args = typeof input.toolArgs === 'string' ? JSON.parse(input.toolArgs) : input.toolArgs;
+  const { toolName, toolArgs } = input;
+  const rawPatch = toolName === 'apply_patch' && typeof toolArgs === 'string' && patchEnvelope.test(toolArgs);
+  const args = typeof toolArgs === 'string' && !rawPatch ? JSON.parse(toolArgs) : toolArgs;
   const value = JSON.stringify(args ?? {}).replaceAll('\\\\', '/');
   return restrictions.find(([, pattern]) => pattern.test(value))?.[0] ?? 'standard-policy';
 }
