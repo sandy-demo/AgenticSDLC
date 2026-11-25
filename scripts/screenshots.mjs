@@ -48,6 +48,10 @@ if (selected.length) {
           }
           const target = page.locator(app.checks[index]);
           await target.waitFor({ state: 'visible', timeout: 5000 });
+          if (app.exercise === 'future-date') {
+            await page.getByRole('heading', { name: 'Taksi bandara', exact: true })
+              .waitFor({ state: index ? 'hidden' : 'visible', timeout: 5000 });
+          }
           if (scenarioId === 'S02' && index === 0 && await page.locator('#category').count()) {
             throw new Error('Form baseline seharusnya tidak memuat kategori.');
           }

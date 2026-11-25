@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>S01 · Beri agent aturan kerja tim | Agentic SDLC</title>
+  <link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/workshop.css">
+
+  <script defer src="../js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="breadcrumb"><a href="index.html">Semua skenario</a> / S01</p><p class="kicker">S01 · Level 1 — Inner loop</p>
+<h1>Beri agent aturan kerja tim</h1><p class="lead">Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.</p>
+<div class="badges"><span class="badge">Rani</span><span class="badge">Bima</span><span class="badge">VS Code</span><span class="badge">8 menit · ilustrasi durasi</span></div>
+<div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
+  <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
+  <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
+</div>
+<div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+  <h2>Masalah yang dihadapi</h2><p>Rani bolak-balik revisi karena Bima memakai konvensi yang belum tertulis.</p><p class="note"><strong>Kerugian:</strong> Review kecil memakan waktu dan onboarding bergantung pada senior.</p>
+</div>
+<div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
+  <h2>Masalah pada baseline</h2><p><code translate="no">src/routes/approvals.js</code></p>
+  <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">const claim_rows = db.approvalQueue(req.demoUser);</code></pre></details>
+</div>
+<section class="section"><h2>Solusi dan alur</h2><p>Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.</p>
+<div class="rail"><ol><li><strong>Isolasi contoh.</strong> Buka branch demo/s01-no-instructions di checkout latihan.</li><li><strong>Jalankan prompt.</strong> Simpan diff hasil awal, lalu ulangi di checkout yang punya instructions.</li><li><strong>Tinjau hasil.</strong> Cek nama, error, logger, dan tes; jangan nilai hanya dari panjang kode.</li></ol></div></section>
+<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Isolasi contoh</h3></div>
+    <p>Buka branch demo/s01-no-instructions di checkout latihan.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-1">git switch demo/s01-no-instructions</code></pre>
+    <button type="button" data-copy="cmd-S01-1" aria-label="Salin: Isolasi contoh" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Jalankan prompt</h3></div>
+    <p>Simpan diff hasil awal, lalu ulangi di checkout yang punya instructions.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-2">Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.</code></pre>
+    <button type="button" data-copy="cmd-S01-2" aria-label="Salin: Jalankan prompt" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau hasil</h3></div>
+    <p>Cek nama, error, logger, dan tes; jangan nilai hanya dari panjang kode.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-3">npm test</code></pre>
+    <button type="button" data-copy="cmd-S01-3" aria-label="Salin: Tinjau hasil" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li></ol></section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+
+    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S01-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S01-after.png</code></div></div>
+  </div>
+<table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
+<tr><th scope="row">Perilaku</th><td>Aturan tersirat di kepala reviewer.</td><td>Aturan tertulis di repo dan bisa diuji.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
+</tbody></table></section>
+<section class="section"><h2>Manfaat</h2><ul><li>Reviewer bisa fokus ke keputusan, bukan mengulang konvensi.</li></ul></section>
+<section class="section"><h2>Bukti dan sumber</h2>
+<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S01.md">Template issue S01 di GitHub (setelah publikasi)</a>.</p>
+<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S01-01-without-instructions.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S01-02-instructions-file.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S01-03-with-instructions.png</code></div></div></section>
+<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<nav class="section prevnext" aria-label="Pindah skenario">
+<a href="index.html" class="button">← Semua skenario</a>
+<a href="../capstone.html" class="button">Capstone</a>
+<a href="S02.html" class="button">S02 →</a></nav>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="../glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

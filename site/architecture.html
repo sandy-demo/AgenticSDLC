@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>Arsitektur aplikasi dan agent | Agentic SDLC</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/workshop.css">
+
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html" aria-current="page">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="kicker">Arsitektur</p><h1>Siapa memanggil siapa?</h1><p class="lead">Browser menjalankan form. Express memeriksa aturan dan menyimpan klaim di SQLite. GitHub membantu tim mengubah kode, bukan memproses klaim.</p>
+<section class="section"><h2>Runtime lokal</h2><figure class="diagram" data-diagram="D3">
+  <img class="diagram-image" src="assets/diagrams/D3.svg" alt="Browser mengirim POST /claims ke Express. Jika valid, Express menyimpan klaim dan event di SQLite. SQLite mengembalikan nomor klaim. Express membalas 201 atau 400 ke browser. GitHub Actions menjalankan tes; CodeQL memindai source jika aktif." width="766" height="799" loading="lazy">
+  <ol class="diagram-narrow"><li>Browser mengirim POST /claims ke Express.</li><li>Jika valid, Express menyimpan klaim dan event di SQLite.</li><li>SQLite mengembalikan nomor klaim.</li><li>Express membalas 201 atau 400 ke browser.</li><li>GitHub Actions menjalankan tes; CodeQL memindai source jika aktif.</li></ol>
+  <figcaption><strong>D3.</strong> Express mengurus validasi dan balasan; SQLite hanya di proses lokal. CI dan CodeQL membaca source di GitHub, bukan data klaim.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D3.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  subgraph device[&quot;Perangkat pengguna&quot;]
+    browser[&quot;Browser · form klaim&quot;]
+  end
+  subgraph local[&quot;Proses lokal · 127.0.0.1&quot;]
+    api[&quot;Express · API + aturan bisnis&quot;]
+    store[(&quot;SQLite · klaim dan event&quot;)]
+  end
+  browser --&gt;|Kirim POST /claims| api
+  api --&gt;|Tulis klaim valid| store
+  store --&gt;|Kembalikan nomor klaim| api
+  api --&gt;|Balas 201 atau 400| browser
+  subgraph gh[&quot;GitHub · jalur terpisah&quot;]
+    repo[&quot;Repo · source&quot;] --&gt;|Jalankan tes| ci[&quot;Actions CI&quot;]
+    repo --&gt;|Pindai source| scan[&quot;CodeQL jika aktif&quot;]
+  end
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class browser human
+  class ci,scan gate</code></pre></details>
+</figure>
+<ol class="checklist">
+  <li>Employee 01 mengisi <strong>Taksi bandara</strong>, <strong>Rp250.000</strong>, dan tanggal klaim. Browser mengirim <code translate="no">POST /claims</code>.</li>
+  <li>API membaca persona demo dan memvalidasi nilai. Pada branch perbaikan S04, tanggal besok ditolak sebelum penyimpanan.</li>
+  <li>Untuk tanggal hari ini, SQLite menyimpan klaim berstatus <code translate="no">pending</code> dan event awal dalam transaksi.</li>
+  <li>API mengirim HTTP 201 dan data klaim. Browser menampilkan nomor dan status menunggu Manager, lalu memuat daftar baru.</li>
+</ol>
+<form class="panel" data-example hidden><p><strong>Simulasi respons:</strong> bukan panggilan API.</p>
+  <label for="claim-example-date">Tanggal untuk Taksi bandara · Rp250.000</label>
+  <select id="claim-example-date" name="claim-date"><option value="today">Hari ini</option><option value="tomorrow">Besok</option></select>
+  <p><output for="claim-example-date" aria-live="polite">201 · Klaim tersimpan. Browser menampilkan status menunggu Manager.</output></p>
+</form><p class="note">Aplikasi hanya mendengarkan di localhost. Pemilih peran bukan login. SQLite di memori tidak menyimpan data setelah server dihentikan.</p></section>
+<section class="section"><h2>Jalur perubahan di GitHub</h2><p>Issue, branch, CI, review, dan CodeQL mengatur perubahan kode. Audit serta pengukuran biaya tidak ikut pada jalur permintaan browser.</p><figure class="diagram" data-diagram="D4">
+  <img class="diagram-image" src="assets/diagrams/D4.svg" alt="Maintainer mendelegasikan issue ke cloud agent. Agent mengajukan draft PR. CI menjalankan tes dan reviewer memeriksa bukti. Bima memutuskan merge di repo latihan. Docs Sync atau Triage berjalan bila diaktifkan; hook mencatat keputusan tanpa argumen." width="518" height="974" loading="lazy">
+  <ol class="diagram-narrow"><li>Maintainer mendelegasikan issue ke cloud agent.</li><li>Agent mengajukan draft PR.</li><li>CI menjalankan tes dan reviewer memeriksa bukti.</li><li>Bima memutuskan merge di repo latihan.</li><li>Docs Sync atau Triage berjalan bila diaktifkan; hook mencatat keputusan tanpa argumen.</li></ol>
+  <figcaption><strong>D4.</strong> Perubahan dikerjakan pada branch. Review dan merge adalah keputusan manusia. Garis putus-putus menunjukkan jalur triage dan audit terpisah.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D4.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  ticket[&quot;Issue / tiket Jira&quot;] --&gt;|Reviewer delegasikan| agent[&quot;Copilot cloud agent&quot;]
+  agent --&gt;|Ajukan perubahan| pr[&quot;Branch + draft PR&quot;]
+  pr --&gt;|Jalankan tes| ci[&quot;CI&quot;]
+  ci --&gt;|Tunjukkan hasil| review[&quot;Reviewer + CodeQL&quot;]
+  review --&gt;|Bima putuskan| gate[&quot;Merge oleh manusia&quot;]
+  gate --&gt;|Picu bila diaktifkan| docs[&quot;gh-aw · Docs Sync&quot;]
+  ticket -.-&gt;|Triage bila diaktifkan| triage[&quot;gh-aw · Issue Triage&quot;]
+  agent -.-&gt;|Uji aksi + catat| audit[&quot;Hook dan audit&quot;]
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef agent fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class ticket human
+  class agent,docs,triage agent
+  class ci,review,gate,audit gate</code></pre></details>
+</figure></section>
+<section class="section"><h2>Peta konfigurasi</h2><figure class="diagram" data-diagram="D5">
+  <img class="diagram-image" src="assets/diagrams/D5.svg" alt="Instructions dan AGENTS.md memberi aturan. Profil agent memberi peran dan tools. Skill mengajarkan prosedur. Setup steps menyiapkan dependensi. Hook memeriksa aksi. Actions menjalankan workflow terkompilasi." width="683" height="511" loading="lazy">
+  <ol class="diagram-narrow"><li>Instructions dan AGENTS.md memberi aturan.</li><li>Profil agent memberi peran dan tools.</li><li>Skill mengajarkan prosedur.</li><li>Setup steps menyiapkan dependensi.</li><li>Hook memeriksa aksi.</li><li>Actions menjalankan workflow terkompilasi.</li></ol>
+  <figcaption><strong>D5.</strong> Aturan, peran, prosedur, setup, hook dan workflow memiliki pembaca berbeda. Biru menandai manusia, ungu agent, jingga kontrol, abu artefak.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D5.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart LR
+  instructions[&quot;Instructions + AGENTS.md&quot;] --&gt;|Beri aturan tim| agent[&quot;Agent yang bekerja&quot;]
+  profiles[&quot;agents/*.agent.md&quot;] --&gt;|Atur peran dan tools| agent
+  skills[&quot;skills/*/SKILL.md&quot;] --&gt;|Ajarkan prosedur| agent
+  setup[&quot;copilot-setup-steps.yml&quot;] --&gt;|Siapkan dependensi| agent
+  hooks[&quot;hooks/guardrails.json&quot;] --&gt;|Periksa aksi| agent
+  workflows[&quot;Workflow MD + lock&quot;] --&gt;|Batasi pemicu dan hasil| aw[&quot;Actions · gh-aw&quot;]
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class agent,aw ai
+  class hooks gate</code></pre></details>
+</figure><dl>
+  <dt><code translate="no">.github/copilot-instructions.md</code> dan <code translate="no">AGENTS.md</code></dt><dd>Aturan lintas tugas: bahasa, validasi, review, dan tes.</dd>
+  <dt><code translate="no">.github/agents/*.agent.md</code></dt><dd>Profil peran dan daftar tool untuk planner, architect, implementer, QA, dan reviewer.</dd>
+  <dt><code translate="no">.github/skills/*/SKILL.md</code></dt><dd>Prosedur endpoint dan pengambilan bukti.</dd>
+  <dt><code translate="no">.github/hooks/guardrails.json</code></dt><dd>Konfigurasi hook Copilot CLI/cloud, bukan policy tenant.</dd>
+  <dt><code translate="no">.github/workflows/ci.yml</code> dan <code translate="no">copilot-setup-steps.yml</code></dt><dd>Tes per perubahan dan persiapan lingkungan agent.</dd>
+  <dt><code translate="no">.github/workflows/*.md</code> + <code translate="no">*.lock.yml</code></dt><dd>Sumber gh-aw dan hasil compile untuk Actions.</dd>
+  <dt><code translate="no">.github/workflows/pages.yml</code></dt><dd>Publikasi manual folder site; bukan deployment Express.</dd>
+</dl><p><a href="scenarios/S04.html">Lihat bukti respons 201 dan 400 pada S04</a>.</p></section>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

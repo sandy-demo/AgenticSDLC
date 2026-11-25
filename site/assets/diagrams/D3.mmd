@@ -1,0 +1,20 @@
+flowchart TB
+  subgraph device["Perangkat pengguna"]
+    browser["Browser · form klaim"]
+  end
+  subgraph local["Proses lokal · 127.0.0.1"]
+    api["Express · API + aturan bisnis"]
+    store[("SQLite · klaim dan event")]
+  end
+  browser -->|Kirim POST /claims| api
+  api -->|Tulis klaim valid| store
+  store -->|Kembalikan nomor klaim| api
+  api -->|Balas 201 atau 400| browser
+  subgraph gh["GitHub · jalur terpisah"]
+    repo["Repo · source"] -->|Jalankan tes| ci["Actions CI"]
+    repo -->|Pindai source| scan["CodeQL jika aktif"]
+  end
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class browser human
+  class ci,scan gate

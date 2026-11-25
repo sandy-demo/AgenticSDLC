@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>Glosarium dan FAQ | Agentic SDLC</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/workshop.css">
+
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="kicker">Rujukan</p><h1>Glosarium dan pertanyaan umum</h1>
+<section class="section"><h2>Istilah</h2><dl class="panel"><dt>Agentic SDLC</dt><dd>Pemakaian agent di beberapa tahap kerja perangkat lunak, dengan manusia di titik keputusan.</dd><dt>Copilot cloud agent</dt><dd>Agent yang mengerjakan tugas di latar belakang dan mengusulkan perubahan lewat PR.</dd><dt>Custom agent</dt><dd>Profil peran dengan instruksi dan daftar tool, misalnya QA Engineer.</dd><dt>Skill</dt><dd>Prosedur berulang yang dimuat saat relevan, misalnya aturan menambah endpoint.</dd><dt>MCP</dt><dd>Protokol untuk menghubungkan agent ke tool dan data dengan izin yang sesuai.</dd><dt>Hook</dt><dd>Program kecil yang bereaksi pada fase sesi, misalnya sebelum tool dijalankan.</dd><dt>gh-aw</dt><dd>Compiler yang mengubah workflow berorientasi agent dari Markdown menjadi GitHub Actions.</dd><dt>Safe outputs</dt><dd>Daftar bentuk perubahan yang boleh diminta agent; job terpisah memvalidasi dan menerapkannya.</dd><dt>Premium request / AI credit</dt><dd>Istilah penggunaan pada versi paket yang berbeda. Workshop memakai AI credits sesuai dokumentasi saat dicek; keduanya bukan satuan yang otomatis setara.</dd><dt>Branch protection</dt><dd>Aturan merge dan push yang diterapkan repository, terpisah dari instruksi agent.</dd><dt>ADR</dt><dd>Catatan tentang keputusan arsitektur, alternatif, dan konsekuensinya.</dd><dt>Draft PR</dt><dd>Usulan perubahan yang belum dinyatakan siap untuk merge.</dd></dl></section>
+<section class="section"><h2>FAQ</h2><div class="panel"><details><summary>Bolehkah agent merge sendiri?</summary><p>Tidak di workshop ini. Branch protection dan manusia yang meninjau menentukan keputusan; S04 tidak di-merge.</p></details><details><summary>Apa bedanya memberi chat dan mendelegasikan issue?</summary><p>Chat membantu memahami. Issue memberi kriteria dan identitas tugas, lalu menerima tautan hasil dan jejak review.</p></details><details><summary>Haruskah punya Copilot untuk mengikuti workshop?</summary><p>Tidak untuk materi offline, aplikasi lokal, dan fixture. Periksa paket dan policy sebelum mencoba fitur cloud.</p></details><details><summary>Kenapa CodeQL tidak menghasilkan alert yang ditunjukkan?</summary><p>S10 memakai ilustrasi yang aman. Jangan menganggap kartu simulasi sebagai alert sungguhan; laporkan hasil scan aktual apa adanya.</p></details><details><summary>Apakah hook menggantikan sandbox atau izin?</summary><p>Tidak. Hook adalah lapisan tambahan, bukan jaminan keamanan. Hak akses, sandbox, dan branch protection tetap berlaku.</p></details><details><summary>Ke mana biaya masuk?</summary><p>Model dan token memengaruhi AI credits; Actions dan langganan terpisah. Pemilik memantau dashboard dan anggaran.</p></details><details><summary>Bisakah PM mulai dari Jira atau Teams?</summary><p>Bisa jika paket mendukung integrasinya dan kebijakan organisasi mengizinkan. Versi personal memakai GitHub Issue.</p></details><details><summary>Bagaimana mengulang tanpa menghapus pekerjaan?</summary><p>Restart aplikasi lokal untuk seed awal. Buat checkout latihan baru dengan npm run reset -- --fresh; remote tidak diubah.</p></details><details><summary>Apakah buka situs ini menjalankan Express atau Copilot?</summary><p>Tidak. Situs, diagram, grafik dan simulasi halaman semuanya offline. Aplikasi dan GitHub dimulai secara terpisah.</p></details></div></section>
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

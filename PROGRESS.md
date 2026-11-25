@@ -11,7 +11,7 @@
 | 6 — Tooling | Script demo, screenshot, reset lokal, metrik, bare, dan task VS Code tersedia. |
 | 7 — Repo GitHub | Tag baseline dan branch latihan disiapkan lokal. Draft PR, CodeQL, protection, template dan Pages menunggu akses. |
 | 8 — Dry-run | S04 menghasilkan HTTP 201 → 400 dan foto lokal. Coverage S08, sumber S09/S12, dan fixture S14 diperiksa lokal. S10 simulasi dan S15 baru baseline; bukti GitHub ditandai belum ada. |
-| 9 — Situs workshop | Belum. |
+| 9 — Situs workshop | 22 halaman offline, 15 skenario, 13 diagram, dan 8 tangkapan lokal. Playwright lulus; Lighthouse Accessibility 100 di empat halaman yang diperiksa. Pages belum live. |
 | 10 — Org/EMU | Di luar pengerjaan otomatis; dilakukan pemilik tenant untuk S06 dan S14. |
 
 ## Keputusan
@@ -19,7 +19,7 @@
 - Repo `sandy-demo/AgenticSDLC` adalah tujuan versi lengkap (`full`).
   Varian `bare` disiapkan terpisah tanpa membuat repo publik kedua.
 - Runtime utama memakai Node 24 LTS karena Node 20 sudah berakhir masa dukungannya.
-  Eksekusi awal diverifikasi di Node 26. Aplikasi hanya mendengarkan di `127.0.0.1`;
+  Instalasi bersih dan tes unit diverifikasi di Node 24; tes browser di Node 26. Aplikasi hanya mendengarkan di `127.0.0.1`;
   pemilih peran bukan autentikasi dan SQLite di memori hanya berisi data fiktif.
 - CSS tersedia lokal agar tidak bergantung pada CDN.
 - S04 mempertahankan field tanggal di baseline agar bug bisa dicoba nyata: perbaikan menolak tanggal masa depan, bukan menambahkan field. S08 mengikuti batas `≥ 1.000.000` di templat aturan bisnis.
@@ -27,3 +27,4 @@
 - Workflow AI hanya untuk pemicu latihan dan `AGENTIC_WORKSHOP_LIVE`; tidak ada jadwal yang otomatis menghabiskan kredit.
 - Reset tidak menghapus PR/issue atau menulis ulang `main`. Demo cloud dipisah dari fixture lokal.
 - Ekspor `bare` meniadakan customizations dan workflow cloud, tetapi tetap memuat panduan offline.
+- Chart tanpa pengukuran GitHub tampil sebagai “belum ada data”; tidak ada angka, alert, atau screenshot rekaan yang disajikan sebagai hasil uji.

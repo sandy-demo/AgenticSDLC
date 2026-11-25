@@ -1,0 +1,14 @@
+flowchart TB
+  a["1 · Lina + Planner"] -->|Tulis epik dan task| b["2 · Architect + Bima"]
+  b -->|Setujui ADR| c["3 · Copilot"]
+  c -->|Ajukan draft PR| d["4 · CI"]
+  d -->|Sajikan tes| e["5 · Reviewer + CodeQL"]
+  e -->|Rekomendasikan keputusan| f["6 · Bima"]
+  f -->|Merge di repo turunan| g["7 · Docs Sync + Triage"]
+  g -->|Buktikan jejak kerja| h["8 · Audit sepanjang alur"]
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class a,b,f human
+  class c,g ai
+  class d,e,h gate

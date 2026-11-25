@@ -1,0 +1,11 @@
+flowchart LR
+  instructions["Instructions + AGENTS.md"] -->|Beri aturan tim| agent["Agent yang bekerja"]
+  profiles["agents/*.agent.md"] -->|Atur peran dan tools| agent
+  skills["skills/*/SKILL.md"] -->|Ajarkan prosedur| agent
+  setup["copilot-setup-steps.yml"] -->|Siapkan dependensi| agent
+  hooks["hooks/guardrails.json"] -->|Periksa aksi| agent
+  workflows["Workflow MD + lock"] -->|Batasi pemicu dan hasil| aw["Actions · gh-aw"]
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class agent,aw ai
+  class hooks gate

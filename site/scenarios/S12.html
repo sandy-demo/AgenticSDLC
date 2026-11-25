@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>S12 · Sinkronkan API docs lewat draft PR | Agentic SDLC</title>
+  <link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/workshop.css">
+
+  <script defer src="../js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="breadcrumb"><a href="index.html">Semua skenario</a> / S12</p><p class="kicker">S12 · Level 4 — Continuous AI</p>
+<h1>Sinkronkan API docs lewat draft PR</h1><p class="lead">Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.</p>
+<div class="badges"><span class="badge">Bima</span><span class="badge">Yoga</span><span class="badge">Validasi lokal + GitHub</span><span class="badge">6 menit · ilustrasi durasi</span></div>
+<div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
+  <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
+  <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
+</div>
+<div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+  <h2>Masalah yang dihadapi</h2><p>Docs masih menyebut items, padahal API mengirim claims.</p><p class="note"><strong>Kerugian:</strong> Aplikasi partner membaca struktur yang salah.</p>
+</div>
+<div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
+  <h2>Masalah pada baseline</h2><p><code translate="no">docs/api.md</code></p>
+  <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Dokumen latihan: { items: [...] } · Route: { claims: [...] }</code></pre></details>
+</div>
+<section class="section"><h2>Solusi dan alur</h2><p>Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.</p>
+<figure class="diagram" data-diagram="D10">
+  <img class="diagram-image" src="../assets/diagrams/D10.svg" alt="Push demo/manual → Docs Sync → draft PR docs. Issue latihan dibuka → Issue Triage → label atau komentar. CI latihan gagal → CI Fault Analysis → satu komentar pada PR pemicu." width="625" height="366" loading="lazy">
+  <ol class="diagram-narrow"><li>Push demo/manual → Docs Sync → draft PR docs.</li><li>Issue latihan dibuka → Issue Triage → label atau komentar.</li><li>CI latihan gagal → CI Fault Analysis → satu komentar pada PR pemicu.</li></ol>
+  <figcaption><strong>D10.</strong> Satu pemicu menghasilkan satu jalur kerja. Safe outputs membatasi objek yang boleh berubah.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="../assets/diagrams/D10.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  push[&quot;Push demo / manual&quot;] --&gt;|Bandingkan kontrak| docs[&quot;Docs Sync&quot;]
+  issue[&quot;Issue latihan dibuka&quot;] --&gt;|Nilai kelengkapan| triage[&quot;Issue Triage&quot;]
+  ci[&quot;CI latihan gagal&quot;] --&gt;|Baca log| fault[&quot;CI Fault Analysis&quot;]
+  docs --&gt;|Izinkan draft PR docs| pr[&quot;Satu PR&quot;]
+  triage --&gt;|Izinkan label dan jawaban| label[&quot;Issue pemicu&quot;]
+  fault --&gt;|Izinkan satu komentar| comment[&quot;PR pemicu&quot;]
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  class docs,triage,fault ai</code></pre></details>
+</figure></section>
+<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Bandingkan kontrak</h3></div>
+    <p>Baca jawaban aktual route dan kontrak lama.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-1">src/routes/claims.js</code></pre>
+    <button type="button" data-copy="cmd-S12-1" aria-label="Salin: Bandingkan kontrak" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Jalankan workflow</h3></div>
+    <p>Pemilik mengaktifkan variabel secara sadar, lalu Actions → Docs Sync → Run workflow (atau push terarah).</p><div class="cmd"><pre><code translate="no" id="cmd-S12-2">gh aw compile --strict</code></pre>
+    <button type="button" data-copy="cmd-S12-2" aria-label="Salin: Jalankan workflow" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Cek PR</h3></div>
+    <p>Dokumen diperbaiki tanpa mengubah route atau merge.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-3">issues/S12.md</code></pre>
+    <button type="button" data-copy="cmd-S12-3" aria-label="Salin: Cek PR" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li></ol></section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+
+    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S12-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S12-after.png</code></div></div>
+  </div>
+<table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
+<tr><th scope="row">Perilaku</th><td>Dokumen memakai key items.</td><td>Target docs memakai key claims.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
+</tbody></table></section>
+<section class="section"><h2>Manfaat</h2><ul><li>Tim integrasi memakai kontrak yang sama dengan kode.</li></ul></section>
+<section class="section"><h2>Bukti dan sumber</h2>
+<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S12.md">Template issue S12 di GitHub (setelah publikasi)</a>.</p>
+<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S12-01-run.png</code></div></div></section>
+<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<nav class="section prevnext" aria-label="Pindah skenario">
+<a href="S11.html" class="button">← S11</a>
+<a href="../capstone.html" class="button">Capstone</a>
+<a href="S13.html" class="button">S13 →</a></nav>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="../glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

@@ -1,0 +1,12 @@
+flowchart TB
+  pr["Draft PR"] -->|Bagikan diff| sec["Security · privasi"]
+  pr -->|Bagikan diff| perf["Performance · N+1"]
+  pr -->|Bagikan diff| comp["Compliance · audit"]
+  sec -->|Drafkan bukti| summary["Ringkasan berisi severity"]
+  perf -->|Drafkan bukti| summary
+  comp -->|Drafkan bukti| summary
+  summary -->|Minta keputusan| lead["Bima · Tech Lead"]
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  class lead human
+  class sec,perf,comp ai

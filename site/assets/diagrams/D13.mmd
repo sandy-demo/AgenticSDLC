@@ -1,0 +1,10 @@
+flowchart TB
+  start["Pilih lingkungan latihan"] -->|Pakai laptop tanpa GitHub| local["App lokal + materi offline"]
+  start -->|Pakai akun personal| personal["GitHub Issue, PR, Actions jika diizinkan"]
+  start -->|Pakai tenant organisasi| org["S06 konektor dan S14 policy"]
+  personal -->|Periksa plan dan izin| policy{"Copilot aktif?"}
+  org -->|Periksa policy dan budget| policy
+  policy -->|Ya: jalankan dengan gate| live["Demo GitHub di repo latihan"]
+  policy -->|Tidak: pakai bukti lokal| local
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class policy gate

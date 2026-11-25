@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>S02 · Ubah fitur di beberapa file | Agentic SDLC</title>
+  <link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/workshop.css">
+
+  <script defer src="../js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="breadcrumb"><a href="index.html">Semua skenario</a> / S02</p><p class="kicker">S02 · Level 1 — Inner loop</p>
+<h1>Ubah fitur di beberapa file</h1><p class="lead">Agent Mode usulkan perubahan lintas file. Bima cek rencana dan bukti sebelum meninjau diff.</p>
+<div class="badges"><span class="badge">Bima</span><span class="badge">App lokal + VS Code</span><span class="badge">8 menit · ilustrasi durasi</span></div>
+<div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
+  <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
+  <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
+</div>
+<div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+  <h2>Masalah yang dihadapi</h2><p>Pilihan kategori terlihat kecil, tetapi menyentuh form, payload, penyimpanan, dan tes.</p><p class="note"><strong>Kerugian:</strong> Satu bagian yang terlewat baru terlihat saat QA.</p>
+</div>
+<div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
+  <h2>Masalah pada baseline</h2><p><code translate="no">src/public/index.html</code></p>
+  <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Baseline: form tidak menampilkan kategori; API memberi default Other.</code></pre></details>
+</div>
+<section class="section"><h2>Solusi dan alur</h2><p>Agent Mode usulkan perubahan lintas file. Bima cek rencana dan bukti sebelum meninjau diff.</p>
+<div class="rail"><ol><li><strong>Buka formulir.</strong> Periksa form sebelum perubahan.</li><li><strong>Minta perubahan.</strong> Pakai Agent Mode di checkout latihan.</li><li><strong>Bandingkan.</strong> Screenshot lokal memakai versi app bersih, bukan hasil sesi Copilot.</li></ol></div></section>
+<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Buka formulir</h3></div>
+    <p>Periksa form sebelum perubahan.</p><div class="cmd"><pre><code translate="no" id="cmd-S02-1">npm run demo:before</code></pre>
+    <button type="button" data-copy="cmd-S02-1" aria-label="Salin: Buka formulir" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Minta perubahan</h3></div>
+    <p>Pakai Agent Mode di checkout latihan.</p><div class="cmd"><pre><code translate="no" id="cmd-S02-2">Tambahkan dropdown Travel, Meals, Equipment, Other. Periksa SQLite, API, daftar, tes, dan docs.</code></pre>
+    <button type="button" data-copy="cmd-S02-2" aria-label="Salin: Minta perubahan" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan</h3></div>
+    <p>Screenshot lokal memakai versi app bersih, bukan hasil sesi Copilot.</p><div class="cmd"><pre><code translate="no" id="cmd-S02-3">npm run shots -- S02</code></pre>
+    <button type="button" data-copy="cmd-S02-3" aria-label="Salin: Bandingkan" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li></ol></section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+    <p>Geser pembanding atau gunakan tombol panah pada kontrol. Kedua gambar bisa dibuka terpisah.</p>
+    <div class="compare-stage" aria-hidden="true"><img class="" src="../assets/screenshots/S02-after.png" width="1180" height="780" alt="" loading="lazy"><img class="before" src="../assets/screenshots/S02-before.png" width="1180" height="780" alt="" loading="lazy"></div>
+    <div hidden><label class="slider-label" for="compare-S02"><span>Sebelum</span><strong>Bagian gambar sebelum</strong><span>Sesudah</span></label>
+    <input id="compare-S02" type="range" min="0" max="100" value="50" data-compare></div>
+    <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S02-before.png"><img src="../assets/screenshots/S02-before.png" alt="S02 baseline lokal: formulir tanpa pilihan kategori." width="1180" height="780" loading="lazy"><span>Perbesar S02-before.png</span></a><a class="thumbnail" data-shot href="../assets/screenshots/S02-after.png"><img src="../assets/screenshots/S02-after.png" alt="S02 tag app bersih: formulir dengan pilihan kategori." width="1180" height="780" loading="lazy"><span>Perbesar S02-after.png</span></a></div>
+  </div>
+<table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
+<tr><th scope="row">Perilaku</th><td>Form tidak meminta kategori.</td><td>Form menyediakan pilihan kategori.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>Ada tangkapan lokal.</td></tr>
+<tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
+</tbody></table></section>
+<section class="section"><h2>Manfaat</h2><ul><li>Bima bisa melihat apakah perubahan dari UI sampai tes lengkap.</li></ul></section>
+<section class="section"><h2>Bukti dan sumber</h2>
+<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S02.md">Template issue S02 di GitHub (setelah publikasi)</a>.</p>
+<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S02-01-agent-plan.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S02-02-files-changed.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S02-03-tests-green.png</code></div></div></section>
+<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<nav class="section prevnext" aria-label="Pindah skenario">
+<a href="S01.html" class="button">← S01</a>
+<a href="../capstone.html" class="button">Capstone</a>
+<a href="S03.html" class="button">S03 →</a></nav>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="../glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

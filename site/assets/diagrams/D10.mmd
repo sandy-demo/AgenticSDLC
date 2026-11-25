@@ -1,0 +1,9 @@
+flowchart TB
+  push["Push demo / manual"] -->|Bandingkan kontrak| docs["Docs Sync"]
+  issue["Issue latihan dibuka"] -->|Nilai kelengkapan| triage["Issue Triage"]
+  ci["CI latihan gagal"] -->|Baca log| fault["CI Fault Analysis"]
+  docs -->|Izinkan draft PR docs| pr["Satu PR"]
+  triage -->|Izinkan label dan jawaban| label["Issue pemicu"]
+  fault -->|Izinkan satu komentar| comment["PR pemicu"]
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  class docs,triage,fault ai

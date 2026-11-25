@@ -1,0 +1,15 @@
+sequenceDiagram
+  actor B as Bima
+  participant I as Issue
+  participant A as Copilot
+  participant C as CI
+  participant P as Draft PR
+  B->>I: Tulis kriteria, lalu assign
+  I->>A: Kirim tugas
+  A->>P: Ajukan perubahan di branch
+  P->>C: Jalankan checks
+  C-->>P: Laporkan hasil
+  P-->>B: Sajikan diff dan bukti
+  B->>A: Minta tes tanggal hari ini
+  A->>P: Kirim revisi
+  Note over B,P: Workshop: jangan merge S04

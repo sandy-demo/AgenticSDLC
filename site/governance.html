@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>Governance dan biaya | Agentic SDLC</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/workshop.css">
+
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html" aria-current="page">Governance</a><a href="setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="kicker">S14 · Governance</p><h1>Batasi aksi agent. Ukur biaya terpisah.</h1>
+<p class="lead">Ibu Maya butuh jawaban konkret: siapa bisa menulis ke repo, apa yang diblok, dan di mana biaya terlihat?</p>
+<section class="section"><h2>Empat kontrol yang berbeda</h2><div class="card-grid">
+  <article class="card"><h3>Branch protection</h3><p>Review dan checks wajib di main. Repository owner mengatur; Tech Lead meninjau.</p></article>
+  <article class="card"><h3>Hook + audit</h3><p>Hook memeriksa panggilan tool. Audit workshop hanya metadata dan tidak menjadi batas keamanan tersendiri.</p></article>
+  <article class="card"><h3>Permissions + safe outputs</h3><p>Agent membaca dengan izin minimum. Job terpisah hanya boleh memproses output yang dipilih, misalnya satu draft PR docs.</p></article>
+  <article class="card"><h3>Anggaran</h3><p>Periksa kuota dan pemicu workflow; aktifkan hanya saat latihan. Audit organisasi terpisah dari audit lokal.</p></article>
+</div><figure class="diagram" data-diagram="D11">
+  <img class="diagram-image" src="assets/diagrams/D11.svg" alt="Agent meminta tool. Hook memeriksa kategori. Kategori terlarang ditolak. Selain itu, izin runtime tetap menentukan. Audit lokal mencatat waktu dan kategori." width="400" height="672" loading="lazy">
+  <ol class="diagram-narrow"><li>Agent meminta tool.</li><li>Hook memeriksa kategori.</li><li>Kategori terlarang ditolak.</li><li>Selain itu, izin runtime tetap menentukan.</li><li>Audit lokal mencatat waktu dan kategori.</li></ol>
+  <figcaption><strong>D11.</strong> Hook memutuskan penolakan atau meneruskan ke kebijakan normal. Log hanya menyimpan metadata keputusan.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D11.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  request[&quot;Agent minta menjalankan tool&quot;] --&gt;|Periksa masukan| hook{&quot;Hook preToolUse&quot;}
+  hook --&gt;|Tolak kategori terlarang| deny[&quot;Tidak dijalankan&quot;]
+  hook --&gt;|Serahkan ke izin normal| policy[&quot;Izin runtime&quot;]
+  deny --&gt;|Catat keputusan| audit[&quot;Metadata audit lokal&quot;]
+  policy --&gt;|Catat tanpa argumen| audit
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class request ai
+  class hook,deny,policy gate</code></pre></details>
+</figure><p>Uji fixture tanpa menjalankan argumen:</p><pre><code translate="no">npm run guard:demo</code></pre></section>
+<section class="section"><h2>Berapa biayanya?</h2>
+<p class="note"><strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI credits, 25 × US$0,01 = US$0,25. Bukan estimasi satu sesi dan bukan tagihan.</p>
+<p>Tarif konversi diambil dari <a href="https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing">GitHub Docs — Usage-based billing for individuals</a>, diperiksa 25 November 2026. Satuan USD per AI credit untuk akun personal; contoh tidak memasukkan langganan, pajak, atau biaya Actions. Token yang digunakan dan model menentukan jumlah kredit. Periksa dashboard paketmu untuk pemakaian aktual.</p>
+<figure class="chart" data-chart-id="C6"><h3>C6 · Pemakaian AI credits</h3>
+      <p class="note">Belum ada data terukur. Tidak ditampilkan sebagai nol.</p><figcaption>Sumber: pembacaan dashboard yang dicatat di docs/metrics.json. Tidak ada pemakaian live yang dicatat untuk workshop ini.</figcaption></figure>
+</section>
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

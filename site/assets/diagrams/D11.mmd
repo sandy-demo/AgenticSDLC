@@ -1,0 +1,10 @@
+flowchart TB
+  request["Agent minta menjalankan tool"] -->|Periksa masukan| hook{"Hook preToolUse"}
+  hook -->|Tolak kategori terlarang| deny["Tidak dijalankan"]
+  hook -->|Serahkan ke izin normal| policy["Izin runtime"]
+  deny -->|Catat keputusan| audit["Metadata audit lokal"]
+  policy -->|Catat tanpa argumen| audit
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class request ai
+  class hook,deny,policy gate

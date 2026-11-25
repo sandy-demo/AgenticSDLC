@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>Cara demo | Agentic SDLC</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/workshop.css">
+
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html" aria-current="page">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="kicker">Runbook</p><h1>Cara demo: lokal dulu, GitHub bila tersedia</h1>
+<p class="lead">Buka materi offline tanpa menyiapkan akun. Untuk mempraktikkan aplikasi, pasang dependensi. Untuk cloud agent dan Pages, cek izin repo terlebih dahulu.</p>
+<section class="section"><h2>1. Pilih lingkungan</h2><figure class="diagram" data-diagram="D13">
+  <img class="diagram-image" src="assets/diagrams/D13.svg" alt="Lokal: jalankan app dan buka HTML offline. Personal: pakai Issues dan PR bila ada izin. Organisasi: cek konektor, policy dan budget. Jika Copilot belum aktif, gunakan bukti lokal." width="647" height="682" loading="lazy">
+  <ol class="diagram-narrow"><li>Lokal: jalankan app dan buka HTML offline.</li><li>Personal: pakai Issues dan PR bila ada izin.</li><li>Organisasi: cek konektor, policy dan budget.</li><li>Jika Copilot belum aktif, gunakan bukti lokal.</li></ol>
+  <figcaption><strong>D13.</strong> Tanpa akun tetap bisa belajar dari aplikasi dan materi lokal. Jalur organisasi menambah persetujuan tenant dan integrasi.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D13.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  start[&quot;Pilih lingkungan latihan&quot;] --&gt;|Pakai laptop tanpa GitHub| local[&quot;App lokal + materi offline&quot;]
+  start --&gt;|Pakai akun personal| personal[&quot;GitHub Issue, PR, Actions jika diizinkan&quot;]
+  start --&gt;|Pakai tenant organisasi| org[&quot;S06 konektor dan S14 policy&quot;]
+  personal --&gt;|Periksa plan dan izin| policy{&quot;Copilot aktif?&quot;}
+  org --&gt;|Periksa policy dan budget| policy
+  policy --&gt;|Ya: jalankan dengan gate| live[&quot;Demo GitHub di repo latihan&quot;]
+  policy --&gt;|Tidak: pakai bukti lokal| local
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class policy gate</code></pre></details>
+</figure>
+<div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js 24 LTS, Git, npm dan browser Chromium untuk screenshot. Tidak perlu secret.</p></article>
+<article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
+<article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
+<section class="section"><h2>2. Siapkan dan coba S04</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pasang dependensi</h3></div>
+    <p>Buka terminal di root repo. Gunakan tag v0-baseline jika tersedia.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-1">npm ci
+npx playwright install chromium</code></pre>
+    <button type="button" data-copy="cmd-setup-1" aria-label="Salin: Pasang dependensi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ambil ref demo</h3></div>
+    <p>Pada hasil clone GitHub biasa, v0-baseline adalah tag dan demo/claim-date disimpan sebagai remote branch. Jangan jalankan ref yang tidak kamu tinjau.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-2">git fetch origin --tags
+git branch --track demo/claim-date origin/demo/claim-date</code></pre>
+    <button type="button" data-copy="cmd-setup-2" aria-label="Salin: Ambil ref demo" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan perilaku</h3></div>
+    <p>Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-3">npm run demo:compare -- demo/claim-date</code></pre>
+    <button type="button" data-copy="cmd-setup-3" aria-label="Salin: Bandingkan perilaku" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Ambil bukti dan ulangi</h3></div>
+    <p>Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-4">npm run shots -- S04
+npm run reset</code></pre>
+    <button type="button" data-copy="cmd-setup-4" aria-label="Salin: Ambil bukti dan ulangi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li></ol><p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+<section class="section"><h2>3. Siapkan demo GitHub</h2>
+<ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>
+<li>Seed issue di repo latihan, buka draft PR yang diizinkan, dan cek Copilot pada Assignees.</li>
+<li>Untuk S12/S13, cek budget dan autentikasi gh-aw, lalu aktifkan <code translate="no">AGENTIC_WORKSHOP_LIVE</code> hanya saat latihan.</li>
+<li>Untuk publikasi situs, atur Pages ke sumber GitHub Actions lalu jalankan <strong>Publish workshop</strong> dari main.</li></ol>
+<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/main/docs/ORG-SETUP.md">Prasyarat dan langkah admin di repo (setelah publikasi)</a> · <a href="scenarios/index.html">Langkah untuk semua skenario</a>.</p></section>
+<section class="section"><h2>Kalau ada masalah</h2>
+<details><summary>Copilot tidak muncul di Assignees</summary><p>Cek plan, kebijakan pemilik repository dan apakah cloud agent diizinkan. Sementara itu pakai bukti lokal S04.</p></details>
+<details><summary>Demo ref atau tag tidak ditemukan</summary><p>Periksa <code>git branch -a</code> dan <code>git tag</code>. ZIP tidak berisi history; gunakan <code>npm run dev</code> bila hanya ingin mencoba baseline.</p></details>
+<details><summary>Run tidak muncul atau kredit tidak tersedia</summary><p>Periksa variabel, izin, dan token melalui UI pengaturan. Jangan tempel secret ke chat atau commit. Pakai materi offline untuk melanjutkan.</p></details>
+<details><summary>Port lokal sudah dipakai</summary><p>Hentikan server yang kamu jalankan dari terminalnya. Screenshot memakai port dinamis; tidak menghentikan proses lain.</p></details>
+</section>
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

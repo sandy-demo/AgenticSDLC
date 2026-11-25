@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>Workshop dari issue ke draft PR | Agentic SDLC</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/workshop.css">
+  <script defer src="assets/vendor/chart.umd.min.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="index.html" aria-current="page">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<section class="hero hero-grid" aria-labelledby="hero">
+  <div><p class="kicker">Panduan praktik · GitHub Copilot</p><h1 id="hero">Dari issue ke draft PR, tanpa melewati review manusia</h1>
+    <p class="lead">Pakai Expense Claim App untuk melihat bagaimana agent mengerjakan tugas, CI memeriksa perubahan, dan manusia memutuskan apakah hasilnya layak masuk.</p>
+    <div class="actions"><a href="scenarios/S04.html" class="button primary">Coba S04: Issue → draft PR</a><a href="setup.html" class="button">Siapkan demo</a></div>
+    <div class="badges"><span class="badge">15 skenario</span><span class="badge">5 level</span><span class="badge">Materi offline</span><span class="badge">Data fiktif</span></div>
+  </div>
+  <aside class="rail" aria-label="Alur inti workshop"><p class="eyebrow">4 langkah inti</p><ol>
+    <li><strong>01 · Tulis kriteria</strong><br>Bima menjelaskan kapan tanggal klaim harus ditolak.</li>
+    <li><strong>02 · Delegasikan</strong><br>Copilot mengusulkan perubahan di branch dan draft PR.</li>
+    <li><strong>03 · Periksa</strong><br>CI menjalankan tes. Reviewer meminta bukti atau revisi.</li>
+    <li><strong>04 · Putuskan</strong><br>Manusia melihat hasil. S04 berhenti di draft PR.</li>
+  </ol></aside>
+</section>
+<section class="section" aria-labelledby="pilih"><h2 id="pilih">Mulai dari kebutuhanmu</h2><div class="card-grid">
+<article class="card"><span class="subtitle">Developer</span><h3><a href="scenarios/S01.html">S01 · Beri agent aturan kerja tim</a></h3><p>Ajari agent cara tim menulis kode.</p></article><article class="card"><span class="subtitle">Engineering Manager / PM</span><h3><a href="scenarios/S04.html">S04 · Delegasikan issue, tinjau draft PR</a></h3><p>Delegasikan satu issue dan review hasilnya.</p></article><article class="card"><span class="subtitle">QA</span><h3><a href="scenarios/S08.html">S08 · QA menemukan bug tepat di batas</a></h3><p>Turunkan aturan bisnis menjadi tes batas.</p></article><article class="card"><span class="subtitle">AppSec</span><h3><a href="scenarios/S10.html">S10 · Latih alur CodeQL Autofix</a></h3><p>Bedakan alert, mitigasi, dan bukti scan ulang.</p></article><article class="card"><span class="subtitle">CISO / Platform</span><h3><a href="scenarios/S14.html">S14 · Batasi aksi agent dan ukur biaya</a></h3><p>Lihat kontrol, audit, dan biaya.</p></article><article class="card"><span class="subtitle">Eksekutif</span><h3><a href="capstone.html">Capstone · satu fitur dari ide ke review</a></h3><p>Ikuti satu fitur melewati semua gate.</p></article>
+</div></section>
+<section class="section" aria-labelledby="why"><h2 id="why">Kapan perlu agent, bukan sekadar chat?</h2>
+<p>Chat cukup untuk memahami sebuah fungsi. Agent cocok untuk tugas yang punya kriteria, beberapa file, dan hasil yang bisa dites. Workflow terjadwal menambah biaya dan risiko; pilih kerja otomatis hanya jika pemicu dan hasil yang diizinkan jelas.</p>
+<figure class="diagram" data-diagram="D1">
+  <img class="diagram-image" src="assets/diagrams/D1.svg" alt="Code completion menyarankan potongan kode. Chat menjelaskan konteks dan pilihan. Coding agent mengerjakan tugas dan mengajukan PR. Agentic SDLC menghubungkan hasil dengan tahap berikutnya." width="1117" height="62" loading="lazy">
+  <ol class="diagram-narrow"><li>Code completion menyarankan potongan kode.</li><li>Chat menjelaskan konteks dan pilihan.</li><li>Coding agent mengerjakan tugas dan mengajukan PR.</li><li>Agentic SDLC menghubungkan hasil dengan tahap berikutnya.</li></ol>
+  <figcaption><strong>D1.</strong> Ruang kerja AI berkembang: saran kode, tanya jawab, satu tugas, lalu koordinasi lintas tahap.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D1.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart LR
+  completion[&quot;Completion&quot;] --&gt;|Jelaskan| chat[&quot;Chat&quot;]
+  chat --&gt;|Delegasikan| agent[&quot;Coding agent&quot;]
+  agent --&gt;|Hubungkan| lifecycle[&quot;Agentic SDLC&quot;]
+  classDef agent fill:#efe6ff,stroke:#7354a4,color:#382459
+  class agent,lifecycle agent</code></pre></details>
+</figure><figure class="diagram" data-diagram="D2">
+  <img class="diagram-image" src="assets/diagrams/D2.svg" alt="Plan (S11): setujui keputusan. Build (S02, S04): buat perubahan. Test (S05, S08): jalankan checks. Review (S09): kumpulkan bukti. Security (S10, S14): periksa temuan dan guardrails. Deploy (S15): manusia memutuskan. Operate (S12, S13): jaga docs dan triage." width="405" height="974" loading="lazy">
+  <ol class="diagram-narrow"><li>Plan (S11): setujui keputusan.</li><li>Build (S02, S04): buat perubahan.</li><li>Test (S05, S08): jalankan checks.</li><li>Review (S09): kumpulkan bukti.</li><li>Security (S10, S14): periksa temuan dan guardrails.</li><li>Deploy (S15): manusia memutuskan.</li><li>Operate (S12, S13): jaga docs dan triage.</li></ol>
+  <figcaption><strong>D2.</strong> Setiap perpindahan punya hasil yang bisa diperiksa. Panah putus-putus mengembalikan pembelajaran operasi ke perencanaan.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="assets/diagrams/D2.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">flowchart TB
+  plan[&quot;Plan · S11&quot;] --&gt;|Setujui rancangan| build[&quot;Build · S02, S04&quot;]
+  build --&gt;|Jalankan cek| test[&quot;Test · S05, S08&quot;]
+  test --&gt;|Buka bukti| review[&quot;Review · S09&quot;]
+  review --&gt;|Periksa temuan| security[&quot;Security · S10, S14&quot;]
+  security --&gt;|Manusia putuskan rilis| deploy[&quot;Deploy · S15&quot;]
+  deploy --&gt;|Pantau perubahan| operate[&quot;Operate · S12, S13&quot;]
+  operate -.-&gt;|Masukkan pembelajaran| plan
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class review,security,deploy gate</code></pre></details>
+</figure>
+<figure class="chart" data-chart-id="C1">
+  <h3>C1 · Ruang kerja dan kontrol per level (ilustrasi)</h3><div class="chart-area" hidden><canvas data-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;label&quot;:&quot;Otonomi (skala 1–5)&quot;,&quot;labels&quot;:[&quot;Inner loop&quot;,&quot;Delegasi asinkron&quot;,&quot;Tim virtual&quot;,&quot;Continuous AI&quot;,&quot;Governance dan capstone&quot;],&quot;values&quot;:[1,2,3,4,5],&quot;horiz&quot;:true,&quot;max&quot;:5,&quot;second&quot;:{&quot;label&quot;:&quot;Kebutuhan kontrol (1–5)&quot;,&quot;values&quot;:[1,3,4,5,5]}}" aria-hidden="true"></canvas></div>
+  <table class="data"><caption>Data untuk grafik</caption><thead><tr><th scope="col">Kategori</th><th scope="col">Otonomi (skala 1–5)</th><th scope="col">Kebutuhan kontrol (1–5)</th></tr></thead>
+  <tbody><tr><th scope="row">Inner loop</th><td>1</td><td>1</td></tr><tr><th scope="row">Delegasi asinkron</th><td>2</td><td>3</td></tr><tr><th scope="row">Tim virtual</th><td>3</td><td>4</td></tr><tr><th scope="row">Continuous AI</th><td>4</td><td>5</td></tr><tr><th scope="row">Governance dan capstone</th><td>5</td><td>5</td></tr></tbody></table>
+  <figcaption>Rubrik belajar, bukan hasil pengukuran. Skor tidak menggantikan pemeriksaan izin dan review.</figcaption></figure></section>
+<section class="section"><h2>Lanjutkan sendiri</h2><p><a href="architecture.html">Ikuti satu klaim dari browser ke SQLite</a> · <a href="scenarios/index.html">Cari skenario</a> · <a href="glossary.html">Pelajari istilah dan FAQ</a>.</p></section>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15263a">
+  <title>S10 · Latih alur CodeQL Autofix | Agentic SDLC</title>
+  <link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/workshop.css">
+  <script defer src="../assets/vendor/chart.umd.min.js"></script>
+  <script defer src="../js/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Langsung ke isi</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+</div></header>
+<main class="wrap" id="main">
+
+<p class="breadcrumb"><a href="index.html">Semua skenario</a> / S10</p><p class="kicker">S10 · Level 3 — Tim virtual</p>
+<h1>Latih alur CodeQL Autofix</h1><p class="lead">Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.</p>
+<div class="badges"><span class="badge">Dimas</span><span class="badge">Bima</span><span class="badge">Simulasi alert</span><span class="badge">8 menit · ilustrasi durasi</span></div>
+<div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
+  <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
+  <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
+</div>
+<div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
+  <h2>Masalah yang dihadapi</h2><p>Daftar alert yang panjang tidak memberi Bima informasi cukup untuk meninjau perbaikan.</p><p class="note"><strong>Kerugian:</strong> Temuan audit berulang jika perbaikan tidak dibuktikan.</p>
+</div>
+<div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
+  <h2>Masalah pada baseline</h2><p><code translate="no">src/db.js</code></p>
+  <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">WHERE c.claim_date BETWEEN ? AND ? AND c.status = &#39;approved&#39;</code></pre></details>
+</div>
+<section class="section"><h2>Solusi dan alur</h2><p>Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.</p>
+<figure class="diagram" data-diagram="D8">
+  <img class="diagram-image" src="../assets/diagrams/D8.svg" alt="Baca alert bila scanner menemukannya. Minta usulan mitigasi tanpa menanam celah. Tinjau perubahan defensif dalam draft PR. Jalankan scan ulang dan lihat hasilnya." width="818" height="488" loading="lazy">
+  <ol class="diagram-narrow"><li>Baca alert bila scanner menemukannya.</li><li>Minta usulan mitigasi tanpa menanam celah.</li><li>Tinjau perubahan defensif dalam draft PR.</li><li>Jalankan scan ulang dan lihat hasilnya.</li></ol>
+  <figcaption><strong>D8.</strong> Alur CodeQL ini ilustrasi. Status alert sungguhan baru dinilai dari hasil scan dan perubahan yang ditinjau.</figcaption>
+  <details><summary>Lihat sumber Mermaid</summary><p><a href="../assets/diagrams/D8.svg">Buka diagram SVG ukuran penuh</a></p><pre><code translate="no">sequenceDiagram
+  actor D as Dimas
+  participant Q as CodeQL
+  participant A as Agent
+  participant P as Draft PR
+  Q--&gt;&gt;D: Sajikan alert bila ditemukan
+  D-&gt;&gt;A: Delegasikan mitigasi
+  A-&gt;&gt;P: Ajukan perubahan defensif
+  P-&gt;&gt;Q: Jalankan scan ulang
+  Q--&gt;&gt;D: Laporkan hasil untuk review
+  Note over D,P: Ilustrasi, bukan hasil scan workshop</code></pre></details>
+</figure></section>
+<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca kartu alert</h3></div>
+    <p>Status dan temuan pada kartu adalah ilustrasi.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-1">docs/simulations.md</code></pre>
+    <button type="button" data-copy="cmd-S10-1" aria-label="Salin: Baca kartu alert" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Periksa mitigasi</h3></div>
+    <p>Cari prepared statement dan validasi periode di source yang ada.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-2">src/routes/reports.js</code></pre>
+    <button type="button" data-copy="cmd-S10-2" aria-label="Salin: Periksa mitigasi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau bukti</h3></div>
+    <p>Bila konfigurasi CodeQL live tersedia, catat hasil aktual; npm audit terpisah.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-3">npm audit</code></pre>
+    <button type="button" data-copy="cmd-S10-3" aria-label="Salin: Tinjau bukti" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li></ol></section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+
+    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S10-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S10-after.png</code></div></div>
+  </div>
+<table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
+<tr><th scope="row">Perilaku</th><td>Ilustrasi: alert masih perlu penanganan.</td><td>Ilustrasi: reviewer minta bukti scan ulang.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
+</tbody></table><figure class="chart" data-chart-id="C4"><h3>C4 · Alert CodeQL terbuka</h3>
+      <p class="note">Belum ada data terukur. Tidak ditampilkan sebagai nol.</p><figcaption>Kartu simulasi bukan hasil CodeQL. Isi saat kedua scan live sudah diverifikasi.</figcaption></figure></section>
+<section class="section"><h2>Manfaat</h2><ul><li>AppSec memeriksa mitigasi dan bukti, bukan sekadar perubahan status.</li></ul></section>
+<section class="section"><h2>Bukti dan sumber</h2>
+<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S10.md">Template issue S10 di GitHub (setelah publikasi)</a>.</p>
+<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S10-01-assign.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S10-02-pr-autofix.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S10-03-alert-closed.png</code></div></div></section>
+<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<nav class="section prevnext" aria-label="Pindah skenario">
+<a href="S09.html" class="button">← S09</a>
+<a href="../capstone.html" class="button">Capstone</a>
+<a href="S11.html" class="button">S11 →</a></nav>
+
+</main>
+<footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="../glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>
+<dialog data-lightbox aria-label="Perbesar screenshot"><form method="dialog"><button autofocus>Tutup gambar</button></form><img alt=""><p></p></dialog>
+</body>
+</html>

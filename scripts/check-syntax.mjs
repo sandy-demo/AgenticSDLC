@@ -1,8 +1,8 @@
-import { readdirSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-for (const root of ['src', 'scripts', 'tests']) {
+for (const root of ['src', 'scripts', 'tests', 'site/js'].filter(existsSync)) {
   for (const entry of readdirSync(root, { recursive: true, withFileTypes: true })) {
     if (!entry.isFile() || !/\.(mjs|js)$/.test(entry.name)) continue;
     const result = spawnSync(process.execPath, ['--check', join(entry.parentPath, entry.name)], { stdio: 'inherit' });

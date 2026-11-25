@@ -1,0 +1,10 @@
+flowchart TB
+  architect["Architect"] -->|Tulis keputusan| adr["Draf ADR"]
+  adr -->|Ajukan untuk review| lead{"Bima setuju?"}
+  lead -->|Tidak: minta revisi| architect
+  lead -->|Ya: tunjuk task| implementer["Implementer"]
+  implementer -->|Ajukan draft PR| reviewer["Security Reviewer"]
+  classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class architect,implementer,reviewer ai
+  class lead gate

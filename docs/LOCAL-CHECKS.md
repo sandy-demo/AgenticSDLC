@@ -22,3 +22,17 @@ Remove-Item Env:QA_BOUNDARY
 `coverage-summary.json` di masing-masing folder memuat angka dalam
 [`metrics.json`](metrics.json). Ini bukan total coverage aplikasi, bukan hasil
 perbaikan, dan bukan hasil GitHub. Kegagalan di test batas memang diharapkan.
+
+## Pemeriksaan sebelum publikasi
+
+- `npm ci` dan 20 tes unit lulus pada Node 24. Di Node 26, 20 tes yang sama
+  lulus di Jakarta dan Los Angeles; 6 skenario Playwright lulus, termasuk
+  22 halaman offline di 320, 390, 768, dan 1440 px.
+- Lighthouse Accessibility: 100 pada beranda, S04, Governance, dan Capstone
+  di Chromium lokal. Pemeriksaan otomatis bukan pengganti penggunaan
+  pembaca layar oleh peserta.
+- `gh aw compile --strict`: 3 workflow, tanpa warning. Actionlint lulus
+  untuk CI, setup Copilot, dan Pages. Belum ada GitHub Actions run.
+- Pemeriksaan advisori dependensi langsung tidak melaporkan temuan. Audit
+  seluruh lockfile terakhir belum tuntas karena endpoint registry membalas
+  HTTP 429; jalankan ulang `npm audit` sebelum klaim hasil audit penuh.

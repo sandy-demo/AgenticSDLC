@@ -1,0 +1,10 @@
+flowchart TB
+  plan["Plan · S11"] -->|Setujui rancangan| build["Build · S02, S04"]
+  build -->|Jalankan cek| test["Test · S05, S08"]
+  test -->|Buka bukti| review["Review · S09"]
+  review -->|Periksa temuan| security["Security · S10, S14"]
+  security -->|Manusia putuskan rilis| deploy["Deploy · S15"]
+  deploy -->|Pantau perubahan| operate["Operate · S12, S13"]
+  operate -.->|Masukkan pembelajaran| plan
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class review,security,deploy gate

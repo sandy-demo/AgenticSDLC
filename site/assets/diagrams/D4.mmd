@@ -1,0 +1,15 @@
+flowchart TB
+  ticket["Issue / tiket Jira"] -->|Reviewer delegasikan| agent["Copilot cloud agent"]
+  agent -->|Ajukan perubahan| pr["Branch + draft PR"]
+  pr -->|Jalankan tes| ci["CI"]
+  ci -->|Tunjukkan hasil| review["Reviewer + CodeQL"]
+  review -->|Bima putuskan| gate["Merge oleh manusia"]
+  gate -->|Picu bila diaktifkan| docs["gh-aw · Docs Sync"]
+  ticket -.->|Triage bila diaktifkan| triage["gh-aw · Issue Triage"]
+  agent -.->|Uji aksi + catat| audit["Hook dan audit"]
+  classDef human fill:#e5eeff,stroke:#315699,color:#132d5b
+  classDef agent fill:#efe6ff,stroke:#7354a4,color:#382459
+  classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
+  class ticket human
+  class agent,docs,triage agent
+  class ci,review,gate,audit gate

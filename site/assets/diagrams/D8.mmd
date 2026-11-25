@@ -1,0 +1,11 @@
+sequenceDiagram
+  actor D as Dimas
+  participant Q as CodeQL
+  participant A as Agent
+  participant P as Draft PR
+  Q-->>D: Sajikan alert bila ditemukan
+  D->>A: Delegasikan mitigasi
+  A->>P: Ajukan perubahan defensif
+  P->>Q: Jalankan scan ulang
+  Q-->>D: Laporkan hasil untuk review
+  Note over D,P: Ilustrasi, bukan hasil scan workshop
