@@ -172,6 +172,15 @@ function evidenceFigure(name, up = '../') {
 
 function comparison(id) {
   const names = [`${id}-before.png`, `${id}-after.png`];
+  if (id === 'S10') {
+    if (s10AlertPair) {
+      return `<div class="compare"><div class="gallery">${s10AlertPair.map((name) => evidenceFigure(name)).join('')}</div></div>`;
+    }
+    if (pngInfo.has(names[1])) {
+      return `<div class="compare"><div class="gallery">${thumbnail(names[0], '../')}</div>
+      <p class="note">Belum ada pasangan bukti dari ref PR yang sama.</p></div>`;
+    }
+  }
   const ready = names.every((name) => pngInfo.has(name));
   const pair = id === 'S04' && ['S04-before-annotated.png', 'S04-after-annotated.png'].every((name) => pngInfo.has(name))
     ? ['S04-before-annotated.png', 'S04-after-annotated.png'] : names;
@@ -285,6 +294,8 @@ const diagramFor = { S04:'D6', S09:'D7', S10:'D8', S11:'D9', S12:'D10', S13:'D10
 const coverage = metrics.S08.localCoverage;
 const scan = metrics.S10.runs.findLast(({ alertsBefore, alertsAfter }) =>
   Number.isInteger(alertsBefore) && Number.isInteger(alertsAfter));
+const s10Alerts = ['S10-alert-open-annotated.png', 'S10-03-alert-closed-annotated.png'];
+const s10AlertPair = scan && s10Alerts.every((name) => pngInfo.has(name)) ? s10Alerts : null;
 for (const [index, id] of ids.entries()) {
   const s = scenarios[id];
   const graph = diagramFor[id];
@@ -305,6 +316,7 @@ for (const [index, id] of ids.entries()) {
   const localGallery = local.filter(({ name }) => !seenInSteps.has(name) && pngInfo.has(name));
   const cloudGallery = github.filter(({ name }) => pngInfo.has(name));
   const cloudAnchor = { S10: 'codeql-initial-scan', S14: 's14-controls' }[id] ?? id.toLowerCase() + '-cloud-evidence';
+  const visualEvidence = (id === 'S10' && s10AlertPair) || [`${id}-before.png`, `${id}-after.png`];
   const sources = [...new Set([cloud?.issueUrl, cloud?.prUrl, cloud?.fixtureDraftUrl, cloud?.fixtureRunUrl,
     cloud?.ciUrl, cloud?.proposalUrl, cloud?.triageRunUrl, cloud?.analysisRunUrl, cloud?.builtInReviewUrl, preflight?.scanUrl,
     metrics[id]?.localDryRun?.relatedActionsRun].map(evidenceUrl).filter(Boolean))];
@@ -326,7 +338,9 @@ for (const [index, id] of ids.entries()) {
     : 'Ukur suite yang sama sebelum dan setelah tes batas ditambahkan.')
     : id === 'S10' ? chart('C4', 'Alert CodeQL terbuka', scan ? {
       type:'bar', label:'Jumlah alert', labels:['Sebelum', 'Sesudah'], values:[scan.alertsBefore, scan.alertsAfter],
-    } : undefined, preflight ? 'Pemindaian awal tidak menemukan alert. Perbandingan Autofix membutuhkan hasil sebelum dan sesudah.' : 'Isi saat kedua scan live sudah diverifikasi.') : '';
+    } : undefined, typeof scan?.comparisonContext === 'string' && scan.comparisonContext.trim()
+      ? scan.comparisonContext
+      : preflight ? 'Pemindaian awal tidak menemukan alert. Perbandingan Autofix membutuhkan hasil sebelum dan sesudah.' : 'Isi saat kedua scan live sudah diverifikasi.') : '';
   document(`scenarios/${id}.html`, `${id} · ${s.title}`, `
 <p class="breadcrumb">${link('index.html', 'Semua skenario')} / ${id}</p><p class="kicker">${id} · Level ${levelOf(id)} — ${escape(levels[levelOf(id) - 1])}</p>
 <h1>${escape(s.title)}</h1><p class="lead">${escape(s.solution)}</p>
@@ -363,7 +377,7 @@ ${graph ? diagram(graph, '../') : `<div class="rail"><ol>${lessonSteps.map(({ ti
 <section class="section"><h2>Sebelum dan sesudah</h2>${comparison(id)}
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
 <tr><th scope="row">Perilaku</th><td>${escape(s.compare[0])}</td><td>${escape(s.compare[1])}</td></tr>
-<tr><th scope="row">Bukti visual</th><td>${pngInfo.has(`${id}-before.png`) ? (imageDetails.get(`${id}-before.png`)?.url ? 'Ada tangkapan GitHub.' : 'Ada tangkapan lokal.') : 'Belum direkam.'}</td><td>${pngInfo.has(`${id}-after.png`) ? (imageDetails.get(`${id}-after.png`)?.url ? 'Ada tangkapan GitHub.' : 'Ada tangkapan lokal.') : 'Belum direkam.'}</td></tr>
+<tr><th scope="row">Bukti visual</th>${visualEvidence.map((name) => `<td>${pngInfo.has(name) ? (imageDetails.get(name)?.url ? 'Ada tangkapan GitHub.' : 'Ada tangkapan lokal.') : 'Belum direkam.'}</td>`).join('')}</tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table>${resultChart}</section>
 <section class="section"><h2>Manfaat</h2><ul><li>${escape(s.benefit)}</li></ul></section>

@@ -1156,12 +1156,12 @@
       "Bima"
     ],
     "minutes": "8 menit",
-    "kind": "Simulasi alert",
+    "kind": "CodeQL · warning nyata",
     "pain": "Daftar alert yang panjang tidak memberi Bima informasi cukup untuk meninjau perbaikan.",
     "loss": "Temuan audit berulang jika perbaikan tidak dibuktikan.",
     "path": "src/db.js",
     "sample": "WHERE c.claim_date BETWEEN ? AND ? AND c.status = 'approved'",
-    "solution": "Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.",
+    "solution": "Baca warning nyata di draft, uji perbaikan format, lalu cocokkan status alert dan angka scan pada ref yang sama. Copilot Autofix dan perbaikan biasa adalah dua jalur berbeda.",
     "steps": [
       [
         "Baca mitigasi yang sudah ada",
@@ -1194,19 +1194,29 @@
         "npm test -- workshop-evidence.test.js"
       ],
       [
+        "Jalankan scan ulang pada ref yang sama",
+        "CodeQL memindai commit 7b44711 pada refs/pull/1/head setelah perbaikan biasa. Dua analisis selesai; masing-masing hasil scan mencatat nol temuan. Jangan membandingkan dengan ref demo/workshop yang memang sudah nol alert.",
+        "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45707777663"
+      ],
+      [
+        "Baca Fixed in branch, bukan status global",
+        "Buka Activity alert #1 dan cari Fixed in branch refs/pull/1/head pada commit 7b44711. API untuk ref yang sama mengukur 1 open sebelum perbaikan dan 0 setelah scan. Tidak ada tombol Dismiss yang digunakan.",
+        "https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1"
+      ],
+      [
         "Cek selesai latihan",
-        "Pada baseline lokal, Finance bulan valid 200, Manager 403, bulan tidak valid 400/REPORT_MONTH. Di GitHub, bedakan branch demo/workshop yang 0 alert dari warning #1 yang benar-benar terbuka di PR #1. CodeQL Success tidak menyatakan semua alert sudah selesai.",
+        "C4 menunjukkan satu warning Open sebelum perubahan dan nol sesudahnya pada refs/pull/1/head. Alert #1 mencatat Fixed in branch pada commit 7b44711. Pemindaian utama berbeda ref. Tidak ada Autofix yang dibuat, alert tidak di-dismiss, dan PR tidak di-merge.",
         "Cocokkan hasil:\nFinance 2026-09: 200\nManager 2026-09: 403\nFinance 2026-13: 400 / REPORT_MONTH"
       ],
       [
         "Cara merekam hasil live",
-        "Gunakan hanya alert yang sudah ada pada repo latihan. Warning #1 ada pada draft #1, bukan branch utama. Tombol Autofix tidak tampil; endpoint resmi memberi HTTP 404 No suggested fix found. Jangan memperluas scope hanya untuk demo, dan jangan menyebut draft perbaikan biasa sebagai Copilot Autofix.",
+        "Perbaikan biasa dan scan sebelum/sesudah sudah terverifikasi pada PR #1. Screen Assign to Copilot/Autofix dan draft yang dibuat oleh fitur itu belum ada: tombol tidak muncul dan API HTTP 404 No suggested fix found. Jangan memperluas scope, menanam celah atau menyebut fallback sebagai Autofix.",
         "1. S10-01-assign.png\n   Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan.\n\n2. S10-02-pr-autofix.png\n   Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan.\n\n3. S10-03-alert-closed.png\n   Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat.\n\n4. S10-after.png\n   Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid."
       ]
     ],
     "compare": [
-      "Query yang ada mengikat nilai periode dengan dua placeholder ?.",
-      "Finance + 2026-09 = 200; Manager yang sama = 403; bulan 2026-13 = 400. Ini bukan autofix/scan."
+      "Satu warning format tabel Open pada refs/pull/1/head sebelum perbaikan.",
+      "CodeQL mencatat Fixed in branch; 0 open pada ref yang sama setelah commit 7b44711."
     ],
     "benefit": "AppSec memeriksa mitigasi dan bukti, bukan sekadar perubahan status.",
     "shots": [
@@ -1222,11 +1232,13 @@
       "S10-alert-open.png",
       "S10-alert-open-annotated.png",
       "S10-remediation-diff.png",
-      "S10-remediation-diff-annotated.png"
+      "S10-remediation-diff-annotated.png",
+      "S10-after-annotated.png",
+      "S10-03-alert-closed-annotated.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "Warning CodeQL nyata di draft #1 · koreksi format teruji lokal, menunggu scan ulang",
+      "live": "CodeQL: 1 → 0 alert pada ref PR #1 · Fixed in branch lewat perbaikan biasa, bukan Autofix",
       "stepEvidence": [
         "S10-local-result.png",
         "S10-local-result.png",
@@ -1234,13 +1246,15 @@
         "S10-reference-draft-codeql-annotated.png",
         "S10-alert-open-annotated.png",
         "S10-remediation-diff-annotated.png",
-        "S10-alert-open-annotated.png",
+        "S10-after-annotated.png",
+        "S10-03-alert-closed-annotated.png",
+        "S10-03-alert-closed-annotated.png",
         null
       ],
       "completion": {
-        "verifiedLearningEvidence": "S10-alert-open-annotated.png",
-        "learningCheck": "Pada baseline lokal, Finance bulan valid 200, Manager 403, bulan tidak valid 400/REPORT_MONTH. Di GitHub, bedakan branch demo/workshop yang 0 alert dari warning #1 yang benar-benar terbuka di PR #1. CodeQL Success tidak menyatakan semua alert sudah selesai.",
-        "livePrerequisite": "Gunakan hanya alert yang sudah ada pada repo latihan. Warning #1 ada pada draft #1, bukan branch utama. Tombol Autofix tidak tampil; endpoint resmi memberi HTTP 404 No suggested fix found. Jangan memperluas scope hanya untuk demo, dan jangan menyebut draft perbaikan biasa sebagai Copilot Autofix.",
+        "verifiedLearningEvidence": "S10-03-alert-closed-annotated.png",
+        "learningCheck": "C4 menunjukkan satu warning Open sebelum perubahan dan nol sesudahnya pada refs/pull/1/head. Alert #1 mencatat Fixed in branch pada commit 7b44711. Pemindaian utama berbeda ref. Tidak ada Autofix yang dibuat, alert tidak di-dismiss, dan PR tidak di-merge.",
+        "livePrerequisite": "Perbaikan biasa dan scan sebelum/sesudah sudah terverifikasi pada PR #1. Screen Assign to Copilot/Autofix dan draft yang dibuat oleh fitur itu belum ada: tombol tidak muncul dan API HTTP 404 No suggested fix found. Jangan memperluas scope, menanam celah atau menyebut fallback sebagai Autofix.",
         "targets": [
           {
             "name": "S10-01-assign.png",
@@ -1274,7 +1288,7 @@
         {
           "actor": "Reviewer",
           "action": "Cek ulang bila ada perbaikan nyata",
-          "result": "Perbaikan biasa telah diuji pada tabel yang dihasilkan. Baru bandingkan jumlah alert setelah CodeQL memindai ulang ref yang sama."
+          "result": "CodeQL menandai Fixed in branch, dan jumlah alert open di ref PR yang sama turun 1 menjadi 0. Tidak ada merge."
         }
       ]
     }
