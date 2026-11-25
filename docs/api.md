@@ -22,5 +22,11 @@ memilih persona aplikasi, bukan autentikasi: `1`–`3` Employee,
 Contoh: browser mengirim "Taksi bandara", `250000`, dan tanggal hari ini.
 Server memvalidasi data, menyimpan `pending` dan event awal di SQLite, lalu
 mengembalikan nomor klaim. Browser menampilkan status menunggu Manager.
-Tanggal masa depan baru ditolak ketika perbaikan S04 diterapkan;
-aturan bisnisnya tetap tercatat di [business-rules.md](business-rules.md).
+
+`POST /claims` menerima tanggal hari ini hingga 90 hari sebelumnya, dihitung
+berdasarkan tanggal kalender lokal server. Tanggal setelah hari ini ditolak
+sebelum klaim atau event awal ditulis ke SQLite. Respons `400`:
+
+```json
+{ "code": "CLAIM_DATE_FUTURE", "message": "Tanggal klaim tidak boleh di masa depan." }
+```
