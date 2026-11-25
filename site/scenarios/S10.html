@@ -20,7 +20,7 @@
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S10</p><p class="kicker">S10 · Level 3 — Tim virtual</p>
 <h1>Latih alur CodeQL Autofix</h1><p class="lead">Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.</p>
-<p class="note"><strong>Status latihan:</strong> CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<p class="note"><strong>Status latihan:</strong> CodeQL aktif · 0 alert terbuka pada pemindaian awal; autofix belum diuji. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Dimas</span><span class="badge">Bima</span><span class="badge">Simulasi alert</span><span class="badge">8 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
@@ -34,6 +34,18 @@
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">WHERE c.claim_date BETWEEN ? AND ? AND c.status = &#39;approved&#39;</code></pre></details>
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>Gunakan kartu simulasi untuk alur alert, usulan mitigasi, scan ulang, dan keputusan manusia. Tidak ada celah yang ditanam.</p>
+<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+  <li><details>
+    <summary><strong>CodeQL</strong> · Pindai source</summary>
+    <p><strong>Hasil:</strong> Pemindaian asli berhasil dan melaporkan 0 alert terbuka.</p>
+  </details></li><li><details>
+    <summary><strong>AppSec</strong> · Tentukan apakah ada temuan yang bisa ditangani</summary>
+    <p><strong>Hasil:</strong> Tidak ada alert untuk Autofix. Uji batas API dan prepared statement tanpa membuat celah.</p>
+  </details></li><li><details>
+    <summary><strong>Reviewer</strong> · Cek ulang bila ada perbaikan nyata</summary>
+    <p><strong>Hasil:</strong> Bandingkan sebelum/sesudah hanya jika kedua hasil dan alert yang relevan terukur.</p>
+  </details></li>
+</ol>
 <figure class="diagram" data-diagram="D8">
   <img class="diagram-image" src="../assets/diagrams/D8.svg" alt="Baca alert bila scanner menemukannya. Minta usulan mitigasi tanpa menanam celah. Tinjau perubahan defensif dalam draft PR. Jalankan scan ulang dan lihat hasilnya." width="818" height="488" loading="lazy">
   <ol class="diagram-narrow"><li>Baca alert bila scanner menemukannya.</li><li>Minta usulan mitigasi tanpa menanam celah.</li><li>Tinjau perubahan defensif dalam draft PR.</li><li>Jalankan scan ulang dan lihat hasilnya.</li></ol>
@@ -50,37 +62,29 @@
   Q--&gt;&gt;D: Laporkan hasil untuk review
   Note over D,P: Ilustrasi, bukan hasil scan workshop</code></pre></details>
 </figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca mitigasi yang sudah ada</h3></div>
+<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca mitigasi yang sudah ada</h3></div>
     <p>Di src/db.js cari BETWEEN ? AND ?. Periode harus jadi parameter, bukan dirakit menjadi teks SQL. Buka src/routes/reports.js dan cari pemeriksaan peran Finance serta validasi month.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-1">git grep -n &quot;BETWEEN ? AND ?&quot; -- src/db.js</code></pre>
     <button type="button" data-copy="cmd-S10-1" aria-label="Salin: Baca mitigasi yang sudah ada" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-local-result.png"><img src="../assets/screenshots/S10-local-result.png" alt="Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal." width="1440" height="900" loading="lazy"><span>Perbesar S10-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.</figcaption></figure></div></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Uji batas API secara defensif</h3></div>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-local-result.png"><img src="../assets/screenshots/S10-local-result.png" alt="Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal." width="1440" height="900" loading="lazy"><span>Perbesar S10-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Uji batas API secara defensif</h3></div>
     <p>Mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua untuk membandingkan Finance, Manager, dan bulan tidak valid. Pemilih peran hanya untuk aplikasi fiktif di localhost.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-2">curl.exe -sS -o NUL -w &quot;Finance 2026-09: %{http_code}\n&quot; -H &#39;x-demo-user: 6&#39; &#39;http://127.0.0.1:3000/reports?month=2026-09&#39;
 curl.exe -sS -o NUL -w &quot;Manager 2026-09: %{http_code}\n&quot; -H &#39;x-demo-user: 4&#39; &#39;http://127.0.0.1:3000/reports?month=2026-09&#39;
 curl.exe -sS -w &quot;\nFinance 2026-13: %{http_code}\n&quot; -H &#39;x-demo-user: 6&#39; &#39;http://127.0.0.1:3000/reports?month=2026-13&#39;</code></pre>
     <button type="button" data-copy="cmd-S10-2" aria-label="Salin: Uji batas API secara defensif" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Baca CodeQL bila sudah diaktifkan</h3></div>
+    </li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Baca CodeQL bila sudah diaktifkan</h3></div>
     <p>GitHub → Security → Code scanning. Jika ada temuan nyata, buka alert, lihat usulan perbaikan, tinjau file, jalankan scan ulang. Jika belum ada hasil, jangan isi angka sebelum/sesudah atau membuat celah untuk demo.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-3">docs/simulations.md</code></pre>
     <button type="button" data-copy="cmd-S10-3" aria-label="Salin: Baca CodeQL bila sudah diaktifkan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-before-annotated.png"><img src="../assets/screenshots/S10-before-annotated.png" alt="Nomor 1–3 menunjukkan Code scanning, filter branch dan 0 Open." width="1038" height="1437" loading="lazy"><span>Perbesar S10-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning?query=is%3Aopen+branch%3Ademo%2Fworkshop">Sumber GitHub</a> · 1. Di Security and quality, pilih Code scanning. · 2. Baca filter is:open branch:demo/workshop. · 3. Hasilnya 0 Open, jadi tidak ada alert untuk Autofix. Jangan membuat temuan palsu.</figcaption></figure></div></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cek selesai latihan</h3></div>
-    <p>Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-4">Cocokkan hasil:
-Finance 2026-09: 200
-Manager 2026-09: 403
-Finance 2026-13: 400 / REPORT_MONTH</code></pre>
-    <button type="button" data-copy="cmd-S10-4" aria-label="Salin: Cek selesai latihan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Cara merekam hasil live</h3></div>
-    <p>Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan. Setiap nama di bawah menunjuk hasil yang perlu benar-benar terjadi. Gambar pembanding di atas tetap bisa dipakai untuk belajar, tetapi bukan pengganti bukti live. Ini daftar petunjuk gambar, bukan perintah terminal.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-5">1. S10-01-assign.png
-   Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan.
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-before-annotated.png"><img src="../assets/screenshots/S10-before-annotated.png" alt="Nomor 1–3 menunjukkan Code scanning, filter branch dan 0 Open." width="1038" height="1437" loading="lazy"><span>Perbesar S10-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning?query=is%3Aopen+branch%3Ademo%2Fworkshop">Sumber GitHub</a> · 1. Di Security and quality, pilih Code scanning. · 2. Baca filter is:open branch:demo/workshop. · 3. Hasilnya 0 Open, jadi tidak ada alert untuk Autofix. Jangan membuat temuan palsu.</figcaption></figure></div></li></ol></section>
+<section class="section" id="learning-check" aria-labelledby="learning-check-title">
+  <h2 id="learning-check-title">Cek hasil</h2><p>Pada aplikasi baseline, Finance untuk 2026-09 mendapat 200, Manager mendapat 403, dan Finance dengan bulan 2026-13 mendapat 400/REPORT_MONTH. Di GitHub, Code scanning pada demo/workshop menunjukkan 0 Open. Ini bukti batas akses dan hasil scan, bukan bukti Autofix; tidak membuat celah untuk memperoleh screenshot.</p>
+  <h3>Bukti latihan terverifikasi</h3><div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-local-result.png"><img src="../assets/screenshots/S10-local-result.png" alt="Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal." width="1440" height="900" loading="lazy"><span>Perbesar S10-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.</figcaption></figure></div>
+</section>
+<section class="section" id="live-steps" aria-labelledby="live-steps-title">
+  <h2 id="live-steps-title">Langkah live</h2>
+  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Autofix memerlukan alert CodeQL yang nyata dan layak pada repo latihan yang memang boleh diakses. Jangan sengaja menanam kerentanan atau menjalankan contoh serangan. Dengan 0 alert, jalur scan dan pengujian pertahanan sudah bisa dilakukan.</p>
+    <ul><li><strong><code translate="no">S10-01-assign.png</code></strong><p>Di repo latihan yang sudah punya alert sah, pilih Security and quality → Code scanning → alert Open yang layak. Foto tombol Assign to Copilot atau Autofix yang benar-benar ditampilkan sebelum mengajukan tindakan.</p></li><li><strong><code translate="no">S10-02-pr-autofix.png</code></strong><p>Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan.</p></li><li><strong><code translate="no">S10-03-alert-closed.png</code></strong><p>Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat.</p></li><li><strong><code translate="no">S10-after.png</code></strong><p>Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid.</p></li></ul>
+  </details>
 
-2. S10-02-pr-autofix.png
-   Buka draft Autofix yang ditautkan oleh alert. Periksa file mitigasi dan run CodeQL ulang pada commit PR; foto hubungan alert → draft dan hasil scan, tanpa detail serangan.
-
-3. S10-03-alert-closed.png
-   Buka alert yang sama setelah hasil scan tersedia. Rekam status GitHub yang benar: Closed, Fixed, atau status lain yang tampil. Jangan klaim Closed hanya karena draft dibuat.
-
-4. S10-after.png
-   Ambil layar hasil scan sesudah yang menyatakan keadaan alert sebenarnya. Cocokkan repo, ref dan status; masukkan jumlah sebelum/sesudah hanya dari pengukuran valid.</code></pre>
-    <button type="button" data-copy="cmd-S10-5" aria-label="Salin: Cara merekam hasil live" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li></ol></section>
+</section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
     <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S10-before.png"><img src="../assets/screenshots/S10-before.png" alt="Code scanning pada demo/workshop memperlihatkan 0 Open dan 0 Closed." width="1038" height="1437" loading="lazy"><span>Perbesar S10-before.png</span></a><div class="placeholder"><strong>Belum direkam</strong><code translate="no">S10-after.png</code></div></div>

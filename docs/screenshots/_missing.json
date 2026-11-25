@@ -1,28 +1,17 @@
 {
   "missing": [
     "S04-06-pr-checks.png",
-    "S05-02-pr-fix.png",
-    "S05-after.png",
-    "S07-01-pr-tests.png",
-    "S07-02-pr-migration.png",
-    "S07-after.png",
-    "S08-after.png",
     "S09-02-comments.png",
     "S12-01-run.png",
     "S12-after.png",
     "S13-01-triage.png",
     "S13-after.png",
-    "S14-before.png",
-    "S14-02-usage.png",
-    "S14-after.png",
     "S10-01-assign.png",
     "S10-02-pr-autofix.png",
     "S10-03-alert-closed.png",
     "S10-after.png",
-    "S11-01-adr-pr.png",
     "S11-02-impl-pr.png",
     "S11-after.png",
-    "S15-01-epic.png",
     "S15-02-breakdown.png",
     "S15-03-adr.png",
     "S15-04-pr.png",
@@ -39,11 +28,7 @@
     "S02-01-agent-plan.png",
     "S02-02-files-changed.png",
     "S02-03-tests-green.png",
-    "S03-01-skill-loaded.png",
-    "S03-after.png",
-    "S06-01-ticket.png",
-    "S06-02-pr.png",
-    "S06-after.png"
+    "S03-01-skill-loaded.png"
   ],
   "errors": [],
   "manualPending": [
@@ -54,12 +39,7 @@
     "S02-01-agent-plan.png",
     "S02-02-files-changed.png",
     "S02-03-tests-green.png",
-    "S03-01-skill-loaded.png",
-    "S03-after.png"
+    "S03-01-skill-loaded.png"
   ],
-  "manualOrg": [
-    "S06-01-ticket.png",
-    "S06-02-pr.png",
-    "S06-after.png"
-  ]
+  "manualOrg": []
 }

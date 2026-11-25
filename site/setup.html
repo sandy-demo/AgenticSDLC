@@ -38,18 +38,18 @@
 <div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js <code>^24.0.0 || ^26.0.0</code> sesuai package.json, Git, npm, dan Chromium untuk screenshot. Tidak perlu secret.</p></article>
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
 <article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
-<section class="section"><h2>2. Siapkan dan coba S04</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pasang dependensi</h3></div>
+<section class="section"><h2>2. Siapkan dan coba S04</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pasang dependensi</h3></div>
     <p>Buka terminal di root repo. Gunakan tag v0-baseline jika tersedia.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-1">npm ci
 npx playwright install chromium</code></pre>
     <button type="button" data-copy="cmd-setup-1" aria-label="Salin: Pasang dependensi" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ambil ref demo</h3></div>
+    </li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ambil ref demo</h3></div>
     <p>Pada hasil clone GitHub biasa, v0-baseline adalah tag dan demo/claim-date disimpan sebagai remote branch. Jangan jalankan ref yang tidak kamu tinjau.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-2">git fetch origin --tags
 git branch --track demo/claim-date origin/demo/claim-date</code></pre>
     <button type="button" data-copy="cmd-setup-2" aria-label="Salin: Ambil ref demo" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan perilaku</h3></div>
+    </li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan perilaku</h3></div>
     <p>Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-3">npm run demo:compare -- demo/claim-date</code></pre>
     <button type="button" data-copy="cmd-setup-3" aria-label="Salin: Bandingkan perilaku" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Ambil bukti dan ulangi</h3></div>
+    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Ambil bukti dan ulangi</h3></div>
     <p>Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-4">npm run shots -- S04
 npm run reset</code></pre>
     <button type="button" data-copy="cmd-setup-4" aria-label="Salin: Ambil bukti dan ulangi" hidden>Salin</button></div><p class="feedback" role="status"></p>
