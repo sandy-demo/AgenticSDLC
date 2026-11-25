@@ -1,6 +1,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { root } from '../demo-runtime.mjs';
+import { evidenceImages, missingStatus, pngDimensions, setupShots, shotNames, workshopOrder } from '../workshop-evidence.mjs';
 import { diagramNotes, faq, glossary, timeline, roles } from './content.mjs';
 
 const site = join(root, 'site');
@@ -8,6 +9,7 @@ const read = (file) => readFileSync(join(root, file), 'utf8');
 const scenarios = JSON.parse(read('scripts/scenarios.json'));
 const metrics = JSON.parse(read('docs/metrics.json'));
 const ids = Object.keys(scenarios);
+const nodeRange = JSON.parse(read('package.json')).engines.node;
 const levels = ['Inner loop', 'Delegasi asinkron', 'Tim virtual', 'Continuous AI', 'Governance dan capstone'];
 const levelOf = (id) => [3, 7, 11, 13, 15].findIndex((edge) => Number(id.slice(1)) <= edge) + 1;
 const escape = (input) => String(input).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
@@ -21,28 +23,46 @@ const sections = [
 ];
 const repo = 'https://github.com/sandy-demo/AgenticSDLC';
 const pngInfo = new Map();
-const knownShots = [...new Set(Object.values(scenarios).flatMap(({ shots }) => shots)),
-  'S04-before-annotated.png', 'S04-after-annotated.png', 'setup-copilot-pat.png', 'setup-copilot-secret.png'];
+const allEvidence = Object.fromEntries(ids.map((id) => [id, evidenceImages(metrics[id])]));
+const imageDetails = new Map(Object.values(allEvidence).flatMap(({ local, github }) =>
+  [...local, ...github].map((image) => [image.name, image])));
+const knownShots = [...new Set([...setupShots, ...ids.flatMap((id) => shotNames(scenarios[id], metrics[id]))])];
 
 for (const directory of ['scenarios', 'assets/screenshots', 'assets/vendor', 'assets/data']) {
   mkdirSync(join(site, directory), { recursive: true });
 }
 for (const name of knownShots) {
+  if (!/^[A-Za-z0-9-]+\.png$/.test(name)) throw new Error(`Nama bukti tidak valid: ${name}`);
   const file = join(root, 'docs', 'screenshots', name);
   if (!existsSync(file)) continue;
   const bytes = readFileSync(file);
-  if (bytes.length < 24 || bytes.toString('hex', 0, 8) !== '89504e470d0a1a0a') throw new Error(`Bukan PNG: ${name}`);
-  pngInfo.set(name, { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) });
+  const dimensions = pngDimensions(bytes);
+  if (!dimensions) throw new Error(`Bukti PNG tidak valid atau di bawah 20 KiB: ${name}`);
+  pngInfo.set(name, dimensions);
   copyFileSync(file, join(site, 'assets', 'screenshots', name));
 }
 const chartBundle = read('node_modules/chart.js/dist/chart.umd.min.js').replace(/\n\/\/# sourceMappingURL=[^\n]*\n?$/, '\n');
 writeFileSync(join(site, 'assets', 'vendor', 'chart.umd.min.js'), chartBundle);
 copyFileSync(join(root, 'node_modules', 'chart.js', 'LICENSE.md'), join(site, 'assets', 'vendor', 'Chart.js-LICENSE.md'));
 copyFileSync(join(root, 'node_modules', '@kurkle', 'color', 'LICENSE.md'), join(site, 'assets', 'vendor', 'kurkle-color-LICENSE.md'));
+const missingByScenario = Object.fromEntries(ids.map((id) =>
+  [id, scenarios[id].shots.filter((name) => !pngInfo.has(name))]));
 writeFileSync(join(site, 'assets', 'data', 'scenarios.json'), `${JSON.stringify({
   scenarios: Object.fromEntries(ids.map((id) => [id, { ...scenarios[id], level: levelOf(id),
-    screenshotStatus: Object.fromEntries(scenarios[id].shots.map((name) => [name, pngInfo.has(name) ? 'available' : 'missing'])) }])),
+    screenshotStatus: Object.fromEntries(shotNames(scenarios[id], metrics[id]).map((name) =>
+      [name, pngInfo.has(name) ? 'available' : missingStatus(id)])) }])),
   metrics,
+  dryRun: {
+    order: workshopOrder,
+    scenarios: Object.fromEntries(workshopOrder.map((id) => [id, {
+      live: scenarios[id].guide.live,
+      localDurationSeconds: metrics[id]?.localDryRun?.durationSeconds ?? null,
+      missing: missingByScenario[id],
+      screenshots: allEvidence[id].local.map(({ name }) => name).filter((name) => pngInfo.has(name)),
+      cloudScreenshots: allEvidence[id].github.map(({ name }) => name).filter((name) => pngInfo.has(name)),
+    }])),
+  },
+  setupEvidence: setupShots.filter((name) => pngInfo.has(name)).map((name) => ({ name, ...pngInfo.get(name) })),
 }, null, 2)}\n`);
 
 function document(file, title, body, { charts = false } = {}) {
@@ -122,10 +142,20 @@ const shotAlts = {
 };
 
 function thumbnail(name, up = '') {
-  if (!pngInfo.has(name)) return `<div class="placeholder"><strong>Belum di-capture</strong><code translate="no">${escape(name)}</code></div>`;
+  if (!pngInfo.has(name)) {
+    const status = missingStatus(name.slice(0, 3));
+    return `<div class="placeholder"><strong>${status === 'missing' ? 'Belum direkam' : status}</strong><code translate="no">${escape(name)}</code></div>`;
+  }
   const path = `${up}assets/screenshots/${name}`;
   const { width, height } = pngInfo.get(name);
-  return `<a class="thumbnail" data-shot href="${path}"><img src="${path}" alt="${escape(shotAlts[name] ?? `Bukti workshop ${name}`)}" width="${width}" height="${height}" loading="lazy"><span>Perbesar ${escape(name)}</span></a>`;
+  return `<a class="thumbnail" data-shot href="${path}"><img src="${path}" alt="${escape(imageDetails.get(name)?.alt ?? shotAlts[name] ?? `Bukti workshop ${name}`)}" width="${width}" height="${height}" loading="lazy"><span>Perbesar ${escape(name)}</span></a>`;
+}
+
+function evidenceFigure(name, up = '../') {
+  const image = imageDetails.get(name);
+  if (!image || !pngInfo.has(name)) return thumbnail(name, up);
+  const source = image.url?.startsWith(`${repo}/`) ? link(image.url, 'Sumber GitHub') : escape(image.source ?? 'Bukti latihan');
+  return `<figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail(name, up)}<figcaption>${source} · ${escape(image.guide ?? image.alt)}</figcaption></figure>`;
 }
 
 function comparison(id) {
@@ -149,12 +179,12 @@ function comparison(id) {
 function steps(id, list) {
   return `<ol class="steps">${list.map(([title, detail, command], index) => {
     const codeId = `cmd-${id}-${index + 1}`;
-    const annotated = id === 'S04' && (index === 0 || index === 3)
-      ? `S04-${index ? 'after' : 'before'}-annotated.png` : null;
+    const sequence = scenarios[id]?.guide?.stepEvidence ?? [];
+    const annotated = sequence.indexOf(sequence[index]) === index ? sequence[index] : null;
     return `<li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3></div>
     <p>${escape(detail)}</p><div class="cmd">${snippet(command, codeId)}
     <button type="button" data-copy="${codeId}" aria-label="Salin: ${escape(title)}" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    ${annotated && pngInfo.has(annotated) ? `<div class="gallery">${thumbnail(annotated, '../')}</div>` : ''}</li>`;
+    ${annotated && pngInfo.has(annotated) ? `<div class="gallery">${evidenceFigure(annotated)}</div>` : ''}</li>`;
   }).join('')}</ol>`;
 }
 
@@ -181,6 +211,10 @@ document('index.html', 'Workshop dari issue ke draft PR', `
     <li><strong>04 · Putuskan</strong><br>Manusia melihat hasil. S04 berhenti di draft PR.</li>
   </ol></aside>
 </section>
+<section class="section" id="urutan"><h2>Ikuti latihan satu per satu</h2>
+<p>Isi nilai yang ditunjukkan, klik kontrol bernomor, lalu cocokkan hasilnya. Screenshot asli dibedakan dari hasil perintah yang dirender dan layar cloud yang belum terekam.</p>
+<div class="actions">${link('scenarios/S04.html#practice', 'Mulai latihan S04', 'class="button primary"')}${link('setup.html#reset', 'Cara reset yang aman', 'class="button"')}</div>
+<details><summary>Lihat urutan pemeriksaan 15 skenario</summary><ol>${workshopOrder.map((id) => `<li>${link(`scenarios/${id}.html#practice`, `${id} · ${scenarios[id].title}`)}</li>`).join('')}</ol></details></section>
 <section class="section" aria-labelledby="pilih"><h2 id="pilih">Mulai dari kebutuhanmu</h2><div class="card-grid">
 ${titlesByRole.map(([role, destination, why]) => `<article class="card"><span class="subtitle">${escape(role)}</span><h3>${link(destination.startsWith('S') ? `scenarios/${destination}.html` : destination, destination.startsWith('S') ? `${destination} · ${scenarios[destination].title}` : 'Capstone · satu fitur dari ide ke review')}</h3><p>${escape(why)}</p></article>`).join('')}
 </div></section>
@@ -204,7 +238,7 @@ document('scenarios/index.html', 'Peta skenario', `
   const { title, pain, roles: people, org } = scenarios[id];
   return `<article class="card" data-scenario="${id}" data-level="${levelOf(id)}" data-roles="${escape(people.join('|'))}" data-org="${!!org}">
     <span class="subtitle">${id} · Level ${levelOf(id)}${org ? ' · Opsi organisasi' : ''}</span>
-    <h2>${link(`${id}.html`, title)}</h2><p>${escape(pain)}</p><p class="muted">${escape(people.join(', '))}</p></article>`;
+    <h2>${link(`${id}.html`, title)}</h2><p>${badge(scenarios[id].guide.live)}</p><p>${escape(pain)}</p><p class="muted">${escape(people.join(', '))}</p></article>`;
 }).join('')}</div>
 <section class="section"><h2>Distribusi persona</h2>${chart('C2', 'Keterlibatan persona per skenario', {
   type:'doughnut', label:'Jumlah skenario', labels:Object.keys(roles),
@@ -219,7 +253,28 @@ const scan = metrics.S10.runs.findLast(({ alertsBefore, alertsAfter }) =>
 for (const [index, id] of ids.entries()) {
   const s = scenarios[id];
   const graph = diagramFor[id];
-  const screenshots = s.shots.filter((name) => !/(before|after)\.png$/.test(name));
+  const { local, github } = allEvidence[id];
+  const cloud = metrics[id]?.cloudEvidence;
+  const preflight = metrics[id]?.preflight;
+  const remaining = missingByScenario[id];
+  const seenInSteps = new Set(s.guide.stepEvidence);
+  const localGallery = local.filter(({ name }) => !seenInSteps.has(name) && pngInfo.has(name));
+  const cloudGallery = github.filter(({ name }) => pngInfo.has(name));
+  const cloudAnchor = { S10: 'codeql-initial-scan', S14: 's14-controls' }[id] ?? id.toLowerCase() + '-cloud-evidence';
+  const sources = [...new Set([cloud?.issueUrl, cloud?.prUrl, cloud?.fixtureDraftUrl, cloud?.fixtureRunUrl,
+    cloud?.ciUrl, cloud?.proposalUrl, cloud?.triageRunUrl, cloud?.analysisRunUrl, cloud?.builtInReviewUrl, preflight?.scanUrl,
+    metrics[id]?.localDryRun?.relatedActionsRun].filter((url) => url?.startsWith(repo + '/')))];
+  const explanation = {
+    S04: 'Sesi cloud selesai tanpa perubahan. Foto aplikasi sebelum/sesudah tetap berasal dari dua ref latihan lokal, bukan PR kosong.',
+    S05: 'Kegagalan job LA terukur. Draft tidak punya diff; run agent yang selesai bukan CI PR yang hijau.',
+    S08: 'Foto menu menunjukkan QA Engineer tersedia, bukan bukti PR atau issue dibuat.',
+    S09: 'Komentar Copilot bukan approval manusia. Daftar Done tidak membuktikan ada komentar spesialis yang dipublikasikan.',
+    S10: 'CodeQL mencatat 0 alert terbuka. Tidak ada Autofix atau pengukuran sesudah perbaikan.',
+    S11: 'Architect memberikan usulan ADR di dalam sesi saja. Belum disetujui dan belum ada PR ADR atau implementasi.',
+    S12: 'Safe output Docs Sync menunjuk ke main, tetapi repo latihan memakai demo/workshop dan belum memiliki main.',
+    S13: 'Kegagalan ECONNRESET berasal dari fixture LA. Kedua job Copilot CLI ditolak HTTP 403, tanpa label atau komentar baru. Pemicu sementara sudah dihapus.',
+    S14: 'Tangkapan konfigurasi bukan bukti cloud attack. Fixture lokal menguji keputusan tanpa menjalankan argumennya.',
+  }[id];
   const resultChart = id === 'S08' ? chart('C3', 'Coverage baris approvalRules.js', coverage ? {
     type:'bar', label:'Coverage (%)', labels:['Suite validasi', 'Ditambah tes batas'], values:[coverage.before, coverage.after], max:100,
   } : undefined, coverage
@@ -227,10 +282,11 @@ for (const [index, id] of ids.entries()) {
     : 'Ukur suite yang sama sebelum dan setelah tes batas ditambahkan.')
     : id === 'S10' ? chart('C4', 'Alert CodeQL terbuka', scan ? {
       type:'bar', label:'Jumlah alert', labels:['Sebelum', 'Sesudah'], values:[scan.alertsBefore, scan.alertsAfter],
-    } : undefined, 'Kartu simulasi bukan hasil CodeQL. Isi saat kedua scan live sudah diverifikasi.') : '';
+    } : undefined, preflight ? 'Pemindaian awal tidak menemukan alert. Perbandingan Autofix membutuhkan hasil sebelum dan sesudah.' : 'Isi saat kedua scan live sudah diverifikasi.') : '';
   document(`scenarios/${id}.html`, `${id} · ${s.title}`, `
 <p class="breadcrumb">${link('index.html', 'Semua skenario')} / ${id}</p><p class="kicker">${id} · Level ${levelOf(id)} — ${escape(levels[levelOf(id) - 1])}</p>
 <h1>${escape(s.title)}</h1><p class="lead">${escape(s.solution)}</p>
+${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#practice', 'Ikuti langkah')} · ${link('#reset', 'Ulangi dari awal')}.`)}
 <div class="badges">${[...s.roles, s.kind, `${s.minutes} · ilustrasi durasi`].map(badge).join('')}</div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
@@ -245,18 +301,22 @@ for (const [index, id] of ids.entries()) {
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>${escape(s.solution)}</p>
 ${graph ? diagram(graph, '../') : `<div class="rail"><ol>${s.steps.map(([stepTitle, detail]) => `<li><strong>${escape(stepTitle)}.</strong> ${escape(detail)}</li>`).join('')}</ol></div>`}</section>
-<section class="section"><h2>Langkah demo</h2>${steps(id, s.steps)}</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>${steps(id, s.steps)}</section>
 <section class="section"><h2>Sebelum dan sesudah</h2>${comparison(id)}
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
 <tr><th scope="row">Perilaku</th><td>${escape(s.compare[0])}</td><td>${escape(s.compare[1])}</td></tr>
-<tr><th scope="row">Bukti visual</th><td>${pngInfo.has(`${id}-before.png`) ? 'Ada tangkapan lokal.' : 'Belum di-capture.'}</td><td>${pngInfo.has(`${id}-after.png`) ? 'Ada tangkapan lokal.' : 'Belum di-capture.'}</td></tr>
+<tr><th scope="row">Bukti visual</th><td>${pngInfo.has(`${id}-before.png`) ? (imageDetails.get(`${id}-before.png`)?.url ? 'Ada tangkapan GitHub.' : 'Ada tangkapan lokal.') : 'Belum direkam.'}</td><td>${pngInfo.has(`${id}-after.png`) ? (imageDetails.get(`${id}-after.png`)?.url ? 'Ada tangkapan GitHub.' : 'Ada tangkapan lokal.') : 'Belum direkam.'}</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table>${resultChart}</section>
 <section class="section"><h2>Manfaat</h2><ul><li>${escape(s.benefit)}</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. ${link(`${repo}/tree/main/issues/${id}.md`, `Template issue ${id} di GitHub (setelah publikasi)`)}.</p>
-${screenshots.length ? `<div class="gallery">${screenshots.map((name) => thumbnail(name, '../')).join('')}</div>` : ''}</section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p>${snippet('npm run reset -- --fresh')}</section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2>
+<p>${link(`${repo}/blob/demo/workshop/issues/${id}.md`, `Template issue ${id}`)} · ${link('../assets/data/scenarios.json', 'Data latihan dan pengukuran')}.</p>
+${localGallery.length ? `<div class="gallery">${localGallery.map(({ name }) => evidenceFigure(name)).join('')}</div>` : ''}
+${explanation || cloudGallery.length ? `<div id="${cloudAnchor}"><h3>Bukti GitHub live</h3>${explanation ? `<p>${escape(explanation)}</p>` : ''}
+  ${sources.length ? `<ul>${sources.map((url) => `<li>${link(url, url.slice(repo.length + 1))}</li>`).join('')}</ul>` : ''}
+  ${cloudGallery.length ? `<div class="gallery">${cloudGallery.map(({ name }) => evidenceFigure(name)).join('')}</div>` : ''}</div>` : ''}
+${remaining.length ? `<details><summary>${remaining.length} layar yang belum direkam</summary><ul>${remaining.map((name) => `<li><code>${escape(name)}</code></li>`).join('')}</ul></details>` : ''}</section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>${escape(s.guide.reset)}</p>${snippet(s.app ? 'npm run reset\nnpm run demo:before' : 'npm run reset -- --fresh')}<p>${link('../setup.html#reset', 'Cara reset tanpa mengubah branch')}.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 ${link(index ? `${ids[index - 1]}.html` : 'index.html', index ? `← ${ids[index - 1]}` : '← Semua skenario', 'class="button"')}
 ${link('../capstone.html', 'Capstone', 'class="button"')}
@@ -296,6 +356,7 @@ document('capstone.html', 'Capstone multi-mata-uang', `
 <p class="kicker">S15 · Capstone</p><h1>Satu fitur, delapan tahap penyerahan</h1>
 <p class="lead">Lina ingin klaim IDR, USD, dan SGD. Setiap tahap menghasilkan artefak yang diteruskan ke orang atau agent berikutnya. Hanya Tech Lead yang boleh merge di repo turunan.</p>
 ${note('Ini rencana dan timeline latihan. Baseline hanya menerima IDR; belum ada live run atau fitur multi-currency yang sudah selesai.')}
+<section class="section"><h2>Hasil baseline IDR</h2><p>Foto ini menunjukkan persetujuan klaim rupiah pada versi lokal; pilihan USD/SGD belum ada.</p><div class="gallery">${evidenceFigure('S15-local-approval.png', '')}</div><p>${link('scenarios/S15.html#practice', 'Langkah latihan capstone')}.</p></section>
 <section class="section"><h2>Ikuti perjalanan epik</h2>${diagram('D12', '', { inline:true })}
 <div class="actions" data-cap-controls hidden aria-label="Pilih tahap">${timeline.map(([label], i) => `<button type="button" aria-controls="cap-${i + 1}" data-cap-choice>${i + 1} · ${escape(label)}</button>`).join('')}</div>
 ${timeline.map(([label, owner, text, evidence], index) => `<section class="section panel" id="cap-${index + 1}" data-cap-panel>
@@ -306,7 +367,7 @@ ${timeline.map(([label, owner, text, evidence], index) => `<section class="secti
   type:'bar', label:'Agentic (menit)', labels:timeline.map(([label]) => label), values:timeline.map(([label]) => stageData.stagesMinutes[label]),
 } : undefined, 'Waktu live belum diukur; durasi runbook adalah ilustrasi, bukan pembanding hasil.')}
 <p>Versi ringkas: tunjukkan epik, draft PR, review, lalu keputusan merge. Untuk materi tanpa akses cloud, mulai dari bukti lokal ${link('scenarios/S04.html', 'S04')}.</p></section>
-`, { charts: !!stageData });
+`, { charts: true });
 
 const billed = Object.entries(metrics).flatMap(([id, { runs }]) =>
   runs.filter(({ aiCredits }) => Number.isFinite(aiCredits)).map((run) => ({ id, ...run })));
@@ -319,17 +380,18 @@ document('governance.html', 'Governance dan biaya', `
   <article class="card"><h3>Permissions + safe outputs</h3><p>Agent membaca dengan izin minimum. Job terpisah hanya boleh memproses output yang dipilih, misalnya satu draft PR docs.</p></article>
   <article class="card"><h3>Anggaran</h3><p>Periksa kuota dan pemicu workflow; aktifkan hanya saat latihan. Audit organisasi terpisah dari audit lokal.</p></article>
 </div>${diagram('D11')}<p>Uji fixture tanpa menjalankan argumen:</p>${snippet('npm run guard:demo')}</section>
+<section class="section"><h2>Lihat pengaturan di GitHub</h2><p>${link('scenarios/S14.html#s14-controls', 'Lihat hook dan batas workflow yang sudah dipotret')}. Foto berikut hanya keluaran fixture lokal.</p><div class="gallery">${evidenceFigure('S14-local-result.png', '')}</div></section>
 <section class="section"><h2>Berapa biayanya?</h2>
 ${note('<strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI credits, 25 × US$0,01 = US$0,25. Bukan estimasi satu sesi dan bukan tagihan.')}
 <p>Tarif konversi diambil dari ${link('https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing', 'GitHub Docs — Usage-based billing for individuals')}, diperiksa 25 November 2026. Satuan USD per AI credit untuk akun personal; contoh tidak memasukkan langganan, pajak, atau biaya Actions. Token yang digunakan dan model menentukan jumlah kredit. Periksa dashboard paketmu untuk pemakaian aktual.</p>
-${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. Angka tampilan sesi S04 dan S05 bukan tagihan atau jumlah premium requests.')}
-</section>`, { charts: billed.length > 0 });
+${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. Angka diambil dari tampilan sesi workshop, bukan tagihan atau jumlah premium requests.')}
+</section>`, { charts: true });
 
 document('setup.html', 'Cara demo', `
 <p class="kicker">Runbook</p><h1>Cara demo: lokal dulu, GitHub bila tersedia</h1>
 <p class="lead">Buka materi offline tanpa menyiapkan akun. Untuk mempraktikkan aplikasi, pasang dependensi. Untuk cloud agent dan Pages, cek izin repo terlebih dahulu.</p>
 <section class="section"><h2>1. Pilih lingkungan</h2>${diagram('D13')}
-<div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js 24 LTS, Git, npm dan browser Chromium untuk screenshot. Tidak perlu secret.</p></article>
+<div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js <code>${escape(nodeRange)}</code> sesuai package.json, Git, npm, dan Chromium untuk screenshot. Tidak perlu secret.</p></article>
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
 <article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
 <section class="section"><h2>2. Siapkan dan coba S04</h2>${steps('setup', [
@@ -338,6 +400,7 @@ document('setup.html', 'Cara demo', `
   ['Bandingkan perilaku', 'Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.', 'npm run demo:compare -- demo/claim-date'],
   ['Ambil bukti dan ulangi', 'Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.', 'npm run shots -- S04\nnpm run reset'],
 ])}<p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+<section class="section" id="reset"><h2>Reset: data aplikasi atau kode latihan?</h2><dl><dt>Data demo</dt><dd>Di terminal yang menjalankan demo, tekan Ctrl+C. Jalankan <code>npm run reset</code> untuk melihat instruksi, lalu <code>npm run demo:before</code>. Perintah reset biasa tidak me-restart server otomatis. Saat diuji, daftar Employee 01 berubah 7 → 8 → 7 klaim setelah restart.</dd><dt>Kode latihan</dt><dd>Jalankan <code>npm run reset -- --fresh</code> dari root repo. Buka path checkout terpisah yang dicetak di terminal. Checkout baru berada pada tag <code>v0-baseline</code>; pekerjaan yang sudah ada, branch, dan remote tetap utuh.</dd><dt>GitHub</dt><dd>Reset lokal tidak menutup issue, menghapus branch remote, atau mengurungkan merge. Gunakan repo turunan untuk latihan yang melibatkan merge.</dd></dl></section>
 <section class="section"><h2>3. Siapkan demo GitHub</h2>
 <ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>
 <li>Seed issue di repo latihan, buka draft PR yang diizinkan, dan cek Copilot pada Assignees.</li>
@@ -355,7 +418,7 @@ document('setup.html', 'Cara demo', `
 <div class="gallery" id="pat-copilot-screenshots"><figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail('setup-copilot-pat.png')}<figcaption><a href="https://github.com/settings/personal-access-tokens/new?name=COPILOT_GITHUB_TOKEN&amp;user_copilot_requests=read">Sumber GitHub</a> · Cari Account → Copilot Requests → Read-only. Ini contoh form sebelum Generate token. Sesuaikan masa berlaku dan batasi akses sesuai petunjuk.</figcaption></figure>
 <figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail('setup-copilot-secret.png')}<figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions">Sumber GitHub</a> · Settings → Secrets and variables → Actions → Secrets. Klik New repository secret untuk menambahkan. Setelah tersimpan, daftar hanya menunjukkan nama COPILOT_GITHUB_TOKEN.</figcaption></figure></div>
 <p><strong>Cara cek:</strong> jalankan <code translate="no">gh secret list -R sandy-demo/AgenticSDLC</code>. Nama <code translate="no">COPILOT_GITHUB_TOKEN</code> harus muncul, bukan nilainya. Menyimpan secret tidak otomatis menyalakan workflow. Izin untuk operasi GitHub tetap dikontrol terpisah lewat <code translate="no">permissions</code> dan <code translate="no">safe-outputs</code>. <a href="https://github.github.com/gh-aw/reference/auth/#copilot_github_token">Panduan autentikasi gh-aw</a>.</p>
-<p>${link(`${repo}/blob/main/docs/ORG-SETUP.md`, 'Prasyarat dan langkah admin di repo (setelah publikasi)')} · ${link('scenarios/index.html', 'Langkah untuk semua skenario')}.</p></section>
+<p>${link(`${repo}/blob/evidence/dry-run-1/docs/ORG-SETUP.md`, 'Prasyarat dan langkah admin di repo (setelah publikasi)')} · ${link('scenarios/index.html', 'Langkah untuk semua skenario')}.</p></section>
 <section class="section"><h2>Kalau ada masalah</h2>
 <details><summary>Copilot tidak muncul di Assignees</summary><p>Cek plan, kebijakan pemilik repository dan apakah cloud agent diizinkan. Sementara itu pakai bukti lokal S04.</p></details>
 <details><summary>Demo ref atau tag tidak ditemukan</summary><p>Periksa <code>git branch -a</code> dan <code>git tag</code>. ZIP tidak berisi history; gunakan <code>npm run dev</code> bila hanya ingin mencoba baseline.</p></details>

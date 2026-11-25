@@ -285,7 +285,9 @@
         "S04-agent-actions.png": "available",
         "S04-ci-approval-pending.png": "available",
         "S04-feedback-request.png": "available",
-        "S04-hook-parser.png": "available"
+        "S04-hook-parser.png": "available",
+        "S04-before-annotated.png": "available",
+        "S04-after-annotated.png": "available"
       }
     },
     "S05": {
@@ -321,7 +323,7 @@
       ],
       "compare": [
         "Fixture tanpa timezone eksplisit lulus di Jakarta, gagal di LA (14 Oktober vs 15 Oktober).",
-        "Target PR: tetapkan timezone bisnis di tes dengan jam tetap. PR dan checks sesudah belum ada."
+        "Target: tes stabil di kedua zona waktu. Draft #6 ada, tetapi belum berisi perbaikan atau checks hijau."
       ],
       "benefit": "Diagnosis dilacak di PR, bukan hilang di chat.",
       "shots": [
@@ -532,7 +534,7 @@
         "stepEvidence": [
           "S08-local-result.png",
           "S08-local-result.png",
-          "S08-02-bug-issue.png"
+          "S08-01-agent-picker.png"
         ]
       },
       "level": 3,
@@ -577,7 +579,7 @@
       ],
       "compare": [
         "Stock branch dengan satu query daftar ID ditambah query per klaim.",
-        "Uji lokal: output 7 klaim sama. Temuan PII/audit hanya ilustrasi; belum ada komentar reviewer live."
+        "Uji lokal: output 7 klaim sama. Ada satu review Copilot; komentar spesialis belum dipublikasikan. PII/audit hanya ilustrasi."
       ],
       "benefit": "Review manusia tetap memutuskan temuan mana yang menghalangi merge.",
       "shots": [
@@ -711,24 +713,26 @@
         "S11-01-adr-pr.png",
         "S11-02-impl-pr.png",
         "S11-after.png",
-        "S11-local-result.png"
+        "S11-local-result.png",
+        "S11-architect-proposal.png"
       ],
       "guide": {
         "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-        "live": "pending · ADR, persetujuan dan PR implementer",
+        "live": "Usulan ADR dibaca di sesi Architect · belum disetujui; tidak ada PR implementasi",
         "stepEvidence": [
-          "S11-local-result.png",
-          "S11-01-adr-pr.png",
+          "S11-before.png",
+          "S11-architect-proposal.png",
           "S11-02-impl-pr.png"
         ]
       },
       "level": 3,
       "screenshotStatus": {
-        "S11-before.png": "missing",
+        "S11-before.png": "available",
         "S11-01-adr-pr.png": "missing",
         "S11-02-impl-pr.png": "missing",
         "S11-after.png": "missing",
-        "S11-local-result.png": "available"
+        "S11-local-result.png": "available",
+        "S11-architect-proposal.png": "available"
       }
     },
     "S12": {
@@ -821,7 +825,7 @@
       ],
       "compare": [
         "Fixture cabang latihan memberi ECONNRESET tanpa membuka koneksi.",
-        "Target: label needs-info dan satu komentar pada PR pemicu; keduanya belum direkam."
+        "Target: label needs-info dan satu komentar pada PR pemicu. Keduanya tidak terbit karena panggilan Copilot CLI ditolak."
       ],
       "benefit": "Maintainer bisa langsung mengambil issue yang siap.",
       "shots": [
@@ -838,7 +842,7 @@
         "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
         "stepEvidence": [
           "S13-ci-failure.png",
-          "S13-01-triage.png",
+          "S13-before.png",
           "S13-local-result.png"
         ]
       },
@@ -896,14 +900,15 @@
         "S14-02-usage.png",
         "S14-03-gh-aw-permissions.png",
         "S14-after.png",
-        "S14-local-result.png"
+        "S14-local-result.png",
+        "S14-local-audit.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-        "live": "pending · sesi cloud/usage; fixture aman saja",
+        "live": "Fixture aman teruji · audit hanya metadata; tidak menjalankan permintaan berisiko live",
         "stepEvidence": [
           "S14-local-result.png",
-          "S14-local-result.png",
+          "S14-local-audit.png",
           "S14-02-usage.png"
         ]
       },
@@ -914,7 +919,8 @@
         "S14-02-usage.png": "missing",
         "S14-03-gh-aw-permissions.png": "available",
         "S14-after.png": "missing",
-        "S14-local-result.png": "available"
+        "S14-local-result.png": "available",
+        "S14-local-audit.png": "available"
       }
     },
     "S15": {
@@ -987,7 +993,7 @@
       },
       "guide": {
         "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-        "live": "pending · fitur multi-mata-uang dan gate manusia",
+        "live": "Manual pending · versi live perlu repo turunan dan persetujuan manusia",
         "stepEvidence": [
           "S15-before-annotated.png",
           "S15-03-adr.png",
@@ -1363,6 +1369,14 @@
             "name": "S14-local-result.png",
             "alt": "Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          },
+          {
+            "name": "S14-local-audit.png",
+            "source": "Output fixture lokal yang dirender",
+            "alt": "Dua baris audit fixture: default dan deny dengan waktu, fase, keputusan, kategori.",
+            "guide": "Baca audit fixture: operasi hanya diklasifikasikan. Tidak ada argumen yang dijalankan atau disalin ke bukti.",
+            "width": 1440,
+            "height": 900
           }
         ]
       },
@@ -1386,6 +1400,18 @@
             "height": 1000
           }
         ]
+      },
+      "localAudit": {
+        "capturedAt": "2026-11-25T10:55:09.668Z",
+        "phases": [
+          "fixture"
+        ],
+        "decisions": [
+          "default",
+          "deny"
+        ],
+        "records": 2,
+        "executedArguments": false
       }
     },
     "S15": {
@@ -1428,6 +1454,9 @@
             "source": "Output lokal yang dirender · bukan layar portal"
           }
         ]
+      },
+      "cloudEvidence": {
+        "status": "not-started-needs-isolated-repository-and-human-gates"
       }
     },
     "S05": {
@@ -1802,7 +1831,21 @@
       }
     },
     "S11": {
-      "runs": [],
+      "runs": [
+        {
+          "date": "2026-11-25",
+          "startedAt": "2026-11-25T10:53:29.416Z",
+          "stoppedAt": "2026-11-25T10:57:19.559Z",
+          "durationSeconds": 230,
+          "minutesToPr": null,
+          "revisionMinutes": null,
+          "reviewerComments": null,
+          "premiumRequests": null,
+          "aiCredits": 3.3,
+          "aiCreditsSource": "Tampilan sesi Architect S11 di GitHub; bukan tagihan.",
+          "outcome": "proposal-only"
+        }
+      ],
       "localDryRun": {
         "recordedAt": "2026-11-25T07:49:19.435Z",
         "status": "verified-local",
@@ -1828,6 +1871,31 @@
             "name": "S11-local-result.png",
             "alt": "Output pemeriksaan lokal S11: Templat keputusan, bukan ADR disetujui; Baseline approval yang harus dilindungi.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      },
+      "cloudEvidence": {
+        "status": "proposal-only",
+        "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/11",
+        "proposalUrl": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+        "completedAt": "2026-11-25T10:55:47Z",
+        "approved": false,
+        "images": [
+          {
+            "name": "S11-before.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/issues/11",
+            "alt": "Issue #11 memuat kriteria desain approval bertingkat.",
+            "guide": "Buka Issues → issue #11. Baca acceptance criteria tentang retry, status, dan audit sebelum mendelegasikan.",
+            "width": 1440,
+            "height": 936
+          },
+          {
+            "name": "S11-architect-proposal.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+            "alt": "Dialog Plan pada sesi Architect menampilkan usulan ADR 0001, belum disetujui.",
+            "guide": "Buka sesi Architect → View full plan. Bandingkan konflik status dan transaksi dengan kunci idempotensi. Jangan klik Approve plan and start work sampai Tech Lead meninjau. Ini bukan PR ADR.",
+            "width": 966,
+            "height": 819
           }
         ]
       }
@@ -1979,7 +2047,6 @@
     }
   },
   "dryRun": {
-    "measuredOn": "2026-11-25",
     "order": [
       "S04",
       "S05",
@@ -2055,7 +2122,8 @@
         ],
         "screenshots": [
           "S07-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S08": {
         "live": "Live ditunda · PR tes QA perlu koreksi guardrail",
@@ -2098,7 +2166,8 @@
         ],
         "screenshots": [
           "S12-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S13": {
         "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
@@ -2118,7 +2187,7 @@
         ]
       },
       "S14": {
-        "live": "pending · sesi cloud/usage; fixture aman saja",
+        "live": "Fixture aman teruji · audit hanya metadata; tidak menjalankan permintaan berisiko live",
         "localDurationSeconds": 0.06,
         "missing": [
           "S14-before.png",
@@ -2126,7 +2195,8 @@
           "S14-after.png"
         ],
         "screenshots": [
-          "S14-local-result.png"
+          "S14-local-result.png",
+          "S14-local-audit.png"
         ],
         "cloudScreenshots": [
           "S14-01-hooks-file.png",
@@ -2151,20 +2221,23 @@
         ]
       },
       "S11": {
-        "live": "pending · ADR, persetujuan dan PR implementer",
+        "live": "Usulan ADR dibaca di sesi Architect · belum disetujui; tidak ada PR implementasi",
         "localDurationSeconds": 0.91,
         "missing": [
-          "S11-before.png",
           "S11-01-adr-pr.png",
           "S11-02-impl-pr.png",
           "S11-after.png"
         ],
         "screenshots": [
           "S11-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S11-before.png",
+          "S11-architect-proposal.png"
         ]
       },
       "S15": {
-        "live": "pending · fitur multi-mata-uang dan gate manusia",
+        "live": "Manual pending · versi live perlu repo turunan dan persetujuan manusia",
         "localDurationSeconds": 0.91,
         "missing": [
           "S15-01-epic.png",
@@ -2183,7 +2256,8 @@
           "S15-before-annotated.png",
           "S15-local-approval.png",
           "S15-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S01": {
         "live": "manual pending · VS Code",
@@ -2197,7 +2271,8 @@
         ],
         "screenshots": [
           "S01-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S02": {
         "live": "manual pending · VS Code",
@@ -2212,7 +2287,8 @@
           "S02-after.png",
           "S02-after-annotated.png",
           "S02-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S03": {
         "live": "manual pending · VS Code",
@@ -2224,7 +2300,8 @@
         ],
         "screenshots": [
           "S03-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       },
       "S06": {
         "live": "manual/org · konektor belum dijalankan",
@@ -2238,24 +2315,19 @@
           "S06-before.png",
           "S06-before-annotated.png",
           "S06-local-result.png"
-        ]
+        ],
+        "cloudScreenshots": []
       }
     }
   },
   "setupEvidence": [
     {
       "name": "setup-copilot-pat.png",
-      "url": "https://github.com/settings/personal-access-tokens/new?name=COPILOT_GITHUB_TOKEN&user_copilot_requests=read",
-      "alt": "Form baru tanpa nilai token; Account menampilkan Copilot Requests dengan akses Read-only.",
-      "guide": "Cari Account → Copilot Requests → Read-only. Ini contoh form sebelum Generate token. Sesuaikan masa berlaku dan batasi akses sesuai petunjuk.",
       "width": 918,
       "height": 1884
     },
     {
       "name": "setup-copilot-secret.png",
-      "url": "https://github.com/sandy-demo/AgenticSDLC/settings/secrets/actions",
-      "alt": "Settings repo, Actions secrets, tombol New repository secret, dan nama COPILOT_GITHUB_TOKEN yang sudah tersimpan.",
-      "guide": "Settings → Secrets and variables → Actions → Secrets. Klik New repository secret untuk menambahkan. Setelah tersimpan, daftar hanya menunjukkan nama COPILOT_GITHUB_TOKEN.",
       "width": 1038,
       "height": 1317
     }

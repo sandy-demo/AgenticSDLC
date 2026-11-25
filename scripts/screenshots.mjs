@@ -1,8 +1,8 @@
 import { chromium } from 'playwright';
-import { mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { config, root, serve } from './demo-runtime.mjs';
-import { refreshEvidence } from './workshop-evidence.mjs';
+import { pngDimensions, refreshEvidence } from './workshop-evidence.mjs';
 
 const scenarios = JSON.parse(readFileSync(new URL('./scenarios.json', import.meta.url), 'utf8'));
 const [id = 'S04', ...extra] = process.argv.slice(2);
@@ -27,7 +27,8 @@ if (selected.length) {
           server = await serve(ref);
           context = await browser.newContext({ viewport: config.viewport, colorScheme: config.darkMode ? 'dark' : 'light' });
           const page = await context.newPage();
-          await page.goto(`${server.url}${app.page}`);
+          const navigation = await page.goto(`${server.url}${app.page}`);
+          if (!navigation?.ok()) throw new Error(`Layar aplikasi gagal dimuat: HTTP ${navigation?.status() ?? 'tidak diketahui'}.`);
           await page.locator('#items li').first().waitFor();
           if (app.exercise === 'future-date') {
             const date = new Date();
@@ -55,8 +56,19 @@ if (selected.length) {
           if (scenarioId === 'S02' && index === 0 && await page.locator('#category').count()) {
             throw new Error('Form baseline seharusnya tidak memuat kategori.');
           }
-          await page.screenshot({ path: join(out, name), fullPage: false, animations: 'disabled' });
-          console.log(`Disimpan: ${name} (${ref})`);
+          let screenshot;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            screenshot = await page.screenshot({ fullPage: false, animations: 'disabled' });
+            if (pngDimensions(screenshot)) break;
+          }
+          if (!pngDimensions(screenshot)) throw new Error(`PNG ${name} tidak valid atau di bawah 20 KiB.`);
+          const output = join(out, name);
+          if (id === 'all' && existsSync(output) && pngDimensions(readFileSync(output))) {
+            console.log(`Diuji ulang: ${name} (${ref}); arsip asli dipertahankan.`);
+          } else {
+            writeFileSync(output, screenshot);
+            console.log(`Disimpan: ${name} (${ref})`);
+          }
         } catch (error) {
           failures.push({ name, reason: error.message.split(/\r?\n/)[0] });
           console.error(`${name}: ${error.message}`);

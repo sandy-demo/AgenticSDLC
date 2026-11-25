@@ -275,7 +275,7 @@
     ],
     "compare": [
       "Fixture tanpa timezone eksplisit lulus di Jakarta, gagal di LA (14 Oktober vs 15 Oktober).",
-      "Target PR: tetapkan timezone bisnis di tes dengan jam tetap. PR dan checks sesudah belum ada."
+      "Target: tes stabil di kedua zona waktu. Draft #6 ada, tetapi belum berisi perbaikan atau checks hijau."
     ],
     "benefit": "Diagnosis dilacak di PR, bukan hilang di chat.",
     "shots": [
@@ -458,7 +458,7 @@
       "stepEvidence": [
         "S08-local-result.png",
         "S08-local-result.png",
-        "S08-02-bug-issue.png"
+        "S08-01-agent-picker.png"
       ]
     }
   },
@@ -495,7 +495,7 @@
     ],
     "compare": [
       "Stock branch dengan satu query daftar ID ditambah query per klaim.",
-      "Uji lokal: output 7 klaim sama. Temuan PII/audit hanya ilustrasi; belum ada komentar reviewer live."
+      "Uji lokal: output 7 klaim sama. Ada satu review Copilot; komentar spesialis belum dipublikasikan. PII/audit hanya ilustrasi."
     ],
     "benefit": "Review manusia tetap memutuskan temuan mana yang menghalangi merge.",
     "shots": [
@@ -610,14 +610,15 @@
       "S11-01-adr-pr.png",
       "S11-02-impl-pr.png",
       "S11-after.png",
-      "S11-local-result.png"
+      "S11-local-result.png",
+      "S11-architect-proposal.png"
     ],
     "guide": {
       "reset": "Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.",
-      "live": "pending · ADR, persetujuan dan PR implementer",
+      "live": "Usulan ADR dibaca di sesi Architect · belum disetujui; tidak ada PR implementasi",
       "stepEvidence": [
-        "S11-local-result.png",
-        "S11-01-adr-pr.png",
+        "S11-before.png",
+        "S11-architect-proposal.png",
         "S11-02-impl-pr.png"
       ]
     }
@@ -705,7 +706,7 @@
     ],
     "compare": [
       "Fixture cabang latihan memberi ECONNRESET tanpa membuka koneksi.",
-      "Target: label needs-info dan satu komentar pada PR pemicu; keduanya belum direkam."
+      "Target: label needs-info dan satu komentar pada PR pemicu. Keduanya tidak terbit karena panggilan Copilot CLI ditolak."
     ],
     "benefit": "Maintainer bisa langsung mengambil issue yang siap.",
     "shots": [
@@ -722,7 +723,7 @@
       "live": "Pemicu live teruji · Copilot CLI HTTP 403; label dan komentar belum terbit",
       "stepEvidence": [
         "S13-ci-failure.png",
-        "S13-01-triage.png",
+        "S13-before.png",
         "S13-local-result.png"
       ]
     }
@@ -770,14 +771,15 @@
       "S14-02-usage.png",
       "S14-03-gh-aw-permissions.png",
       "S14-after.png",
-      "S14-local-result.png"
+      "S14-local-result.png",
+      "S14-local-audit.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "pending · sesi cloud/usage; fixture aman saja",
+      "live": "Fixture aman teruji · audit hanya metadata; tidak menjalankan permintaan berisiko live",
       "stepEvidence": [
         "S14-local-result.png",
-        "S14-local-result.png",
+        "S14-local-audit.png",
         "S14-02-usage.png"
       ]
     }
@@ -852,7 +854,7 @@
     },
     "guide": {
       "reset": "Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.",
-      "live": "pending · fitur multi-mata-uang dan gate manusia",
+      "live": "Manual pending · versi live perlu repo turunan dan persetujuan manusia",
       "stepEvidence": [
         "S15-before-annotated.png",
         "S15-03-adr.png",

@@ -347,6 +347,14 @@
           "name": "S14-local-result.png",
           "alt": "Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.",
           "source": "Output lokal yang dirender · bukan layar portal"
+        },
+        {
+          "name": "S14-local-audit.png",
+          "source": "Output fixture lokal yang dirender",
+          "alt": "Dua baris audit fixture: default dan deny dengan waktu, fase, keputusan, kategori.",
+          "guide": "Baca audit fixture: operasi hanya diklasifikasikan. Tidak ada argumen yang dijalankan atau disalin ke bukti.",
+          "width": 1440,
+          "height": 900
         }
       ]
     },
@@ -370,6 +378,18 @@
           "height": 1000
         }
       ]
+    },
+    "localAudit": {
+      "capturedAt": "2026-11-25T10:55:09.668Z",
+      "phases": [
+        "fixture"
+      ],
+      "decisions": [
+        "default",
+        "deny"
+      ],
+      "records": 2,
+      "executedArguments": false
     }
   },
   "S15": {
@@ -412,6 +432,9 @@
           "source": "Output lokal yang dirender · bukan layar portal"
         }
       ]
+    },
+    "cloudEvidence": {
+      "status": "not-started-needs-isolated-repository-and-human-gates"
     }
   },
   "S05": {
@@ -786,7 +809,21 @@
     }
   },
   "S11": {
-    "runs": [],
+    "runs": [
+      {
+        "date": "2026-11-25",
+        "startedAt": "2026-11-25T10:53:29.416Z",
+        "stoppedAt": "2026-11-25T10:57:19.559Z",
+        "durationSeconds": 230,
+        "minutesToPr": null,
+        "revisionMinutes": null,
+        "reviewerComments": null,
+        "premiumRequests": null,
+        "aiCredits": 3.3,
+        "aiCreditsSource": "Tampilan sesi Architect S11 di GitHub; bukan tagihan.",
+        "outcome": "proposal-only"
+      }
+    ],
     "localDryRun": {
       "recordedAt": "2026-11-25T07:49:19.435Z",
       "status": "verified-local",
@@ -812,6 +849,31 @@
           "name": "S11-local-result.png",
           "alt": "Output pemeriksaan lokal S11: Templat keputusan, bukan ADR disetujui; Baseline approval yang harus dilindungi.",
           "source": "Output lokal yang dirender · bukan layar portal"
+        }
+      ]
+    },
+    "cloudEvidence": {
+      "status": "proposal-only",
+      "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/11",
+      "proposalUrl": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+      "completedAt": "2026-11-25T10:55:47Z",
+      "approved": false,
+      "images": [
+        {
+          "name": "S11-before.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/issues/11",
+          "alt": "Issue #11 memuat kriteria desain approval bertingkat.",
+          "guide": "Buka Issues → issue #11. Baca acceptance criteria tentang retry, status, dan audit sebelum mendelegasikan.",
+          "width": 1440,
+          "height": 936
+        },
+        {
+          "name": "S11-architect-proposal.png",
+          "url": "https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711",
+          "alt": "Dialog Plan pada sesi Architect menampilkan usulan ADR 0001, belum disetujui.",
+          "guide": "Buka sesi Architect → View full plan. Bandingkan konflik status dan transaksi dengan kunci idempotensi. Jangan klik Approve plan and start work sampai Tech Lead meninjau. Ini bukan PR ADR.",
+          "width": 966,
+          "height": 819
         }
       ]
     }

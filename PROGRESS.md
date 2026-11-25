@@ -81,6 +81,13 @@
 - [Issue S13 #7](https://github.com/sandy-demo/AgenticSDLC/issues/7) memicu [Issue Triage](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596615909); [draft latihan #8](https://github.com/sandy-demo/AgenticSDLC/pull/8) memicu [CI](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596624154) dan [CI Fault Analysis](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45596785536). LA gagal dengan `ECONNRESET` sebagai fixture, Jakarta dan e2e lulus. Kedua workflow agent berhenti di `Execute GitHub Copilot CLI` dengan HTTP 403 dari provider, tanpa label atau komentar. Secret ada; penyebab spesifik penolakan provider belum terbukti.
 - [Bukti S13 di panduan](site/scenarios/S13.html#s13-cloud-evidence) menunjukkan issue kosong dan kedua ringkasan. Variabel sementara `AGENTIC_WORKSHOP_LIVE` sudah dikembalikan ke kondisi tidak ada. Tidak ada merge.
 
+### S11, S14 dan kesiapan capstone
+
+- [Issue S11 #11](https://github.com/sandy-demo/AgenticSDLC/issues/11) dan [sesi Architect](https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711) menghasilkan usulan ADR 0001 untuk dibaca. **Belum disetujui**, belum ada PR ADR atau PR implementasi. Opsi yang terlihat: konflik status atau kunci idempotensi dengan transaksi. Penggunaan yang ditampilkan sesi: 3,3 AI credits, bukan tagihan.
+- S14: prosedur aman memeriksa fixture lokal tanpa menjalankan argumen. [Audit metadata](docs/screenshots/S14-local-audit.png) menunjukkan dua keputusan; tidak merekam kredensial. Tidak ada uji destruktif live. S10: 0 alert terbuka, jadi tidak ada Autofix yang bisa dijalankan.
+- S15: baseline IDR sudah diuji. Multi-currency, persetujuan Tech Lead, dan merge belum dilakukan; versi live memerlukan repo turunan. Repo template yang diminta belum ditemukan.
+- Generator kini membaca metrik dan arsip screenshot untuk membangun ulang panduan. `npm run shots:all` menguji ulang aplikasi dan mempertahankan arsip PNG yang masih valid. `npm run site:build` menyusun foto, caption, status pending, dan petunjuk reset dari sumber.
+
 ### Yang masih perlu dilakukan untuk jalur cloud
 
 [Panduan PAT Copilot untuk S12 dan S13](docs/ORG-SETUP.md#pat-copilot-untuk-s12-dan-s13) menjelaskan kenapa izin ada di tab **Account** dan kapan token tidak diperlukan.
@@ -101,6 +108,12 @@ Secret dan CodeQL sudah terpasang. Untuk melanjutkan S04, maintainer perlu menin
 | 4 | S02 Changes dan tes: `S02-02-files-changed.png` dan `S02-03-tests-green.png` | Buka Source Control, lalu Terminal; tunggu laporan tes. |
 | 5 | S03 route awal dan skill: `S03-before.png` dan `S03-01-skill-loaded.png` | Buka `src/routes/reports.js`. Kirim “Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim, validasi isi, dan jangan catat isi komentar ke log.” |
 | 6 | S03 hasil: `S03-after.png` | Tunjukkan route + docs di split editor dan tes akses. |
+
+### Cek akhir dan batas bukti
+
+- 22 halaman HTML diperiksa offline pada 320, 390, 768 dan 1440 px, tanpa gambar rusak atau error konsol. 61 PNG cocok dengan sumber; 51 layar yang belum ada tercatat di [daftar pending](docs/screenshots/_missing.json). Sebagian PNG adalah output fixture lokal yang diberi label, bukan screenshot GitHub.
+- `npm run lint`, `npm test` (20 tes), `npm run e2e` (6 tes), `npm run shots:all`, dan `npm run site:build` lulus. Dua build menghasilkan file identik.
+- C3 dan C6 mengikuti pengukuran yang tersedia. C4 tidak punya hasil sesudah Autofix; C5 tidak punya durasi capstone live. Angka yang tidak tersedia tidak diisi dengan nol.
 
 ### Reset yang sudah dicoba
 

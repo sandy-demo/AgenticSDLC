@@ -20,8 +20,8 @@
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S06</p><p class="kicker">S06 · Level 2 — Delegasi asinkron</p>
 <h1>Delegasikan perubahan dari tiket</h1><p class="lead">Delegasikan dari Jira/Teams bila konektor organisasi tersedia. Versi personal memakai GitHub Issue.</p>
+<p class="note"><strong>Status latihan:</strong> manual/org · konektor belum dijalankan. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Lina</span><span class="badge">Rani</span><span class="badge">Personal / organisasi</span><span class="badge">6 menit · ilustrasi durasi</span></div>
-<p class="note quiet-note"><strong>Sudah diuji secara lokal.</strong> manual/org · konektor belum dijalankan. <a href="#practice">Ikuti langkah</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
@@ -38,28 +38,29 @@
 <section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Tunjuk tombol yang mau diganti</h3></div>
     <p>Buka :3000 dan cari (1) Submit. Isi judul Tiket label Submit, jumlah 250000, tanggal hari ini. Klik dan periksa pesan klaim tersimpan (201). Ini baseline, bukan hasil tiket.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-1">npm run demo:before</code></pre>
     <button type="button" data-copy="cmd-S06-1" aria-label="Salin: Tunjuk tombol yang mau diganti" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before-annotated.png"><img src="../assets/screenshots/S06-before-annotated.png" alt="Nomor 1 menandai tombol Submit yang menjadi target tiket." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before-annotated.png</span></a><figcaption><strong>Sumber:</strong> v0-baseline · dianotasi. Nomor 1 menandai tombol Submit yang menjadi target tiket. </figcaption></figure></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tulis perubahan kecil pada tiket</h3></div>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before-annotated.png"><img src="../assets/screenshots/S06-before-annotated.png" alt="Nomor 1 menandai tombol Submit yang menjadi target tiket." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before-annotated.png</span></a><figcaption>v0-baseline · dianotasi · Nomor 1 menandai tombol Submit yang menjadi target tiket.</figcaption></figure></div></li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tulis perubahan kecil pada tiket</h3></div>
     <p>Di Jira/Teams latihan gunakan konektor organisasi hanya bila tersedia; versi personal pakai GitHub Issues → New issue. Minta label Ajukan Klaim dan petunjuk “Klaim akan ditinjau Manager.” Targetnya src/public/index.html, bukan logika simpan.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-2">issues/S06.md</code></pre>
     <button type="button" data-copy="cmd-S06-2" aria-label="Salin: Tulis perubahan kecil pada tiket" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau perubahan dengan keyboard</h3></div>
     <p>Di draft PR, cari file HTML pada Files changed. Versi sesudah harus punya label baru, fokus Tab terlihat, Enter tetap mengirim klaim sekali, dan draft PR tertaut ke tiket. Belum direkam.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-3">npm run e2e</code></pre>
     <button type="button" data-copy="cmd-S06-3" aria-label="Salin: Tinjau perubahan dengan keyboard" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <figure style="margin:1rem 0 0;max-width:62rem"><a class="thumbnail" data-shot href="../assets/screenshots/S06-local-result.png"><img src="../assets/screenshots/S06-local-result.png" alt="Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama." width="1440" height="900" loading="lazy"><span>Perbesar S06-local-result.png</span></a><figcaption><strong>Sumber:</strong> Output lokal yang dirender · bukan layar portal. Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama. </figcaption></figure></li></ol></section>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-local-result.png"><img src="../assets/screenshots/S06-local-result.png" alt="Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama." width="1440" height="900" loading="lazy"><span>Perbesar S06-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama.</figcaption></figure></div></li></ol></section>
 <section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
 
     <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before.png"><img src="../assets/screenshots/S06-before.png" alt="Tombol asli pada form klaim: Submit." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before.png</span></a><div class="placeholder"><strong>manual/org</strong><code translate="no">S06-after.png</code></div></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
 <tr><th scope="row">Perilaku</th><td>Form menampilkan Submit; klik tetap menyimpan klaim (201).</td><td>Target: Ajukan Klaim dan petunjuk status berikutnya; tiket organisasi dan perubahan UI belum ada.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>manual/org.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>Belum direkam.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>PM tahu perubahan mana yang benar-benar sedang ditinjau.</li></ul></section>
-<section class="section" id="evidence"><h2>Bukti dan sumber</h2><p>Hasil di bawah diperiksa pada 2026-11-25 UTC. manual/org · konektor belum dijalankan. Pembacaan data lokal tidak membuktikan agent, PR, scanner, atau fitur organisasi sudah berjalan.</p>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2>
+<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S06.md">Template issue S06</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a>.</p>
+<div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before.png"><img src="../assets/screenshots/S06-before.png" alt="Tombol asli pada form klaim: Submit." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before.png</span></a><figcaption>v0-baseline · Tombol asli pada form klaim: Submit.</figcaption></figure></div>
 
-  <div class="gallery"></div>
-  <p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S06.md">Template issue S06 di GitHub</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a></p><details><summary>manual/org · 3 layar yang belum ada</summary><ul><li><code>S06-01-ticket.png</code></li><li><code>S06-02-pr.png</code></li><li><code>S06-after.png</code></li></ul></details></section>
-<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.</p><pre><code>npm run reset
+<details><summary>3 layar yang belum direkam</summary><ul><li><code>S06-01-ticket.png</code></li><li><code>S06-02-pr.png</code></li><li><code>S06-after.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.</p><pre><code translate="no">npm run reset
 npm run demo:before</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S05.html" class="button">← S05</a>
