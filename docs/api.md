@@ -20,6 +20,9 @@ memilih persona aplikasi, bukan autentikasi: `1`–`3` Employee,
 `404` jika klaim tidak terlihat, `409` jika status berubah atau belum sesuai.
 
 Contoh: browser mengirim "Taksi bandara", `250000`, dan tanggal hari ini.
+Pilihan kategori Perjalanan, Makan, Peralatan, dan Lainnya mengirim nilai
+`Travel`, `Meals`, `Equipment`, dan `Other`; pilihan awal dan setelah form
+direset adalah Lainnya (`Other`). Kategori tersimpan ditampilkan di daftar klaim.
 Server memvalidasi data, menyimpan `pending` dan event awal di SQLite, lalu
 mengembalikan nomor klaim. Browser menampilkan status menunggu Manager.
 Tanggal masa depan baru ditolak ketika perbaikan S04 diterapkan;

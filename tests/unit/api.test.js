@@ -23,6 +23,16 @@ it('menyimpan klaim dan status awal; log tidak berisi judul atau catatan', async
   expect(app.locals.db.history(body.claim.id)[0]).toMatchObject({ fromStatus: null, toStatus: 'pending' });
   expect(log).toHaveBeenCalledWith('info', 'claim.created', { claimId: body.claim.id });
 });
+it.each(['Travel', 'Meals', 'Equipment', 'Other', undefined])('menyimpan kategori %s dan mengembalikannya lewat GET', async (category) => {
+  const expectedCategory = category ?? 'Other';
+  const { body: { claim } } = await request(app).post('/claims').set('x-demo-user', '1')
+    .send({ ...taxi, category }).expect(201);
+  expect(claim.category).toBe(expectedCategory);
+  await request(app).get(`/claims/${claim.id}`).set('x-demo-user', '1').expect(200)
+    .expect(({ body }) => expect(body.claim.category).toBe(expectedCategory));
+  await request(app).get('/claims').set('x-demo-user', '1').expect(200)
+    .expect(({ body }) => expect(body.claims.find(({ id }) => id === claim.id).category).toBe(expectedCategory));
+});
 it('menolak permintaan tanpa pengguna demo', async () => {
   await request(app).get('/claims').expect(401).expect(({ body }) => expect(body.code).toBe('DEMO_USER_REQUIRED'));
 });
