@@ -1,0 +1,10 @@
+.env
+.auth/
+.worktrees/
+.workshop/
+audit/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+*.sqlite*
