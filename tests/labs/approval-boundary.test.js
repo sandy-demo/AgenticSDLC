@@ -2,6 +2,6 @@ import { expect, it } from 'vitest';
 import { requiresFinance } from '../../src/services/approvalRules.js';
 
 it.each([[999_999, false], [1_000_000, true], [1_000_001, true]])(
-  'aturan bisnis untuk klaim Rp%s',
+  'S08 (#13): aturan bisnis untuk klaim Rp%s',
   (amount, expected) => expect(requiresFinance(amount)).toBe(expected),
 );
