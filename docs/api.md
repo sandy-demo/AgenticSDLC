@@ -7,7 +7,7 @@ memilih persona aplikasi, bukan autentikasi: `1`–`3` Employee,
 | Method dan path | Peran | Input | Respons berhasil |
 |---|---|---|---|
 | `GET /health` | Semua | — | `200`, `{ status: "ok" }` |
-| `GET /claims` | Employee | — | `200`, `{ items: [...] }` — **kontrak lama, dibuat tidak sinkron untuk S12** |
+| `GET /claims` | Employee | — | `200`, `{ claims: [...] }` |
 | `POST /claims` | Employee | `title`, `amount`, `claimDate` (`YYYY-MM-DD`), `category`, `attachment`, `notes` | `201`, `{ claim: { id, status, ... } }` |
 | `GET /claims/:id` | Pemilik, Manager tim, Finance | `id` | `200`, `{ claim }` |
 | `GET /approvals` | Manager, Finance | — | `200`, `{ claims }`; hanya klaim pada antrean peran tersebut |
