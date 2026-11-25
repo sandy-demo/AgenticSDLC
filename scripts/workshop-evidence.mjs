@@ -26,6 +26,10 @@ export function pngDimensions(bytes) {
   return width && height ? { width, height } : null;
 }
 
+export function markdownCell(value) {
+  return String(value).replaceAll('|', '\\|').replaceAll('\n', ' ');
+}
+
 export function refreshEvidence(scenarios, out, errors = []) {
   const metrics = JSON.parse(readFileSync(join(root, 'docs', 'metrics.json'), 'utf8'));
   const number = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 });
@@ -36,7 +40,6 @@ export function refreshEvidence(scenarios, out, errors = []) {
   const missingByScenario = Object.fromEntries(workshopOrder.map((id) =>
     [id, scenarios[id].shots.filter((name) => !available(name))]));
   const missing = Object.values(missingByScenario).flat();
-  const cell = (value) => String(value).replaceAll('|', '\|').replaceAll('\n', ' ');
   const measured = (id) => {
     const entry = metrics[id];
     const run = entry?.runs?.at(-1);
@@ -54,7 +57,7 @@ export function refreshEvidence(scenarios, out, errors = []) {
     const scenario = scenarios[id];
     const images = shotNames(scenario, metrics[id]).filter(available).map((name) => `[${name}](screenshots/${name})`);
     const status = `${metrics[id]?.localDryRun ? 'Lokal dicek; ' : ''}${scenario.guide?.live ?? 'Live belum terukur'}`;
-    return `| ${id} | ${cell(status)} | ${images.join(' · ') || 'Belum direkam'} | ${measured(id)} |`;
+    return `| ${id} | ${markdownCell(status)} | ${images.join(' · ') || 'Belum direkam'} | ${measured(id)} |`;
   });
   const incomplete = (status) => workshopOrder.filter((id) => missingStatus(id) === status).flatMap((id) => missingByScenario[id]);
   writeFileSync(join(out, '_missing.json'), `${JSON.stringify({
