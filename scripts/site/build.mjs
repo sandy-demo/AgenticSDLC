@@ -22,6 +22,15 @@ const sections = [
   ['capstone.html', 'Capstone'], ['governance.html', 'Governance'], ['setup.html', 'Cara demo'],
 ];
 const repo = 'https://github.com/sandy-demo/AgenticSDLC';
+const evidenceRepos = [repo, 'https://github.com/sandy-demo/expense-app-full'];
+function evidenceUrl(value) {
+  if (typeof value !== 'string') return null;
+  const url = URL.parse(value);
+  if (url?.protocol !== 'https:' || url.username || url.password) return null;
+  const destination = url.origin + url.pathname;
+  return evidenceRepos.some((base) => destination === base || destination.startsWith(`${base}/`))
+    ? url.href : null;
+}
 const pngInfo = new Map();
 const allEvidence = Object.fromEntries(ids.map((id) => [id, evidenceImages(metrics[id])]));
 const imageDetails = new Map(Object.values(allEvidence).flatMap(({ local, github }) =>
@@ -156,7 +165,8 @@ function thumbnail(name, up = '') {
 function evidenceFigure(name, up = '../') {
   const image = imageDetails.get(name);
   if (!image || !pngInfo.has(name)) return thumbnail(name, up);
-  const source = image.url?.startsWith(`${repo}/`) ? link(image.url, 'Sumber GitHub') : escape(image.source ?? 'Bukti latihan');
+  const url = evidenceUrl(image.url);
+  const source = url ? link(url, 'Sumber GitHub') : escape(image.source ?? 'Bukti latihan');
   return `<figure class="evidence-shot" style="min-width:0;margin:0">${thumbnail(name, up)}<figcaption>${source} · ${escape(image.guide ?? image.alt)}</figcaption></figure>`;
 }
 
@@ -237,6 +247,7 @@ document('index.html', 'Workshop dari issue ke draft PR', `
 </section>
 <section class="section" id="urutan"><h2>Ikuti latihan satu per satu</h2>
 <p>Isi nilai yang ditunjukkan, klik kontrol bernomor, lalu cocokkan hasilnya. Screenshot asli dibedakan dari hasil perintah yang dirender dan layar cloud yang belum terekam.</p>
+<p><strong>Cek hasil</strong> bisa diselesaikan secara offline. <strong>Langkah live</strong> menjelaskan prasyarat untuk menjalankan latihan langsung di GitHub.</p>
 <div class="actions">${link('scenarios/S04.html#practice', 'Mulai latihan S04', 'class="button primary"')}${link('setup.html#reset', 'Cara reset yang aman', 'class="button"')}</div>
 <details><summary>Lihat urutan pemeriksaan 15 skenario</summary><ol>${workshopOrder.map((id) => `<li>${link(`scenarios/${id}.html#practice`, `${id} · ${scenarios[id].title}`)}</li>`).join('')}</ol></details></section>
 <section class="section" aria-labelledby="pilih"><h2 id="pilih">Mulai dari kebutuhanmu</h2><div class="card-grid">
@@ -296,8 +307,8 @@ for (const [index, id] of ids.entries()) {
   const cloudAnchor = { S10: 'codeql-initial-scan', S14: 's14-controls' }[id] ?? id.toLowerCase() + '-cloud-evidence';
   const sources = [...new Set([cloud?.issueUrl, cloud?.prUrl, cloud?.fixtureDraftUrl, cloud?.fixtureRunUrl,
     cloud?.ciUrl, cloud?.proposalUrl, cloud?.triageRunUrl, cloud?.analysisRunUrl, cloud?.builtInReviewUrl, preflight?.scanUrl,
-    metrics[id]?.localDryRun?.relatedActionsRun].filter((url) => url?.startsWith(repo + '/')))];
-  const explanation = {
+    metrics[id]?.localDryRun?.relatedActionsRun].map(evidenceUrl).filter(Boolean))];
+  const explanation = cloud?.currentSummary?.trim() || {
     S04: 'Sesi cloud selesai tanpa perubahan. Foto aplikasi sebelum/sesudah tetap berasal dari dua ref latihan lokal, bukan PR kosong.',
     S05: 'Kegagalan job LA terukur. Draft tidak punya diff; run agent yang selesai bukan CI PR yang hijau.',
     S08: 'Foto menu menunjukkan QA Engineer tersedia, bukan bukti PR atau issue dibuat.',
@@ -359,8 +370,8 @@ ${graph ? diagram(graph, '../') : `<div class="rail"><ol>${lessonSteps.map(({ ti
 <section class="section" id="evidence"><h2>Bukti dan sumber</h2>
 <p>${link(`${repo}/blob/demo/workshop/issues/${id}.md`, `Template issue ${id}`)} · ${link('../assets/data/scenarios.json', 'Data latihan dan pengukuran')}.</p>
 ${localGallery.length ? `<div class="gallery">${localGallery.map(({ name }) => evidenceFigure(name)).join('')}</div>` : ''}
-${explanation || cloudGallery.length ? `<div id="${cloudAnchor}"><h3>Bukti GitHub live</h3>${explanation ? `<p>${escape(explanation)}</p>` : ''}
-  ${sources.length ? `<ul>${sources.map((url) => `<li>${link(url, url.slice(repo.length + 1))}</li>`).join('')}</ul>` : ''}
+${explanation || cloudGallery.length || sources.length ? `<div id="${cloudAnchor}"><h3>Bukti GitHub live</h3>${explanation ? `<p>${escape(explanation)}</p>` : ''}
+  ${sources.length ? `<ul>${sources.map((url) => `<li>${link(url, url.startsWith(`${repo}/`) ? url.slice(repo.length + 1) : url.slice('https://github.com/'.length))}</li>`).join('')}</ul>` : ''}
   ${cloudGallery.length ? `<div class="gallery">${cloudGallery.map(({ name }) => evidenceFigure(name)).join('')}</div>` : ''}</div>` : ''}
 ${remaining.length ? `<details><summary>${remaining.length} layar yang belum direkam</summary><ul>${remaining.map((name) => `<li><code>${escape(name)}</code></li>`).join('')}</ul></details>` : ''}</section>
 <section class="section" id="reset"><h2>Ulangi latihan</h2><p>${escape(s.guide.reset)}</p>${snippet(s.app ? 'npm run reset\nnpm run demo:before' : 'npm run reset -- --fresh')}<p>${link('../setup.html#reset', 'Cara reset tanpa mengubah branch')}.</p></section>
