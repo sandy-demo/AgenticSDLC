@@ -8,7 +8,7 @@ Dry-run 2026-11-25 UTC. Mulai dari [panduan HTML](../site/index.html#urutan). **
 | S05 | Lokal dicek; Issue dan draft nyata · guardrail menolak edit; perbaikan belum ada | [S05-local-result.png](screenshots/S05-local-result.png) · [S05-before.png](screenshots/S05-before.png) · [S05-01-issue.png](screenshots/S05-01-issue.png) · [S05-pr-draft.png](screenshots/S05-pr-draft.png) · [S05-pr-empty.png](screenshots/S05-pr-empty.png) | 0,27 dtk lokal; waktu ke draft: 0,1 menit |
 | S07 | Lokal dicek; Live ditunda · S07a perlu editor agent; S07b menunggu tes S07a | [S07-local-result.png](screenshots/S07-local-result.png) | 0 dtk |
 | S08 | Lokal dicek; Live ditunda · PR tes QA perlu koreksi guardrail | [S08-local-result.png](screenshots/S08-local-result.png) | 3,23 dtk · coverage baris 100% → 100%; 1 tes batas gagal |
-| S09 | Lokal dicek; pending · Copilot code review dan review board | [S09-local-result.png](screenshots/S09-local-result.png) | 1,31 dtk |
+| S09 | Lokal dicek; 1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada | [S09-local-result.png](screenshots/S09-local-result.png) · [S09-before.png](screenshots/S09-before.png) · [S09-builtin-review.png](screenshots/S09-builtin-review.png) | 1,31 dtk lokal; 1 review bawaan, 3 sesi selesai, 0 komentar severity dipublikasikan |
 | S12 | Lokal dicek; pending · Docs Sync dan draft docs | [S12-local-result.png](screenshots/S12-local-result.png) | 0,5 dtk |
 | S13 | Lokal dicek; Actions nyata · triage dan komentar agent pending | [S13-local-result.png](screenshots/S13-local-result.png) · [S13-ci-failure.png](screenshots/S13-ci-failure.png) | 0,14 dtk |
 | S14 | Lokal dicek; pending · sesi cloud/usage; fixture aman saja | [S14-local-result.png](screenshots/S14-local-result.png) | 0,06 dtk |

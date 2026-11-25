@@ -61,6 +61,11 @@
 - [Run agent](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591806998) selesai, tetapi log mencatat pemanggilan edit gagal dan ringkasan PR menyebut `invalid-input`; **0 file berubah**. [CI PR](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45591807143) belum berjalan. [Tiga screenshot tambahan](site/scenarios/S05.html#s05-cloud-evidence) membuktikan issue, draft dan diff kosong, bukan patch.
 - S07a/S07b dan S08 perlu edit oleh agent. Tidak memulai sesi tambahan yang sudah diketahui terhambat sampai koreksi parser ditinjau. Bukti lokal tetap tersedia.
 
+### S09 live — review tanpa mengubah kode
+
+- [Draft stock #2](https://github.com/sandy-demo/AgenticSDLC/pull/2) mendapat [1 komentar Copilot Code Review](https://github.com/sandy-demo/AgenticSDLC/pull/2#pullrequestreview-6055637734); ini bukan approval manusia. Tiga sesi spesialis selesai menurut API. Belum ada komentar `[SEV-…]` yang dipublikasikan dan draft S04 belum memiliki diff. Dua [screenshot nyata](site/scenarios/S09.html#s09-cloud-evidence) membandingkan sebelum review dan komentar bawaan.
+- Untuk layar sesi yang aksesnya terbatas, masuk sendiri sebagai akun workshop di tab browser VS Code, lalu kembali ke halaman workshop. Panduan tidak memotret halaman login, MFA, atau nilai token. Jika ada informasi sensitif lain, potong atau tutup dengan blok solid sebelum dimasukkan ke bukti.
+
 ### Yang masih perlu dilakukan untuk jalur cloud
 
 [Panduan PAT Copilot untuk S12 dan S13](docs/ORG-SETUP.md#pat-copilot-untuk-s12-dan-s13) menjelaskan kenapa izin ada di tab **Account** dan kapan token tidak diperlukan.

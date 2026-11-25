@@ -581,11 +581,12 @@
         "S09-01-three-sessions.png",
         "S09-02-comments.png",
         "S09-after.png",
-        "S09-local-result.png"
+        "S09-local-result.png",
+        "S09-builtin-review.png"
       ],
       "guide": {
         "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-        "live": "pending · Copilot code review dan review board",
+        "live": "1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada",
         "stepEvidence": [
           "S09-local-result.png",
           "S09-01-three-sessions.png",
@@ -594,11 +595,12 @@
       },
       "level": 3,
       "screenshotStatus": {
-        "S09-before.png": "missing",
+        "S09-before.png": "available",
         "S09-01-three-sessions.png": "missing",
         "S09-02-comments.png": "missing",
         "S09-after.png": "missing",
-        "S09-local-result.png": "available"
+        "S09-local-result.png": "available",
+        "S09-builtin-review.png": "available"
       }
     },
     "S10": {
@@ -1476,7 +1478,23 @@
       }
     },
     "S09": {
-      "runs": [],
+      "runs": [
+        {
+          "date": "2026-11-25",
+          "startedAt": "2026-11-25T10:12:04.388Z",
+          "stoppedAt": "2026-11-25T10:17:40.477Z",
+          "durationSeconds": 336,
+          "minutesToPr": null,
+          "revisionMinutes": null,
+          "reviewerComments": 1,
+          "severityComments": 0,
+          "premiumRequests": null,
+          "coverageBefore": null,
+          "coverageAfter": null,
+          "alertsBefore": null,
+          "alertsAfter": null
+        }
+      ],
       "localDryRun": {
         "recordedAt": "2026-11-25T07:49:16.671Z",
         "status": "verified-local",
@@ -1506,6 +1524,49 @@
             "name": "S09-local-result.png",
             "alt": "Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance.",
             "source": "Output lokal yang dirender · bukan layar portal"
+          }
+        ]
+      },
+      "cloudEvidence": {
+        "status": "verified-review-and-sessions-not-published",
+        "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/2",
+        "builtInReviewUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/2#pullrequestreview-6055637734",
+        "builtInReviewState": "COMMENTED",
+        "builtInReviewedAt": "2026-11-25T10:13:57Z",
+        "builtInRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45592700805",
+        "publishedSeverityComments": 0,
+        "sessions": [
+          {
+            "role": "perf-reviewer",
+            "state": "completed",
+            "completedAt": "2026-11-25T10:14:30Z"
+          },
+          {
+            "role": "security-reviewer",
+            "state": "completed",
+            "completedAt": "2026-11-25T10:15:41Z"
+          },
+          {
+            "role": "compliance-reviewer",
+            "state": "completed",
+            "completedAt": "2026-11-25T10:14:41Z"
+          }
+        ],
+        "sessionScreenshotStatus": "needs-authenticated-browser",
+        "images": [
+          {
+            "name": "S09-before.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/2",
+            "alt": "Draft stock #2 sebelum reviewer. Sidebar menampilkan No reviews.",
+            "width": 1440,
+            "height": 960
+          },
+          {
+            "name": "S09-builtin-review.png",
+            "url": "https://github.com/sandy-demo/AgenticSDLC/pull/2#pullrequestreview-6055637734",
+            "alt": "Copilot Code Review memberi satu komentar Approval recommended, bukan approval manusia.",
+            "width": 1440,
+            "height": 1066
           }
         ]
       }
@@ -1846,16 +1907,19 @@
         ]
       },
       "S09": {
-        "live": "pending · Copilot code review dan review board",
+        "live": "1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada",
         "localDurationSeconds": 1.31,
         "missing": [
-          "S09-before.png",
           "S09-01-three-sessions.png",
           "S09-02-comments.png",
           "S09-after.png"
         ],
         "screenshots": [
           "S09-local-result.png"
+        ],
+        "cloudScreenshots": [
+          "S09-before.png",
+          "S09-builtin-review.png"
         ]
       },
       "S12": {

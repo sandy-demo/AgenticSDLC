@@ -501,11 +501,12 @@
       "S09-01-three-sessions.png",
       "S09-02-comments.png",
       "S09-after.png",
-      "S09-local-result.png"
+      "S09-local-result.png",
+      "S09-builtin-review.png"
     ],
     "guide": {
       "reset": "Pemeriksaan tidak menulis kode atau data remote. Ulangi perintah di terminal baru bila sebelumnya mengubah variabel lingkungan.",
-      "live": "pending · Copilot code review dan review board",
+      "live": "1 review Copilot dan 3 sesi spesialis selesai · komentar [SEV-…] belum ada",
       "stepEvidence": [
         "S09-local-result.png",
         "S09-01-three-sessions.png",

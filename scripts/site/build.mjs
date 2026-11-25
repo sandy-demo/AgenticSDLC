@@ -306,7 +306,8 @@ ${timeline.map(([label, owner, text, evidence], index) => `<section class="secti
 <p>Versi ringkas: tunjukkan epik, draft PR, review, lalu keputusan merge. Untuk materi tanpa akses cloud, mulai dari bukti lokal ${link('scenarios/S04.html', 'S04')}.</p></section>
 `, { charts: !!stageData });
 
-const billed = metrics.S14.runs.filter(({ aiCredits }) => Number.isFinite(aiCredits));
+const billed = Object.entries(metrics).flatMap(([id, { runs }]) =>
+  runs.filter(({ aiCredits }) => Number.isFinite(aiCredits)).map((run) => ({ id, ...run })));
 document('governance.html', 'Governance dan biaya', `
 <p class="kicker">S14 · Governance</p><h1>Batasi aksi agent. Ukur biaya terpisah.</h1>
 <p class="lead">Ibu Maya butuh jawaban konkret: siapa bisa menulis ke repo, apa yang diblok, dan di mana biaya terlihat?</p>
@@ -319,7 +320,7 @@ document('governance.html', 'Governance dan biaya', `
 <section class="section"><h2>Berapa biayanya?</h2>
 ${note('<strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI credits, 25 × US$0,01 = US$0,25. Bukan estimasi satu sesi dan bukan tagihan.')}
 <p>Tarif konversi diambil dari ${link('https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing', 'GitHub Docs — Usage-based billing for individuals')}, diperiksa 25 November 2026. Satuan USD per AI credit untuk akun personal; contoh tidak memasukkan langganan, pajak, atau biaya Actions. Token yang digunakan dan model menentukan jumlah kredit. Periksa dashboard paketmu untuk pemakaian aktual.</p>
-${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ date }) => date), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: pembacaan dashboard yang dicatat di docs/metrics.json. Tidak ada pemakaian live yang dicatat untuk workshop ini.')}
+${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. S04 menjumlahkan tampilan dari tiga sesi; ini bukan tagihan atau jumlah premium requests.')}
 </section>`, { charts: billed.length > 0 });
 
 document('setup.html', 'Cara demo', `
