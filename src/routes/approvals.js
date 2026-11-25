@@ -9,8 +9,9 @@ export function approvalsRouter(db, clock, logger) {
     res.json({ claims: claim_rows });
   });
   router.post('/:id', (req, res) => {
-    const claim = decideClaim(db, req.demoUser, req.params.id, req.body?.action, clock());
-    logger('info', 'claim.status_changed', { claimId: claim.id, status: claim.status });
+    const { claim, replayed } = decideClaim(db, req.demoUser, req.params.id, req.body?.action, clock(),
+      req.get('Idempotency-Key'));
+    if (!replayed) logger('info', 'claim.status_changed', { claimId: claim.id, status: claim.status });
     res.json({ claim });
   });
   return router;

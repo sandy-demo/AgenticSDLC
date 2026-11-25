@@ -28,6 +28,12 @@ export function createDatabase(now = new Date()) {
       actor_id INTEGER NOT NULL REFERENCES users(id), at TEXT NOT NULL,
       from_status TEXT, to_status TEXT NOT NULL
     );
+    CREATE TABLE approval_outcomes (
+      actor_id INTEGER NOT NULL REFERENCES users(id),
+      claim_id INTEGER NOT NULL REFERENCES claims(id),
+      key TEXT NOT NULL, action TEXT NOT NULL, status TEXT NOT NULL,
+      PRIMARY KEY (actor_id, claim_id, key)
+    );
   `);
   const addUser = db.prepare('INSERT INTO users VALUES (?, ?, ?, ?)');
   const addClaim = db.prepare(`
@@ -59,6 +65,12 @@ export function createDatabase(now = new Date()) {
   `);
   const getUser = db.prepare('SELECT id, alias, role, department FROM users WHERE id = ?');
   const updateStatus = db.prepare('UPDATE claims SET status = ? WHERE id = ? AND status = ?');
+  const selectApprovalOutcome = db.prepare(`
+    SELECT action, status FROM approval_outcomes WHERE actor_id = ? AND claim_id = ? AND key = ?
+  `);
+  const addApprovalOutcome = db.prepare(`
+    INSERT INTO approval_outcomes (actor_id, claim_id, key, action, status) VALUES (?, ?, ?, ?, ?)
+  `);
   const report = db.prepare(`
     SELECT c.category, u.department, COUNT(*) AS count, SUM(c.amount) AS total
     FROM claims c JOIN users u ON u.id = c.employee_id
@@ -75,9 +87,10 @@ export function createDatabase(now = new Date()) {
     addEvent.run(id, employeeId, at, null, 'pending');
     return selectClaim.get(id);
   });
-  const transitionClaim = db.transaction((claim, actorId, status, at) => {
+  const transitionClaim = db.transaction((claim, actorId, status, at, outcome) => {
     if (updateStatus.run(status, claim.id, claim.status).changes !== 1) return null;
     addEvent.run(claim.id, actorId, at, claim.status, status);
+    if (outcome) addApprovalOutcome.run(actorId, claim.id, outcome.key, outcome.action, status);
     return selectClaim.get(claim.id);
   });
   db.transaction(() => {
@@ -103,6 +116,7 @@ export function createDatabase(now = new Date()) {
     listOwn: (userId) => listOwn.all(userId).map(({ id }) => ownListItem.get(id, userId)),
     approvalQueue: (user) => user.role === 'manager' ? listForManager.all(user.department) : listForFinance.all(),
     history: (id) => history.all(id),
+    getApprovalOutcome: (actorId, claimId, key) => selectApprovalOutcome.get(actorId, claimId, key),
     insertClaim,
     transitionClaim,
     report: (month) => report.all(`${month}-01`, `${month}-31`),
