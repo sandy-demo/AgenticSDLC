@@ -9,7 +9,7 @@
 | 4 — Customizations | 7 profil, 2 skill, setup steps, dan hook tersedia. Fixture deny lulus di lokal; pemilih agent dan hook cloud belum diverifikasi. |
 | 5 — Agentic Workflows | Ketiga workflow lolos kompilasi strict dengan gh-aw v1.2.2. Tidak ada run GitHub. Default nonaktif sampai pemilik mengizinkan. |
 | 6 — Tooling | Script demo, screenshot, reset lokal, metrik, bare, dan task VS Code tersedia. |
-| 7 — Repo GitHub | Belum. |
+| 7 — Repo GitHub | Tag baseline dan branch latihan disiapkan lokal. Draft PR, CodeQL, protection, template dan Pages menunggu akses. |
 | 8 — Dry-run | Belum. |
 | 9 — Situs workshop | Belum. |
 | 10 — Org/EMU | Di luar pengerjaan otomatis; dilakukan pemilik tenant untuk S06 dan S14. |
@@ -26,3 +26,4 @@
 - S03 tidak menghapus validasi input. S07 memakai adapter callback fiktif, bukan paket rentan. S09 mempertahankan audit trail dan tidak menulis data pribadi ke log. S10 memakai simulasi alert; tidak ada SQL injection atau dependensi yang sengaja dibuat rentan.
 - Workflow AI hanya untuk pemicu latihan dan `AGENTIC_WORKSHOP_LIVE`; tidak ada jadwal yang otomatis menghabiskan kredit.
 - Reset tidak menghapus PR/issue atau menulis ulang `main`. Demo cloud dipisah dari fixture lokal.
+- Ekspor `bare` meniadakan customizations dan workflow cloud, tetapi tetap memuat panduan offline.

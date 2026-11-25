@@ -4,6 +4,24 @@ Workshop berbahasa Indonesia dengan **Expense Claim App**, aplikasi demo untuk
 PT Nusantara Finansial (fiktif). Pelajari cara mengubah issue menjadi draft pull
 request tanpa melewati review manusia, CI, dan pemeriksaan keamanan.
 
+## Mulai
+
+1. Buka [site/index.html](site/index.html) di browser. Materi HTML dapat dibuka
+   tanpa internet; [S04](site/scenarios/S04.html) adalah demo utama.
+2. Dengan Node.js 24 LTS dan Git: `npm ci` lalu `npx playwright install chromium`.
+   Jika npm meminta izin install script, izinkan hanya build native `better-sqlite3`
+   yang dipatok di lockfile. Aplikasi menggunakan data fiktif dan berjalan di localhost.
+3. Jalankan:
+   - `npm run demo:before` — buka aplikasi baseline di `http://127.0.0.1:3000`.
+   - `npm run shots -- S04` — ambil bukti lokal (butuh tag `v0-baseline`
+     dan branch lokal `demo/claim-date`; cek [cara demo](site/setup.html)).
+   - `npm run reset` — kembali ke data awal dengan restart. Opsi `--fresh`
+     membuat checkout baru tanpa mengubah `main` atau GitHub.
+
+`npm run dev` menjalankan workspace saat ini. `npm test` dan `npm run e2e`
+memeriksa API dan UI. Untuk panduan GitHub Pages, CodeQL, dan Copilot, lihat
+[pengaturan repo](docs/ORG-SETUP.md). Aplikasi Express tidak di-host di Pages.
+
 ## Spesifikasi awal
 
 [Mulai di sini](agentic-sdlc-workshop-docs/START-HERE.md) ·
@@ -13,4 +31,7 @@ request tanpa melewati review manusia, CI, dan pemeriksaan keamanan.
 [Runbook](agentic-sdlc-workshop-docs/RUNBOOK.md) ·
 [Spesifikasi situs](agentic-sdlc-workshop-docs/DOCS-SPEC.md)
 
-Lihat [status pengerjaan](PROGRESS.md) untuk langkah yang sudah bisa dijalankan.
+Dokumen di atas adalah spesifikasi awal. Untuk perintah yang berlaku gunakan
+README ini dan [cara demo](site/setup.html); jangan jalankan contoh reset
+remote di spesifikasi. Lihat [status pengerjaan](PROGRESS.md) dan
+[bukti lokal](docs/BEFORE-AFTER.md) untuk hasil yang sudah diverifikasi.
