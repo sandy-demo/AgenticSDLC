@@ -4,6 +4,37 @@ Workshop berbahasa Indonesia dengan **Expense Claim App**, aplikasi demo untuk
 PT Nusantara Finansial (fiktif). Pelajari cara mengubah issue menjadi draft pull
 request tanpa melewati review manusia, CI, dan pemeriksaan keamanan.
 
+
+## Review manusia sebelum workflow aktif
+
+[Draft publikasi #39](https://github.com/sandy-demo/AgenticSDLC/pull/39) membawa
+runtime saja; [draft #1](https://github.com/sandy-demo/AgenticSDLC/pull/1) tetap
+menyimpan materi lengkap. Copilot mengerjakan publikasi, tetapi GitHub mencatat
+pembuat PR sebagai sandy-demo. Akun itu tidak bisa approve PR sendiri.
+
+1. Gunakan akun GitHub asli yang berbeda dan kamu kendalikan, atau minta rekan
+   reviewer. Jika belum punya, selesaikan [pendaftaran GitHub](https://github.com/signup)
+   dan verifikasi email sendiri. Jangan membuat akun otomatis untuk berpura-pura
+   menjadi reviewer; password dan token tidak perlu dikirim ke Chat.
+2. Maintainer mengundang akun tersebut dengan akses Write; pemilik akun menerima
+   undangannya. Nama akun tidak boleh ditebak oleh agent pada mesin bersama.
+3. Buka [file perubahan #39](https://github.com/sandy-demo/AgenticSDLC/pull/39/files).
+   Baca controller, batas aksi, tes, dan [ADR 0003](docs/adr/0003-agentic-sdlc-workflow.md).
+   Setelah pemeriksaan hijau dan hasilnya sesuai, reviewer memilih
+   **Review changes → Approve → Submit review**. Chat “saya approve” belum mencatat
+   review GitHub. Jika ada masalah, pilih Request changes, bukan Approve.
+4. Sesudah approval nyata, maintainer memublikasikan melalui jalur PR yang
+   diizinkan. Agent tidak mematikan proteksi, mengganti author, atau merge sendiri.
+5. Baru siapkan branch latihan khusus, isi AGENTIC_SDLC_BASE_BRANCH, dan aktifkan
+   AGENTIC_SDLC_LIVE=true. Workflow mengutamakan secret AGENTIC_SDLC_TOKEN; bila
+   belum ada, memakai COPILOT_GITHUB_TOKEN yang tersedia di repo. Token terpilih
+   harus berizin API yang benar. Penolakan API tetap menghentikan workflow, bukan
+   mencoba credential lain. Nilai secret tidak dibaca atau disalin ke dokumen.
+
+Sakelar aktif diperlukan untuk menghubungkan kejadian GitHub, bukan untuk
+membaca materi atau menjalankan tes lokal. Ia tidak menggantikan publikasi
+workflow, akses Copilot, approval manusia, atau izin rilis.
+
 ## Mulai
 
 1. Buka [site/index.html](site/index.html) di browser. Materi HTML dapat dibuka

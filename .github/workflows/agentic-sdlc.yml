@@ -1,0 +1,61 @@
+name: Agentic SDLC
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Nomor tiket utama yang berisi masalah dan kriteria hasil
+        required: true
+        type: string
+      action:
+        description: start memulai; advance memeriksa; resume mencoba lagi setelah gagal
+        type: choice
+        options: [status, start, advance, resume]
+        default: status
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  pull_request_review:
+    types: [submitted, dismissed]
+  workflow_run:
+    workflows: [CI]
+    branches: [copilot/**]
+    types: [completed]
+  release:
+    types: [published]
+  issues:
+    types: [closed, reopened]
+permissions:
+  contents: read
+concurrency:
+  group: agentic-sdlc-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  coordinate:
+    if: >-
+      vars.AGENTIC_SDLC_LIVE == 'true' &&
+      ((github.event_name != 'pull_request' && github.event_name != 'pull_request_review') ||
+      github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+      actions: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Periksa dan lanjutkan tahap yang diizinkan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AGENTIC_SDLC_TOKEN: ${{ secrets.AGENTIC_SDLC_TOKEN || secrets.COPILOT_GITHUB_TOKEN }}
+          AGENTIC_SDLC_LIVE: ${{ vars.AGENTIC_SDLC_LIVE }}
+          SDLC_BASE_BRANCH: ${{ vars.AGENTIC_SDLC_BASE_BRANCH }}
+          SDLC_ISSUE: ${{ inputs.issue }}
+          SDLC_ACTION: ${{ inputs.action }}
+        run: node scripts/sdlc-workflow.mjs
