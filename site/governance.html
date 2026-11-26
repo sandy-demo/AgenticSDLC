@@ -7,14 +7,14 @@
   <title>Governance dan biaya | Agentic SDLC</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/workshop.css">
-
+  <script defer src="assets/vendor/chart.umd.min.js"></script>
   <script defer src="js/app.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html" aria-current="page">Governance</a><a href="setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="sdlc.html">Workflow utuh</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html" aria-current="page">Governance</a><a href="setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
@@ -40,11 +40,15 @@
   class request ai
   class hook,deny,policy gate</code></pre></details>
 </figure><p>Uji fixture tanpa menjalankan argumen:</p><pre><code translate="no">npm run guard:demo</code></pre></section>
+<section class="section"><h2>Lihat pengaturan di GitHub</h2><p><a href="scenarios/S14.html#s14-controls">Lihat hook dan batas workflow yang sudah dipotret</a>. Foto berikut hanya keluaran fixture lokal.</p><div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="assets/screenshots/S14-local-result.png"><img src="assets/screenshots/S14-local-result.png" alt="Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru." width="1440" height="900" loading="lazy"><span>Perbesar S14-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.</figcaption></figure></div></section>
 <section class="section"><h2>Berapa biayanya?</h2>
 <p class="note"><strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI credits, 25 × US$0,01 = US$0,25. Bukan estimasi satu sesi dan bukan tagihan.</p>
 <p>Tarif konversi diambil dari <a href="https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing">GitHub Docs — Usage-based billing for individuals</a>, diperiksa 25 November 2026. Satuan USD per AI credit untuk akun personal; contoh tidak memasukkan langganan, pajak, atau biaya Actions. Token yang digunakan dan model menentukan jumlah kredit. Periksa dashboard paketmu untuk pemakaian aktual.</p>
-<figure class="chart" data-chart-id="C6"><h3>C6 · Pemakaian AI credits</h3>
-      <p class="note">Belum ada data terukur. Tidak ditampilkan sebagai nol.</p><figcaption>Sumber: pembacaan dashboard yang dicatat di docs/metrics.json. Tidak ada pemakaian live yang dicatat untuk workshop ini.</figcaption></figure>
+<figure class="chart" data-chart-id="C6">
+  <h3>C6 · Pemakaian AI credits</h3><div class="chart-area" hidden><canvas data-chart="{&quot;type&quot;:&quot;line&quot;,&quot;label&quot;:&quot;AI credits terukur&quot;,&quot;labels&quot;:[&quot;S04 · 2026-11-25&quot;,&quot;S05 · 2026-11-25&quot;,&quot;S09 · 2026-11-25&quot;,&quot;S11 · 2026-11-25&quot;],&quot;values&quot;:[21.9,1.4,16.9,3.3],&quot;horiz&quot;:false}" aria-hidden="true"></canvas></div>
+  <table class="data"><caption>Data untuk grafik</caption><thead><tr><th scope="col">Kategori</th><th scope="col">AI credits terukur</th></tr></thead>
+  <tbody><tr><th scope="row">S04 · 2026-11-25</th><td>21,9</td></tr><tr><th scope="row">S05 · 2026-11-25</th><td>1,4</td></tr><tr><th scope="row">S09 · 2026-11-25</th><td>16,9</td></tr><tr><th scope="row">S11 · 2026-11-25</th><td>3,3</td></tr></tbody></table>
+  <figcaption>Sumber: AI credits yang tercatat di docs/metrics.json per skenario. Angka diambil dari tampilan sesi workshop, bukan tagihan atau jumlah premium requests.</figcaption></figure>
 </section>
 </main>
 <footer><div class="wrap"><p>Expense Claim App · PT Nusantara Finansial (fiktif)</p><p><a href="glossary.html">Glosarium &amp; FAQ</a> · <a href="https://github.com/sandy-demo/AgenticSDLC">Repository GitHub</a></p></div></footer>

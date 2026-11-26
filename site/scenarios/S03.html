@@ -14,50 +14,155 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S03</p><p class="kicker">S03 · Level 1 — Inner loop</p>
-<h1>Pakai skill untuk endpoint baru</h1><p class="lead">Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.</p>
+<h1>Pakai skill untuk endpoint baru</h1><p class="lead">Minta Copilot memuat skill new-endpoint dan merencanakan komentar khusus pemilik: validasi, service, query SQLite berparameter, log ID saja, dokumentasi, dan tes. Checkpoint Chat berhenti di rencana; implementasi dan tes ada di draft latihan terpisah.</p>
+<p class="note"><strong>Status latihan:</strong> Endpoint komentar sudah dibuat dan CI lulus pada draft PR #25. Draft belum digabung; foto aktivitas pemuatan skill di VS Code belum disimpan sebagai bukti.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Rani</span><span class="badge">Yoga</span><span class="badge">VS Code</span><span class="badge">6 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Developer membangun route dengan cara berbeda; Yoga sulit membandingkan log.</p><p class="note"><strong>Kerugian:</strong> Monitoring dan review jadi lebih lama.</p>
+  <h2>Masalah yang dihadapi</h2><p>Bayangkan Yoga menerima laporan: komentar untuk klaim #21 belum terlihat. Pembuatan klaim sudah punya log, misalnya { &quot;event&quot;: &quot;claim.created&quot;, &quot;claimId&quot;: 21 }. Route laporan sudah memvalidasi input, tetapi belum punya log sukses seperti itu. Untuk komentar, Yoga ingin { &quot;event&quot;: &quot;claim.comment.created&quot;, &quot;claimId&quot;: 21, &quot;commentId&quot;: 1 } tanpa isi komentar. Angka ini hanya contoh.</p><p class="note"><strong>Kerugian:</strong> Catatan klaim dibuat tidak membuktikan bahwa komentar tersimpan. Tanpa nama aksi dan nomor klaim yang konsisten, Yoga sulit menelusuri laporan pengguna.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/routes/reports.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">res.json({ month, rows: db.report(month) }); // validasi ada, log belum ada</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Gunakan prosedur new-endpoint: kontrak, validasi, service, logging, tes, dan docs.</p>
-<div class="rail"><ol><li><strong>Baca route lama.</strong> Perhatikan pola yang belum seragam; jangan cabut validasi.</li><li><strong>Pakai skill.</strong> Jalankan langkahnya untuk route dalam checkout latihan.</li><li><strong>Tinjau kontrak.</strong> Cek tes jalur sukses dan akses ditolak.</li></ol></div></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca route lama</h3></div>
-    <p>Perhatikan pola yang belum seragam; jangan cabut validasi.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-1">src/routes/reports.js</code></pre>
-    <button type="button" data-copy="cmd-S03-1" aria-label="Salin: Baca route lama" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Pakai skill</h3></div>
-    <p>Jalankan langkahnya untuk route dalam checkout latihan.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-2">Buat POST /claims/:id/comments memakai skill new-endpoint. Batasi akses ke klaim.</code></pre>
-    <button type="button" data-copy="cmd-S03-2" aria-label="Salin: Pakai skill" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau kontrak</h3></div>
-    <p>Cek tes jalur sukses dan akses ditolak.</p><div class="cmd"><pre><code translate="no" id="cmd-S03-3">npm test</code></pre>
-    <button type="button" data-copy="cmd-S03-3" aria-label="Salin: Tinjau kontrak" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li></ol></section>
-<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+<section class="section"><h2>Solusi dan alur</h2><p>Minta Copilot memuat skill new-endpoint dan merencanakan komentar khusus pemilik: validasi, service, query SQLite berparameter, log ID saja, dokumentasi, dan tes. Checkpoint Chat berhenti di rencana; implementasi dan tes ada di draft latihan terpisah.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
+  <li><details>
+    <summary><strong>Rani di VS Code</strong><span>Minta rencana komentar</span></summary>
+    <p><strong>Hasil:</strong> Checkpoint hanya meminta Copilot membaca skill dan membuat rencana, tanpa mengubah file.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Copilot Chat</strong><span>Muat skill, buat rencana</span></summary>
+    <p><strong>Hasil:</strong> Read skill new-endpoint menunjukkan skill dipanggil. Rencana memuat validasi, service, penyimpanan, log, dokumentasi, dan tes.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Draft PR #25</strong><span>Cek pemilik, simpan</span></summary>
+    <p><strong>Hasil:</strong> Kode di draft terpisah memeriksa pemilik dan isi sebelum service menyimpan komentar ke SQLite. CI draft ini lulus.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>API dan log</strong><span>Balas 201, catat ID</span></summary>
+    <p><strong>Hasil:</strong> Pemilik mendapat 201 saat komentar tersimpan. Akses orang lain ditolak. Log menyimpan ID, bukan teks komentar.</p>
+  </details></li>
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Pisahkan rencana di Chat dari contoh endpoint yang sudah diuji.</p>
+    <div class="sequence" style="--lanes:5">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Rani</strong><span class="sequence-place">VS Code</span></li><li><strong>Copilot Chat</strong><span class="sequence-place">Panel Chat VS Code</span></li><li><strong>Pengguna demo</strong><span class="sequence-place">Tes lokal</span></li><li><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></li><li><strong>SQLite</strong><span class="sequence-place">Di proses aplikasi</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Checkpoint di VS Code: rencana saja</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Rani</strong><span class="sequence-place">VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot Chat</strong><span class="sequence-place">Panel Chat VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta muat skill new-endpoint</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Copilot Chat</strong><span class="sequence-place">Panel Chat VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Rani</strong><span class="sequence-place">VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kembalikan rencana tanpa mengedit kode</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Contoh terpisah: implementasi draft PR #25</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Pengguna demo</strong><span class="sequence-place">Tes lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kirim teks komentar untuk klaim sendiri</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>SQLite</strong><span class="sequence-place">Di proses aplikasi</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Cek pemilik dan isi, lalu simpan</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>SQLite</strong><span class="sequence-place">Di proses aplikasi</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kembalikan ID komentar</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Pengguna demo</strong><span class="sequence-place">Tes lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Balas 201; log mencatat ID saja</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>API dan service</strong><span class="sequence-place">Aplikasi draft PR #25</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Pengguna demo</strong><span class="sequence-place">Tes lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Jika bukan pemilik, tolak tanpa simpan</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Tes dan CI draft komentar lulus. Foto pemanggilan skill di VS Code belum diarsipkan.</figcaption>
+  </figure>
+</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di VS Code tekan Ctrl+P, ketik .github/skills/new-endpoint/SKILL.md, lalu baca lima langkah untuk membuat endpoint atau alamat API baru.</li><li>Pilih Chat → Agent dan minta Copilot memuat new-endpoint lalu membuat rencana komentar khusus pemilik. Buka rincian aktivitas dan cari Read skill new-endpoint. Berhenti di rencana; jangan edit kode pada checkpoint ini.</li><li>Untuk melihat implementasi yang sudah ada, buka tautan Files changed pada draft PR #25 di bawah. Cocokkan kontrak, validasi, service dan SQLite, log ID saja, serta tes. Buka hasil CI secara terpisah; foto Chat bukan bukti tes.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Coba aplikasi awal, sebelum ada komentar</h3></div>
+    <p>Jalankan npm run demo:before di terminal pertama. Di terminal PowerShell kedua, jalankan perintah di bawah sebagai pemilik klaim #1. Baca detail klaim berhasil (200), tetapi alamat menambah komentar belum ada (404). Ini hasil versi awal, bukan hasil draft.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S03-1">$detail = curl.exe -sS -o NUL -w &#39;%{http_code}&#39; -H &#39;x-demo-user: 1&#39; http://127.0.0.1:3000/claims/1
+$comment = curl.exe -sS -o NUL -w &#39;%{http_code}&#39; -H &#39;x-demo-user: 1&#39; --json &#39;{&quot;text&quot;:&quot;Catatan latihan&quot;}&#39; http://127.0.0.1:3000/claims/1/comments
+&quot;GET detail: $detail; POST komentar: $comment&quot;</code></pre>
+    <button type="button" data-copy="cmd-S03-1" aria-label="Salin: Coba aplikasi awal, sebelum ada komentar" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-before-annotated.png"><img src="../assets/screenshots/S03-before-annotated.png" alt="Nomor 1 dan 2 menunjukkan file reports.js dan route GET laporan sebelum latihan menambah endpoint." width="1440" height="900" loading="lazy"><span>Perbesar S03-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/src/routes/reports.js">Sumber GitHub</a> · 1. Buka src → routes → reports.js pada tag v0-baseline. · 2. GET yang ada memeriksa peran Finance dan memvalidasi month. File ini bukan hasil dari skill; perhatikan batas route dan validasi sebelum menambah endpoint baru.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Baca lima langkah skill new-endpoint</h3></div>
+    <p>Tekan Ctrl+P lalu ketik jalur file di bawah, atau baca file yang sama lewat tautan. Cari lima hal: kontrak API, validasi peran dan input, penyimpanan lewat service, route dan log, serta tes. Ini resep untuk menyusun rencana.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/skills/new-endpoint/SKILL.md">Baca skill new-endpoint di GitHub</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S03-2">.github/skills/new-endpoint/SKILL.md</code></pre>
+    <button type="button" data-copy="cmd-S03-2" aria-label="Salin: Baca lima langkah skill new-endpoint" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-vscode-skill-source-annotated.png"><img src="../assets/screenshots/S03-vscode-skill-source-annotated.png" alt="Editor membuka .github/skills/new-endpoint/SKILL.md dan lima langkah prosedur." width="1440" height="900" loading="lazy"><span>Perbesar S03-vscode-skill-source-annotated.png</span></a><figcaption>Screenshot nyata VS Code Web lokal · v0-baseline · 1. Di VS Code, buka path skill new-endpoint. · 2. Baca urutan kontrak, peran, service, route/log, dan tes. Ini isi file, bukan notifikasi skill dimuat di Agent Mode.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Muat skill dan buat rencana di Chat</h3></div>
+    <p>Di folder latihan, buka Chat → Agent dan kirim prompt. Buka rincian aktivitas dan cari Read skill new-endpoint. Nama skill di prompt saja bukan bukti dimuat. Berhenti setelah rencana ditulis; implementasinya diperiksa di langkah berikutnya.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S03-3">Muat skill new-endpoint sebagai aksi pertama. Jika berhasil, buat rencana POST /claims/:id/comments: hanya pemilik, validasi teks, service dan SQLite, log ID saja, dokumentasi, dan tes. Jangan edit kode atau menjalankan workflow.</code></pre>
+    <button type="button" data-copy="cmd-S03-3" aria-label="Salin: Muat skill dan buat rencana di Chat" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Lihat hasil implementasi di draft PR #25</h3></div>
+    <p>Draft PR #25 sudah berisi kode komentar, tetapi belum digabung. Files changed (atau Changes) menunjukkan file yang ditambah dan diedit. Cocokkan lima langkah skill dengan kontrak API, cek pemilik dan teks, service dan SQLite, log ID, serta tes akses.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25/files">Lihat file yang berubah di draft PR #25</a></p>
 
-    <div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-before.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-after.png</code></div></div>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-after.png"><img src="../assets/screenshots/S03-after.png" alt="Kontrak POST komentar khusus Employee pemilik pada draft #25." width="1440" height="169" loading="lazy"><span>Perbesar S03-after.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25/files">Sumber GitHub</a> · Kontrak POST komentar khusus Employee pemilik pada draft #25.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Periksa tes endpoint komentar</h3></div>
+    <p>Buka hasil CI GitHub untuk melihat tes yang sudah lulus. Jika hendak mengulang tes fokus, jalankan perintah di Terminal pada folder yang berisi draft PR #25, bukan versi awal. Pemilik harus berhasil dan pengguna lain ditolak.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655725316">Lihat hasil CI untuk draft PR #25</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S03-5">npm test -- comments.test.js</code></pre>
+    <button type="button" data-copy="cmd-S03-5" aria-label="Salin: Periksa tes endpoint komentar" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-after-annotated.png"><img src="../assets/screenshots/S03-after-annotated.png" alt="Kontrak POST komentar khusus Employee pemilik pada draft #25." width="1440" height="169" loading="lazy"><span>Perbesar S03-after-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25/files">Sumber GitHub</a> · 1. Baca method, pemilik, status 201 dan bentuk respons. Route dan service di draft yang sama diuji secara terpisah.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Bedakan hasil di GitHub dari bukti di VS Code</h3></div>
+    <p>Di Conversation, coding agent menjelaskan apa yang diubah pada draft GitHub. Itu bukan tangkapan aktivitas Chat VS Code. Pemuatan skill dan rencana sudah terlihat di Chat; foto yang menampilkan baris pemanggilan skill belum diarsipkan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25">Baca ringkasan pekerjaan di draft PR #25</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-cloud-skill-annotated.png"><img src="../assets/screenshots/S03-cloud-skill-annotated.png" alt="Ringkasan Copilot melaporkan skill new-endpoint berhasil dimuat." width="1440" height="900" loading="lazy"><span>Perbesar S03-cloud-skill-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25">Sumber GitHub</a> · 1. Baca laporan skill pada draft #25. Ini pengakuan dari sesi cloud yang benar-benar menghasilkan kode, bukan indikator skill di VS Code.</figcaption></figure></div></li></ol></section>
+<section class="section" id="learning-check" aria-labelledby="learning-check-title">
+  <h2 id="learning-check-title">Cek hasil</h2><p>Versi awal belum punya POST komentar (404). Pada draft PR #25, pemilik dengan teks valid mendapat 201, karyawan lain mendapat 404, Manager mendapat 403, dan teks kosong mendapat 400/COMMENT_TEXT. Ada 20 tes fokus komentar yang lulus lokal; CI GitHub juga lulus. Foto Chat yang masih pending bukan bagian dari implementasi ini.</p>
+  <h3>Bukti latihan terverifikasi</h3><div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-endpoint-runtime-annotated.png"><img src="../assets/screenshots/S03-endpoint-runtime-annotated.png" alt="Pemilik 201; Employee lain 404; Manager 403; teks kosong 400." width="1440" height="900" loading="lazy"><span>Perbesar S03-endpoint-runtime-annotated.png</span></a><figcaption>Respons HTTP lokal draft #25 · 13e6014 · 1. Pemilik menambah komentar (201). · 2. Persona lain atau teks kosong ditolak sesuai kontrak; jangan log isi komentar.</figcaption></figure></div>
+</section>
+<section class="section" id="live-steps" aria-labelledby="live-steps-title">
+  <h2 id="live-steps-title">Langkah live</h2>
+  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Untuk checkpoint VS Code, cukup muat skill dan buat rencana POST /claims/:id/comments tanpa edit kode. Untuk membaca hasil implementasi dan tes, gunakan draft PR #25 yang terpisah.</p>
+    <ul><li><strong><code translate="no">S03-01-skill-loaded.png</code></strong><p>Di Chat → Agent, buka rincian yang menampilkan Read skill new-endpoint dan rencana. Ambil hanya area Chat yang menunjukkan pemanggilan skill; foto prompt saja tidak cukup.</p></li></ul>
+  </details>
+
+</section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+    <p>Geser pembanding atau gunakan tombol panah pada kontrol. Kedua gambar bisa dibuka terpisah.</p>
+    <div class="compare-stage" aria-hidden="true"><img class="" src="../assets/screenshots/S03-after.png" width="1440" height="169" alt="" loading="lazy"><img class="before" src="../assets/screenshots/S03-before.png" width="1440" height="900" alt="" loading="lazy"></div>
+    <div hidden><label class="slider-label" for="compare-S03"><span>Sebelum</span><strong>Bagian gambar sebelum</strong><span>Sesudah</span></label>
+    <input id="compare-S03" type="range" min="0" max="100" value="50" data-compare></div>
+    <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S03-before.png"><img src="../assets/screenshots/S03-before.png" alt="Bukti workshop S03-before.png" width="1440" height="900" loading="lazy"><span>Perbesar S03-before.png</span></a><a class="thumbnail" data-shot href="../assets/screenshots/S03-after.png"><img src="../assets/screenshots/S03-after.png" alt="Kontrak POST komentar khusus Employee pemilik pada draft #25." width="1440" height="169" loading="lazy"><span>Perbesar S03-after.png</span></a></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Route lama tidak punya log terstruktur.</td><td>Route baru mengikuti prosedur dan punya tes.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Belum di-capture.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>GET detail sudah ada; POST /claims/1/comments masih HTTP 404.</td><td>Endpoint komentar sudah dibuat dan diuji di draft PR #25, tetapi kodenya belum digabung ke versi awal.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>Ada tangkapan GitHub.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>Prosedur bisa dipakai berulang tanpa menyalin prompt panjang.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S03.md">Template issue S03 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S03-01-skill-loaded.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2>
+<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S03.md">Template issue S03</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a>.</p>
+<div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-local-result.png"><img src="../assets/screenshots/S03-local-result.png" alt="Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint." width="1440" height="900" loading="lazy"><span>Perbesar S03-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S03: Urutan prosedur dalam skill repo; Cek kontrak sebelum membuat endpoint.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-endpoint-runtime.png"><img src="../assets/screenshots/S03-endpoint-runtime.png" alt="Pemilik 201; Employee lain 404; Manager 403; teks kosong 400." width="1440" height="900" loading="lazy"><span>Perbesar S03-endpoint-runtime.png</span></a><figcaption>Respons HTTP lokal draft #25 · 13e6014 · Pemilik 201; Employee lain 404; Manager 403; teks kosong 400.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-vscode-skill-source.png"><img src="../assets/screenshots/S03-vscode-skill-source.png" alt="Editor membuka .github/skills/new-endpoint/SKILL.md dan lima langkah prosedur." width="1440" height="900" loading="lazy"><span>Perbesar S03-vscode-skill-source.png</span></a><figcaption>Screenshot nyata VS Code Web lokal · v0-baseline · Editor membuka .github/skills/new-endpoint/SKILL.md dan lima langkah prosedur.</figcaption></figure></div>
+<div id="s03-cloud-evidence"><h3>Bukti GitHub live</h3><p>Draft #25 menambah route, service, penyimpanan prepared statement dan tes. Agent melaporkan skill new-endpoint dimuat di cloud, bukan di VS Code.</p>
+  <ul><li><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25">pull/25</a></li></ul>
+  <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-before-annotated.png"><img src="../assets/screenshots/S03-before-annotated.png" alt="Nomor 1 dan 2 menunjukkan file reports.js dan route GET laporan sebelum latihan menambah endpoint." width="1440" height="900" loading="lazy"><span>Perbesar S03-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/src/routes/reports.js">Sumber GitHub</a> · 1. Buka src → routes → reports.js pada tag v0-baseline. · 2. GET yang ada memeriksa peran Finance dan memvalidasi month. File ini bukan hasil dari skill; perhatikan batas route dan validasi sebelum menambah endpoint baru.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-after.png"><img src="../assets/screenshots/S03-after.png" alt="Kontrak POST komentar khusus Employee pemilik pada draft #25." width="1440" height="169" loading="lazy"><span>Perbesar S03-after.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25/files">Sumber GitHub</a> · Kontrak POST komentar khusus Employee pemilik pada draft #25.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-after-annotated.png"><img src="../assets/screenshots/S03-after-annotated.png" alt="Kontrak POST komentar khusus Employee pemilik pada draft #25." width="1440" height="169" loading="lazy"><span>Perbesar S03-after-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25/files">Sumber GitHub</a> · 1. Baca method, pemilik, status 201 dan bentuk respons. Route dan service di draft yang sama diuji secara terpisah.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-cloud-skill.png"><img src="../assets/screenshots/S03-cloud-skill.png" alt="Ringkasan Copilot melaporkan skill new-endpoint berhasil dimuat." width="1440" height="900" loading="lazy"><span>Perbesar S03-cloud-skill.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25">Sumber GitHub</a> · Ringkasan Copilot melaporkan skill new-endpoint berhasil dimuat.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S03-cloud-skill-annotated.png"><img src="../assets/screenshots/S03-cloud-skill-annotated.png" alt="Ringkasan Copilot melaporkan skill new-endpoint berhasil dimuat." width="1440" height="900" loading="lazy"><span>Perbesar S03-cloud-skill-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/25">Sumber GitHub</a> · 1. Baca laporan skill pada draft #25. Ini pengakuan dari sesi cloud yang benar-benar menghasilkan kode, bukan indikator skill di VS Code.</figcaption></figure></div></div>
+<details><summary>1 layar yang belum direkam</summary><ul><li><code>S03-01-skill-loaded.png</code></li></ul></details></section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Tinggalkan checkout yang sudah diedit dan buat checkout baru dari v0-baseline. Jangan pakai git reset --hard atau git clean pada direktori kerja bersama.</p><pre><code translate="no">npm run reset -- --fresh</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S02.html" class="button">← S02</a>
 <a href="../capstone.html" class="button">Capstone</a>

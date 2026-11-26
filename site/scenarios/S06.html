@@ -14,50 +14,136 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S06</p><p class="kicker">S06 · Level 2 — Delegasi asinkron</p>
-<h1>Delegasikan perubahan dari tiket</h1><p class="lead">Delegasikan dari Jira/Teams bila konektor organisasi tersedia. Versi personal memakai GitHub Issue.</p>
+<h1>Delegasikan perubahan dari tiket</h1><p class="lead">Tulis tiket untuk Copilot dengan label dan petunjuk yang diinginkan. Di hasil latihan, tekan Tab sampai tombol terfokus lalu Enter: klaim harus terkirim dan menunggu Manager. Gunakan GitHub Issue jika tidak ada konektor Jira atau Teams yang diizinkan.</p>
+<p class="note"><strong>Status latihan:</strong> Tiket GitHub #19 dan tombol di draft PR #21 sudah diuji. Jalur Jira/Teams belum diuji.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Lina</span><span class="badge">Rani</span><span class="badge">Personal / organisasi</span><span class="badge">6 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Lina ingin mengganti label Submit, tetapi tiket kecil ikut antre sprint.</p><p class="note"><strong>Kerugian:</strong> PM harus bolak-balik antara tiket dan PR untuk melihat status.</p>
+  <h2>Masalah yang dihadapi</h2><p>Di form klaim, tombol bertuliskan Submit. Lina ingin pengguna langsung paham bahwa tombol itu mengirim klaim untuk diperiksa Manager. Ia meminta label Ajukan Klaim dan petunjuk yang bisa dibaca saat tombol mendapat fokus keyboard.</p><p class="note"><strong>Kerugian:</strong> Mengganti tulisan saja bisa melewatkan petunjuk atau merusak pengiriman lewat keyboard.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/public/index.html</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">&lt;button id=&quot;submit&quot; type=&quot;submit&quot;&gt;Submit&lt;/button&gt;</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Delegasikan dari Jira/Teams bila konektor organisasi tersedia. Versi personal memakai GitHub Issue.</p>
-<div class="rail"><ol><li><strong>Lihat tombol.</strong> Di baseline tombol masih berlabel Submit.</li><li><strong>Delegasikan tiket.</strong> Jelaskan label baru dan petunjuk alur approval. Gunakan Issue jika tidak punya konektor.</li><li><strong>Cek rujukan.</strong> Pastikan link tiket kembali ke draft PR dan UI bisa dioperasikan dengan keyboard.</li></ol></div></section>
-<section class="section"><h2>Langkah demo</h2><ol class="steps"><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Lihat tombol</h3></div>
-    <p>Di baseline tombol masih berlabel Submit.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-1">npm run demo:before</code></pre>
-    <button type="button" data-copy="cmd-S06-1" aria-label="Salin: Lihat tombol" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Delegasikan tiket</h3></div>
-    <p>Jelaskan label baru dan petunjuk alur approval. Gunakan Issue jika tidak punya konektor.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-2">issues/S06.md</code></pre>
-    <button type="button" data-copy="cmd-S06-2" aria-label="Salin: Delegasikan tiket" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Cek rujukan</h3></div>
-    <p>Pastikan link tiket kembali ke draft PR dan UI bisa dioperasikan dengan keyboard.</p><div class="cmd"><pre><code translate="no" id="cmd-S06-3">npm run e2e</code></pre>
-    <button type="button" data-copy="cmd-S06-3" aria-label="Salin: Cek rujukan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li></ol></section>
-<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+<section class="section"><h2>Solusi dan alur</h2><p>Tulis tiket untuk Copilot dengan label dan petunjuk yang diinginkan. Di hasil latihan, tekan Tab sampai tombol terfokus lalu Enter: klaim harus terkirim dan menunggu Manager. Gunakan GitHub Issue jika tidak ada konektor Jira atau Teams yang diizinkan.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
+  <li><details>
+    <summary><strong>Lina</strong><span>Tulis tiket perubahan tombol</span></summary>
+    <p><strong>Hasil:</strong> Minta label Ajukan Klaim dan petunjuk yang bisa dibaca dengan keyboard. Versi personal memakai issue GitHub #19.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Copilot</strong><span>Usulkan label dan petunjuk</span></summary>
+    <p><strong>Hasil:</strong> Draft PR #21 mengubah tampilan tombol, bukan cara API menyimpan klaim.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Karyawan</strong><span>Tekan Tab lalu Enter</span></summary>
+    <p><strong>Hasil:</strong> Fokus jatuh ke tombol, klaim terkirim (201), dan statusnya menunggu Manager. Konektor Jira/Teams tidak diuji di sini.</p>
+  </details></li>
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Dari permintaan Lina sampai tombol bisa dipakai dengan keyboard.</p>
+    <div class="sequence" style="--lanes:4">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Lina</strong><span class="sequence-place">GitHub Issues</span></li><li><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></li><li><strong>Draft PR #21</strong><span class="sequence-place">GitHub Pull requests</span></li><li><strong>Karyawan</strong><span class="sequence-place">Browser lokal</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Perbaiki tombol tanpa mengubah proses simpan</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Lina</strong><span class="sequence-place">GitHub Issues</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tugaskan tiket: label Ajukan Klaim</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft PR #21</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Ajukan label dan petunjuk tombol</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:4;--span:3">
+      <div class="sequence-route"><span><strong>Draft PR #21</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Lina</strong><span class="sequence-place">GitHub Issues</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tampilkan perubahan form untuk direview</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Lina</strong><span class="sequence-place">GitHub Issues</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Karyawan</strong><span class="sequence-place">Browser lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta uji Tab lalu Enter pada versi baru</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Karyawan</strong><span class="sequence-place">Browser lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Lina</strong><span class="sequence-place">GitHub Issues</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Konfirmasi klaim masuk antrean Manager</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Contoh yang diuji memakai GitHub Issue #19. Konektor Jira dan Teams bukan bagian dari bukti ini.</figcaption>
+  </figure>
+</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di GitHub repo latihan, pilih Issues → New issue. Minta label Submit diganti menjadi Ajukan Klaim dan petunjuknya bisa dibaca dari keyboard. Gunakan Jira/Teams hanya jika konektor diizinkan.</li><li>Pada tiket GitHub, pilih Assignees → Copilot → Assign. Di PR yang muncul, buka Files changed dan lihat bahwa perubahan ada di form, bukan aturan menyimpan klaim.</li><li>Coba Tab sampai Ajukan Klaim terfokus lalu Enter. Klaim harus terkirim dan menunggu Manager. Catat hasil itu saat meninjau usulan perubahan.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Tunjuk tombol yang mau diganti</h3></div>
+    <p>Buka http://127.0.0.1:3000 dan cari tombol Submit. Isi contoh klaim Rp250.000 dengan tanggal hari ini, lalu kirim. Klaim berhasil masuk; yang ingin diperjelas adalah label dan petunjuknya.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S06-1">npm run demo:before</code></pre>
+    <button type="button" data-copy="cmd-S06-1" aria-label="Salin: Tunjuk tombol yang mau diganti" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before-annotated.png"><img src="../assets/screenshots/S06-before-annotated.png" alt="Nomor 1 menandai tombol Submit yang menjadi target tiket." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before-annotated.png</span></a><figcaption>v0-baseline · dianotasi · Nomor 1 menandai tombol Submit yang menjadi target tiket.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tulis tiket untuk label dan petunjuk tombol</h3></div>
+    <p>Pada latihan personal gunakan GitHub Issues → New issue. Minta label Ajukan Klaim dan petunjuk bahwa klaim akan diperiksa Manager. Tidak perlu mengubah cara API menyimpan klaim.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">Baca tiket perubahan tombol #19</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S06-2">issues/S06.md</code></pre>
+    <button type="button" data-copy="cmd-S06-2" aria-label="Salin: Tulis tiket untuk label dan petunjuk tombol" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-01-ticket-annotated.png"><img src="../assets/screenshots/S06-01-ticket-annotated.png" alt="Tiket asli untuk Ajukan Klaim dan petunjuk Manager." width="1440" height="1117" loading="lazy"><span>Perbesar S06-01-ticket-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">Sumber GitHub</a> · 1. Pastikan judul menandai S06 personal. · 2. Minta petunjuk keyboard dan HTTP 201 tetap. Bukan tiket Jira/Teams.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Tinjau perubahan dengan keyboard</h3></div>
+    <p>Bila hendak mengulang tes, buka folder yang berisi implementasi draft PR #21. Pastikan Tab bisa memberi fokus ke Ajukan Klaim dan Enter tetap mengirim klaim sekali, dengan status menunggu Manager.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21/files">Lihat implementasi tombol di draft PR #21</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S06-3">npm run e2e</code></pre>
+    <button type="button" data-copy="cmd-S06-3" aria-label="Salin: Tinjau perubahan dengan keyboard" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-local-result.png"><img src="../assets/screenshots/S06-local-result.png" alt="Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama." width="1440" height="900" loading="lazy"><span>Perbesar S06-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S06: Perilaku lokal yang harus tetap sama.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cocokkan permintaan Lina dengan perubahan file</h3></div>
+    <p>Tiket #19 menjelaskan masalah dari sisi pengguna. Draft PR #21 menunjukkan perubahan HTML: label baru dan petunjuk untuk tombol, bukan perubahan API.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21/files">Lihat perubahan label dan petunjuk tombol</a> · <a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">Baca tiket Lina</a></p>
 
-    <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before.png"><img src="../assets/screenshots/S06-before.png" alt="S06 baseline lokal: tombol masih berlabel Submit." width="1180" height="780" loading="lazy"><span>Perbesar S06-before.png</span></a><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S06-after.png</code></div></div>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-02-pr-annotated.png"><img src="../assets/screenshots/S06-02-pr-annotated.png" alt="Diff form menambah petunjuk dan label Ajukan Klaim." width="1440" height="1393" loading="lazy"><span>Perbesar S06-02-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21/files">Sumber GitHub</a> · 1. Buka src/public/index.html di Files changed. · 2. Petunjuk menjelaskan antrean Manager, dengan relasi ke tombol untuk pembaca layar.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Ulangi dari keyboard</h3></div>
+    <p>Isi judul Perjalanan workshop S06, Rp250.000 dan tanggal hari ini. Pindah dari Catatan ke Ajukan Klaim dengan Tab, lalu tekan Enter.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S06-5">git fetch origin copilot/issue-19-update-claim-form-label
+npm run demo:compare -- 40a3108d987c79cfcb51bde1e91293d0177ef309</code></pre>
+    <button type="button" data-copy="cmd-S06-5" aria-label="Salin: Ulangi dari keyboard" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-after-annotated.png"><img src="../assets/screenshots/S06-after-annotated.png" alt="Ajukan Klaim dengan petunjuk dan pesan klaim menunggu Manager." width="1440" height="1182" loading="lazy"><span>Perbesar S06-after-annotated.png</span></a><figcaption>Screenshot aplikasi lokal draft #21 · 40a3108 · 1. Baca petunjuk. · 2. Tab ke Ajukan Klaim dan Enter. · 3. Status menunggu Manager; Playwright memeriksa HTTP 201.</figcaption></figure></div></li></ol></section>
+<section class="section" id="learning-check" aria-labelledby="learning-check-title">
+  <h2 id="learning-check-title">Cek hasil</h2><p>Tiket #19 dan draft #21 nyata. Tab mencapai tombol Ajukan Klaim dengan petunjuk; Enter mengirim klaim dengan HTTP 201 dan status menunggu Manager. Ini bukan uji konektor organisasi.</p>
+  <h3>Bukti latihan terverifikasi</h3><div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-after-annotated.png"><img src="../assets/screenshots/S06-after-annotated.png" alt="Ajukan Klaim dengan petunjuk dan pesan klaim menunggu Manager." width="1440" height="1182" loading="lazy"><span>Perbesar S06-after-annotated.png</span></a><figcaption>Screenshot aplikasi lokal draft #21 · 40a3108 · 1. Baca petunjuk. · 2. Tab ke Ajukan Klaim dan Enter. · 3. Status menunggu Manager; Playwright memeriksa HTTP 201.</figcaption></figure></div>
+</section>
+<section class="section" id="live-steps" aria-labelledby="live-steps-title">
+  <h2 id="live-steps-title">Langkah live</h2>
+  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Untuk Jira atau Teams, pemilik tenant menyiapkan konektor latihan dengan izin yang benar. Bukti ini menyelesaikan versi personal, bukan integrasi org.</p>
+    <p>Tidak ada target bukti live yang belum direkam.</p>
+  </details>
+
+</section>
+<section class="section"><h2>Sebelum dan sesudah</h2><div class="compare">
+    <p>Geser pembanding atau gunakan tombol panah pada kontrol. Kedua gambar bisa dibuka terpisah.</p>
+    <div class="compare-stage" aria-hidden="true"><img class="" src="../assets/screenshots/S06-after.png" width="1440" height="1182" alt="" loading="lazy"><img class="before" src="../assets/screenshots/S06-before.png" width="1440" height="1089" alt="" loading="lazy"></div>
+    <div hidden><label class="slider-label" for="compare-S06"><span>Sebelum</span><strong>Bagian gambar sebelum</strong><span>Sesudah</span></label>
+    <input id="compare-S06" type="range" min="0" max="100" value="50" data-compare></div>
+    <div class="gallery"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before.png"><img src="../assets/screenshots/S06-before.png" alt="Tombol asli pada form klaim: Submit." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before.png</span></a><a class="thumbnail" data-shot href="../assets/screenshots/S06-after.png"><img src="../assets/screenshots/S06-after.png" alt="Ajukan Klaim dengan petunjuk dan pesan klaim menunggu Manager." width="1440" height="1182" loading="lazy"><span>Perbesar S06-after.png</span></a></div>
   </div>
 <table class="data"><caption>Apa yang berubah</caption><thead><tr><th scope="col">Bagian</th><th scope="col">Sebelum</th><th scope="col">Sesudah / target</th></tr></thead><tbody>
-<tr><th scope="row">Perilaku</th><td>Tombol Submit, belum ada petunjuk.</td><td>Target: Ajukan Klaim dan petunjuk langkah berikutnya.</td></tr>
-<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>Belum di-capture.</td></tr>
+<tr><th scope="row">Perilaku</th><td>Form menampilkan Submit; klik tetap menyimpan klaim (201).</td><td>Target: Ajukan Klaim dan petunjuk status berikutnya; tiket organisasi dan perubahan UI belum ada.</td></tr>
+<tr><th scope="row">Bukti visual</th><td>Ada tangkapan lokal.</td><td>Ada tangkapan lokal.</td></tr>
 <tr><th scope="row">Keputusan</th><td>Peserta membaca keadaan awal.</td><td>Manusia memeriksa hasil sebelum meneruskan.</td></tr>
 </tbody></table></section>
 <section class="section"><h2>Manfaat</h2><ul><li>PM tahu perubahan mana yang benar-benar sedang ditinjau.</li></ul></section>
-<section class="section"><h2>Bukti dan sumber</h2>
-<p>PR, Actions run, dan alert live: belum ada tautan terverifikasi untuk skenario ini. <a href="https://github.com/sandy-demo/AgenticSDLC/tree/main/issues/S06.md">Template issue S06 di GitHub (setelah publikasi)</a>.</p>
-<div class="gallery"><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S06-01-ticket.png</code></div><div class="placeholder"><strong>Belum di-capture</strong><code translate="no">S06-02-pr.png</code></div></div></section>
-<section class="section"><h2>Ulangi latihan</h2><p>Hentikan server dari terminalnya untuk mengulang data awal. Gunakan checkout latihan baru bila ingin membandingkan perubahan kode. Perintah ini tidak menutup PR atau mengubah remote.</p><pre><code translate="no">npm run reset -- --fresh</code></pre></section>
+<section class="section" id="evidence"><h2>Bukti dan sumber</h2>
+<p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S06.md">Template issue S06</a> · <a href="../assets/data/scenarios.json">Data latihan dan pengukuran</a>.</p>
+<div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-before.png"><img src="../assets/screenshots/S06-before.png" alt="Tombol asli pada form klaim: Submit." width="1440" height="1089" loading="lazy"><span>Perbesar S06-before.png</span></a><figcaption>v0-baseline · Tombol asli pada form klaim: Submit.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-after.png"><img src="../assets/screenshots/S06-after.png" alt="Ajukan Klaim dengan petunjuk dan pesan klaim menunggu Manager." width="1440" height="1182" loading="lazy"><span>Perbesar S06-after.png</span></a><figcaption>Screenshot aplikasi lokal draft #21 · 40a3108 · Ajukan Klaim dengan petunjuk dan pesan klaim menunggu Manager.</figcaption></figure></div>
+<div id="s06-cloud-evidence"><h3>Bukti GitHub live</h3><p>Alur GitHub Issue personal menghasilkan draft dan UI nyata. Konektor Jira/Teams tidak dipakai.</p>
+  <ul><li><a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">issues/19</a></li><li><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21">pull/21</a></li></ul>
+  <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-01-ticket.png"><img src="../assets/screenshots/S06-01-ticket.png" alt="Tiket asli untuk Ajukan Klaim dan petunjuk Manager." width="1440" height="1117" loading="lazy"><span>Perbesar S06-01-ticket.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">Sumber GitHub</a> · Tiket asli untuk Ajukan Klaim dan petunjuk Manager.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-01-ticket-annotated.png"><img src="../assets/screenshots/S06-01-ticket-annotated.png" alt="Tiket asli untuk Ajukan Klaim dan petunjuk Manager." width="1440" height="1117" loading="lazy"><span>Perbesar S06-01-ticket-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/issues/19">Sumber GitHub</a> · 1. Pastikan judul menandai S06 personal. · 2. Minta petunjuk keyboard dan HTTP 201 tetap. Bukan tiket Jira/Teams.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-02-pr.png"><img src="../assets/screenshots/S06-02-pr.png" alt="Diff form menambah petunjuk dan label Ajukan Klaim." width="1440" height="1393" loading="lazy"><span>Perbesar S06-02-pr.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21/files">Sumber GitHub</a> · Diff form menambah petunjuk dan label Ajukan Klaim.</figcaption></figure><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S06-02-pr-annotated.png"><img src="../assets/screenshots/S06-02-pr-annotated.png" alt="Diff form menambah petunjuk dan label Ajukan Klaim." width="1440" height="1393" loading="lazy"><span>Perbesar S06-02-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/21/files">Sumber GitHub</a> · 1. Buka src/public/index.html di Files changed. · 2. Petunjuk menjelaskan antrean Manager, dengan relasi ke tombol untuk pembaca layar.</figcaption></figure></div></div>
+</section>
+<section class="section" id="reset"><h2>Ulangi latihan</h2><p>Berhenti dari terminal server dengan Ctrl+C; jalankan npm run demo:before lagi. Data demo kembali ke seed; tidak ada perubahan ke GitHub.</p><pre><code translate="no">npm run reset
+npm run demo:before</code></pre><p><a href="../setup.html#reset">Cara reset tanpa mengubah branch</a>.</p></section>
 <nav class="section prevnext" aria-label="Pindah skenario">
 <a href="S05.html" class="button">← S05</a>
 <a href="../capstone.html" class="button">Capstone</a>
