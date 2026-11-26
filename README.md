@@ -4,6 +4,17 @@ Workshop berbahasa Indonesia dengan **Expense Claim App**, aplikasi demo untuk
 PT Nusantara Finansial (fiktif). Pelajari cara mengubah issue menjadi draft pull
 request tanpa melewati review manusia, CI, dan pemeriksaan keamanan.
 
+## Workflow dari awal sampai tindak lanjut
+
+Buka [panduan workflow utuh](site/sdlc.html) untuk membuat satu tiket, meminta
+Copilot menulis desain, memberi approval manusia, lalu meninjau implementasi,
+CI, review, dan tindak lanjut rilis. [Rencana implementasi](docs/sdlc/plan.md)
+dan [keputusan desain](docs/adr/0003-agentic-sdlc-workflow.md) tersedia.
+
+Workflow baru nonaktif sampai maintainer memublikasikan file dan menyetujui
+aktivasi, akses Copilot, serta anggaran. Tidak ada merge atau deployment otomatis.
+Uji controller tanpa jaringan: `npm test -- sdlc-workflow.test.js`.
+
 ## Mulai
 
 1. Buka [site/index.html](site/index.html) di browser. Materi HTML dapat dibuka

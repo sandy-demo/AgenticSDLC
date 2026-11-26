@@ -32,6 +32,27 @@ export function markdownCell(value) {
 
 export function refreshEvidence(scenarios, out, errors = []) {
   const metrics = JSON.parse(readFileSync(join(root, 'docs', 'metrics.json'), 'utf8'));
+  const workflowPath = join(root, 'docs', 'sdlc', 'evidence.json');
+  const workflow = existsSync(workflowPath) ? JSON.parse(readFileSync(workflowPath, 'utf8')) : null;
+  const workflowSection = workflow ? `
+
+## Workflow end-to-end
+
+Buka [panduan workflow](../site/sdlc.html#evidence) dan [data sumber](sdlc/evidence.json).
+Tes lokal pada ${workflow.validation.executedAt}: ${workflow.validation.passed}/${workflow.validation.total} tes unit lulus,
+termasuk ${workflow.validation.controllerPassed} tes controller dengan respons API GitHub fiktif. Bukan run cloud.
+
+| Bukti | Sumber dan batas |
+|---|---|
+${workflow.images.map(image=>`| [${image.name}](screenshots/${image.name}) | ${markdownCell(image.source)} |`).join('\n')}
+
+### Masih perlu bukti GitHub
+
+${workflow.pendingLive.map(item=>`- **${markdownCell(item.where)}:** ${markdownCell(item.instruction)} Target: \`${item.name}\`.`).join('\n')}
+
+Gambar panduan bukan layar Actions; output Vitest yang dirender bukan screenshot terminal.
+GitHub Release bukan deployment. Workflow belum dipublikasikan atau diaktifkan.
+` : '';
   const number = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 });
   const available = (name) => {
     const path = join(out, name);
@@ -61,7 +82,7 @@ export function refreshEvidence(scenarios, out, errors = []) {
   });
   const incomplete = (status) => workshopOrder.filter((id) => missingStatus(id) === status).flatMap((id) => missingByScenario[id]);
   writeFileSync(join(out, '_missing.json'), `${JSON.stringify({
-    missing, errors, manualPending: incomplete('manual pending'), manualOrg: incomplete('manual/org'),
+    missing, errors, manualPending: incomplete('manual pending'), manualOrg: incomplete('manual/org'), workflowPending: workflow?.pendingLive ?? [],
   }, null, 2)}
 `);
   const setup = setupShots.filter(available).map((name) => `[${name}](screenshots/${name})`).join(' · ');
@@ -78,5 +99,5 @@ ${rows.join('\n')}
 
 Baca [metrik per skenario](metrics.json) dan [layar yang belum direkam](screenshots/_missing.json).
 Angka yang belum diukur bukan nol; AI credits bukan premium requests atau tagihan.
-`);
+${workflowSection}`);
 }

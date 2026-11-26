@@ -1,5 +1,23 @@
 # Status workshop
 
+## Workflow end-to-end — 26 November 2026
+
+Controller dan workflow GitHub Actions ditambahkan untuk menghubungkan tiket,
+draft desain, approval manusia, implementasi, CI, review, dan pemeriksaan setelah
+rilis GitHub. Buka [panduan visual](site/sdlc.html) dan [rencana](docs/sdlc/plan.md).
+Validasi memakai respons API fiktif; ini bukan bukti run live. Workflow tetap
+nonaktif, belum di-push, dan tidak melakukan merge, rilis, atau deployment.
+
+Screenshot workflow sudah diarsipkan: tiga adegan lokal dan dua versi bernomor
+(lima PNG baru). [Galeri workflow](site/sdlc.html#evidence) memakai tampilan,
+caption sumber, dan zoom yang sama. [Data bukti](docs/sdlc/evidence.json) mencatat
+waktu uji, 45/45 tes unit lulus, 24 tes controller, serta empat target
+bukti GitHub yang masih pending. Gambar panduan bukan screenshot GitHub; output
+Vitest yang dirender bukan screenshot terminal. File asli tidak ditimpa.
+
+Foto S03 masih ditunda: file yang disimpan baru menampilkan prompt, bukan baris
+pemanggilan skill. Foto itu tidak dimasukkan sebagai bukti baru ke situs.
+
 ## Putaran lanjutan — hasil terbaru
 
 Buka [urutan belajar offline](site/index.html#urutan). Tiap bab punya alur interaktif, langkah praktik, **Cek hasil**, **Langkah live**, dan cara reset. Klik langkah alur untuk melihat peran dan keluaran; klik screenshot untuk memperbesar.

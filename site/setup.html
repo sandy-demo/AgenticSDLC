@@ -14,12 +14,13 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html" aria-current="page">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="index.html">Mulai</a><a href="sdlc.html">Workflow utuh</a><a href="scenarios/index.html">Skenario</a><a href="architecture.html">Arsitektur</a><a href="capstone.html">Capstone</a><a href="governance.html">Governance</a><a href="setup.html" aria-current="page">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="kicker">Runbook</p><h1>Cara demo: lokal dulu, GitHub bila tersedia</h1>
 <p class="lead">Buka materi offline tanpa menyiapkan akun. Untuk mempraktikkan aplikasi, pasang dependensi. Untuk cloud agent dan Pages, cek izin repo terlebih dahulu.</p>
+<p><a href="#issue-to-review">Langsung ke langkah membuat issue, memilih Copilot, dan memberi review.</a></p>
 <section class="section"><h2>1. Pilih lingkungan</h2><figure class="diagram" data-diagram="D13">
   <img class="diagram-image" src="assets/diagrams/D13.svg" alt="Lokal: jalankan app dan buka HTML offline. Personal: pakai Issues dan PR bila ada izin. Organisasi: cek konektor, policy dan budget. Jika Copilot belum aktif, gunakan bukti lokal." width="647" height="682" loading="lazy">
   <ol class="diagram-narrow"><li>Lokal: jalankan app dan buka HTML offline.</li><li>Personal: pakai Issues dan PR bila ada izin.</li><li>Organisasi: cek konektor, policy dan budget.</li><li>Jika Copilot belum aktif, gunakan bukti lokal.</li></ol>
@@ -39,21 +40,40 @@
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
 <article class="card"><h3>Organisasi / EMU</h3><p>Pemilik tenant mengizinkan policy dan budget, lalu mengatur konektor. Jangan memakai data atau repo produksi.</p></article></div></section>
 <section class="section"><h2>2. Siapkan dan coba S04</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Pasang dependensi</h3></div>
-    <p>Buka terminal di root repo. Gunakan tag v0-baseline jika tersedia.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-1">npm ci
+    <p>Buka terminal di root repo. Gunakan tag v0-baseline jika tersedia.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-setup-1">npm ci
 npx playwright install chromium</code></pre>
     <button type="button" data-copy="cmd-setup-1" aria-label="Salin: Pasang dependensi" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ambil ref demo</h3></div>
-    <p>Pada hasil clone GitHub biasa, v0-baseline adalah tag dan demo/claim-date disimpan sebagai remote branch. Jangan jalankan ref yang tidak kamu tinjau.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-2">git fetch origin --tags
+    <p>Pada hasil clone GitHub biasa, v0-baseline adalah tag dan demo/claim-date disimpan sebagai remote branch. Jangan jalankan ref yang tidak kamu tinjau.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-setup-2">git fetch origin --tags
 git branch --track demo/claim-date origin/demo/claim-date</code></pre>
     <button type="button" data-copy="cmd-setup-2" aria-label="Salin: Ambil ref demo" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Bandingkan perilaku</h3></div>
-    <p>Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-3">npm run demo:compare -- demo/claim-date</code></pre>
+    <p>Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-setup-3">npm run demo:compare -- demo/claim-date</code></pre>
     <button type="button" data-copy="cmd-setup-3" aria-label="Salin: Bandingkan perilaku" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Ambil bukti dan ulangi</h3></div>
-    <p>Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.</p><div class="cmd"><pre><code translate="no" id="cmd-setup-4">npm run shots -- S04
+    <p>Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-setup-4">npm run shots -- S04
 npm run reset</code></pre>
     <button type="button" data-copy="cmd-setup-4" aria-label="Salin: Ambil bukti dan ulangi" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li></ol><p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+<section class="section" id="issue-to-review" aria-labelledby="issue-to-review-title">
+<h2 id="issue-to-review-title">Praktik GitHub: dari tiket sampai review manusia</h2>
+<p>Gunakan repo latihan yang mengizinkan Copilot dan akun yang punya akses. Untuk latihan pertama, pakai kasus tanggal klaim S04. Membuka contoh tidak membuat tiket, menjalankan tes, atau menyetujui perubahan.</p>
+<ol class="checklist">
+<li><strong>Buat tiket kerja (issue).</strong> Buka repo latihan di GitHub → <strong>Issues → New issue</strong>. Isi judul <em>Tolak tanggal klaim besok</em>. Di deskripsi, tulis: “Pada form klaim, Taksi bandara Rp250.000 bertanggal besok masih tersimpan. Besok harus ditolak; tanggal hari ini tetap diterima.” Klik <strong>Create issue</strong> atau <strong>Submit new issue</strong>. <a href="https://github.com/sandy-demo/AgenticSDLC/issues/3">Baca contoh tiket tanggal klaim</a>.</li>
+<li><strong>Pilih agent dan tugaskan.</strong> Di sisi kanan tiket, klik <strong>Assignees → Copilot</strong>, lalu <strong>Assign</strong>. Jika form menampilkan pilihan profil agent, pilih yang diminta latihan; S04 cukup dengan Copilot. Skenario dengan spesialis menjelaskan kapan memakai tab <strong>Agents</strong>. Kalau Copilot tidak muncul, periksa akses repo dengan maintainer, jangan menganggap tugas sudah dikirim.</li>
+<li><strong>Baca usulan kode.</strong> Tunggu tautan pull request (PR) muncul di tiket, atau cek sesi di <strong>Agents</strong>. Di PR, tab <strong>Conversation</strong> menampilkan ringkasan. Label <strong>Draft</strong> berarti usulan belum digabung; cek apakah benar ada file perubahan. <a href="https://github.com/sandy-demo/AgenticSDLC/pull/20">Lihat contoh usulan perbaikan S04</a>.</li>
+<li><strong>Periksa perubahan sendiri.</strong> Klik <strong>Files changed</strong> atau <strong>Changes</strong>. Daftar sebelum dan sesudah ini disebut <em>diff</em>: tanda + berarti baris ditambah; tanda − berarti dihapus. Baca file validasi dan tes. Cocokkan keduanya dengan tiket: besok ditolak dan hari ini diterima. <a href="https://github.com/sandy-demo/AgenticSDLC/pull/20/files">Lihat file dan tes yang berubah pada contoh S04</a>.</li>
+<li><strong>Cek tes lalu coba sendiri.</strong> Di <strong>Checks</strong>, pastikan pemeriksaan otomatis untuk perubahan terbaru lulus. Bila GitHub meminta <strong>Approve and run</strong>, itu izin maintainer untuk menjalankan tes, bukan approval kode. Ulangi dua tanggal dengan data fiktif di folder latihan yang memuat perubahan. <a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2">Lihat hasil pemeriksaan yang lulus</a>.</li>
+<li><strong>Beri keputusan sebagai reviewer manusia.</strong> Dari <strong>Files changed</strong>, klik <strong>Review changes</strong> atau <strong>Review</strong>. Pilih <strong>Comment</strong> untuk masukan biasa, <strong>Request changes</strong> jika ada yang perlu dibetulkan, atau <strong>Approve</strong> jika hasilnya sesuai dan kamu reviewer lain yang berwenang. Tulis alasannya, lalu <strong>Submit review</strong>. Setelah revisi, baca perubahan dan tes lagi. Approval tidak sama dengan merge; berhenti sebelum merge.</li>
+</ol>
+<p><strong>Coba hasilnya di komputer sendiri:</strong> gunakan clone repo latihan di folder terpisah. Setelah membaca perubahan, jalankan <code translate="no">gh pr checkout NOMOR_PR</code> di Terminal jika memakai GitHub CLI. Ganti NOMOR_PR dengan nomor usulanmu, pasang dependensi jika belum ada, lalu jalankan <code translate="no">npm run dev</code>. Jangan jalankan kode atau data produksi.</p>
+<p><strong>Contoh catatan review:</strong> “Saya coba dua tanggal: besok ditolak, hari ini tersimpan. Tes untuk keduanya ada.” Kalau besok masih tersimpan, pilih Request changes dan tulis cara mengulangnya.</p>
+<p><a href="scenarios/S04.html#practice">Coba langkah khusus S04</a> · <a href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/overview">Panduan resmi menugaskan issue ke Copilot</a> · <a href="https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request">Panduan resmi review PR</a>.</p>
+</section>
 <section class="section" id="reset"><h2>Reset: data aplikasi atau kode latihan?</h2><dl><dt>Data demo</dt><dd>Di terminal yang menjalankan demo, tekan Ctrl+C. Jalankan <code>npm run reset</code> untuk melihat instruksi, lalu <code>npm run demo:before</code>. Perintah reset biasa tidak me-restart server otomatis. Saat diuji, daftar Employee 01 berubah 7 → 8 → 7 klaim setelah restart.</dd><dt>Kode latihan</dt><dd>Jalankan <code>npm run reset -- --fresh</code> dari root repo. Buka path checkout terpisah yang dicetak di terminal. Checkout baru berada pada tag <code>v0-baseline</code>; pekerjaan yang sudah ada, branch, dan remote tetap utuh.</dd><dt>GitHub</dt><dd>Reset lokal tidak menutup issue, menghapus branch remote, atau mengurungkan merge. Gunakan repo turunan untuk latihan yang melibatkan merge.</dd></dl></section>
 <section class="section"><h2>3. Siapkan demo GitHub</h2>
 <ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>

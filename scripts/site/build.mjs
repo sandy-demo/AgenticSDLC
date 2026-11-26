@@ -1,13 +1,16 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { root } from '../demo-runtime.mjs';
+import { sdlcStages } from '../sdlc-workflow.mjs';
 import { evidenceImages, missingStatus, pngDimensions, setupShots, shotNames, workshopOrder } from '../workshop-evidence.mjs';
 import { diagramNotes, faq, glossary, timeline, roles } from './content.mjs';
 
 const site = join(root, 'site');
+let pageCount = 0;
 const read = (file) => readFileSync(join(root, file), 'utf8');
 const scenarios = JSON.parse(read('scripts/scenarios.json'));
 const metrics = JSON.parse(read('docs/metrics.json'));
+const workflowEvidence = JSON.parse(read('docs/sdlc/evidence.json'));
 const ids = Object.keys(scenarios);
 const nodeRange = JSON.parse(read('package.json')).engines.node;
 const levels = ['Inner loop', 'Delegasi asinkron', 'Tim virtual', 'Continuous AI', 'Governance dan capstone'];
@@ -18,7 +21,7 @@ const badge = (text) => `<span class="badge">${escape(text)}</span>`;
 const snippet = (text, id = '') => `<pre><code translate="no"${id ? ` id="${id}"` : ''}>${escape(text)}</code></pre>`;
 const note = (text) => `<p class="note">${text}</p>`;
 const sections = [
-  ['index.html', 'Mulai'], ['scenarios/index.html', 'Skenario'], ['architecture.html', 'Arsitektur'],
+  ['index.html', 'Mulai'], ['sdlc.html', 'Workflow utuh'], ['scenarios/index.html', 'Skenario'], ['architecture.html', 'Arsitektur'],
   ['capstone.html', 'Capstone'], ['governance.html', 'Governance'], ['setup.html', 'Cara demo'],
 ];
 const repo = 'https://github.com/sandy-demo/AgenticSDLC';
@@ -33,11 +36,11 @@ function evidenceUrl(value) {
 }
 const pngInfo = new Map();
 const allEvidence = Object.fromEntries(ids.map((id) => [id, evidenceImages(metrics[id])]));
-const imageDetails = new Map(Object.values(allEvidence).flatMap(({ local, github }) =>
-  [...local, ...github].map((image) => [image.name, image])));
-const knownShots = [...new Set([...setupShots, ...ids.flatMap((id) => [
+const imageDetails = new Map([...Object.values(allEvidence).flatMap(({ local, github }) =>
+  [...local, ...github].map((image) => [image.name, image])), ...workflowEvidence.images.map((image) => [image.name, image])]);
+const knownShots = [...new Set([...[...setupShots, ...ids.flatMap((id) => [
   ...shotNames(scenarios[id], metrics[id]), scenarios[id].guide.completion?.verifiedLearningEvidence,
-].filter(Boolean))])];
+].filter(Boolean))], ...workflowEvidence.images.map(({ name }) => name)])];
 
 for (const directory of ['scenarios', 'assets/screenshots', 'assets/vendor', 'assets/data']) {
   mkdirSync(join(site, directory), { recursive: true });
@@ -74,9 +77,11 @@ writeFileSync(join(site, 'assets', 'data', 'scenarios.json'), `${JSON.stringify(
     }])),
   },
   setupEvidence: setupShots.filter((name) => pngInfo.has(name)).map((name) => ({ name, ...pngInfo.get(name) })),
+  sdlcEvidence: workflowEvidence,
 }, null, 2)}\n`);
 
 function document(file, title, body, { charts = false } = {}) {
+  pageCount += 1;
   const up = file.includes('/') ? '../' : '';
   const group = up ? 'scenarios/index.html' : file;
   const markup = `<!doctype html>
@@ -199,7 +204,8 @@ function comparison(id) {
 
 const learningStepTitle = 'Cek selesai latihan';
 const liveStepTitle = 'Cara merekam hasil live';
-const indexedSteps = (list) => list.map(([title, detail, command], index) => ({ title, detail, command, index }));
+const indexedSteps = (list) => list.map(([title, detail, command, references = []], index) =>
+  ({ title, detail, command, references, index }));
 
 function stepEvidence(id, index) {
   const sequence = scenarios[id]?.guide?.stepEvidence ?? [];
@@ -212,23 +218,68 @@ function evidenceGallery(names) {
 }
 
 function steps(id, list) {
-  return `<ol class="steps">${list.map(({ title, detail, command, index }) => {
+  return `<ol class="steps">${list.map(({ title, detail, command, references, index }) => {
     const codeId = `cmd-${id}-${index + 1}`;
     const annotated = stepEvidence(id, index);
+    const links = references.map(({ label, url }) => {
+      const href = evidenceUrl(url);
+      if (!href || typeof label !== 'string' || !label.trim()) {
+        throw new Error(`Rujukan GitHub tidak valid di ${id}, langkah ${index + 1}.`);
+      }
+      return link(href, label);
+    });
     return `<li class="step" value="${index + 1}"><div class="step-top"><span class="step-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3></div>
-    <p>${escape(detail)}</p><div class="cmd">${snippet(command, codeId)}
-    <button type="button" data-copy="${codeId}" aria-label="Salin: ${escape(title)}" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>${escape(detail)}</p>${links.length ? `<p>${links.join(' · ')}</p>` : ''}
+    ${command ? `<div class="cmd">${snippet(command, codeId)}
+    <button type="button" data-copy="${codeId}" aria-label="Salin: ${escape(title)}" hidden>Salin</button></div><p class="feedback" role="status"></p>` : ''}
     ${annotated ? evidenceGallery([annotated]) : ''}</li>`;
   }).join('')}</ol>`;
 }
 
 function workflowPath(flow) {
-  return `<h3>Alur kerja ringkas</h3><ol class="workflow-path">
-  ${flow.map(({ actor, action, result }) => `<li><details>
-    <summary><strong>${escape(actor)}</strong> · ${escape(action)}</summary>
+  return `<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
+  ${flow.map(({ actor, action, result }, index) => `<li><details>
+    <summary><strong>${escape(actor)}</strong><span>${escape(action)}</span></summary>
     <p><strong>Hasil:</strong> ${escape(result)}</p>
-  </details></li>`).join('')}
-</ol>`;
+  </details>${index < flow.length - 1 ? `<svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>` : ''}</li>`).join('')}
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>`;
+}
+
+function sequenceDiagram(id, { title, actors, phases, caption }) {
+  const roles = new Map(actors.map(([key, name, place], index) => [key, { name, place, index }]));
+  if (roles.size !== actors.length || roles.size < 2 || !phases.length) {
+    throw new Error(`Lajur atau tahap diagram ${id} tidak valid.`);
+  }
+  const actorLabel = ({ name, place }) => `<strong>${escape(name)}</strong><span class="sequence-place">${escape(place)}</span>`;
+  const event = ([from, to, action, reply = false]) => {
+    const sender = roles.get(from);
+    const recipient = roles.get(to);
+    if (!sender || !recipient || sender === recipient) throw new Error(`Arah panah diagram ${id} tidak valid.`);
+    const first = Math.min(sender.index, recipient.index);
+    const last = Math.max(sender.index, recipient.index);
+    return `<li class="sequence-event${sender.index > recipient.index ? ' is-reverse' : ''}${reply ? ' is-reply' : ''}" style="--first:${first + 1};--last:${last + 2};--span:${last - first + 1}">
+      <div class="sequence-route"><span>${actorLabel(sender)}</span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span>${actorLabel(recipient)}</span></div>
+      <div class="sequence-message"><span class="sequence-label">${escape(action)}</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>`;
+  };
+  return `<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>${escape(title)}.</p>
+    <div class="sequence" style="--lanes:${actors.length}">
+      <ul class="sequence-actors" aria-hidden="true">${[...roles.values()].map((actor) => `<li>${actorLabel(actor)}</li>`).join('')}</ul>
+      <div class="sequence-phases">${phases.map(([phase, messages]) => `
+        <section class="sequence-phase"><h4>${escape(phase)}</h4><ol class="sequence-events" role="list">
+          ${messages.map(event).join('')}
+        </ol></section>`).join('')}</div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. ${escape(caption)}</figcaption>
+  </figure>`;
 }
 
 const titlesByRole = [
@@ -255,6 +306,7 @@ document('index.html', 'Workshop dari issue ke draft PR', `
   </ol></aside>
 </section>
 <section class="section" id="urutan"><h2>Ikuti latihan satu per satu</h2>
+<p>${link('sdlc.html', 'Mulai workflow utuh: tiket → desain → implementasi → review → tindak lanjut')}.</p>
 <p>Isi nilai yang ditunjukkan, klik kontrol bernomor, lalu cocokkan hasilnya. Screenshot asli dibedakan dari hasil perintah yang dirender dan layar cloud yang belum terekam.</p>
 <p><strong>Cek hasil</strong> bisa diselesaikan secara offline. <strong>Langkah live</strong> menjelaskan prasyarat untuk menjalankan latihan langsung di GitHub.</p>
 <div class="actions">${link('scenarios/S04.html#practice', 'Mulai latihan S04', 'class="button primary"')}${link('setup.html#reset', 'Cara reset yang aman', 'class="button"')}</div>
@@ -344,7 +396,7 @@ for (const [index, id] of ids.entries()) {
   document(`scenarios/${id}.html`, `${id} · ${s.title}`, `
 <p class="breadcrumb">${link('index.html', 'Semua skenario')} / ${id}</p><p class="kicker">${id} · Level ${levelOf(id)} — ${escape(levels[levelOf(id) - 1])}</p>
 <h1>${escape(s.title)}</h1><p class="lead">${escape(s.solution)}</p>
-${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#practice', 'Ikuti langkah')} · ${link('#learning-check', 'Cek hasil')} · ${link('#live-steps', 'Langkah live')} · ${link('#reset', 'Ulangi dari awal')}.`)}
+${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${s.guide.sequence ? `${link('#interaction-flow', 'Lihat diagram interaksi')} · ` : ''}${link('#practice', 'Ikuti langkah')} · ${link('#learning-check', 'Cek hasil')} · ${link('#live-steps', 'Langkah live')} · ${link('#reset', 'Ulangi dari awal')}.`)}
 <div class="badges">${[...s.roles, s.kind, `${s.minutes} · ilustrasi durasi`].map(badge).join('')}</div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
@@ -359,8 +411,14 @@ ${note(`<strong>Status latihan:</strong> ${escape(s.guide.live)}. ${link('#pract
 </div>
 <section class="section"><h2>Solusi dan alur</h2><p>${escape(s.solution)}</p>
 ${s.guide.flow?.length ? workflowPath(s.guide.flow) : ''}
-${graph ? diagram(graph, '../') : `<div class="rail"><ol>${lessonSteps.map(({ title, detail }) => `<li><strong>${escape(title)}.</strong> ${escape(detail)}</li>`).join('')}</ol></div>`}</section>
-<section class="section" id="practice"><h2>Langkah demo</h2>${steps(id, lessonSteps)}</section>
+${s.guide.sequence ? sequenceDiagram(id, s.guide.sequence) : ''}
+${graph ? `<details id="solution-details"><summary>Lihat diagram lengkap</summary>${diagram(graph, '../')}</details>`
+  : s.guide.flow?.length ? '' : `<div class="rail"><ol>${lessonSteps.map(({ title, detail }) => `<li><strong>${escape(title)}.</strong> ${escape(detail)}</li>`).join('')}</ol></div>`}</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist">${s.guide.practiceActions.map((action) => `<li>${escape(action)}</li>`).join('')}</ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p>${link('../setup.html#issue-to-review', 'Ikuti alur GitHub dari tiket sampai review')} jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3>${steps(id, lessonSteps)}</section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>${escape(learningCheck)}</p>
   ${learningEvidence.length ? `<h3>Bukti latihan terverifikasi</h3>${evidenceGallery(learningEvidence)}` : ''}
@@ -459,9 +517,61 @@ ${note('<strong>Ilustrasi:</strong> jika pemakaian di luar kuota mencapai 25 AI 
 ${chart('C6', 'Pemakaian AI credits', billed.length ? { type:'line', label:'AI credits terukur', labels:billed.map(({ id, date }) => `${id} · ${date}`), values:billed.map(({ aiCredits }) => aiCredits) } : undefined, 'Sumber: AI credits yang tercatat di docs/metrics.json per skenario. Angka diambil dari tampilan sesi workshop, bukan tagihan atau jumlah premium requests.')}
 </section>`, { charts: true });
 
+document('sdlc.html', 'Workflow Agentic SDLC dari awal sampai tindak lanjut', `
+<p class="kicker">Alur yang bisa dijalankan · GitHub Actions</p>
+<h1>Satu tiket, dari rencana sampai tindak lanjut</h1>
+<p class="lead">Kamu tulis masalah. Workflow menghubungkan Copilot Architect, Implementer, tes, dan review. Manusia tetap menyetujui desain, kode, dan rilis.</p>
+${note('<strong>Status:</strong> dibuat dan diuji lokal dengan respons GitHub fiktif. Belum diaktifkan atau diuji live. Membuka halaman ini tidak memulai pekerjaan AI.')}
+<div class="actions">${link('#mulai', 'Cara mulai dari satu tiket', 'class="button primary"')}${link('#workflow-sequence', 'Diagram utuh', 'class="button"')}${link('#learning-check', 'Cek hasil', 'class="button"')}${link('#evidence', 'Bukti dan sumber', 'class="button"')}</div>
+<section class="section" id="workflow-sequence"><h2>Siapa mengerjakan apa?</h2>
+${sequenceDiagram('sdlc', {
+ title: 'Tiket, dua approval manusia, rilis GitHub, lalu pemeriksaan hasil',
+ actors: [['human','Tim manusia','GitHub Issues / Review'],['control','Controller','GitHub Actions'],['architect','Copilot Architect','Agent GitHub'],['builder','Copilot Implementer','Agent GitHub'],['checks','CI dan review Copilot','Actions / Pull requests']],
+ phases: [
+  ['1. Desain dulu, bukan langsung coding', [
+   ['human','control','Mulai workflow untuk tiket utama'],['control','architect','Buat tiket desain dan tugaskan'],
+   ['architect','human','Ajukan draft desain dan rencana',true],['human','control','Setujui commit desain yang tepat']]],
+  ['2. Implementasi, tes, dan review', [
+   ['control','builder','Tugaskan dari desain yang disetujui'],['builder','checks','Ajukan kode, tes, dan docs'],
+   ['checks','control','Laporkan tiga job CI lulus',true],['control','checks','Baru minta review Copilot'],
+   ['checks','human','Kembalikan catatan Copilot, bukan approval',true],
+   ['human','control','Review kode dan beri approval']]],
+  ['3. Rilis dan tindak lanjut punya pemilik', [
+   ['control','human','Laporkan siap rilis, tanpa merge otomatis',true],['human','control','Merge dan publikasi GitHub Release'],
+   ['control','human','Buat tiket pemeriksaan setelah rilis',true],['human','control','Catat hasil dan tutup tiket']]],
+ ],
+ caption: 'Controller memverifikasi metadata GitHub. GitHub Release bukan deployment. Ini ilustrasi cara kerja yang dirancang, bukan riwayat run live.',
+})}</section>
+<section class="section"><h2>Delapan tahap dengan keluaran jelas</h2>
+<ol class="checklist">${sdlcStages.map(({name,actor,action})=>`<li><strong>${escape(name)} · ${escape(actor)}.</strong> ${escape(action)}</li>`).join('')}</ol>
+<p><strong>Contoh tiket:</strong> “Klaim Taksi bandara Rp250.000 bertanggal besok masih tersimpan. Besok harus ditolak; hari ini tetap diterima.” Pakai contoh kecil dan data fiktif.</p></section>
+<section class="section" id="mulai"><h2>Cara menjalankan di repo latihan</h2><ol class="steps">
+<li class="step"><h3>1. Siapkan aktivasi dengan maintainer</h3><p>Maintainer meninjau lalu memublikasikan workflow dan controller di default branch repo latihan. Tombol Run workflow baru tersedia setelah itu. Pekerjaan lokal ini belum di-push.</p><p>Di Settings → Secrets and variables → Actions, siapkan secret AGENTIC_SDLC_TOKEN, variabel AGENTIC_SDLC_BASE_BRANCH (misalnya training/hook-input), dan AGENTIC_SDLC_LIVE=true. Nilai token tidak boleh masuk tiket, kode, atau Chat.</p></li>
+<li class="step"><h3>2. Buat tiket utama</h3><p>Di repo latihan, pilih Issues → New issue. Isi masalah, input contoh, hasil saat ini, dan hasil yang diinginkan. Catat nomor tiket; tidak perlu menugaskan tiket utama ke Copilot secara manual.</p><p>${link(`${repo}/issues/new`, 'Buka form issue pada repo workshop')}.</p></li>
+<li class="step"><h3>3. Mulai workflow</h3><p>Buka Actions → Agentic SDLC → Run workflow. Isi nomor issue dan pilih action=start. Controller membuat tiket desain, menugaskan Architect, dan menulis komentar status pada tiket utama.</p><p>${link(`${repo}/actions`, 'Buka daftar Actions repo workshop')} · Workflow baru muncul setelah publikasi.</p></li>
+<li class="step"><h3>4. Review desain</h3><p>Dari komentar status, buka draft desain → Files changed. Baca keputusan dan cara mengujinya. Reviewer manusia selain penulis PR memilih Review changes → Approve → Submit review jika sesuai, atau Request changes jika perlu revisi. Approval pada commit lama tidak dipakai.</p></li>
+<li class="step"><h3>5. Cek implementasi dan tes</h3><p>Setelah desain disetujui, controller membuat tiket Implementer. Baca file yang berubah dan tab Checks. Jika CI menunggu izin, maintainer memeriksa perubahan sebelum memilih Approve and run. Itu bukan approval kode.</p><p>Controller meminta review Copilot hanya setelah Jakarta, Los Angeles, dan browser lulus pada commit yang sama. Jika merah, minta revisi; workflow tidak menghapus tes atau memicu sesi perbaikan berulang.</p></li>
+<li class="step"><h3>6. Beri keputusan manusia</h3><p>Baca catatan Copilot dan coba input contoh. Reviewer manusia memberi approval pada commit implementasi terbaru. Approval bot atau penulis PR sendiri tidak membuka gerbang. Status berikutnya release-ready.</p></li>
+<li class="step"><h3>7. Rilis hanya jika diizinkan</h3><p>Controller tidak menekan Merge atau Publish release. Latihan utama boleh berhenti di release-ready. Jika repo turunan memang diizinkan untuk rilis, manusia merge lalu membuat GitHub Release dengan tag tepat pada commit hasil merge.</p><p>Deployment memerlukan hosting, lingkungan, dan izin terpisah. Rilis GitHub tidak membuktikan aplikasi sudah tersedia di server.</p></li>
+<li class="step"><h3>8. Periksa hasil setelah rilis</h3><p>Workflow membuat tiket pemeriksaan setelah menemukan rilis yang cocok. Manusia mencoba aplikasi yang benar-benar dipasang, mencatat hasil smoke test dan kontrak API, lalu menutup tiket. completed hanya membuktikan tiket ditutup manusia; hasil uji harus dibaca di tiket.</p></li>
+</ol><details><summary>Lihat screenshot instruksi mulai</summary><div class="gallery">${evidenceFigure('SDLC-02-mulai-annotated.png', '')}</div><p><strong>Nomor 3:</strong> setelah aktivasi disetujui, isi nomor issue dan action=start. Gambar ini memotret teks panduan lokal, bukan layar Actions yang sudah dijalankan.</p></details></section>
+<section class="section"><h2>Kalau status berhenti</h2><p>Baca komentar Workflow Agentic SDLC di tiket utama. Di situ ada tahap sekarang dan tautan tiket desain, PR, serta CI.</p>
+<dl class="panel"><dt>plan-review</dt><dd>Menunggu approval manusia untuk commit desain terbaru.</dd><dt>checks</dt><dd>Tiga job CI belum lulus pada commit yang tepat. Baca job merah.</dd><dt>review</dt><dd>Menunggu catatan Copilot atau approval manusia. Keduanya berbeda.</dd><dt>blocked</dt><dd>Periksa pesan API, izin, atau lingkup file. Setelah sebab diselesaikan, maintainer memilih action=resume. Tidak ada retry AI otomatis.</dd><dt>Kejadian terlewat</dt><dd>Pilih action=advance untuk tiket yang sama. Controller mencocokkan status, PR, CI, dan rilis tanpa membuat tugas ganda. action=status hanya membaca.</dd></dl>
+<p>Jika desain berubah setelah implementasi dimulai, jangan meloloskan pekerjaan lama. Hentikan tiket lama dan rencanakan kembali tugas yang sempit.</p></section>
+<section class="section"><h2>Akses, biaya, dan batas</h2><p>AGENTIC_SDLC_TOKEN adalah token pengguna dengan akses repo dan Copilot yang sesuai. Token Actions standar tidak cukup untuk penugasan cloud agent. Dokumentasi API assignment meminta Metadata read serta Actions, Contents, Issues, dan Pull requests read/write pada repo yang dipilih. Review juga bergantung pada paket, kebijakan, dan kuota akun.</p>
+<p>${link('https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-via-the-api','Sumber resmi API penugasan Copilot')} · ${link('https://docs.github.com/en/rest/pulls/copilot-code-review','Sumber resmi API review Copilot')}.</p>
+<p>Tidak ada angka biaya live untuk workflow ini. Batas controller adalah dua penugasan otomatis dan tiga permintaan review per tiket, bukan batas nilai tagihan. Revisi manual dapat memakai kredit tambahan. Tidak ada jadwal berulang.</p>
+<p>Controller membaca kode sendiri dari default branch tepercaya dan tidak menjalankan kode atau artefak PR. Ia mencocokkan commit, identitas reviewer, scope file, dan CI. Implementasi tidak boleh mengubah workflow atau hook.</p></section>
+<section class="section"><h2>Coba alur lokal tanpa meminta AI</h2><p>Jalankan tes dengan respons GitHub fiktif. Kasusnya meliputi seluruh urutan, approval dicabut, commit baru, API gagal, dan pencegahan tugas ganda.</p>${snippet('npm test -- sdlc-workflow.test.js')}
+<p>Ini menguji controller, bukan membuktikan token atau run cloud berhasil. ${link('../docs/sdlc/plan.md', 'Rencana implementasi (berkas lokal)')} dan ${link('../docs/adr/0003-agentic-sdlc-workflow.md', 'keputusan desain (berkas lokal)')}.</p></section>
+<section class="section" id="learning-check" aria-labelledby="sdlc-learning-title"><h2 id="sdlc-learning-title">Cek hasil</h2><p>Tes lokal dijalankan pada ${escape(workflowEvidence.validation.executedAt)}. Nomor pada screenshot hasil tes berarti:</p><ol class="checklist"><li><strong>1. Seluruh tes unit:</strong> ${workflowEvidence.validation.passed}/${workflowEvidence.validation.total} lulus, termasuk tes aplikasi yang sudah ada.</li><li><strong>2. Tes khusus controller:</strong> ${workflowEvidence.validation.controllerPassed} lulus dengan respons API GitHub fiktif.</li><li><strong>3. Tes gagal:</strong> ${workflowEvidence.validation.failed}. Ini bukan jumlah run GitHub.</li></ol><h3>Contoh kasus yang lulus</h3><ul>${workflowEvidence.validation.cases.map(({label})=>`<li>${escape(label)}.</li>`).join('')}</ul>${note('Lulus tes lokal belum membuktikan akses akun, model Copilot, kuota, atau workflow live berhasil. Tidak ada penugasan AI, merge, rilis, atau deployment selama tes ini.')}</section>
+<section class="section" id="evidence" aria-labelledby="sdlc-evidence-title"><h2 id="sdlc-evidence-title">Bukti dan sumber</h2><p>Tiga adegan lokal memakai format dokumentasi yang sama: thumbnail kecil, klik untuk memperbesar, caption sumber, serta kotak bernomor jika ada tindakan atau hasil yang perlu ditunjuk. File asli tetap disimpan.</p><div class="gallery">${workflowEvidence.gallery.map(name=>evidenceFigure(name, '')).join('')}</div><p>Gambar tanpa kotak: ${link('assets/screenshots/SDLC-02-mulai.png','instruksi mulai')} dan ${link('assets/screenshots/SDLC-03-tes-lokal.png','hasil tes lokal')}. ${link('assets/data/scenarios.json','Data sumber, waktu uji, dan kondisi bukti')} memuat catatan sdlcEvidence.</p><div id="live-evidence"><h3>Belum diuji di GitHub</h3><p>Berikut bukti yang masih perlu diambil setelah publikasi dan aktivasi disetujui. Tidak diganti dengan screenshot PR latihan lain.</p><ul>${workflowEvidence.pendingLive.map(({name,where,instruction})=>`<li><strong>${escape(where)}.</strong> ${escape(instruction)} <code translate="no">${escape(name)}</code></li>`).join('')}</ul></div></section>
+`);
+
 document('setup.html', 'Cara demo', `
 <p class="kicker">Runbook</p><h1>Cara demo: lokal dulu, GitHub bila tersedia</h1>
 <p class="lead">Buka materi offline tanpa menyiapkan akun. Untuk mempraktikkan aplikasi, pasang dependensi. Untuk cloud agent dan Pages, cek izin repo terlebih dahulu.</p>
+<p><a href="#issue-to-review">Langsung ke langkah membuat issue, memilih Copilot, dan memberi review.</a></p>
 <section class="section"><h2>1. Pilih lingkungan</h2>${diagram('D13')}
 <div class="card-grid"><article class="card"><h3>Lokal</h3><p>Node.js <code>${escape(nodeRange)}</code> sesuai package.json, Git, npm, dan Chromium untuk screenshot. Tidak perlu secret.</p></article>
 <article class="card"><h3>Personal GitHub</h3><p>Tambahkan GitHub CLI dan GitHub Actions. Periksa akun, izin tulis, dan ketersediaan Copilot. S06 pakai Issue.</p></article>
@@ -472,6 +582,21 @@ document('setup.html', 'Cara demo', `
   ['Bandingkan perilaku', 'Buka 127.0.0.1:3000 dan :3001. Kirim Taksi bandara Rp250.000 bertanggal besok; versi after menolak. Ctrl+C untuk menghentikan keduanya.', 'npm run demo:compare -- demo/claim-date'],
   ['Ambil bukti dan ulangi', 'Script screenshot memakai port sementara pada localhost; perubahan hanya mengenai data demo dalam memori.', 'npm run shots -- S04\nnpm run reset'],
 ]))}<p>Jika checkout berasal dari ZIP/template tanpa tag, <code translate="no">npm run dev</code> tetap menjalankan app. Untuk perbandingan dua ref, gunakan clone repo lengkap.</p></section>
+<section class="section" id="issue-to-review" aria-labelledby="issue-to-review-title">
+<h2 id="issue-to-review-title">Praktik GitHub: dari tiket sampai review manusia</h2>
+<p>Gunakan repo latihan yang mengizinkan Copilot dan akun yang punya akses. Untuk latihan pertama, pakai kasus tanggal klaim S04. Membuka contoh tidak membuat tiket, menjalankan tes, atau menyetujui perubahan.</p>
+<ol class="checklist">
+<li><strong>Buat tiket kerja (issue).</strong> Buka repo latihan di GitHub → <strong>Issues → New issue</strong>. Isi judul <em>Tolak tanggal klaim besok</em>. Di deskripsi, tulis: “Pada form klaim, Taksi bandara Rp250.000 bertanggal besok masih tersimpan. Besok harus ditolak; tanggal hari ini tetap diterima.” Klik <strong>Create issue</strong> atau <strong>Submit new issue</strong>. ${link(`${repo}/issues/3`, 'Baca contoh tiket tanggal klaim')}.</li>
+<li><strong>Pilih agent dan tugaskan.</strong> Di sisi kanan tiket, klik <strong>Assignees → Copilot</strong>, lalu <strong>Assign</strong>. Jika form menampilkan pilihan profil agent, pilih yang diminta latihan; S04 cukup dengan Copilot. Skenario dengan spesialis menjelaskan kapan memakai tab <strong>Agents</strong>. Kalau Copilot tidak muncul, periksa akses repo dengan maintainer, jangan menganggap tugas sudah dikirim.</li>
+<li><strong>Baca usulan kode.</strong> Tunggu tautan pull request (PR) muncul di tiket, atau cek sesi di <strong>Agents</strong>. Di PR, tab <strong>Conversation</strong> menampilkan ringkasan. Label <strong>Draft</strong> berarti usulan belum digabung; cek apakah benar ada file perubahan. ${link(`${repo}/pull/20`, 'Lihat contoh usulan perbaikan S04')}.</li>
+<li><strong>Periksa perubahan sendiri.</strong> Klik <strong>Files changed</strong> atau <strong>Changes</strong>. Daftar sebelum dan sesudah ini disebut <em>diff</em>: tanda + berarti baris ditambah; tanda − berarti dihapus. Baca file validasi dan tes. Cocokkan keduanya dengan tiket: besok ditolak dan hari ini diterima. ${link(`${repo}/pull/20/files`, 'Lihat file dan tes yang berubah pada contoh S04')}.</li>
+<li><strong>Cek tes lalu coba sendiri.</strong> Di <strong>Checks</strong>, pastikan pemeriksaan otomatis untuk perubahan terbaru lulus. Bila GitHub meminta <strong>Approve and run</strong>, itu izin maintainer untuk menjalankan tes, bukan approval kode. Ulangi dua tanggal dengan data fiktif di folder latihan yang memuat perubahan. ${link(`${repo}/actions/runs/45655420680/attempts/2`, 'Lihat hasil pemeriksaan yang lulus')}.</li>
+<li><strong>Beri keputusan sebagai reviewer manusia.</strong> Dari <strong>Files changed</strong>, klik <strong>Review changes</strong> atau <strong>Review</strong>. Pilih <strong>Comment</strong> untuk masukan biasa, <strong>Request changes</strong> jika ada yang perlu dibetulkan, atau <strong>Approve</strong> jika hasilnya sesuai dan kamu reviewer lain yang berwenang. Tulis alasannya, lalu <strong>Submit review</strong>. Setelah revisi, baca perubahan dan tes lagi. Approval tidak sama dengan merge; berhenti sebelum merge.</li>
+</ol>
+<p><strong>Coba hasilnya di komputer sendiri:</strong> gunakan clone repo latihan di folder terpisah. Setelah membaca perubahan, jalankan <code translate="no">gh pr checkout NOMOR_PR</code> di Terminal jika memakai GitHub CLI. Ganti NOMOR_PR dengan nomor usulanmu, pasang dependensi jika belum ada, lalu jalankan <code translate="no">npm run dev</code>. Jangan jalankan kode atau data produksi.</p>
+<p><strong>Contoh catatan review:</strong> “Saya coba dua tanggal: besok ditolak, hari ini tersimpan. Tes untuk keduanya ada.” Kalau besok masih tersimpan, pilih Request changes dan tulis cara mengulangnya.</p>
+<p>${link('scenarios/S04.html#practice', 'Coba langkah khusus S04')} · ${link('https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/overview', 'Panduan resmi menugaskan issue ke Copilot')} · ${link('https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request', 'Panduan resmi review PR')}.</p>
+</section>
 <section class="section" id="reset"><h2>Reset: data aplikasi atau kode latihan?</h2><dl><dt>Data demo</dt><dd>Di terminal yang menjalankan demo, tekan Ctrl+C. Jalankan <code>npm run reset</code> untuk melihat instruksi, lalu <code>npm run demo:before</code>. Perintah reset biasa tidak me-restart server otomatis. Saat diuji, daftar Employee 01 berubah 7 → 8 → 7 klaim setelah restart.</dd><dt>Kode latihan</dt><dd>Jalankan <code>npm run reset -- --fresh</code> dari root repo. Buka path checkout terpisah yang dicetak di terminal. Checkout baru berada pada tag <code>v0-baseline</code>; pekerjaan yang sudah ada, branch, dan remote tetap utuh.</dd><dt>GitHub</dt><dd>Reset lokal tidak menutup issue, menghapus branch remote, atau mengurungkan merge. Gunakan repo turunan untuk latihan yang melibatkan merge.</dd></dl></section>
 <section class="section"><h2>3. Siapkan demo GitHub</h2>
 <ol class="checklist"><li>Pastikan Actions aktif dan dapat menjalankan CI. Lihat check sebelum admin mengaktifkan protection dan CodeQL.</li>
@@ -503,4 +628,4 @@ document('glossary.html', 'Glosarium dan FAQ', `
 <section class="section"><h2>Istilah</h2><dl class="panel">${glossary.map(([term, meaning]) => `<dt>${escape(term)}</dt><dd>${escape(meaning)}</dd>`).join('')}</dl></section>
 <section class="section"><h2>FAQ</h2><div class="panel">${faq.map(([question, answer]) => `<details><summary>${escape(question)}</summary><p>${escape(answer)}</p></details>`).join('')}</div></section>`);
 
-console.log(`22 halaman offline: ${ids.length} skenario dan 7 halaman pengantar/rujukan. ${pngInfo.size} gambar disalin.`);
+console.log(`${pageCount} halaman offline: ${ids.length} skenario dan ${pageCount - ids.length} halaman pengantar/rujukan. ${pngInfo.size} gambar disalin.`);

@@ -14,39 +14,105 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S04</p><p class="kicker">S04 · Level 2 — Delegasi asinkron</p>
-<h1>Delegasikan issue, tinjau draft PR</h1><p class="lead">Tulis acceptance criteria, pilih Copilot di Assignees, lalu tinjau draft PR dan minta tes batas hari ini.</p>
-<p class="note"><strong>Status latihan:</strong> Retry Copilot #20 berfungsi dan CI setelah izin lulus · #4 tetap kosong. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Delegasikan issue, tinjau draft PR</h1><p class="lead">Tulis issue dengan dua contoh hasil: tanggal besok ditolak dan tanggal hari ini diterima. Tugaskan ke Copilot, lalu cek draft PR dan tesnya sebelum memutuskan perlu revisi.</p>
+<p class="note"><strong>Status latihan:</strong> Percobaan Copilot pertama tidak mengubah file. Percobaan ulang pada draft PR #20 memperbaiki tanggal dan lulus CI.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Hendra</span><span class="badge">Bima</span><span class="badge">App lokal + GitHub</span><span class="badge">12 menit + waktu tunggu · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Backlog validasi tak tersentuh. Tanggal besok pada klaim taksi Rp250.000 bisa tersimpan.</p><p class="note"><strong>Kerugian:</strong> Data yang salah masuk ke antrean Manager; hutang teknis menumpuk.</p>
+  <h2>Masalah yang dihadapi</h2><p>Karyawan mengisi Taksi bandara Rp250.000, tetapi keliru memilih tanggal besok. Aplikasi latihan masih menyimpan klaim itu. Bima ingin menolak tanggal besok tanpa ikut menolak pengajuan untuk hari ini.</p><p class="note"><strong>Kerugian:</strong> Klaim dengan tanggal yang keliru masuk ke antrean Manager. Tanpa tes untuk hari ini, perbaikan bisa ikut menolak pengajuan yang valid.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/services/validation.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">validateClaim menyaring format dan umur tanggal, belum menolak tanggal setelah hari ini.</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Tulis acceptance criteria, pilih Copilot di Assignees, lalu tinjau draft PR dan minta tes batas hari ini.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Tulis issue dengan dua contoh hasil: tanggal besok ditolak dan tanggal hari ini diterima. Tugaskan ke Copilot, lalu cek draft PR dan tesnya sebelum memutuskan perlu revisi.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>Tech Lead</strong> · Tulis batas di issue #3</summary>
-    <p><strong>Hasil:</strong> Tanggal hari ini diterima, besok ditolak sebelum klaim disimpan.</p>
-  </details></li><li><details>
-    <summary><strong>Copilot</strong> · Ajukan perubahan di draft #20</summary>
-    <p><strong>Hasil:</strong> Percobaan lama #4 kosong; retry pada branch latihan menghasilkan diff dan tes batas.</p>
-  </details></li><li><details>
-    <summary><strong>Fasilitator dan CI</strong> · Cek hasil di commit yang sama</summary>
-    <p><strong>Hasil:</strong> Lokal: 400 tanpa simpan dan 201 untuk hari ini. Maintainer memberi izin CI, lalu Jakarta, Los Angeles, dan e2e lulus pada 22bef91; draft tidak di-merge.</p>
+    <summary><strong>Bima</strong><span>Tulis dua syarat di tiket</span></summary>
+    <p><strong>Hasil:</strong> Pakai klaim Taksi bandara Rp250.000. Besok harus ditolak dan hari ini tetap diterima.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Copilot</strong><span>Ajukan kode dan tes</span></summary>
+    <p><strong>Hasil:</strong> Percobaan awal #4 tidak mengubah file. Percobaan ulang pada draft PR #20 punya perbaikan dan tes kedua tanggal.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>GitHub Actions</strong><span>Jalankan pemeriksaan</span></summary>
+    <p><strong>Hasil:</strong> Setelah maintainer memberi izin menjalankan CI, tes Jakarta, Los Angeles, dan browser lulus pada commit 22bef91.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Reviewer manusia</strong><span>Cek dan beri review</span></summary>
+    <p><strong>Hasil:</strong> Coba dua tanggal: besok ditolak (400), hari ini tersimpan (201). Minta revisi bila belum sesuai. Latihan berhenti di draft, bukan merge.</p>
   </details></li>
-</ol>
-<figure class="diagram" data-diagram="D6">
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Dari tiket tanggal klaim sampai keputusan review manusia.</p>
+    <div class="sequence" style="--lanes:5">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Bima</strong><span class="sequence-place">GitHub Issues / PR</span></li><li><strong>Tiket kerja</strong><span class="sequence-place">GitHub Issues</span></li><li><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></li><li><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></li><li><strong>CI</strong><span class="sequence-place">GitHub Actions</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Tulis syarat dan tugaskan</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Issues / PR</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Tiket kerja</strong><span class="sequence-place">GitHub Issues</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tulis: besok ditolak, hari ini diterima</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Tiket kerja</strong><span class="sequence-place">GitHub Issues</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Serahkan tiket lewat Assign</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Ajukan perubahan dan dua tes</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Periksa tes serta isi perubahan</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>CI</strong><span class="sequence-place">GitHub Actions</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Jalankan pemeriksaan setelah izin</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>CI</strong><span class="sequence-place">GitHub Actions</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Laporkan hasil tes otomatis</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Bima</strong><span class="sequence-place">GitHub Issues / PR</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tampilkan file yang berubah dan hasil tes</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Issues / PR</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Coba dua tanggal dan beri review</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Jika perlu revisi</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:4;--span:3">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Issues / PR</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta tes tambahan atau koreksi</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">GitHub Agents</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft PR</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kirim revisi untuk direview lagi</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Draft PR #20 telah lulus tes. Mengizinkan CI bukan menyetujui kode. Latihan berhenti sebelum merge.</figcaption>
+  </figure>
+<details id="solution-details"><summary>Lihat diagram lengkap</summary><figure class="diagram" data-diagram="D6">
   <img class="diagram-image" src="../assets/diagrams/D6.svg" alt="Bima menulis issue dan assign ke Copilot. Copilot mengajukan draft PR pada branch terpisah. CI melaporkan hasil tes ke PR. Bima meninjau diff dan meminta tes batas hari ini. Copilot mengirim revisi untuk ditinjau." width="863" height="620" loading="lazy">
   <ol class="diagram-narrow"><li>Bima menulis issue dan assign ke Copilot.</li><li>Copilot mengajukan draft PR pada branch terpisah.</li><li>CI melaporkan hasil tes ke PR.</li><li>Bima meninjau diff dan meminta tes batas hari ini.</li><li>Copilot mengirim revisi untuk ditinjau.</li></ol>
   <figcaption><strong>D6.</strong> S04: CI dan PR mengembalikan bukti ke Bima. Bila belum cukup, Bima meminta revisi; tidak ada merge di skenario ini.</figcaption>
@@ -65,40 +131,47 @@
   B-&gt;&gt;A: Minta tes tanggal hari ini
   A-&gt;&gt;P: Kirim revisi
   Note over B,P: Workshop: jangan merge S04</code></pre></details>
-</figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Isi form, lalu klik Submit</h3></div>
-    <p>Buka :3000. Pada gambar: (1) Judul klaim = Taksi bandara; (2) Jumlah = 250000; (3) ikon kalender di kanan Tanggal klaim → besok; (4) klik Submit. Di baseline lakukan sekali: status tersimpan dan daftar bertambah.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-1">npm run demo:compare -- demo/claim-date</code></pre>
+</figure></details></section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di repo latihan di GitHub, pilih Issues → New issue. Judul: Tolak tanggal klaim besok. Isi dua syarat: besok harus ditolak, hari ini tetap bisa disimpan. Buat issue dengan data fiktif.</li><li>Di tiket, klik Assignees → Copilot → Assign. Tunggu usulan kode (draft pull request) muncul, lalu buka Conversation untuk membaca ringkasannya.</li><li>Buka Files changed untuk meninjau kode dan tes, Checks untuk melihat pemeriksaan otomatis, lalu coba dua tanggal sendiri. Setelah itu reviewer manusia memilih Review changes → Request changes atau Approve bila berwenang. Jangan merge.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Isi form, lalu klik Submit</h3></div>
+    <p>Buka http://127.0.0.1:3000. Isi Taksi bandara dan Rp250.000, pilih tanggal besok, lalu klik Submit sekali. Klaim masih tersimpan. Itulah bug yang perlu ditulis di tiket.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S04-1">npm run demo:compare -- demo/claim-date</code></pre>
     <button type="button" data-copy="cmd-S04-1" aria-label="Salin: Isi form, lalu klik Submit" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-local-form-annotated.png"><img src="../assets/screenshots/S04-local-form-annotated.png" alt="Nomor 1–4 menandai judul, jumlah, tanggal, dan Submit pada form asli." width="1440" height="1089" loading="lazy"><span>Perbesar S04-local-form-annotated.png</span></a><figcaption>v0-baseline · dianotasi · Nomor 1–4 menandai judul, jumlah, tanggal, dan Submit pada form asli.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ulangi persis di versi perbaikan</h3></div>
-    <p>Buka :3001 dan isi nilai yang sama. Pada pesan (5), cari Tanggal klaim tidak boleh di masa depan; HTTP 400. Ganti tanggal jadi hari ini tanpa mengubah jumlah, lalu Submit lagi: HTTP 201.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-2">npm run shots -- S04</code></pre>
+    <p>Buka http://127.0.0.1:3001 dan isi data yang sama. Cari pesan Tanggal klaim tidak boleh di masa depan. Setelah itu ganti hanya tanggal menjadi hari ini: klaim harus berhasil tersimpan.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S04-2">npm run shots -- S04</code></pre>
     <button type="button" data-copy="cmd-S04-2" aria-label="Salin: Ulangi persis di versi perbaikan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-after-annotated.png"><img src="../assets/screenshots/S04-after-annotated.png" alt="Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan." width="1440" height="1089" loading="lazy"><span>Perbesar S04-after-annotated.png</span></a><figcaption>demo/claim-date · dianotasi · Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Lihat file perbaikan</h3></div>
-    <p>Di src/services/validation.js, bandingkan pemeriksaan claimDate dengan dateKey(now). Jika tanggal lebih besar, API mengirim CLAIM_DATE_FUTURE sebelum menulis SQLite. Periksa test tanggal hari ini.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-3">git diff v0-baseline demo/claim-date -- src/services/validation.js tests/unit/validation.test.js</code></pre>
-    <button type="button" data-copy="cmd-S04-3" aria-label="Salin: Lihat file perbaikan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-local-result.png"><img src="../assets/screenshots/S04-local-result.png" alt="Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini." width="1440" height="900" loading="lazy"><span>Perbesar S04-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Telusuri issue, draft, dan checks</h3></div>
-    <p>Di GitHub buka Issues → #3. Lihat Copilot di Assignees, lalu buka draft #4 dari timeline. Pilih Conversation, Files changed, dan Checks menurut nomor. Pada percobaan ini agent selesai tanpa perubahan; jangan klik izin CI sebelum ada diff yang ditinjau.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-4">https://github.com/sandy-demo/AgenticSDLC/pull/4</code></pre>
-    <button type="button" data-copy="cmd-S04-4" aria-label="Salin: Telusuri issue, draft, dan checks" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-after-annotated.png"><img src="../assets/screenshots/S04-after-annotated.png" alt="Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan." width="1440" height="1089" loading="lazy"><span>Perbesar S04-after-annotated.png</span></a><figcaption>demo/claim-date · dianotasi · Nomor 5 menandai pesan: Tanggal klaim tidak boleh di masa depan.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Periksa aturan dan tes untuk dua tanggal</h3></div>
+    <p>Perintah git diff menunjukkan baris yang berubah antara versi awal dan versi latihan. Cari penolakan tanggal besok dan tes yang memastikan tanggal hari ini masih diterima.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S04-3">git diff v0-baseline demo/claim-date -- src/services/validation.js tests/unit/validation.test.js</code></pre>
+    <button type="button" data-copy="cmd-S04-3" aria-label="Salin: Periksa aturan dan tes untuk dua tanggal" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-local-result.png"><img src="../assets/screenshots/S04-local-result.png" alt="Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini." width="1440" height="900" loading="lazy"><span>Perbesar S04-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S04: v0-baseline: HTTP 201; demo/claim-date: HTTP 400; Tes batas: hari ini.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Bandingkan tiket dan hasil percobaan pertama</h3></div>
+    <p>Tiket #3 memuat syarat besok ditolak dan hari ini diterima. Percobaan pertama membuat draft PR #4 tetapi tidak mengubah file. PR yang terbuka belum berarti ada perbaikan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/4">Lihat draft pertama yang belum mengubah kode</a> · <a href="https://github.com/sandy-demo/AgenticSDLC/issues/3">Baca tiket perbaikan tanggal klaim #3</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-pr-tabs-annotated.png"><img src="../assets/screenshots/S04-pr-tabs-annotated.png" alt="Nomor 1–3 menandai Conversation, Files changed dan Checks pada draft #4." width="1440" height="900" loading="lazy"><span>Perbesar S04-pr-tabs-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/4">Sumber GitHub</a> · 1. Conversation: cari link ke Issue #3 dan View session pada aktivitas Copilot. · 2. Files changed (0): draft ini belum memiliki perubahan kode. · 3. Checks: buka untuk membedakan pemindaian CodeQL dari CI biasa yang menunggu izin.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Tinjau kenapa edit berhenti</h3></div>
-    <p>Di Conversation pilih View session. Penolakan invalid-input berasal dari format argumen edit. Lihat draft #12 untuk koreksi parser; CI draft itu lulus, tetapi perubahan belum masuk ke branch dasar. Ini bukan PR perbaikan tanggal.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-5">https://github.com/sandy-demo/AgenticSDLC/pull/12/files</code></pre>
-    <button type="button" data-copy="cmd-S04-5" aria-label="Salin: Tinjau kenapa edit berhenti" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Pada draft awal, Conversation → View session menunjukkan edit ditolak karena format input. Draft PR #12 membahas format pemeriksaan alat, bukan perbaikan tanggal.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/12/files">Lihat koreksi format pemeriksaan di draft PR #12</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-parser-draft-diff-annotated.png"><img src="../assets/screenshots/S04-parser-draft-diff-annotated.png" alt="Tiga kotak menunjukkan Files changed, policy.mjs dan pemeriksaan rawPatch pada draft perbaikan parser." width="1440" height="900" loading="lazy"><span>Perbesar S04-parser-draft-diff-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/12/files">Sumber GitHub</a> · 1. Di draft #12 pilih Files changed. · 2. Pastikan satu-satunya file adalah scripts/hooks/policy.mjs. · 3. Lihat rawPatch: format yang valid dikenali, tetapi isinya tetap melewati aturan dan audit yang sama.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Buka pembanding yang benar-benar lulus</h3></div>
-    <p>Bandingkan dengan draft referensi #17 dari branch demo/claim-date. Pada gambar, lihat judul Draft, Files changed, lalu Checks. Jangan menyebut draft ini sebagai keberhasilan sesi Copilot #4.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-6">https://github.com/sandy-demo/AgenticSDLC/pull/17</code></pre>
-    <button type="button" data-copy="cmd-S04-6" aria-label="Salin: Buka pembanding yang benar-benar lulus" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-reference-pr-annotated.png"><img src="../assets/screenshots/S04-reference-pr-annotated.png" alt="Draft #17 pada ref contoh, dengan tiga file dan Checks." width="1440" height="900" loading="lazy"><span>Perbesar S04-reference-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/17">Sumber GitHub</a> · 1. Buka draft contoh #17 dari demo/claim-date. Ini bukan draft Copilot #4. · 2. Files changed memperlihatkan 3 file: validasi, tes, dan docs. · 3. Buka Checks untuk hasil CI pada ref contoh.</figcaption></figure></div></li><li class="step" value="7"><div class="step-top"><span class="step-number" aria-hidden="true">07</span><h3>Cari nilai yang berubah di diff</h3></div>
-    <p>Periksa validasi tanggal: tanggal setelah hari ini ditolak dengan kode CLAIM_DATE_FUTURE. Tanggal hari ini tetap lolos. Cek nama file tes dan docs, bukan hanya screenshot pesan error.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-7">https://github.com/sandy-demo/AgenticSDLC/pull/17/files</code></pre>
-    <button type="button" data-copy="cmd-S04-7" aria-label="Salin: Cari nilai yang berubah di diff" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Draft PR #17 adalah contoh perbaikan tersendiri yang bisa diuji. Jangan menganggapnya hasil percobaan Copilot di draft #4.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/17">Baca contoh perbaikan tanggal di draft PR #17</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-reference-pr-annotated.png"><img src="../assets/screenshots/S04-reference-pr-annotated.png" alt="Draft #17 pada ref contoh, dengan tiga file dan Checks." width="1440" height="900" loading="lazy"><span>Perbesar S04-reference-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/17">Sumber GitHub</a> · 1. Buka draft contoh #17 dari demo/claim-date. Ini bukan draft Copilot #4. · 2. Files changed memperlihatkan 3 file: validasi, tes, dan docs. · 3. Buka Checks untuk hasil CI pada ref contoh.</figcaption></figure></div></li><li class="step" value="7"><div class="step-top"><span class="step-number" aria-hidden="true">07</span><h3>Cari tes besok ditolak dan hari ini diterima</h3></div>
+    <p>Di Files changed pada PR #17, cek validasi yang baru dan kedua tes. Jangan menilai dari foto pesan error saja.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/17/files">Lihat kode dan tes tanggal di draft PR #17</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-reference-diff-annotated.png"><img src="../assets/screenshots/S04-reference-diff-annotated.png" alt="Diff pada validation.js memperlihatkan tanggal setelah hari ini ditolak." width="1440" height="900" loading="lazy"><span>Perbesar S04-reference-diff-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/17/files">Sumber GitHub</a> · 1. Di Files changed buka src/services/validation.js. · 2. Cari kondisi claimDate &gt; dateKey(now): tanggal besok ditolak dengan CLAIM_DATE_FUTURE; tanggal hari ini tidak memenuhi kondisi.</figcaption></figure></div></li><li class="step" value="8"><div class="step-top"><span class="step-number" aria-hidden="true">08</span><h3>Baca hasil CI di dua zona waktu</h3></div>
-    <p>Buka Actions run pada draft #17. Pastikan Jakarta, Los Angeles, dan e2e berhasil. Bukti aplikasi lokal tetap memakai ref yang sama, demo/claim-date.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-8">https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502</code></pre>
-    <button type="button" data-copy="cmd-S04-8" aria-label="Salin: Baca hasil CI di dua zona waktu" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-reference-ci-annotated.png"><img src="../assets/screenshots/S04-reference-ci-annotated.png" alt="Run draft contoh #17 sukses: e2e dan matriks test." width="1440" height="900" loading="lazy"><span>Perbesar S04-reference-ci-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502">Sumber GitHub</a> · 1. Status Success adalah milik draft contoh #17, bukan PR Copilot #4. · 2. Lihat job e2e. · 3. Buka dua job test, Asia/Jakarta dan America/Los_Angeles; keduanya lulus.</figcaption></figure></div></li><li class="step" value="9"><div class="step-top"><span class="step-number" aria-hidden="true">09</span><h3>Tinjau retry yang memperbaiki acceptance criteria</h3></div>
-    <p>Draft #20 dibuat oleh Copilot pada branch latihan yang membawa perbaikan parser. Baca diff dan tes batas; #4 tetap tanpa perubahan dan tidak ditutup atau di-merge.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-9">https://github.com/sandy-demo/AgenticSDLC/pull/20/files</code></pre>
-    <button type="button" data-copy="cmd-S04-9" aria-label="Salin: Tinjau retry yang memperbaiki acceptance criteria" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-retry-diff-annotated.png"><img src="../assets/screenshots/S04-retry-diff-annotated.png" alt="Pemeriksaan tanggal sebelum simpan pada draft Copilot #20." width="1440" height="900" loading="lazy"><span>Perbesar S04-retry-diff-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20/files">Sumber GitHub</a> · 1. Bandingkan claimDate dengan dateKey(now); tolak besok dan jangan kirim data ke penyimpanan.</figcaption></figure></div></li><li class="step" value="10"><div class="step-top"><span class="step-number" aria-hidden="true">10</span><h3>Izin menjalankan checks tidak sama dengan approval PR</h3></div>
-    <p>Buka run CI #60 untuk draft #20 dan cocokan commit 22bef91. Setelah maintainer memeriksa diff, gunakan Approve and run. Baru periksa hasil Jakarta, Los Angeles, dan e2e. Gambar menunjukkan keadaan sebelum tombol ditekan.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-10">https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680</code></pre>
-    <button type="button" data-copy="cmd-S04-10" aria-label="Salin: Izin menjalankan checks tidak sama dengan approval PR" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Buka Actions run pada draft #17. Pastikan Jakarta, Los Angeles, dan e2e berhasil. Bukti aplikasi lokal tetap memakai ref yang sama, demo/claim-date.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502">Lihat hasil CI dari contoh draft PR #17</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-reference-ci-annotated.png"><img src="../assets/screenshots/S04-reference-ci-annotated.png" alt="Run draft contoh #17 sukses: e2e dan matriks test." width="1440" height="900" loading="lazy"><span>Perbesar S04-reference-ci-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45648576502">Sumber GitHub</a> · 1. Status Success adalah milik draft contoh #17, bukan PR Copilot #4. · 2. Lihat job e2e. · 3. Buka dua job test, Asia/Jakarta dan America/Los_Angeles; keduanya lulus.</figcaption></figure></div></li><li class="step" value="9"><div class="step-top"><span class="step-number" aria-hidden="true">09</span><h3>Tinjau percobaan ulang yang memperbaiki tanggal</h3></div>
+    <p>Draft PR #20 berisi percobaan Copilot yang membuat perbaikan. Di Files changed, cari kode penolakan tanggal besok dan tes untuk tanggal hari ini. Draft pertama #4 tetap tanpa perubahan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20/files">Lihat perbaikan Copilot di draft PR #20</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-retry-diff-annotated.png"><img src="../assets/screenshots/S04-retry-diff-annotated.png" alt="Pemeriksaan tanggal sebelum simpan pada draft Copilot #20." width="1440" height="900" loading="lazy"><span>Perbesar S04-retry-diff-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20/files">Sumber GitHub</a> · 1. Bandingkan claimDate dengan dateKey(now); tolak besok dan jangan kirim data ke penyimpanan.</figcaption></figure></div></li><li class="step" value="10"><div class="step-top"><span class="step-number" aria-hidden="true">10</span><h3>Bedakan izin menjalankan tes dari persetujuan kode</h3></div>
+    <p>Approve and run hanya mengizinkan GitHub menjalankan tes. Itu bukan persetujuan isi PR dan tidak menggabungkan kode. Gambar menunjukkan keadaan sebelum pemeriksaan diizinkan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680">Lihat riwayat izin menjalankan CI untuk draft #20</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-ci-approval-required-annotated.png"><img src="../assets/screenshots/S04-ci-approval-required-annotated.png" alt="CI draft #20 menunggu persetujuan maintainer, tombol Approve and run, status Action required." width="902" height="1272" loading="lazy"><span>Perbesar S04-ci-approval-required-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680">Sumber GitHub</a> · 1. Baca awaiting approval: belum ada job CI. · 2. Maintainer meninjau diff lalu memilih Approve and run pada run ini. · 3. Action required bukan tes gagal. Izin ini hanya menjalankan CI, bukan review atau merge PR.</figcaption></figure></div></li><li class="step" value="11"><div class="step-top"><span class="step-number" aria-hidden="true">11</span><h3>Periksa tiga checks setelah izin diberikan</h3></div>
-    <p>Maintainer telah menekan Approve and run untuk commit 22bef91. Percobaan 2 lulus: Jakarta 25 detik, Los Angeles 19 detik, e2e 56 detik menurut waktu masing-masing job. Dua peringatan deprekasi Actions tidak menggagalkan run.</p><div class="cmd"><pre><code translate="no" id="cmd-S04-11">https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2</code></pre>
-    <button type="button" data-copy="cmd-S04-11" aria-label="Salin: Periksa tiga checks setelah izin diberikan" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Buka hasil Jakarta, Los Angeles, dan tes browser pada percobaan kedua setelah izin. Ketiganya lulus pada commit 22bef91. PR tetap draft; hasil tes bukan keputusan untuk merge.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2">Lihat ketiga pemeriksaan yang lulus pada draft #20</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S04-06-pr-checks-annotated.png"><img src="../assets/screenshots/S04-06-pr-checks-annotated.png" alt="CI setelah maintainer menekan Approve and run menunjukkan Success, tes dua zona waktu, dan e2e." width="1440" height="1335" loading="lazy"><span>Perbesar S04-06-pr-checks-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45655420680/attempts/2">Sumber GitHub</a> · 1. Status CI berubah dari Action required menjadi Success setelah maintainer mengizinkan run. · 2. Baca tanda lulus pada Jakarta dan Los Angeles. · 3. e2e juga lulus. Draft tetap draft; ini bukan persetujuan review atau merge.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Pada draft #20, klaim Taksi bandara Rp250.000 bertanggal besok ditolak 400/CLAIM_DATE_FUTURE; jumlah klaim tetap 7. Hari ini diterima (201). Commit 22bef91 punya bukti tes lokal serta CI GitHub Jakarta, Los Angeles dan e2e yang lulus setelah izin maintainer. Tidak ada merge.</p>
@@ -106,7 +179,7 @@
 </section>
 <section class="section" id="live-steps" aria-labelledby="live-steps-title">
   <h2 id="live-steps-title">Langkah live</h2>
-  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Ulangi dengan meninjau diff dulu. Jika daftar jobs masih Action required, maintainer memilih Approve and run, lalu tunggu tiga job. API izin untuk run ini pernah menolak HTTP 403. Foto di atas menunjukkan run 45655420680 percobaan 2 setelah izin; ini bukan approval PR atau merge.</p>
+  <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Ulangi dengan meninjau daftar perubahan dulu. Jika daftar jobs masih Action required, maintainer memilih Approve and run, lalu tunggu tiga job. API izin untuk run ini pernah menolak HTTP 403. Foto di atas menunjukkan run 45655420680 percobaan 2 setelah izin; ini bukan approval PR atau merge.</p>
     <p>Tidak ada target bukti live yang belum direkam.</p>
   </details>
 

@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "status": "local-tested-live-pending",
+  "validation": {
+    "executedAt": "2026-11-26T05:05:27.690Z",
+    "command": "npm test -- --reporter=json --no-cache --no-fsModuleCache --configLoader runner",
+    "total": 45,
+    "passed": 45,
+    "failed": 0,
+    "controllerPassed": 24,
+    "cases": [
+      {
+        "label": "Alur dari rencana sampai tindak lanjut",
+        "test": "connects plan, approvals, CI, AI review, human release and follow-up without merging",
+        "status": "passed"
+      },
+      {
+        "label": "Approval dicabut menutup gerbang",
+        "test": "invalidates a ready handoff when human approval is dismissed",
+        "status": "passed"
+      },
+      {
+        "label": "Gagal API perlu resume manusia",
+        "test": "requires explicit resume after assignment failure and does not duplicate phase issues",
+        "status": "passed"
+      },
+      {
+        "label": "Assignee berubah tidak menugaskan ulang",
+        "test": "does not reassign a completed phase when its assignee is removed",
+        "status": "passed"
+      },
+      {
+        "label": "Commit baru perlu tes ulang",
+        "test": "returns to checks when a new implementation commit arrives",
+        "status": "passed"
+      },
+      {
+        "label": "Koneksi gagal tidak diulang otomatis",
+        "test": "does not retry a failed network request or hide its uncertain outcome",
+        "status": "passed"
+      }
+    ],
+    "source": "Hasil Vitest lokal dengan API GitHub fiktif, bukan run workflow GitHub."
+  },
+  "images": [
+    {
+      "name": "SDLC-01-alur.png",
+      "source": "Screenshot panduan lokal · diagram ilustrasi, bukan riwayat workflow GitHub",
+      "alt": "Lima lajur aktor dan tiga tahap: desain, implementasi, rilis manusia, dan tindak lanjut.",
+      "width": 896,
+      "height": 1052,
+      "sha256": "6a4428380f85ed29a0acbd430f157b8b5683be41d2090d871ed9e9924f407987",
+      "guide": "Lima lajur aktor dan tiga tahap: desain, implementasi, rilis manusia, dan tindak lanjut."
+    },
+    {
+      "name": "SDLC-02-mulai.png",
+      "source": "Screenshot panduan lokal · instruksi, bukan layar GitHub Actions",
+      "alt": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub.",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "def6f0343a9ce6064f4e5c82309e4be94f70910a6ab142f8129e50629b9a1ab3",
+      "guide": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub."
+    },
+    {
+      "name": "SDLC-03-tes-lokal.png",
+      "source": "Output Vitest lokal yang dirender · bukan screenshot terminal/GitHub",
+      "alt": "45 tes unit dan 24 tes controller lulus memakai API fiktif.",
+      "width": 1216,
+      "height": 868,
+      "sha256": "aef91b25d23247c19f9ef4b51de388fb0490e6a259ba2d433ce41ebd4abf10d5",
+      "guide": "45 tes unit dan 24 tes controller lulus memakai API fiktif."
+    },
+    {
+      "name": "SDLC-02-mulai-annotated.png",
+      "source": "Screenshot panduan lokal · instruksi, bukan layar GitHub Actions",
+      "alt": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub.",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "f91be50d9a37f3a6b9f5889e32adc6ba5d42c118a0c17631db6821bb7e9cbbd1",
+      "guide": "Nomor 3 menunjuk instruksi mulai workflow; bukan tombol GitHub yang sudah diklik.",
+      "original": "SDLC-02-mulai.png"
+    },
+    {
+      "name": "SDLC-03-tes-lokal-annotated.png",
+      "source": "Output Vitest lokal yang dirender · bukan screenshot terminal/GitHub",
+      "alt": "45 tes unit dan 24 tes controller lulus memakai API fiktif.",
+      "width": 1216,
+      "height": 868,
+      "sha256": "cdf10a8998b61254dd61baf70a6e1cef796bdf60051aebd36b0431bf5e9add0d",
+      "guide": "Nomor 1: seluruh tes unit. Nomor 2: tes controller dengan API fiktif. Nomor 3: jumlah tes gagal.",
+      "original": "SDLC-03-tes-lokal.png"
+    }
+  ],
+  "gallery": [
+    "SDLC-01-alur.png",
+    "SDLC-02-mulai-annotated.png",
+    "SDLC-03-tes-lokal-annotated.png"
+  ],
+  "pendingLive": [
+    {
+      "name": "SDLC-live-01-start.png",
+      "where": "GitHub Actions dan tiket utama",
+      "instruction": "Setelah maintainer menyetujui publikasi, akses, dan biaya, isi nomor issue serta action=start. Rekam run nyata dan komentar status yang mengarah ke tiket desain."
+    },
+    {
+      "name": "SDLC-live-02-plan.png",
+      "where": "PR desain dan komentar status",
+      "instruction": "Rekam file desain, approval reviewer manusia pada commit terbaru, dan tiket Implementer yang dibuat sesudah approval itu."
+    },
+    {
+      "name": "SDLC-live-03-checks-review.png",
+      "where": "Checks dan review pada PR implementasi",
+      "instruction": "Rekam tiga job CI lulus, catatan Copilot, dan approval manusia pada commit yang sama. Jangan memakai run dari PR lain."
+    },
+    {
+      "name": "SDLC-live-04-follow-up.png",
+      "where": "GitHub Release dan tiket pemeriksaan hasil",
+      "instruction": "Hanya di repo turunan dengan izin rilis: rekam rilis manusia pada commit hasil merge dan tiket tindak lanjut yang cocok. Jika latihan berhenti di release-ready, bagian ini tetap pending; GitHub Release bukan deployment."
+    }
+  ]
+}

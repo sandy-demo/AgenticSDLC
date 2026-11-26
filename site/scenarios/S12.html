@@ -14,39 +14,81 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S12</p><p class="kicker">S12 · Level 4 — Continuous AI</p>
-<h1>Sinkronkan API docs lewat draft PR</h1><p class="lead">Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.</p>
-<p class="note"><strong>Status latihan:</strong> Target diperbaiki dan dicoba di draft #33; provider tetap 403; pembanding docs #28 teruji. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Sinkronkan API docs lewat draft PR</h1><p class="lead">Periksa respons API yang sebenarnya. Minta Docs Sync mengusulkan draft yang mengganti items menjadi claims di dokumentasi, tanpa mengubah respons API. Catat hasil workflow terpisah dari contoh patch manual.</p>
+<p class="note"><strong>Status latihan:</strong> Koreksi dokumen ada pada draft PR #28. Docs Sync belum menghasilkan draft otomatis.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Bima</span><span class="badge">Yoga</span><span class="badge">Validasi lokal + GitHub</span><span class="badge">6 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Docs masih menyebut items, padahal API mengirim claims.</p><p class="note"><strong>Kerugian:</strong> Aplikasi partner membaca struktur yang salah.</p>
+  <h2>Masalah yang dihadapi</h2><p>Tim partner ingin menampilkan daftar klaim. Mereka mengikuti dokumentasi yang menyebut items, padahal GET /claims mengirim daftar dengan nama claims. Respons berhasil, tapi kode partner mencari daftar di tempat yang salah.</p><p class="note"><strong>Kerugian:</strong> Daftar bisa terlihat kosong atau aplikasi partner menampilkan error, meskipun server sudah mengirim klaim.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">docs/api.md</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Dokumen latihan: { items: [...] } · Route: { claims: [...] }</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Docs Sync membandingkan dokumen terhadap route. Safe output hanya mengizinkan satu draft PR yang mengubah docs/api.md.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Periksa respons API yang sebenarnya. Minta Docs Sync mengusulkan draft yang mengganti items menjadi claims di dokumentasi, tanpa mengubah respons API. Catat hasil workflow terpisah dari contoh patch manual.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>Developer</strong> · Bandingkan docs dan API</summary>
-    <p><strong>Hasil:</strong> Docs lama items, GET /claims nyata mengembalikan claims.</p>
-  </details></li><li><details>
-    <summary><strong>Fasilitator</strong> · Perbaiki target dan compile lockfile</summary>
-    <p><strong>Hasil:</strong> Draft #33 mengarah ke demo/workshop dan tetap membatasi safe output ke docs/api.md.</p>
-  </details></li><li><details>
-    <summary><strong>GitHub Actions</strong> · Jalankan dengan batas awal</summary>
-    <p><strong>Hasil:</strong> Provider menolak HTTP 403. Draft docs-only #28 adalah pembanding, bukan hasil workflow.</p>
+    <summary><strong>Developer</strong><span>Bandingkan dokumen dan API</span></summary>
+    <p><strong>Hasil:</strong> Dokumen menyebut items, padahal GET /claims mengirim claims. Yang perlu diperbaiki adalah petunjuknya.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Docs Sync</strong><span>Coba usulkan koreksi dokumen</span></summary>
+    <p><strong>Hasil:</strong> Draft PR #33 membetulkan branch tujuan. Saat diuji, layanan Copilot menolak dengan 403.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Fasilitator</strong><span>Tunjukkan pembanding manual</span></summary>
+    <p><strong>Hasil:</strong> Draft PR #28 memperbaiki dokumen tanpa mengubah API. Draft itu bukan hasil otomatis Docs Sync.</p>
   </details></li>
-</ol>
-<figure class="diagram" data-diagram="D10">
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Samakan petunjuk API dengan respons yang benar.</p>
+    <div class="sequence" style="--lanes:5">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Developer</strong><span class="sequence-place">VS Code / Terminal</span></li><li><strong>API klaim</strong><span class="sequence-place">Aplikasi lokal</span></li><li><strong>Docs Sync</strong><span class="sequence-place">GitHub Actions</span></li><li><strong>Layanan Copilot</strong><span class="sequence-place">GitHub</span></li><li><strong>Draft docs #28</strong><span class="sequence-place">GitHub Pull requests</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Cek respons sebelum mengusulkan perubahan</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Developer</strong><span class="sequence-place">VS Code / Terminal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>API klaim</strong><span class="sequence-place">Aplikasi lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">GET /claims: baca nama daftar</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>API klaim</strong><span class="sequence-place">Aplikasi lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Developer</strong><span class="sequence-place">VS Code / Terminal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Balas 200 dengan claims, bukan items</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Bedakan run otomatis dan pembanding</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Docs Sync</strong><span class="sequence-place">GitHub Actions</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Layanan Copilot</strong><span class="sequence-place">GitHub</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta usulan koreksi dokumen</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Layanan Copilot</strong><span class="sequence-place">GitHub</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Docs Sync</strong><span class="sequence-place">GitHub Actions</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tolak dengan 403; tidak ada draft otomatis</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:6;--span:5">
+      <div class="sequence-route"><span><strong>Developer</strong><span class="sequence-place">VS Code / Terminal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Draft docs #28</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Baca pembanding yang hanya mengubah docs</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Draft PR #28 adalah pembanding yang sudah dicek, bukan hasil run Docs Sync. Respons API tidak berubah.</figcaption>
+  </figure>
+<details id="solution-details"><summary>Lihat diagram lengkap</summary><figure class="diagram" data-diagram="D10">
   <img class="diagram-image" src="../assets/diagrams/D10.svg" alt="Push demo/manual → Docs Sync → draft PR docs. Issue latihan dibuka → Issue Triage → label atau komentar. CI latihan gagal → CI Fault Analysis → satu komentar pada PR pemicu." width="625" height="366" loading="lazy">
   <ol class="diagram-narrow"><li>Push demo/manual → Docs Sync → draft PR docs.</li><li>Issue latihan dibuka → Issue Triage → label atau komentar.</li><li>CI latihan gagal → CI Fault Analysis → satu komentar pada PR pemicu.</li></ol>
   <figcaption><strong>D10.</strong> Satu pemicu menghasilkan satu jalur kerja. Safe outputs membatasi objek yang boleh berubah.</figcaption>
@@ -59,23 +101,31 @@
   fault --&gt;|Izinkan satu komentar| comment[&quot;PR pemicu&quot;]
   classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
   class docs,triage,fault ai</code></pre></details>
-</figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Bandingkan dokumen dengan respons nyata</h3></div>
-    <p>GitHub → Code → docs/api.md → Preview. Di baris GET /claims, kontrak lama memakai items. Jalankan npm run demo:before di terminal pertama. Di terminal PowerShell kedua, tampilkan hanya nama key respons, bukan isi klaim.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-1">$response = Invoke-RestMethod &#39;http://127.0.0.1:3000/claims&#39; -Headers @{&#39;x-demo-user&#39;=&#39;1&#39;}
+</figure></details></section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Jalankan aplikasi awal dan cek daftar yang dikirim GET /claims. Dokumen menulis items, tetapi server mengirim claims. Tulis hasil yang benar sebelum meminta perubahan.</li><li>Di repo latihan yang sudah diizinkan, buka Actions → Docs Sync. Tujuannya membuat usulan perubahan docs, bukan mengubah respons API. Jangan menjalankan workflow jika izin belum siap.</li><li>Jika muncul PR, buka Files changed dan cek bahwa hanya dokumentasi yang berubah. Bila run gagal atau tidak membuat PR, tulis statusnya apa adanya; contoh manual bukan hasil workflow.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Bandingkan dokumen dengan respons nyata</h3></div>
+    <p>Di dokumen API awal, daftar GET /claims disebut items. Jalankan npm run demo:before, lalu pakai Terminal kedua untuk melihat nama properti dari respons asli. Jangan tampilkan isi klaim.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/docs/api.md">Baca kontrak awal GET /claims</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S12-1">$response = Invoke-RestMethod &#39;http://127.0.0.1:3000/claims&#39; -Headers @{&#39;x-demo-user&#39;=&#39;1&#39;}
 $response.PSObject.Properties.Name</code></pre>
     <button type="button" data-copy="cmd-S12-1" aria-label="Salin: Bandingkan dokumen dengan respons nyata" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S12-before-annotated.png"><img src="../assets/screenshots/S12-before-annotated.png" alt="Kotak 1 menunjukkan api.md; kotak 2 menunjukkan GET /claims masih mendokumentasikan items." width="1440" height="900" loading="lazy"><span>Perbesar S12-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/docs/api.md">Sumber GitHub</a> · 1. Di Code buka docs/api.md, tab Preview. · 2. Baca baris GET /claims, kolom Respons berhasil: key items adalah kontrak lama.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Konfirmasi nilai di route, lalu koreksi dokumen</h3></div>
-    <p>Buka src/routes/claims.js pada branch yang sama. Cari res.json({ claims: ... }). Pada checkout latihan, ganti key items → claims hanya di dokumentasi; jangan sentuh route.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-2">git diff -- docs/api.md</code></pre>
+    <p>Route sudah mengirim daftar dengan nama claims. Di folder latihan, ubah dokumen dari items ke claims, bukan sebaliknya. Perintah di bawah menunjukkan perubahan pada dokumen.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/src/routes/claims.js">Lihat bagaimana route mengirim daftar claims</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S12-2">git diff -- docs/api.md</code></pre>
     <button type="button" data-copy="cmd-S12-2" aria-label="Salin: Konfirmasi nilai di route, lalu koreksi dokumen" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S12-actual-route-annotated.png"><img src="../assets/screenshots/S12-actual-route-annotated.png" alt="Kotak 1 dan 2 menunjukkan claims.js dan GET yang mengembalikan key claims." width="1440" height="900" loading="lazy"><span>Perbesar S12-actual-route-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/src/routes/claims.js">Sumber GitHub</a> · 1. Buka src → routes → claims.js. · 2. Di router.get, cari res.json dengan key claims. Yang berubah pada latihan Docs Sync adalah docs, bukan payload API.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Jalankan workflow setelah prasyarat live siap</h3></div>
-    <p>Pilih Actions → Docs Sync → Run workflow (atau push perubahan latihan ke demo/docs-trigger). Periksa safe output membuat paling banyak satu draft PR yang hanya menyentuh docs/api.md. Jangan merge.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-3">gh workflow view docs-sync.lock.yml -R sandy-demo/AgenticSDLC</code></pre>
-    <button type="button" data-copy="cmd-S12-3" aria-label="Salin: Jalankan workflow setelah prasyarat live siap" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Baca kandidat konfigurasi yang sudah dikompilasi</h3></div>
-    <p>Draft #33 memperbaiki base main menjadi demo/workshop di sumber dan lockfile; izin tetap contents: read dan safe output hanya docs/api.md. Run uji memakai cap awal, lalu pemicu sementara dikembalikan.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-4">gh run view 45657391526 -R sandy-demo/AgenticSDLC</code></pre>
-    <button type="button" data-copy="cmd-S12-4" aria-label="Salin: Baca kandidat konfigurasi yang sudah dikompilasi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S12-actual-route-annotated.png"><img src="../assets/screenshots/S12-actual-route-annotated.png" alt="Kotak 1 dan 2 menunjukkan claims.js dan GET yang mengembalikan key claims." width="1440" height="900" loading="lazy"><span>Perbesar S12-actual-route-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/src/routes/claims.js">Sumber GitHub</a> · 1. Buka src → routes → claims.js. · 2. Di router.get, cari res.json dengan key claims. Yang berubah pada latihan Docs Sync adalah docs, bukan payload API.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Kenali keluaran Docs Sync yang diharapkan</h3></div>
+    <p>Di repo latihan yang diizinkan, Docs Sync seharusnya mengusulkan paling banyak satu draft yang hanya mengubah dokumen API. Membuka tautan tidak menjalankan workflow.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/workflows/docs-sync.lock.yml">Buka halaman workflow Docs Sync</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S12-3">gh workflow view docs-sync.lock.yml -R sandy-demo/AgenticSDLC</code></pre>
+    <button type="button" data-copy="cmd-S12-3" aria-label="Salin: Kenali keluaran Docs Sync yang diharapkan" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Pisahkan perbaikan pengaturan dari hasil workflow</h3></div>
+    <p>Draft PR #33 membetulkan branch tujuan menjadi demo/workshop. Run uji setelah itu masih ditolak layanan Copilot (403), sehingga belum ada draft dokumen yang dibuat otomatis.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/33/files">Lihat perubahan pengaturan di draft PR #33</a> · <a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45657391526">Lihat run Docs Sync yang belum berhasil</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S12-4">gh run view 45657391526 -R sandy-demo/AgenticSDLC</code></pre>
+    <button type="button" data-copy="cmd-S12-4" aria-label="Salin: Pisahkan perbaikan pengaturan dari hasil workflow" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S12-retry-actions-annotated.png"><img src="../assets/screenshots/S12-retry-actions-annotated.png" alt="Docs Sync pada ref dengan target benar, tetapi job agent gagal." width="1440" height="900" loading="lazy"><span>Perbesar S12-retry-actions-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45657391526">Sumber GitHub</a> · 1. Baca ref training/docs-sync-target dan status Failure. · 2. Buka job agent yang merah; provider menolak HTTP 403. Safe outputs hijau bukan berarti ada draft yang terbit.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Periksa keluaran yang seharusnya</h3></div>
-    <p>Draft #28 benar-benar hanya mengganti items menjadi claims pada docs/api.md. GET /claims tetap 200 dengan key claims. Tandai sebagai pembanding: Docs Sync belum menghasilkan draft sendiri.</p><div class="cmd"><pre><code translate="no" id="cmd-S12-5">https://github.com/sandy-demo/AgenticSDLC/pull/28/files</code></pre>
-    <button type="button" data-copy="cmd-S12-5" aria-label="Salin: Periksa keluaran yang seharusnya" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Draft PR #28 hanya mengganti items menjadi claims pada dokumen. API tetap mengirim claims. Ini contoh koreksi yang sudah diperiksa, bukan draft hasil Docs Sync.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/28/files">Lihat koreksi kontrak di draft PR #28</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S12-reference-docs-pr-annotated.png"><img src="../assets/screenshots/S12-reference-docs-pr-annotated.png" alt="Satu diff menyelaraskan GET /claims dengan key claims." width="1440" height="900" loading="lazy"><span>Perbesar S12-reference-docs-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/28/files">Sumber GitHub</a> · 1. Hanya docs/api.md. · 2. Ganti items menjadi claims sesuai API. PR dibuat cloud agent sebagai pembanding, bukan gh-aw.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Buktikan kontrak dari GET /claims 200 dan key claims. Cocokkan satu baris docs pada #28. Run asli pada config yang sudah benar tetap terhenti di Copilot CLI dan melebihi cap; jangan mengisi status Docs Sync sebagai sukses.</p>

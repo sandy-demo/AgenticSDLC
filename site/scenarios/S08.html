@@ -14,59 +14,105 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S08</p><p class="kicker">S08 · Level 3 — Tim virtual</p>
-<h1>QA menemukan bug tepat di batas</h1><p class="lead">QA Engineer menurunkan tiga input dari aturan bisnis dan melaporkan hasil; perubahan produksi milik implementer.</p>
-<p class="note"><strong>Status latihan:</strong> Draft QA #24 test-only; bug batas sekarang terbukti pada helper dan API. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>QA menemukan bug tepat di batas</h1><p class="lead">Minta profil QA Copilot menguji angka di bawah, tepat di batas, dan di atas Rp1.000.000. Catat kasus yang gagal dan buat laporan bug; perubahan kode produksi bukan bagian dari draft QA.</p>
+<p class="note"><strong>Status latihan:</strong> Draft QA #24 hanya menambah tes. Dua tes membuktikan masalah pada Rp1.000.000; aturan produksi belum diperbaiki.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Sari</span><span class="badge">Hendra</span><span class="badge">Tes lokal + GitHub</span><span class="badge">10 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Sari perlu tahu apakah Rp1.000.000 sudah meminta keputusan Finance.</p><p class="note"><strong>Kerugian:</strong> Klaim di batas bisa melewati tahap persetujuan yang seharusnya.</p>
+  <h2>Masalah yang dihadapi</h2><p>Sari menguji klaim Rp999.999 dan Rp1.000.000. Yang pertama cukup lewat Manager. Yang kedua harus lanjut ke Finance setelah Manager, tetapi di aplikasi awal keputusan Manager saja sudah cukup.</p><p class="note"><strong>Kerugian:</strong> Klaim tepat di batas bisa disetujui tanpa pemeriksaan Finance meski tes umum terlihat lulus.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/services/approvalRules.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">return amount &gt; 1_000_000; // aturan yang benar: ≥.</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>QA Engineer menurunkan tiga input dari aturan bisnis dan melaporkan hasil; perubahan produksi milik implementer.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Minta profil QA Copilot menguji angka di bawah, tepat di batas, dan di atas Rp1.000.000. Catat kasus yang gagal dan buat laporan bug; perubahan kode produksi bukan bagian dari draft QA.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>QA</strong> · Ubah aturan bisnis jadi tes batas</summary>
-    <p><strong>Hasil:</strong> Tepat Rp1.000.000 harus masuk Finance setelah Manager.</p>
-  </details></li><li><details>
-    <summary><strong>Vitest</strong> · Jalankan suite biasa dan QA</summary>
-    <p><strong>Hasil:</strong> Suite biasa lolos; mode QA menunjukkan dua kegagalan nyata di jumlah yang sama.</p>
-  </details></li><li><details>
-    <summary><strong>Tech Lead</strong> · Pisahkan laporan dari perbaikan</summary>
-    <p><strong>Hasil:</strong> Draft #24 hanya di tests/. Coverage baris tetap 100%; issue #13 mencatat bug, bukan klaim perbaikan.</p>
+    <summary><strong>Sari (QA)</strong><span>Siapkan tiga nilai batas</span></summary>
+    <p><strong>Hasil:</strong> Rp999.999 cukup lewat Manager. Rp1.000.000 dan Rp1.000.001 harus lanjut ke Finance.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Tes</strong><span>Periksa hasil setelah Manager</span></summary>
+    <p><strong>Hasil:</strong> Dua tes menemukan masalah pada Rp1.000.000: versi awal bisa menandai Disetujui sebelum Finance.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Reviewer</strong><span>Laporkan bug, bukan patch</span></summary>
+    <p><strong>Hasil:</strong> Draft QA #24 hanya menambah tes. Tiket #13 mencatat bug; aturan aplikasi belum diperbaiki.</p>
   </details></li>
-</ol>
-<div class="rail"><ol><li><strong>Ukur suite reguler.</strong> Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.</li><li><strong>Tambahkan tiga nilai batas lewat fixture.</strong> Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai &gt;, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.</li><li><strong>Delegasikan laporan QA, bukan patch produksi.</strong> Pilih qa-engineer dan minta perubahan tests/ saja. Draft #24 menambah kasus HTTP yang membuktikan bug issue #13. Laporan issue awal dibuat fasilitator; kode produksi tetap baseline.</li><li><strong>Bandingkan laporan dengan aturan bisnis.</strong> Di Issues, buka laporan nyata #13. Temuan dibuktikan oleh tes lokal. Bug ini tetap ada pada baseline dan belum ada PR yang dibuat oleh QA Engineer.</li><li><strong>Buktikan dampak bug sampai ke API.</strong> Draft #24 hanya menyentuh tests/labs. Kasus tambahan mengirim klaim Rp1.000.000, lalu Manager menyetujui. Finance seharusnya menerima antrean tetapi status aktual approved. Ini bukti yang lebih kuat dibanding hanya coverage.</li></ol></div></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Ukur suite reguler</h3></div>
-    <p>Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-1">npm run coverage</code></pre>
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Buktikan alur salah tepat pada Rp1.000.000.</p>
+    <div class="sequence" style="--lanes:4">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Sari (QA)</strong><span class="sequence-place">GitHub / VS Code</span></li><li><strong>QA Engineer</strong><span class="sequence-place">Profil Copilot</span></li><li><strong>Tes QA</strong><span class="sequence-place">Terminal lokal</span></li><li><strong>API Expense Claim</strong><span class="sequence-place">Aplikasi lokal</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Uji batas, bukan memperbaiki kode aplikasi</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Sari (QA)</strong><span class="sequence-place">GitHub / VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>QA Engineer</strong><span class="sequence-place">Profil Copilot</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta tiga nilai uji di sekitar batas</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>QA Engineer</strong><span class="sequence-place">Profil Copilot</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Tes QA</strong><span class="sequence-place">Terminal lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tambahkan tes untuk aturan Finance</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Tes QA</strong><span class="sequence-place">Terminal lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>API Expense Claim</strong><span class="sequence-place">Aplikasi lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Manager setujui klaim Rp1.000.000</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>API Expense Claim</strong><span class="sequence-place">Aplikasi lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Tes QA</strong><span class="sequence-place">Terminal lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Balas Disetujui, padahal perlu Finance</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:4;--span:3">
+      <div class="sequence-route"><span><strong>Tes QA</strong><span class="sequence-place">Terminal lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Sari (QA)</strong><span class="sequence-place">GitHub / VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Laporkan kegagalan dan tulis bukti bug</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Draft PR #24 hanya menambah tes. Tiket #13 mencatat bug; aturan aplikasi belum diperbaiki dalam latihan QA ini.</figcaption>
+  </figure>
+</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di repo latihan, pilih Issues → New issue dan tulis aturan Rp1.000.000. Di GitHub Agents pilih qa-engineer jika tersedia, lalu arahkan ke tiket. Minta tes saja, bukan perubahan aturan aplikasi.</li><li>Uji Rp999.999, Rp1.000.000, dan Rp1.000.001. Cari apakah tepat Rp1.000.000 melewati Finance. Di Files changed, pastikan perubahan hanya di tes.</li><li>Catat hasil yang terjadi dan yang seharusnya di laporan bug. Tes yang sengaja gagal adalah bukti; jangan menyetujuinya sebagai perbaikan produk.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Ukur suite reguler</h3></div>
+    <p>Jalankan Vitest coverage. Catat baris approvalRules.js saja, bukan coverage seluruh aplikasi. Bandingkan hasil dengan tabel di bawah; cakupan baris tinggi bukan jaminan batas benar.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S08-1">npm run coverage</code></pre>
     <button type="button" data-copy="cmd-S08-1" aria-label="Salin: Ukur suite reguler" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-before-annotated.png"><img src="../assets/screenshots/S08-before-annotated.png" alt="Suite Vitest reguler: approvalRules.js 1/1 baris dan 20 tes lulus." width="1440" height="900" loading="lazy"><span>Perbesar S08-before-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Coverage approvalRules.js adalah 1/1 baris (100%). · 2. Suite reguler di ref panduan: 20 tes lulus. Kesimpulan ini belum menguji tepat Rp1.000.000.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tambahkan tiga nilai batas lewat fixture</h3></div>
-    <p>Di PowerShell ubah QA_BOUNDARY menjadi 1. Expected Finance: false, true, true. Tes tengah gagal karena src/services/approvalRules.js memakai &gt;, sementara aturan bisnis memakai ≥. Hapus kembali flag sesudahnya.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-2">$qaWas = $env:QA_BOUNDARY
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-before-annotated.png"><img src="../assets/screenshots/S08-before-annotated.png" alt="Suite Vitest reguler: approvalRules.js 1/1 baris dan 20 tes lulus." width="1440" height="900" loading="lazy"><span>Perbesar S08-before-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Coverage approvalRules.js adalah 1/1 baris (100%). · 2. Suite reguler di ref panduan: 20 tes lulus. Kesimpulan ini belum menguji tepat Rp1.000.000.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Bandingkan aturan bisnis dengan tiga nilai uji</h3></div>
+    <p>Di bawah Rp1.000.000 cukup lewat Manager. Tepat di batas dan di atasnya perlu Finance. Jalankan tes batas: kasus tepat Rp1.000.000 gagal pada versi awal karena pengecekan hanya menerima nilai lebih besar.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/docs/business-rules.md">Baca aturan bisnis persetujuan</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S08-2">$qaWas = $env:QA_BOUNDARY
 try {
   $env:QA_BOUNDARY=&#39;1&#39;
   npm run coverage
 } finally { $env:QA_BOUNDARY=$qaWas }
 # Exit nonzero pada fixture adalah hasil yang dicari; cek Rp1.000.000.</code></pre>
-    <button type="button" data-copy="cmd-S08-2" aria-label="Salin: Tambahkan tiga nilai batas lewat fixture" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <button type="button" data-copy="cmd-S08-2" aria-label="Salin: Bandingkan aturan bisnis dengan tiga nilai uji" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-local-qa-coverage-annotated.png"><img src="../assets/screenshots/S08-local-qa-coverage-annotated.png" alt="Suite QA lokal: 13 lulus, 1 gagal, meskipun 100% baris tercakup." width="1440" height="900" loading="lazy"><span>Perbesar S08-local-qa-coverage-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Satu baris masih tercakup (100%), sama seperti sebelum fixture. · 2. Hasil suite QA: 13 lulus, 1 gagal. · 3. Lihat Rp1.000.000: expected false to be true. Yang terbukti gagal adalah aturan di batas, bukan pengukur coverage.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Delegasikan laporan QA, bukan patch produksi</h3></div>
-    <p>Pilih qa-engineer dan minta perubahan tests/ saja. Draft #24 menambah kasus HTTP yang membuktikan bug issue #13. Laporan issue awal dibuat fasilitator; kode produksi tetap baseline.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-3">Uji approvalRules.js sesuai docs/business-rules.md. Tulis tes di bawah, tepat pada, dan di atas Rp1.000.000. Laporkan bug; jangan edit produksi.</code></pre>
+    <p>Pilih profil qa-engineer bila tersedia. Minta tes di bawah, tepat pada, dan di atas ambang. Draft PR #24 menunjukkan hasil yang bisa diperiksa: tes bertambah, aturan produksi tetap sama.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/24/files">Lihat tes batas di draft PR #24</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S08-3">Uji approvalRules.js sesuai docs/business-rules.md. Tulis tes di bawah, tepat pada, dan di atas Rp1.000.000. Laporkan bug; jangan edit produksi.</code></pre>
     <button type="button" data-copy="cmd-S08-3" aria-label="Salin: Delegasikan laporan QA, bukan patch produksi" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-01-agent-picker.png"><img src="../assets/screenshots/S08-01-agent-picker.png" alt="Menu Custom agents pada repo menampilkan QA Engineer." width="1038" height="2145" loading="lazy"><span>Perbesar S08-01-agent-picker.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo">Sumber GitHub</a> · Di Agents, klik ikon Copilot di bawah kotak prompt untuk membuka Custom agents. QA Engineer muncul di daftar. Foto ini hanya menunjukkan pilihan; sesi QA belum dijalankan.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Bandingkan laporan dengan aturan bisnis</h3></div>
-    <p>Di Issues, buka laporan nyata #13. Temuan dibuktikan oleh tes lokal. Bug ini tetap ada pada baseline dan belum ada PR yang dibuat oleh QA Engineer.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-4">https://github.com/sandy-demo/AgenticSDLC/issues/13</code></pre>
-    <button type="button" data-copy="cmd-S08-4" aria-label="Salin: Bandingkan laporan dengan aturan bisnis" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-01-agent-picker.png"><img src="../assets/screenshots/S08-01-agent-picker.png" alt="Menu Custom agents pada repo menampilkan QA Engineer." width="1038" height="2145" loading="lazy"><span>Perbesar S08-01-agent-picker.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo">Sumber GitHub</a> · Di Agents, klik ikon Copilot di bawah kotak prompt untuk membuka Custom agents. QA Engineer muncul di daftar. Foto ini hanya menunjukkan pilihan; sesi QA belum dijalankan.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cocokkan laporan bug dengan hasil tes</h3></div>
+    <p>Tiket #13 adalah laporan fasilitator untuk klaim tepat Rp1.000.000. Draft PR #24 menambah bukti berupa tes, bukan perbaikan aturan. Lihat apakah laporan menyebut hasil yang terjadi dan yang seharusnya.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/issues/13">Baca laporan bug batas persetujuan #13</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-02-bug-issue-annotated.png"><img src="../assets/screenshots/S08-02-bug-issue-annotated.png" alt="Kotak 1, 2, 3 menandai judul Bug Finance, Cara cek, dan Ekspektasi." width="1440" height="900" loading="lazy"><span>Perbesar S08-02-bug-issue-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/issues/13">Sumber GitHub</a> · 1. Buka Issues → #13. Laporan dibuat fasilitator, bukan QA Engineer otomatis. · 2. Jalankan fixture batas: Rp999.999 dan Rp1.000.001 lulus; tepat Rp1.000.000 gagal. · 3. Bandingkan dengan aturan bisnis: nilai tepat di batas sudah harus ke Finance.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Buktikan dampak bug sampai ke API</h3></div>
-    <p>Draft #24 hanya menyentuh tests/labs. Kasus tambahan mengirim klaim Rp1.000.000, lalu Manager menyetujui. Finance seharusnya menerima antrean tetapi status aktual approved. Ini bukti yang lebih kuat dibanding hanya coverage.</p><div class="cmd"><pre><code translate="no" id="cmd-S08-5">https://github.com/sandy-demo/AgenticSDLC/pull/24/files</code></pre>
-    <button type="button" data-copy="cmd-S08-5" aria-label="Salin: Buktikan dampak bug sampai ke API" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Draft #24 hanya menyentuh tests/labs. Kasus tambahan mengirim klaim Rp1.000.000, lalu Manager menyetujui. Finance seharusnya menerima antrean tetapi status aktual approved. Ini bukti yang lebih kuat dibanding hanya coverage.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/24/files">Lihat tes API pada draft QA #24</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S08-qa-pr-annotated.png"><img src="../assets/screenshots/S08-qa-pr-annotated.png" alt="Tes baru memeriksa status Finance setelah Manager untuk Rp1.000.000." width="1440" height="900" loading="lazy"><span>Perbesar S08-qa-pr-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/24/files">Sumber GitHub</a> · 1. Cek kasus integrasi pada batas Rp1.000.000; verifikasi draft hanya menyentuh tests/labs.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Pada commit e845439, suite biasa 20 lulus; QA 13 lulus dan dua gagal pada ambang yang sama. Coverage approvalRules.js 1/1 pada kedua mode. Issue #13 tetap laporan; root bug produksi sengaja tidak diubah di lab QA.</p>

@@ -14,39 +14,78 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S10</p><p class="kicker">S10 · Level 3 — Tim virtual</p>
-<h1>Latih alur CodeQL Autofix</h1><p class="lead">Baca warning nyata di draft, uji perbaikan format, lalu cocokkan status alert dan angka scan pada ref yang sama. Copilot Autofix dan perbaikan biasa adalah dua jalur berbeda.</p>
-<p class="note"><strong>Status latihan:</strong> CodeQL: 1 → 0 alert pada ref PR #1 · Fixed in branch lewat perbaikan biasa, bukan Autofix. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Latih alur CodeQL Autofix</h1><p class="lead">Tinjau peringatan yang memang ada. Pakai saran Copilot Autofix hanya jika tersedia, lalu uji patch dan bandingkan hasil scan pada PR yang sama. Contoh yang terverifikasi di workshop ini memakai perbaikan biasa, bukan Autofix.</p>
+<p class="note"><strong>Status latihan:</strong> Satu peringatan tabel pada PR #1 hilang setelah scan ulang. Perbaikannya dibuat biasa, bukan lewat Autofix.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Dimas</span><span class="badge">Bima</span><span class="badge">CodeQL · warning nyata</span><span class="badge">8 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Daftar alert yang panjang tidak memberi Bima informasi cukup untuk meninjau perbaikan.</p><p class="note"><strong>Kerugian:</strong> Temuan audit berulang jika perbaikan tidak dibuktikan.</p>
+  <h2>Masalah yang dihadapi</h2><p>CodeQL, alat pemindai kode, menandai pembuat tabel Markdown di draft workshop. Contohnya, teks CI | e2e yang berisi tanda pemisah harus tetap tampil dalam satu sel, bukan menjadi dua kolom. Dimas ingin melihat hasil tabel setelah patch dan memastikan pemindaian ulang tidak menemukan masalah yang sama.</p><p class="note"><strong>Kerugian:</strong> Status Scan selesai belum membuktikan peringatan hilang. Membandingkan dua branch berbeda juga bisa memberi kesimpulan yang salah.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/db.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">WHERE c.claim_date BETWEEN ? AND ? AND c.status = &#39;approved&#39;</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Baca warning nyata di draft, uji perbaikan format, lalu cocokkan status alert dan angka scan pada ref yang sama. Copilot Autofix dan perbaikan biasa adalah dua jalur berbeda.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Tinjau peringatan yang memang ada. Pakai saran Copilot Autofix hanya jika tersedia, lalu uji patch dan bandingkan hasil scan pada PR yang sama. Contoh yang terverifikasi di workshop ini memakai perbaikan biasa, bukan Autofix.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>CodeQL</strong> · Pindai source</summary>
-    <p><strong>Hasil:</strong> Pemindaian utama menunjukkan 0 open; scan draft #1 selesai dan Code scanning menemukan satu warning format tabel.</p>
-  </details></li><li><details>
-    <summary><strong>AppSec</strong> · Tentukan apakah ada temuan yang bisa ditangani</summary>
-    <p><strong>Hasil:</strong> Tinjau warning yang ada, tanpa menanam celah. Coba API Autofix resmi; jika tidak ada saran, buat draft perbaikan biasa.</p>
-  </details></li><li><details>
-    <summary><strong>Reviewer</strong> · Cek ulang bila ada perbaikan nyata</summary>
-    <p><strong>Hasil:</strong> CodeQL menandai Fixed in branch, dan jumlah alert open di ref PR yang sama turun 1 menjadi 0. Tidak ada merge.</p>
+    <summary><strong>CodeQL</strong><span>Tandai peringatan yang ada</span></summary>
+    <p><strong>Hasil:</strong> Pada draft PR #1, pemindaian menemukan satu peringatan format sel tabel Markdown. Ini bukan temuan baru pada aplikasi klaim.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Developer</strong><span>Tinjau dan uji patch</span></summary>
+    <p><strong>Hasil:</strong> Autofix tidak memberi usulan untuk contoh ini. Perbaikan biasa diuji agar CI | e2e tetap tampil dalam satu sel.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>CodeQL</strong><span>Pindai ulang PR yang sama</span></summary>
+    <p><strong>Hasil:</strong> Jumlah peringatan terbuka turun dari satu ke nol pada versi PR yang sama. Statusnya Fixed in branch, bukan ditutup manual.</p>
   </details></li>
-</ol>
-<figure class="diagram" data-diagram="D8">
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Lacak satu peringatan sampai pemindaian ulang.</p>
+    <div class="sequence" style="--lanes:4">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>CodeQL</strong><span class="sequence-place">GitHub Actions</span></li><li><strong>Peringatan #1</strong><span class="sequence-place">GitHub Code scanning</span></li><li><strong>Dimas dan Bima</strong><span class="sequence-place">Review / tes lokal</span></li><li><strong>PR bukti #1</strong><span class="sequence-place">GitHub Pull requests</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Baca temuan, uji patch, lalu pindai versi yang sama</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>CodeQL</strong><span class="sequence-place">GitHub Actions</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Peringatan #1</strong><span class="sequence-place">GitHub Code scanning</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tandai masalah pada sel tabel Markdown</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reply" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Peringatan #1</strong><span class="sequence-place">GitHub Code scanning</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Dimas dan Bima</strong><span class="sequence-place">Review / tes lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tampilkan temuan; Autofix tanpa saran</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:3;--last:5;--span:2">
+      <div class="sequence-route"><span><strong>Dimas dan Bima</strong><span class="sequence-place">Review / tes lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>PR bukti #1</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Uji dan siapkan perbaikan biasa</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>PR bukti #1</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>CodeQL</strong><span class="sequence-place">GitHub Actions</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Pindai ulang PR yang sama</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>CodeQL</strong><span class="sequence-place">GitHub Actions</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Peringatan #1</strong><span class="sequence-place">GitHub Code scanning</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Laporkan Fixed in branch, 1 menjadi 0</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Perbandingan dilakukan pada PR bukti yang sama. Tidak ada Autofix yang diterapkan dan peringatan tidak ditutup manual.</figcaption>
+  </figure>
+<details id="solution-details"><summary>Lihat diagram lengkap</summary><figure class="diagram" data-diagram="D8">
   <img class="diagram-image" src="../assets/diagrams/D8.svg" alt="Baca alert bila scanner menemukannya. Minta usulan mitigasi tanpa menanam celah. Tinjau perubahan defensif dalam draft PR. Jalankan scan ulang dan lihat hasilnya." width="818" height="488" loading="lazy">
   <ol class="diagram-narrow"><li>Baca alert bila scanner menemukannya.</li><li>Minta usulan mitigasi tanpa menanam celah.</li><li>Tinjau perubahan defensif dalam draft PR.</li><li>Jalankan scan ulang dan lihat hasilnya.</li></ol>
   <figcaption><strong>D8.</strong> Alur CodeQL ini ilustrasi. Status alert sungguhan baru dinilai dari hasil scan dan perubahan yang ditinjau.</figcaption>
@@ -61,33 +100,41 @@
   P-&gt;&gt;Q: Jalankan scan ulang
   Q--&gt;&gt;D: Laporkan hasil untuk review
   Note over D,P: Ilustrasi, bukan hasil scan workshop</code></pre></details>
-</figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca mitigasi yang sudah ada</h3></div>
-    <p>Di src/db.js cari BETWEEN ? AND ?. Periode harus jadi parameter, bukan dirakit menjadi teks SQL. Buka src/routes/reports.js dan cari pemeriksaan peran Finance serta validasi month.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-1">git grep -n &quot;BETWEEN ? AND ?&quot; -- src/db.js</code></pre>
+</figure></details></section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di GitHub, buka Security → Code scanning dan pilih peringatan yang memang ada. Baca penyebabnya. Jangan menanam celah atau membuat temuan untuk latihan.</li><li>Jika Copilot Autofix tersedia, baca usulannya. Jika tidak ada saran, ikuti perbaikan biasa dalam draft PR dan cek file serta tesnya.</li><li>Setelah pemindaian ulang pada PR yang sama, cek apakah peringatannya tidak muncul lagi. Bedakan hasil itu dari menutup peringatan dengan tombol Dismiss.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Baca mitigasi yang sudah ada</h3></div>
+    <p>Di src/db.js cari BETWEEN ? AND ?. Periode harus jadi parameter, bukan dirakit menjadi teks SQL. Buka src/routes/reports.js dan cari pemeriksaan peran Finance serta validasi month.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S10-1">git grep -n &quot;BETWEEN ? AND ?&quot; -- src/db.js</code></pre>
     <button type="button" data-copy="cmd-S10-1" aria-label="Salin: Baca mitigasi yang sudah ada" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-local-result.png"><img src="../assets/screenshots/S10-local-result.png" alt="Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal." width="1440" height="900" loading="lazy"><span>Perbesar S10-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S10: Query laporan memakai parameter; Akses dan validasi lokal.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Uji batas API secara defensif</h3></div>
-    <p>Mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua untuk membandingkan Finance, Manager, dan bulan tidak valid. Pemilih peran hanya untuk aplikasi fiktif di localhost.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-2">curl.exe -sS -o NUL -w &quot;Finance 2026-09: %{http_code}\n&quot; -H &#39;x-demo-user: 6&#39; &#39;http://127.0.0.1:3000/reports?month=2026-09&#39;
+    <p>Mulai npm run demo:before di terminal pertama. Jalankan blok ini di terminal PowerShell kedua untuk membandingkan Finance, Manager, dan bulan tidak valid. Pemilih peran hanya untuk aplikasi fiktif di localhost.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S10-2">curl.exe -sS -o NUL -w &quot;Finance 2026-09: %{http_code}\n&quot; -H &#39;x-demo-user: 6&#39; &#39;http://127.0.0.1:3000/reports?month=2026-09&#39;
 curl.exe -sS -o NUL -w &quot;Manager 2026-09: %{http_code}\n&quot; -H &#39;x-demo-user: 4&#39; &#39;http://127.0.0.1:3000/reports?month=2026-09&#39;
 curl.exe -sS -w &quot;\nFinance 2026-13: %{http_code}\n&quot; -H &#39;x-demo-user: 6&#39; &#39;http://127.0.0.1:3000/reports?month=2026-13&#39;</code></pre>
     <button type="button" data-copy="cmd-S10-2" aria-label="Salin: Uji batas API secara defensif" hidden>Salin</button></div><p class="feedback" role="status"></p>
     </li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Baca CodeQL bila sudah diaktifkan</h3></div>
-    <p>GitHub → Security → Code scanning. Jika ada temuan nyata, buka alert, lihat usulan perbaikan, tinjau file, jalankan scan ulang. Jika belum ada hasil, jangan isi angka sebelum/sesudah atau membuat celah untuk demo.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-3">docs/simulations.md</code></pre>
+    <p>Di GitHub Security → Code scanning, buka temuan yang sudah ada jika akunnya punya akses. Baca kenapa kode ditandai sebelum mempertimbangkan usulan Autofix.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Buka contoh peringatan CodeQL di repo workshop</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S10-3">docs/simulations.md</code></pre>
     <button type="button" data-copy="cmd-S10-3" aria-label="Salin: Baca CodeQL bila sudah diaktifkan" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-before-annotated.png"><img src="../assets/screenshots/S10-before-annotated.png" alt="Nomor 1–3 menunjukkan Code scanning, filter branch dan 0 Open." width="1038" height="1437" loading="lazy"><span>Perbesar S10-before-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning?query=is%3Aopen+branch%3Ademo%2Fworkshop">Sumber GitHub</a> · 1. Di Security and quality, pilih Code scanning. · 2. Baca filter is:open branch:demo/workshop. · 3. Hasilnya 0 Open, jadi tidak ada alert untuk Autofix. Jangan membuat temuan palsu.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Bedakan scan selesai dari jumlah alert</h3></div>
-    <p>Pada draft modul #1, CodeQL menyelesaikan analisis Actions dan JavaScript/TypeScript. Itu tidak menyatakan tidak ada temuan. Branch demo/workshop tetap 0 open, sedangkan PR punya satu warning nyata.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-4">https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014</code></pre>
-    <button type="button" data-copy="cmd-S10-4" aria-label="Salin: Bedakan scan selesai dari jumlah alert" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Pada draft dokumentasi PR #1, pemindaian selesai tetapi masih ada satu peringatan pada versi PR yang dipindai. Branch utama workshop adalah versi berbeda dan bukan pembanding.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014">Lihat hasil pemindaian pertama untuk draft PR #1</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-reference-draft-codeql-annotated.png"><img src="../assets/screenshots/S10-reference-draft-codeql-annotated.png" alt="CodeQL pada draft #1 menampilkan Success dan dua analisis, beserta peringatan bahwa diff penuh tidak diambil." width="1440" height="900" loading="lazy"><span>Perbesar S10-reference-draft-codeql-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45705199014">Sumber GitHub</a> · 1. Success menunjukkan scanner selesai, bukan berarti tidak ada alert. · 2. Dua job analisis selesai. · 3. Annotations mencatat batas diff pada PR besar; alert yang terukur dibaca terpisah di Code scanning.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Tinjau warning yang benar-benar ditemukan</h3></div>
-    <p>Di Security and quality, buka Code scanning alert #1 pada refs/pull/1/head. Warning ini soal format sel Markdown, bukan perilaku aplikasi Expense Claim. API Autofix tidak memberi saran; gunakan draft perbaikan biasa tanpa menambah permission atau menutup alert manual.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-5">https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1</code></pre>
-    <button type="button" data-copy="cmd-S10-5" aria-label="Salin: Tinjau warning yang benar-benar ditemukan" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-alert-open-annotated.png"><img src="../assets/screenshots/S10-alert-open-annotated.png" alt="Alert #1 berstatus Open pada refs/pull/1/head dan menunjuk script penerbit tabel bukti." width="921" height="491" loading="lazy"><span>Perbesar S10-alert-open-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Sumber GitHub</a> · 1. Baca Open dan ref PR: berbeda dari branch utama yang memiliki 0 open alert. · 2. Buka lokasi script. CodeQL melihat karakter pipa diganti dengan dirinya sendiri, sehingga pemisah sel Markdown belum di-escape. Tidak ada celah yang ditanam.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Uji perbaikan biasa sebelum memindai lagi</h3></div>
-    <p>Draft #36 memperbaiki formatter dan menambah satu regresi. Tes fokus lulus. Saya juga memeriksa baris laporan yang benar-benar dihasilkan: CI | e2e tetap satu sel meski input awal berisi newline. Jalur ini berbeda dari Copilot Autofix.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-6">npm test -- workshop-evidence.test.js</code></pre>
-    <button type="button" data-copy="cmd-S10-6" aria-label="Salin: Uji perbaikan biasa sebelum memindai lagi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Peringatan ini soal format sel tabel Markdown, bukan perilaku aplikasi Klaim. Autofix tidak memberi usulan untuk temuan ini. Gunakan perbaikan biasa tanpa menutup peringatan secara manual.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Baca peringatan format tabel Markdown</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-alert-open-annotated.png"><img src="../assets/screenshots/S10-alert-open-annotated.png" alt="Alert #1 berstatus Open pada refs/pull/1/head dan menunjuk script penerbit tabel bukti." width="921" height="491" loading="lazy"><span>Perbesar S10-alert-open-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Sumber GitHub</a> · 1. Baca Open dan ref PR: berbeda dari branch utama yang memiliki 0 open alert. · 2. Buka lokasi script. CodeQL melihat karakter pipa diganti dengan dirinya sendiri, sehingga pemisah sel Markdown belum di-escape. Tidak ada celah yang ditanam.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Uji apakah isi tabel tetap satu sel</h3></div>
+    <p>Draft PR #36 memperbaiki format sel. Cari tes yang memastikan CI | e2e tetap satu sel meskipun input punya baris baru. Jalankan tes dari folder yang memuat perubahan tersebut.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/36/files">Lihat perbaikan tabel di draft PR #36</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S10-6">npm test -- workshop-evidence.test.js</code></pre>
+    <button type="button" data-copy="cmd-S10-6" aria-label="Salin: Uji apakah isi tabel tetap satu sel" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-remediation-diff-annotated.png"><img src="../assets/screenshots/S10-remediation-diff-annotated.png" alt="Draft #36 mengubah formatter Markdown dan menambah regresi satu sel untuk pipa dan newline." width="1440" height="1401" loading="lazy"><span>Perbesar S10-remediation-diff-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/36/files">Sumber GitHub</a> · 1. Pastikan hanya formatter dan unit test. · 2. Baca escape pipa yang menambahkan backslash untuk tabel Markdown. · 3. Tes input dengan pipa dan newline menjaga satu sel. Ini draft perbaikan biasa, bukan PR dari tombol Autofix.</figcaption></figure></div></li><li class="step" value="7"><div class="step-top"><span class="step-number" aria-hidden="true">07</span><h3>Jalankan scan ulang pada ref yang sama</h3></div>
-    <p>CodeQL memindai commit 7b44711 pada refs/pull/1/head setelah perbaikan biasa. Dua analisis selesai; masing-masing hasil scan mencatat nol temuan. Jangan membandingkan dengan ref demo/workshop yang memang sudah nol alert.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-7">https://github.com/sandy-demo/AgenticSDLC/actions/runs/45707777663</code></pre>
-    <button type="button" data-copy="cmd-S10-7" aria-label="Salin: Jalankan scan ulang pada ref yang sama" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Setelah patch, CodeQL memindai commit 7b44711 pada PR #1 dan tidak menemukan peringatan. Pembandingnya harus PR yang sama, bukan branch utama workshop.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45707777663">Lihat pemindaian ulang setelah perbaikan</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-after-annotated.png"><img src="../assets/screenshots/S10-after-annotated.png" alt="Pemindaian ulang pada ref PR #1 dan commit 7b44711 selesai sukses dengan dua job." width="1440" height="915" loading="lazy"><span>Perbesar S10-after-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45707777663">Sumber GitHub</a> · 1. Cocokkan hash 7b44711 dan refs/pull/1/head. · 2. Baca Success untuk pemindaian sesudah perbaikan kode. · 3. Kedua analisis selesai. Hitung open alert terpisah di Code scanning; bukan hasil Autofix.</figcaption></figure></div></li><li class="step" value="8"><div class="step-top"><span class="step-number" aria-hidden="true">08</span><h3>Baca Fixed in branch, bukan status global</h3></div>
-    <p>Buka Activity alert #1 dan cari Fixed in branch refs/pull/1/head pada commit 7b44711. API untuk ref yang sama mengukur 1 open sebelum perbaikan dan 0 setelah scan. Tidak ada tombol Dismiss yang digunakan.</p><div class="cmd"><pre><code translate="no" id="cmd-S10-8">https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1</code></pre>
-    <button type="button" data-copy="cmd-S10-8" aria-label="Salin: Baca Fixed in branch, bukan status global" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Di riwayat peringatan, cari Fixed in branch untuk versi PR #1. Artinya pemindaian ulang tidak menemukan peringatan pada versi tersebut; bukan status global dan bukan peringatan yang disembunyikan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Baca riwayat peringatan dan status Fixed in branch</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S10-03-alert-closed-annotated.png"><img src="../assets/screenshots/S10-03-alert-closed-annotated.png" alt="Activity mencatat Fixed in branch refs/pull/1/head, terkait commit yang memperbaiki escape Markdown." width="921" height="623" loading="lazy"><span>Perbesar S10-03-alert-closed-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/security/code-scanning/1">Sumber GitHub</a> · 1. Baca Fixed in branch pada ref PR yang sama. Header tanpa filter dapat tetap Open; gunakan aktivitas ref ini dan API ref-specific. · 2. Cocokkan perubahan escape Markdown. · 3. Periksa commit 7b44711. Tidak ada dismiss manual atau merge.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>C4 menunjukkan satu warning Open sebelum perubahan dan nol sesudahnya pada refs/pull/1/head. Alert #1 mencatat Fixed in branch pada commit 7b44711. Pemindaian utama berbeda ref. Tidak ada Autofix yang dibuat, alert tidak di-dismiss, dan PR tidak di-merge.</p>

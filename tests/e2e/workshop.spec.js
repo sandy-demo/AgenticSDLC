@@ -19,6 +19,10 @@ test('semua halaman bisa dibaca offline tanpa overflow atau error', async ({ con
   for (const path of paths) {
     await page.goto(new URL(path, site).href);
     await expect(page.getByRole('main').getByRole('heading', { level: 1 })).toBeVisible();
+    if (/^scenarios\/S\d{2}\.html$/.test(path)) {
+      await expect(page.locator('figure#solution-flow')).toBeVisible();
+      await expect(page.locator('figure#interaction-flow')).toBeVisible();
+    }
     for (const width of [320, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${path} @ ${width}px`).toBe(true);
@@ -69,15 +73,74 @@ test.describe('tanpa JavaScript', () => {
     await page.goto(new URL('scenarios/S04.html', site).href);
     await expect(page.getByRole('heading', { name: 'Masalah yang dihadapi' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Masalah pada baseline' })).toBeVisible();
-    await expect(page.locator('figure[data-diagram] img')).toBeVisible();
+    await expect(page.locator('figure#solution-flow')).toBeVisible();
+    const diagram = page.locator('#solution-details');
+    await expect(diagram.locator('img')).toBeHidden();
+    await diagram.locator('summary').first().press('Enter');
+    await expect(diagram.locator('img')).toBeVisible();
     await expect(page.getByRole('link', { name: /Perbesar S04-before-annotated/ }).first()).toBeVisible();
+  });
+
+  test('workflow utuh bisa dibaca dari halaman awal tanpa JavaScript', async ({ page }) => {
+    await page.goto(new URL('index.html', site).href);
+    await page.getByRole('link', { name: 'Workflow utuh', exact: true }).click();
+    await expect(page).toHaveURL(/sdlc\.html$/);
+    await expect(page.getByRole('heading', { name: 'Satu tiket, dari rencana sampai tindak lanjut' })).toBeVisible();
+    await expect(page.locator('#interaction-flow')).toBeVisible();
+    await page.getByRole('link', { name: 'Cara mulai dari satu tiket' }).click();
+    await expect(page).toHaveURL(/#mulai$/);
+    await expect(page.locator('#mulai')).toContainText('action=start');
+    await expect(page.locator('#mulai')).toContainText('release-ready');
+    await page.getByRole('link', { name: 'Cek hasil', exact: true }).click();
+    await expect(page.getByRole('region', { name: 'Cek hasil', exact: true })).toContainText('API GitHub fiktif');
+    await expect(page.locator('#live-evidence')).toContainText('Belum diuji di GitHub');
+    await expect(page.locator('#evidence .gallery [data-shot]')).toHaveCount(3);
+  });
+
+  test('diagram S02 menampilkan aktor, lokasi, dan balasan di desktop maupun HP', async ({ page }) => {
+    await page.goto(new URL('scenarios/S02.html', site).href);
+    const diagram = page.locator('#interaction-flow');
+    const actors = diagram.locator('.sequence-actors');
+    await expect(actors.locator('li').filter({ hasText: 'Karyawan' })).toContainText('Browser lokal');
+    await expect(actors.locator('li').filter({ hasText: 'SQLite' })).toContainText('Di proses aplikasi');
+    const saveRequest = diagram.locator('.sequence-event').filter({ hasText: 'POST /claims: kirim kategori Travel' });
+    const readReply = diagram.locator('.sequence-event').filter({ hasText: 'Balas 200 dengan kategori Travel' });
+    await expect(saveRequest).toBeVisible();
+    await expect(readReply.locator('.sequence-line')).toHaveCSS('border-block-start-style', 'dashed');
+
+    await page.setViewportSize({ width: 390, height: 900 });
+    await expect(actors).toBeHidden();
+    await expect(saveRequest.locator('.sequence-route')).toContainText(/Karyawan.*Browser lokal.*API Express.*Aplikasi lokal/s);
+    await expect(readReply.locator('.sequence-route')).toContainText(/API Express.*Developer.*Terminal/s);
+    await expect(readReply).toBeVisible();
+  });
+
+  test('panduan review dan tautan PR bisa dipakai tanpa JavaScript', async ({ page }) => {
+    const destination = 'https://github.com/sandy-demo/AgenticSDLC/pull/25/files';
+    await page.route(destination, (route) => route.fulfill({ contentType: 'text/plain', body: 'Files changed' }));
+    await page.goto(new URL('scenarios/S03.html', site).href);
+
+    const reference = page.getByRole('link', { name: 'Lihat file yang berubah di draft PR #25', exact: true });
+    await expect(reference.locator('xpath=ancestor::li[1]').locator('[data-copy]')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Lihat hasil CI untuk draft PR #25', exact: true })
+      .locator('xpath=ancestor::li[1]').locator('pre')).toContainText('npm test -- comments.test.js');
+    await reference.click();
+    await expect(page).toHaveURL(destination);
+
+    await page.goto(new URL('scenarios/S03.html', site).href);
+    await page.getByRole('link', { name: 'Ikuti alur GitHub dari tiket sampai review' }).click();
+    await expect(page).toHaveURL(/setup.html#issue-to-review$/);
+    const walkthrough = page.locator('#issue-to-review');
+    await expect(walkthrough).toContainText('Issues → New issue');
+    await expect(walkthrough).toContainText('Assignees → Copilot');
+    await expect(walkthrough).toContainText('Submit review');
   });
 
   test('hasil belajar, petunjuk live dan alur ringkas dapat dibuka di 320px', async ({ page }) => {
     const root = new URL('../../', import.meta.url);
     const fixture = mkdtempSync(join(tmpdir(), 'workshop-renderer-'));
     try {
-      for (const path of ['scripts', 'package.json', 'docs/metrics.json', 'docs/screenshots', 'site/assets/diagrams', 'site/assets/workshop.css']) {
+      for (const path of ['scripts', 'src/logger.js', 'package.json', 'docs/metrics.json', 'docs/sdlc/evidence.json', 'docs/screenshots', 'site/assets/diagrams', 'site/assets/workshop.css']) {
         cpSync(new URL(path, root), join(fixture, path), { recursive: true });
       }
       symlinkSync(fileURLToPath(new URL('node_modules', root)), join(fixture, 'node_modules'), 'junction');
@@ -116,10 +179,12 @@ test.describe('tanpa JavaScript', () => {
       await expect(live.locator('pre, [data-copy]')).toHaveCount(0);
 
       for (const { actor, action, result } of flow) {
-        const summary = page.getByText(`${actor} · ${action}`, { exact: true });
+        const summary = page.locator('#solution-flow summary').filter({ hasText: action });
+        await expect(summary).toContainText(actor);
         await summary.press('Enter');
         await expect(page.getByText(`Hasil: ${result}`, { exact: true })).toBeVisible();
       }
+      await page.locator('#solution-details > summary').press('Enter');
       await expect(page.locator('[data-diagram="D6"] .diagram-narrow')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
 
@@ -129,4 +194,29 @@ test.describe('tanpa JavaScript', () => {
       rmSync(fixture, { recursive: true, force: true });
     }
   });
+});
+
+
+test('bukti workflow memakai gallery lokal, sumber yang jelas, dan zoom keyboard', async ({ context, page }) => {
+  await context.route(/^https?:/, (route) => route.abort());
+  const evidence = JSON.parse(readFileSync(new URL('../../docs/sdlc/evidence.json', import.meta.url), 'utf8'));
+  const name = 'SDLC-03-tes-lokal-annotated.png';
+  const image = evidence.images.find((item) => item.name === name);
+  await page.goto(new URL('sdlc.html', site).href);
+  await page.getByRole('link', { name: 'Bukti dan sumber', exact: true }).click();
+  const gallery = page.locator('#evidence .gallery');
+  await expect(gallery.locator('[data-shot]')).toHaveCount(evidence.gallery.length);
+  await expect(gallery).toContainText('bukan screenshot terminal/GitHub');
+  const zoom = gallery.getByRole('link', { name: /Perbesar SDLC-03-tes-lokal-annotated\.png$/ });
+  await zoom.focus();
+  await page.keyboard.press('Enter');
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('img')).toHaveJSProperty('naturalWidth', image.width);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(zoom).toBeFocused();
+  await page.setViewportSize({ width: 320, height: 900 });
+  await expect(zoom).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

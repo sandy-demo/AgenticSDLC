@@ -14,63 +14,110 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S01</p><p class="kicker">S01 · Level 1 — Inner loop</p>
-<h1>Beri agent aturan kerja tim</h1><p class="lead">Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.</p>
-<p class="note"><strong>Status latihan:</strong> Copilot CLI: dua prompt identik selesai; bukti UI Agent Mode VS Code belum ada. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Beri agent aturan kerja tim</h1><p class="lead">Beri Copilot permintaan riwayat klaim yang sama di dua checkout, satu dengan instruksi tim dan satu tanpa. Bandingkan apakah rencana menyebut format error, log tanpa data pribadi, dan tempat logika bisnis. Tidak perlu mengedit kode untuk membandingkannya.</p>
+<p class="note"><strong>Status latihan:</strong> Dua rencana sudah dibandingkan lewat Copilot di terminal; perbandingan di Chat VS Code belum direkam.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Rani</span><span class="badge">Bima</span><span class="badge">VS Code</span><span class="badge">8 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Rani bolak-balik revisi karena Bima memakai konvensi yang belum tertulis.</p><p class="note"><strong>Kerugian:</strong> Review kecil memakan waktu dan onboarding bergantung pada senior.</p>
+  <h2>Masalah yang dihadapi</h2><p>Rani diminta merencanakan fitur riwayat klaim. Kalau klaim tidak ditemukan, apakah API harus mengirim teks biasa atau kode error dan pesan? Bima ingin format { code, message } dengan pesan bahasa Indonesia, tetapi aturan itu belum ada di checkout awal.</p><p class="note"><strong>Kerugian:</strong> Rani harus menunggu koreksi Bima untuk keputusan kecil yang seharusnya bisa dipakai ulang oleh seluruh tim.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/routes/approvals.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">const claim_rows = db.approvalQueue(req.demoUser);</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Bandingkan prompt yang sama dengan dan tanpa .github/copilot-instructions.md dan AGENTS.md.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Beri Copilot permintaan riwayat klaim yang sama di dua checkout, satu dengan instruksi tim dan satu tanpa. Bandingkan apakah rencana menyebut format error, log tanpa data pribadi, dan tempat logika bisnis. Tidak perlu mengedit kode untuk membandingkannya.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>Developer</strong> · Kirim prompt yang sama</summary>
-    <p><strong>Hasil:</strong> Checkout pertama tidak memuat dua file instruksi; checkout kedua memuat keduanya.</p>
-  </details></li><li><details>
-    <summary><strong>Copilot CLI</strong> · Baca konteks yang tersedia</summary>
-    <p><strong>Hasil:</strong> Keduanya mengusulkan endpoint khusus pemilik. Dengan instruksi, jawaban juga menyebut format error, lapisan service, log, dan clock tetap.</p>
-  </details></li><li><details>
-    <summary><strong>Tech Lead</strong> · Bandingkan bukti</summary>
-    <p><strong>Hasil:</strong> Periksa usulannya; satu percobaan baca-saja bukan perbandingan kualitas semua model atau diff VS Code.</p>
+    <summary><strong>Developer</strong><span>Kirim prompt yang sama</span></summary>
+    <p><strong>Hasil:</strong> Pakai dua folder latihan, satu dengan instruksi tim dan satu tanpa. Minta rencana riwayat klaim, bukan edit kode.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Copilot</strong><span>Baca aturan di folder</span></summary>
+    <p><strong>Hasil:</strong> Dengan instruksi, rencana menyebut service, format error, log tanpa data pribadi, dan jam tetap untuk tes.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Tech Lead</strong><span>Bandingkan dua rencana</span></summary>
+    <p><strong>Hasil:</strong> Hasil pembanding berasal dari Copilot di terminal. Tidak ada perubahan kode atau tes endpoint dari percobaan baca-saja ini.</p>
   </details></li>
-</ol>
-<div class="rail"><ol><li><strong>Temukan instruksi repo.</strong> Di tab Code, cek branch demo/workshop dan buka .github/copilot-instructions.md. Gambar menunjukkan empat aturan yang akan kamu cari di hasil agent. Untuk membandingkan file yang dihapus, jalankan perintah berikut.</li><li><strong>Temukan file konteks di VS Code.</strong> Di snapshot v0-baseline, tekan Ctrl+P lalu buka file instruksi. Cocokkan aturan yang terlihat dengan isi usulan dari percobaan CLI. Sesi editor lokal belum login ke model Copilot.</li><li><strong>Jalankan prompt yang sama.</strong> Di VS Code pada checkout tanpa instructions, buka ikon Chat → pilih Agent → kirim prompt. Buka Source Control untuk memeriksa diff, lalu ulangi di checkout yang punya instructions. Jangan pakai folder kerja utama.</li><li><strong>Cari empat bukti di diff.</strong> Di Explorer buka .github/copilot-instructions.md. Tunjuk logger non-PII, format {code,message}, prepared statement dan test. Verifikasi pemilik bisa membaca klaimnya; pengguna lain tidak. Layar Agent Mode belum direkam.</li><li><strong>Bandingkan dua jawaban nyata.</strong> Jalankan Copilot CLI baca-saja pada dua checkout. Prompt harus sama; cek nama ref dan dua file dengan git, bukan hanya pengakuan model. Gambar menunjukkan jawaban pertama.</li></ol></div></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Temukan instruksi repo</h3></div>
-    <p>Di tab Code, cek branch demo/workshop dan buka .github/copilot-instructions.md. Gambar menunjukkan empat aturan yang akan kamu cari di hasil agent. Untuk membandingkan file yang dihapus, jalankan perintah berikut.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-1">git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md</code></pre>
-    <button type="button" data-copy="cmd-S01-1" aria-label="Salin: Temukan instruksi repo" hidden>Salin</button></div><p class="feedback" role="status"></p>
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Rani membandingkan dua rencana dari prompt yang sama.</p>
+    <div class="sequence" style="--lanes:4">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Rani</strong><span class="sequence-place">VS Code</span></li><li><strong>Copilot</strong><span class="sequence-place">Chat / terminal</span></li><li><strong>Aturan tim</strong><span class="sequence-place">Folder latihan</span></li><li><strong>Bima</strong><span class="sequence-place">Review rencana</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Rencanakan riwayat klaim, tanpa edit</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Rani</strong><span class="sequence-place">VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">Chat / terminal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kirim prompt yang sama di dua folder</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">Chat / terminal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Aturan tim</strong><span class="sequence-place">Folder latihan</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Periksa aturan yang tersedia</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Aturan tim</strong><span class="sequence-place">Folder latihan</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">Chat / terminal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Beri konteks: ada instruksi atau tidak</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">Chat / terminal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Rani</strong><span class="sequence-place">VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kembalikan rencana riwayat klaim</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Rani</strong><span class="sequence-place">VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Bima</strong><span class="sequence-place">Review rencana</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Bandingkan format error, log, dan tes</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Bukti perbandingan berasal dari Copilot di terminal. Tidak ada perubahan kode atau tes endpoint dari percobaan baca-saja ini.</figcaption>
+  </figure>
+</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di VS Code, pilih File → Open Folder untuk dua folder latihan: satu dengan instruksi tim dan satu tanpa. Jangan pakai folder kerja utama.</li><li>Di masing-masing folder, pilih Chat → Agent. Kirim prompt rencana riwayat klaim yang sama dan minta Copilot tidak mengedit kode.</li><li>Sebagai reviewer, bandingkan dua jawaban: cari pemisahan logika bisnis, format error yang sama, log tanpa data pribadi, dan rencana tes. Latihan ini tidak perlu PR atau approval.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Kenali aturan yang akan dicari di jawaban</h3></div>
+    <p>Baca instruksi tim untuk format error, log, akses database, dan tes. Perintah di bawah membandingkan daftar file instruksi di kedua versi latihan; tidak ada kode aplikasi yang diubah.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/copilot-instructions.md">Baca aturan Copilot di repo workshop</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S01-1">git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md</code></pre>
+    <button type="button" data-copy="cmd-S01-1" aria-label="Salin: Kenali aturan yang akan dicari di jawaban" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S01-02-instructions-file-annotated.png"><img src="../assets/screenshots/S01-02-instructions-file-annotated.png" alt="Dua nomor menandai file instruksi di GitHub dan empat aturan yang dicari peserta." width="1440" height="900" loading="lazy"><span>Perbesar S01-02-instructions-file-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/copilot-instructions.md">Sumber GitHub</a> · 1. Di Code, buka .github → copilot-instructions.md. · 2. Baca pemisahan route/service, format error, logger metadata, dan tes. Foto ini dari GitHub, bukan hasil Agent Mode.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Temukan file konteks di VS Code</h3></div>
-    <p>Di snapshot v0-baseline, tekan Ctrl+P lalu buka file instruksi. Cocokkan aturan yang terlihat dengan isi usulan dari percobaan CLI. Sesi editor lokal belum login ke model Copilot.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-2">.github/copilot-instructions.md</code></pre>
+    <p>Di folder v0-baseline, tekan Ctrl+P lalu ketik jalur file di bawah. Baca aturan yang nanti dicari di rencana. Folder demo/s01-no-instructions sengaja tidak memuat aturan ini.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/.github/copilot-instructions.md">Baca isi instruksi di versi awal</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S01-2">.github/copilot-instructions.md</code></pre>
     <button type="button" data-copy="cmd-S01-2" aria-label="Salin: Temukan file konteks di VS Code" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S01-vscode-instructions-annotated.png"><img src="../assets/screenshots/S01-vscode-instructions-annotated.png" alt="Editor membuka .github/copilot-instructions.md pada snapshot v0-baseline." width="1440" height="900" loading="lazy"><span>Perbesar S01-vscode-instructions-annotated.png</span></a><figcaption>Screenshot nyata VS Code Web lokal · v0-baseline · 1. Di VS Code, buka file copilot-instructions.md. · 2. Baca aturan service, validasi, error Indonesia, log metadata, dan tes. Foto membuktikan file ada, bukan hasil Agent Mode.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Jalankan prompt yang sama</h3></div>
-    <p>Di VS Code pada checkout tanpa instructions, buka ikon Chat → pilih Agent → kirim prompt. Buka Source Control untuk memeriksa diff, lalu ulangi di checkout yang punya instructions. Jangan pakai folder kerja utama.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-3">Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.</code></pre>
-    <button type="button" data-copy="cmd-S01-3" aria-label="Salin: Jalankan prompt yang sama" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cari empat bukti di diff</h3></div>
-    <p>Di Explorer buka .github/copilot-instructions.md. Tunjuk logger non-PII, format {code,message}, prepared statement dan test. Verifikasi pemilik bisa membaca klaimnya; pengguna lain tidak. Layar Agent Mode belum direkam.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-4">npm test</code></pre>
-    <button type="button" data-copy="cmd-S01-4" aria-label="Salin: Cari empat bukti di diff" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S01-vscode-instructions-annotated.png"><img src="../assets/screenshots/S01-vscode-instructions-annotated.png" alt="Editor membuka .github/copilot-instructions.md pada snapshot v0-baseline." width="1440" height="900" loading="lazy"><span>Perbesar S01-vscode-instructions-annotated.png</span></a><figcaption>Screenshot nyata VS Code Web lokal · v0-baseline · 1. Di VS Code, buka file copilot-instructions.md. · 2. Baca aturan service, validasi, error Indonesia, log metadata, dan tes. Foto membuktikan file ada, bukan hasil Agent Mode.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Kirim permintaan yang sama di dua folder</h3></div>
+    <p>Buka Chat → Agent di folder latihan tanpa instruksi dan kirim prompt. Ulangi persis di folder yang memuat instruksi. Bandingkan rencana yang muncul, bukan perubahan kode.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S01-3">Buat rencana endpoint GET /claims/:id/history untuk riwayat klaim pemiliknya. Jangan edit file.</code></pre>
+    <button type="button" data-copy="cmd-S01-3" aria-label="Salin: Kirim permintaan yang sama di dua folder" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    </li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cek apakah rencana mengikuti aturan tim</h3></div>
+    <p>Periksa sendiri apakah rencana membahas service, pesan Indonesia, log tanpa data pribadi, dan tes akses pemilik. Tidak perlu menjalankan tes endpoint karena latihan ini hanya membuat rencana.</p>
+
     </li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Bandingkan dua jawaban nyata</h3></div>
-    <p>Jalankan Copilot CLI baca-saja pada dua checkout. Prompt harus sama; cek nama ref dan dua file dengan git, bukan hanya pengakuan model. Gambar menunjukkan jawaban pertama.</p><div class="cmd"><pre><code translate="no" id="cmd-S01-5">git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md</code></pre>
+    <p>Bukti yang tersedia adalah dua sesi Copilot CLI (Copilot di terminal) yang hanya membaca kode. Perintah membantu memastikan dua folder memang berbeda pada file instruksi. Foto Chat VS Code untuk perbandingan ini belum ada.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S01-5">git diff --name-status v0-baseline demo/s01-no-instructions -- AGENTS.md .github/copilot-instructions.md</code></pre>
     <button type="button" data-copy="cmd-S01-5" aria-label="Salin: Bandingkan dua jawaban nyata" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S01-cli-without-instructions-annotated.png"><img src="../assets/screenshots/S01-cli-without-instructions-annotated.png" alt="Prompt yang sama tanpa dua file instruksi; hasil baca-saja." width="1440" height="1008" loading="lazy"><span>Perbesar S01-cli-without-instructions-annotated.png</span></a><figcaption>Keluaran nyata Copilot CLI · demo/s01-no-instructions · 1. Git menemukan 0 file instruksi pada ref ini. · 2. Baca proposal akses, data dan tes; belum ada diff. Bukan layar Chat VS Code.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
-  <h2 id="learning-check-title">Cek hasil</h2><p>Cek daftar file: demo/s01-no-instructions tidak memuat dua file dan v0-baseline memuat keduanya. Jawaban dengan instruksi mengikat keputusan ke service, log tanpa data pribadi, pesan Indonesia, dan clock tetap. Keduanya baca-saja: tidak ada diff atau tes endpoint.</p>
+  <h2 id="learning-check-title">Cek hasil</h2><p>Cek daftar file: demo/s01-no-instructions tidak memuat dua file dan v0-baseline memuat keduanya. Jawaban dengan instruksi mengikat keputusan ke service, log tanpa data pribadi, pesan Indonesia, dan clock tetap. Keduanya baca-saja: tidak ada daftar perubahan atau tes endpoint.</p>
   <h3>Bukti latihan terverifikasi</h3><div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S01-cli-with-instructions-annotated.png"><img src="../assets/screenshots/S01-cli-with-instructions-annotated.png" alt="Prompt identik pada baseline dengan dua file instruksi." width="1440" height="1077" loading="lazy"><span>Perbesar S01-cli-with-instructions-annotated.png</span></a><figcaption>Keluaran nyata Copilot CLI · v0-baseline · 1. Git menemukan dua file instruksi. · 2. Bandingkan pembatasan akses, prepared statement, pesan Indonesia dan tes. Jawaban bukan perubahan kode.</figcaption></figure></div>
 </section>
 <section class="section" id="live-steps" aria-labelledby="live-steps-title">
   <h2 id="live-steps-title">Langkah live</h2>
   <details open><summary>Prasyarat dan petunjuk pengambilan bukti</summary><p>Siapkan dua checkout latihan terpisah dan Copilot Chat → Agent di VS Code. Perintah dan input harus sama; satu checkout tanpa dan satu dengan instruksi. Tinjau hasil sebelum menerima edit.</p>
-    <ul><li><strong><code translate="no">S01-before.png</code></strong><p>Pada checkout tanpa instruksi, jalankan prompt “Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.” Tunjukkan Source Control. Foto baru sah kalau hasil awal benar-benar memiliki diff.</p></li><li><strong><code translate="no">S01-01-without-instructions.png</code></strong><p>Di Source Control buka Changes lalu file yang dibuat; perlihatkan ref tanpa instruksi dan bagian yang disentuh. Jangan promosikan hasilnya sebelum tes.</p></li><li><strong><code translate="no">S01-03-with-instructions.png</code></strong><p>Pada checkout yang memuat instruksi, kirim prompt identik. Buka Changes dan sorot batas otorisasi pemilik, error Indonesia, logging non-PII, dan tes; tandai jika ada yang tidak dibuat.</p></li><li><strong><code translate="no">S01-after.png</code></strong><p>Buka kedua diff di split editor dan bandingkan dengan prompt yang sama. Foto bukan penilaian kualitas otomatis; bukti lulus adalah diff dan tes yang benar.</p></li></ul>
+    <ul><li><strong><code translate="no">S01-before.png</code></strong><p>Pada checkout tanpa instruksi, jalankan prompt “Tambah endpoint GET /claims/:id/history yang mengembalikan riwayat klaim pemiliknya.” Tunjukkan Source Control. Foto baru sah kalau hasil awal benar-benar memiliki daftar perubahan.</p></li><li><strong><code translate="no">S01-01-without-instructions.png</code></strong><p>Di Source Control buka Changes lalu file yang dibuat; perlihatkan ref tanpa instruksi dan bagian yang disentuh. Jangan promosikan hasilnya sebelum tes.</p></li><li><strong><code translate="no">S01-03-with-instructions.png</code></strong><p>Pada checkout yang memuat instruksi, kirim prompt identik. Buka Changes dan sorot batas otorisasi pemilik, error Indonesia, logging non-PII, dan tes; tandai jika ada yang tidak dibuat.</p></li><li><strong><code translate="no">S01-after.png</code></strong><p>Buka kedua daftar perubahan di split editor dan bandingkan dengan prompt yang sama. Foto bukan penilaian kualitas otomatis; bukti lulus adalah daftar perubahan dan tes yang benar.</p></li></ul>
   </details>
 
 </section>

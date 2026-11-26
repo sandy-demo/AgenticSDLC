@@ -14,39 +14,93 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S09</p><p class="kicker">S09 · Level 3 — Tim virtual</p>
-<h1>Tinjau PR dengan tiga spesialis</h1><p class="lead">Jalankan tiga reviewer read-only: Security, Performance dan Compliance. Manusia memvalidasi dan memublikasikan draf komentar.</p>
-<p class="note"><strong>Status latihan:</strong> Tiga profil meninjau diff #20 · ringkasan nyata terbit, tanpa komentar severity buatan. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Tinjau PR dengan tiga spesialis</h1><p class="lead">Minta tiga profil Copilot meninjau perubahan yang sama dari sisi performa, keamanan, dan kepatuhan. Cocokkan setiap catatan dengan bukti sebelum menulis komentar atau meminta revisi.</p>
+<p class="note"><strong>Status latihan:</strong> Tiga profil membaca perubahan di draft PR #20. Ringkasan terbit, tetapi bukan approval manusia.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Sari</span><span class="badge">Dimas</span><span class="badge">Bima</span><span class="badge">Review lokal + GitHub</span><span class="badge">10 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Sari tidak bisa sendirian menguji performa, privasi, dan audit tiap PR.</p><p class="note"><strong>Kerugian:</strong> Defect non-fungsional baru terlihat setelah rilis.</p>
+  <h2>Masalah yang dihadapi</h2><p>Sari sudah melihat daftar klaim tampil. Bayangkan ada 10 klaim: aplikasi bisa mengambil daftar sekali, lalu mengambil detail satu per satu sebanyak 10 kali. Reviewer lain perlu mengecek apakah log berisi data pribadi dan apakah perubahan status meninggalkan jejak.</p><p class="note"><strong>Kerugian:</strong> Tes fitur bisa lulus walaupun daftar lambat atau jejak persetujuan hilang. Risiko ini belum tentu ada pada setiap PR.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">src/db.js</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">listOwn.all(userId).map(({ id }) =&gt; ownListItem.get(id, userId))</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Jalankan tiga reviewer read-only: Security, Performance dan Compliance. Manusia memvalidasi dan memublikasikan draf komentar.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Minta tiga profil Copilot meninjau perubahan yang sama dari sisi performa, keamanan, dan kepatuhan. Cocokkan setiap catatan dengan bukti sebelum menulis komentar atau meminta revisi.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>Maintainer</strong> · Pilih PR dan diff</summary>
-    <p><strong>Hasil:</strong> Review bawaan Copilot dan tiga sesi spesialis punya sumber yang bisa dibaca.</p>
-  </details></li><li><details>
-    <summary><strong>Reviewer</strong> · Periksa kerahasiaan, query, dan audit</summary>
-    <p><strong>Hasil:</strong> Sebut severity hanya jika lokasi dan dampak terbukti. Catatan N+1 di baseline tidak otomatis regresi PR.</p>
-  </details></li><li><details>
-    <summary><strong>Tech Lead</strong> · Putuskan dari bukti</summary>
+    <summary><strong>Maintainer</strong><span>Pilih satu PR latihan</span></summary>
+    <p><strong>Hasil:</strong> Baca tujuan perubahan dan file yang berubah. Tiga profil meninjau PR #20 yang sama.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Reviewer Copilot</strong><span>Periksa log, query, dan audit</span></summary>
+    <p><strong>Hasil:</strong> Keamanan memeriksa log, performa membahas query, dan kepatuhan memeriksa jejak persetujuan. Temuan harus punya bukti.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Reviewer manusia</strong><span>Cocokkan catatan dengan bukti</span></summary>
     <p><strong>Hasil:</strong> Ringkasan fasilitator bukan approval dan bukan tiga komentar spesialis yang dipublikasikan.</p>
   </details></li>
-</ol>
-<figure class="diagram" data-diagram="D7">
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Tiga pemeriksa membaca perubahan yang sama.</p>
+    <div class="sequence" style="--lanes:5">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></li><li><strong>Keamanan</strong><span class="sequence-place">Profil Copilot CLI</span></li><li><strong>Performa</strong><span class="sequence-place">Profil Copilot CLI</span></li><li><strong>Kepatuhan</strong><span class="sequence-place">Profil Copilot CLI</span></li><li><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Bagi pemeriksaan, bukan kode yang dibaca</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Keamanan</strong><span class="sequence-place">Profil Copilot CLI</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta cek data pribadi di log</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:4;--span:3">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Performa</strong><span class="sequence-place">Profil Copilot CLI</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta cek query yang berulang</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:5;--span:4">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Kepatuhan</strong><span class="sequence-place">Profil Copilot CLI</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Minta cek jejak persetujuan</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:6;--span:4">
+      <div class="sequence-route"><span><strong>Keamanan</strong><span class="sequence-place">Profil Copilot CLI</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Baca perubahan yang sama</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:3;--last:6;--span:3">
+      <div class="sequence-route"><span><strong>Performa</strong><span class="sequence-place">Profil Copilot CLI</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Cocokkan cara membaca daftar</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>Kepatuhan</strong><span class="sequence-place">Profil Copilot CLI</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Cocokkan perubahan status dan audit</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Keputusan tetap di tangan reviewer</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event is-reverse is-reply" style="--first:1;--last:6;--span:5">
+      <div class="sequence-route"><span><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Baca ringkasan dengan rujukan bukti</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:1;--last:6;--span:5">
+      <div class="sequence-route"><span><strong>Bima</strong><span class="sequence-place">GitHub Pull requests</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>PR latihan</strong><span class="sequence-place">Files changed / Conversation</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Beri masukan jika masalah terbukti</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Ringkasan fasilitator pada draft PR #20 bukan approval manusia dan bukan tiga komentar temuan yang dibuat oleh agent.</figcaption>
+  </figure>
+<details id="solution-details"><summary>Lihat diagram lengkap</summary><figure class="diagram" data-diagram="D7">
   <img class="diagram-image" src="../assets/diagrams/D7.svg" alt="Draft PR membagikan diff kepada tiga reviewer. Security memeriksa privasi. Performance memeriksa query berulang. Compliance memeriksa audit trail. Bima membaca ringkasan dengan bukti masing-masing." width="594" height="537" loading="lazy">
   <ol class="diagram-narrow"><li>Draft PR membagikan diff kepada tiga reviewer.</li><li>Security memeriksa privasi.</li><li>Performance memeriksa query berulang.</li><li>Compliance memeriksa audit trail.</li><li>Bima membaca ringkasan dengan bukti masing-masing.</li></ol>
   <figcaption><strong>D7.</strong> Security, Performance dan Compliance membaca diff yang sama dari sudut berbeda. Manusia memeriksa bukti lalu memutuskan.</figcaption>
@@ -62,25 +116,31 @@
   classDef ai fill:#efe6ff,stroke:#7354a4,color:#382459
   class lead human
   class sec,perf,comp ai</code></pre></details>
-</figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Bandingkan diff stock</h3></div>
-    <p>Cari recentClaimIds.map dan ownListItem.get di src/db.js. Untuk tujuh klaim, pembacaan per baris adalah risiko N+1. Cek output GET /claims tetap sama sebelum mengusulkan satu query.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-1">git diff v0-baseline demo/pr-stock -- src/db.js</code></pre>
-    <button type="button" data-copy="cmd-S09-1" aria-label="Salin: Bandingkan diff stock" hidden>Salin</button></div><p class="feedback" role="status"></p>
+</figure></details></section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di GitHub, pilih Pull requests dan buka satu PR latihan. Pahami dulu perubahan yang diminta di tiket. Kalau ingin memakai review bawaan, lihat Reviewers → Copilot jika tersedia.</li><li>Di Agents jalankan tiga profil pada PR yang sama: keamanan untuk log, performa untuk query, dan kepatuhan untuk jejak persetujuan. Minta masing-masing menyebut bukti dan lokasi.</li><li>Periksa Files changed sendiri. Baru beri komentar atau Request changes bila ada bukti. Saran Copilot bukan Approve dari reviewer manusia; jangan memaksakan tiga temuan.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Kenali risiko dalam contoh review awal</h3></div>
+    <p>Pada daftar klaim, cek apakah kode mengambil daftar ID lalu membaca detail tiap klaim satu per satu. Halaman tetap bisa tampil meski jumlah query membesar. Perintah ini membandingkan kode versi awal dan contoh.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/2/files">Lihat draft contoh untuk latihan review</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S09-1">git diff v0-baseline demo/pr-stock -- src/db.js</code></pre>
+    <button type="button" data-copy="cmd-S09-1" aria-label="Salin: Kenali risiko dalam contoh review awal" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-local-result.png"><img src="../assets/screenshots/S09-local-result.png" alt="Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance." width="1440" height="900" loading="lazy"><span>Perbesar S09-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S09: Performance · src/db.js di demo/pr-stock; Uji regresi GET /claims; Security dan Compliance.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Jalankan tiga sudut review</h3></div>
-    <p>Di draft PR S04 dan stock, buka reviewer di sidebar → Copilot bila tersedia. Jalankan security-reviewer, perf-reviewer, compliance-reviewer pada PR latihan; minta file/baris, severity, bukti dan saran tanpa mengubah kode.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-2">Review PR latihan dari sudut peranmu. Sebut file, baris, severity, bukti dan saran. Jangan edit atau merge.</code></pre>
+    <p>Di draft PR S04 dan stock, buka reviewer di sidebar → Copilot bila tersedia. Jalankan security-reviewer, perf-reviewer, compliance-reviewer pada PR latihan; minta file/baris, severity, bukti dan saran tanpa mengubah kode.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S09-2">Review PR latihan dari sudut peranmu. Sebut file, baris, severity, bukti dan saran. Jangan edit atau merge.</code></pre>
     <button type="button" data-copy="cmd-S09-2" aria-label="Salin: Jalankan tiga sudut review" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-01-three-sessions-annotated.png"><img src="../assets/screenshots/S09-01-three-sessions-annotated.png" alt="Tiga kotak menandai judul tugas spesialis yang benar-benar tercatat." width="990" height="806" loading="lazy"><span>Perbesar S09-01-three-sessions-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo">Sumber GitHub</a> · 1. Security: keterbatasan bukti akses dan logging, bukan temuan palsu. · 2. Compliance: periksa hasil audit, jangan nilai regulasi dari snapshot saja. · 3. Performance: buka draf N+1, lalu cek bukti pada diff.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Baca hasil spesialis tanpa mengarang komentar</h3></div>
-    <p>Di tab Agents buka tugas Performance, Security, dan Compliance. Performance memberi satu draf. Dua reviewer lainnya menjelaskan bahwa diff PR tidak terverifikasi di sesi. Status Done tidak berarti ada komentar di Conversation.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-3">https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo</code></pre>
-    <button type="button" data-copy="cmd-S09-3" aria-label="Salin: Baca hasil spesialis tanpa mengarang komentar" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Di GitHub Agents, baca hasil masing-masing profil. Done berarti sesi selesai, bukan komentar sudah terbit. Lihat Conversation pada PR untuk mengetahui apa yang benar-benar dipublikasikan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/agents?author=sandy-demo">Lihat sesi reviewer di GitHub Agents</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-performance-finding-annotated.png"><img src="../assets/screenshots/S09-performance-finding-annotated.png" alt="Draf Severity 3 menunjukkan query per klaim, maksimum 101, latensi belum diukur." width="926" height="368" loading="lazy"><span>Perbesar S09-performance-finding-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/tasks/b72ba60b-f3cf-45dc-9b36-987b0ac625c5">Sumber GitHub</a> · 1. Lihat judul [SEV-3] pada sesi, bukan komentar di PR. · 2. Baca pola 1 + N query, maksimum 101 dengan LIMIT 100. · 3. Latensinya belum diukur; pola sudah ada di baseline sehingga tidak terbukti sebagai regresi PR.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Baca ringkasan yang benar-benar terbit</h3></div>
-    <p>Di draft #2 buka Conversation, bukan di tab Agents. Bandingkan saran Copilot dengan ringkasan fasilitator. Ini catatan, bukan persetujuan untuk merge.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-4">https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066</code></pre>
-    <button type="button" data-copy="cmd-S09-4" aria-label="Salin: Baca ringkasan yang benar-benar terbit" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-after-annotated.png"><img src="../assets/screenshots/S09-after-annotated.png" alt="Percakapan draft #2 berisi komentar review bawaan dan ringkasan fasilitator terbit." width="1440" height="900" loading="lazy"><span>Perbesar S09-after-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066">Sumber GitHub</a> · 1. Approval recommended adalah saran review bawaan, bukan approval manusia. · 2. Baca Ringkasan fasilitator S09 yang dipublikasikan. Tidak ada tiga komentar severity atau merge.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Ulangi review pada diff yang sudah berfungsi</h3></div>
-    <p>Buka retry S04 #20 dan baca review bawaan. Bandingkan saran Approval recommended dengan status review COMMENTED. Jangan mengada-adakan tiga komentar severity bila tidak ada dasar.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-5">https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557</code></pre>
-    <button type="button" data-copy="cmd-S09-5" aria-label="Salin: Ulangi review pada diff yang sudah berfungsi" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-s04-review-annotated.png"><img src="../assets/screenshots/S09-s04-review-annotated.png" alt="Review Copilot pada retry S04 #20: Approval recommended dan tidak ada masalah review yang aktif." width="1440" height="900" loading="lazy"><span>Perbesar S09-s04-review-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557">Sumber GitHub</a> · 1. Approval recommended adalah komentar review Copilot, bukan persetujuan manusia. · 2. Review tidak melaporkan masalah aktif pada diff S04; ini bukan jaminan semua bug ditemukan.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Baca hasil tiga reviewer pada diff yang ada</h3></div>
-    <p>Tiga profil CLI membaca diff #20 yang sama tanpa menulis atau menjalankan tes. Komentar fasilitator mencantumkan apa yang diperiksa. Tidak ada regresi yang terverifikasi, jadi jangan membuat severity hanya untuk memenuhi kuota.</p><div class="cmd"><pre><code translate="no" id="cmd-S09-6">https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001</code></pre>
-    <button type="button" data-copy="cmd-S09-6" aria-label="Salin: Baca hasil tiga reviewer pada diff yang ada" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Komentar pada draft PR #2 menyebut apa yang diperiksa fasilitator. Ini catatan untuk review, bukan persetujuan manusia untuk menggabungkan kode.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066">Baca ringkasan review pada draft PR #2</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-after-annotated.png"><img src="../assets/screenshots/S09-after-annotated.png" alt="Percakapan draft #2 berisi komentar review bawaan dan ringkasan fasilitator terbit." width="1440" height="900" loading="lazy"><span>Perbesar S09-after-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/2#issuecomment-7167398066">Sumber GitHub</a> · 1. Approval recommended adalah saran review bawaan, bukan approval manusia. · 2. Baca Ringkasan fasilitator S09 yang dipublikasikan. Tidak ada tiga komentar severity atau merge.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Kenali beda saran Copilot dan approval manusia</h3></div>
+    <p>Pada draft perbaikan tanggal #20, review bawaan menyarankan approval. Statusnya COMMENTED: Copilot memberi komentar, bukan manusia menyetujui PR.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557">Baca review bawaan Copilot pada draft PR #20</a></p>
+
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-s04-review-annotated.png"><img src="../assets/screenshots/S09-s04-review-annotated.png" alt="Review Copilot pada retry S04 #20: Approval recommended dan tidak ada masalah review yang aktif." width="1440" height="900" loading="lazy"><span>Perbesar S09-s04-review-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20#pullrequestreview-6061587557">Sumber GitHub</a> · 1. Approval recommended adalah komentar review Copilot, bukan persetujuan manusia. · 2. Review tidak melaporkan masalah aktif pada diff S04; ini bukan jaminan semua bug ditemukan.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Cocokkan tiga catatan review dengan perubahan kode</h3></div>
+    <p>Tiga profil membaca perubahan PR #20 yang sama tanpa menulis atau menjalankan tes. Ringkasan mencatat apa yang diperiksa. Jika risiko tidak terbukti pada perubahan ini, tidak perlu membuat temuan.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001">Baca ringkasan tiga reviewer pada draft PR #20</a> · <a href="https://github.com/sandy-demo/AgenticSDLC/pull/20/files">Lihat perubahan yang ditinjau</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S09-s04-panel-recap-annotated.png"><img src="../assets/screenshots/S09-s04-panel-recap-annotated.png" alt="Komentar publik S09 pada #20 menuliskan ringkasan Security, Performance dan Compliance." width="1440" height="900" loading="lazy"><span>Perbesar S09-s04-panel-recap-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/20#issuecomment-7174548001">Sumber GitHub</a> · 1. Cocokkan commit 22bef91. · 2. Security memeriksa validasi sebelum tulis. · 3. Performance membedakan query diff dan baseline. · 4. Compliance mencocokkan kontrak dan audit. Ini ringkasan fasilitator, bukan tiga komentar severity atau approval.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Buka komentar pada #20 dan cocokkan tiga sudut review terhadap commit 22bef91. Bedakan pembacaan statis, tes, temuan terverifikasi, dan approval. Draft lama #2 tetap berguna untuk membahas N+1 baseline; tidak ada tiga temuan baru yang dipaksakan.</p>

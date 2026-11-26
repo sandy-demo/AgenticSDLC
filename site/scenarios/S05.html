@@ -14,52 +14,99 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S05</p><p class="kicker">S05 · Level 2 — Delegasi asinkron</p>
-<h1>Pulihkan CI merah karena timezone</h1><p class="lead">Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.</p>
-<p class="note"><strong>Status latihan:</strong> Draft #27 punya fix; fixture dan 14 tes validasi per zona lulus lokal. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Pulihkan CI merah karena timezone</h1><p class="lead">Berikan Copilot log dari job yang gagal. Minta usulan tes dengan waktu tetap, lalu bandingkan hasil uji di Jakarta dan Los Angeles tanpa mengubah aturan tanggal klaim.</p>
+<p class="note"><strong>Status latihan:</strong> Draft PR #27 berisi perbaikan tes zona waktu; uji lokal lulus di Jakarta dan Los Angeles.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Rani</span><span class="badge">Bima</span><span class="badge">Yoga</span><span class="badge">Fixture lokal + GitHub</span><span class="badge">8 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Log panjang menyembunyikan beda kalender antara zona waktu Jakarta dan LA.</p><p class="note"><strong>Kerugian:</strong> Rilis menunggu dan beberapa orang mengulang diagnosis yang sama.</p>
+  <h2>Masalah yang dihadapi</h2><p>Rani melihat tes tanggal lulus di Jakarta tapi gagal di Los Angeles. Pada satu momen yang sama, Jakarta sudah 15 Oktober pukul 08.00, sedangkan Los Angeles masih 14 Oktober pukul 18.00. Kalau tes menganggap keduanya sudah tanggal 15, hasilnya tidak konsisten.</p><p class="note"><strong>Kerugian:</strong> CI merah di satu zona saja. Tim perlu mencari asumsi tentang hari ini, bukan menebak bahwa seluruh perubahan aplikasinya rusak.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">tests/labs/ci-timezone.mjs</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">Tanggal 2026-10-15T01:00Z masih 14 Oktober di Los Angeles.</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Bandingkan job matrix dan ubah tes supaya tanggal bisnis tidak bergantung pada jam mesin.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Berikan Copilot log dari job yang gagal. Minta usulan tes dengan waktu tetap, lalu bandingkan hasil uji di Jakarta dan Los Angeles tanpa mengubah aturan tanggal klaim.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>GitHub Actions</strong> · Bagi job menurut zona waktu</summary>
-    <p><strong>Hasil:</strong> Fixture lama lulus di Jakarta dan gagal di Los Angeles pada instant yang sama.</p>
-  </details></li><li><details>
-    <summary><strong>Developer</strong> · Tentukan kalender bisnis</summary>
-    <p><strong>Hasil:</strong> Gunakan Asia/Jakarta untuk tanggal dan hitungan 90 hari, bukan zona mesin.</p>
-  </details></li><li><details>
-    <summary><strong>Vitest dan Node</strong> · Ulangi kedua zona</summary>
-    <p><strong>Hasil:</strong> Fixture lulus pada commit #27 untuk keduanya; status CI platform harus diperiksa terpisah.</p>
+    <summary><strong>GitHub Actions</strong><span>Tunjukkan zona yang gagal</span></summary>
+    <p><strong>Hasil:</strong> Pada momen yang sama, tes awal lulus di Jakarta dan gagal di Los Angeles karena tanggal kalender berbeda.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Developer</strong><span>Tetapkan kalender bisnis</span></summary>
+    <p><strong>Hasil:</strong> Pakai Asia/Jakarta untuk menentukan tanggal bisnis saat waktu uji dibuat tetap, bukan zona mesin.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Tes lokal</strong><span>Ulangi di dua zona waktu</span></summary>
+    <p><strong>Hasil:</strong> Uji pada draft PR #27 lulus di kedua zona. Hasil lokal ini bukan hasil tab Checks GitHub.</p>
   </details></li>
-</ol>
-<div class="rail"><ol><li><strong>Buka job yang merah.</strong> GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</li><li><strong>Ulangi fixture di dua timezone.</strong> Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</li><li><strong>Minta tes yang tidak bergantung jam mesin.</strong> Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</li><li><strong>Jalankan kandidat perbaikan tanpa mengubah file.</strong> Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.</li><li><strong>Tinjau fix pada draft #27.</strong> Dua zona mesin menguji instant yang sama. Draft menetapkan kalender bisnis Jakarta dan menambah regresi di suite normal, supaya tes ikut berjalan walau langkah fixture branch-specific dilewati.</li></ol></div></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Buka job yang merah</h3></div>
-    <p>GitHub → Actions → CI → run dari demo/ci-timezone → test (America/Los_Angeles). Lihat baris Latihan S05 — timezone. Asia/Jakarta harus hijau. Jangan menanam kegagalan di branch utama.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-1">gh run view 45567770102 --job 139046666825 --log-failed -R sandy-demo/AgenticSDLC</code></pre>
-    <button type="button" data-copy="cmd-S05-1" aria-label="Salin: Buka job yang merah" hidden>Salin</button></div><p class="feedback" role="status"></p>
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Telusuri tes tanggal yang gagal hanya di Los Angeles.</p>
+    <div class="sequence" style="--lanes:4">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>CI</strong><span class="sequence-place">GitHub Actions</span></li><li><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></li><li><strong>Copilot</strong><span class="sequence-place">Issue latihan</span></li><li><strong>Tes lokal</strong><span class="sequence-place">Terminal</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Diagnosis dan uji ulang</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>CI</strong><span class="sequence-place">GitHub Actions</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Laporkan: Jakarta lulus, Los Angeles gagal</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Copilot</strong><span class="sequence-place">Issue latihan</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kirim tautan job dan pesan tes gagal</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Copilot</strong><span class="sequence-place">Issue latihan</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Usulkan kalender bisnis dan waktu tetap</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:5;--span:3">
+      <div class="sequence-route"><span><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Tes lokal</strong><span class="sequence-place">Terminal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Uji waktu yang sama di dua zona</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:2;--last:5;--span:3">
+      <div class="sequence-route"><span><strong>Tes lokal</strong><span class="sequence-place">Terminal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Rani</strong><span class="sequence-place">GitHub / VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Laporkan hasil masing-masing zona</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Perbaikan di draft PR #27 diuji lokal pada dua zona. Itu bukan klaim bahwa CI draft tersebut sudah lulus.</figcaption>
+  </figure>
+</section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di GitHub, buka Actions → CI lalu job Los Angeles yang merah. Salin tautan job dan pesan tes yang gagal; cek apakah Jakarta lulus.</li><li>Buat issue di repo latihan dengan dua informasi itu. Pilih Assignees → Copilot dan minta tes memakai jam tetap tanpa menghapus tes yang gagal.</li><li>Di usulan kode, buka Files changed untuk mengecek bahwa aturan aplikasi tidak diubah. Jalankan atau baca tes kedua zona, lalu beri review manusia hanya berdasarkan hasil yang tersedia.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Cari pesan pertama yang menjelaskan kegagalan</h3></div>
+    <p>Buka job Los Angeles dan cari Latihan S05 — timezone. Bandingkan dengan job Jakarta pada run yang sama. Perintah di bawah membuka log dari GitHub CLI.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/actions/runs/45567770102/job/139046666825">Buka log job Los Angeles yang gagal</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S05-1">gh run view 45567770102 --job 139046666825 --log-failed -R sandy-demo/AgenticSDLC</code></pre>
+    <button type="button" data-copy="cmd-S05-1" aria-label="Salin: Cari pesan pertama yang menjelaskan kegagalan" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-before.png"><img src="../assets/screenshots/S05-before.png" alt="Actions publik: ringkasan run CI berstatus Failure dan job LA merah." width="1440" height="1199" loading="lazy"><span>Perbesar S05-before.png</span></a><figcaption>Layar ringkasan GitHub Actions publik · bukan hasil revisi agent · Actions publik: ringkasan run CI berstatus Failure dan job LA merah.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Ulangi fixture di dua timezone</h3></div>
-    <p>Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</p><div class="cmd"><pre><code translate="no" id="cmd-S05-2">$env:TZ=&#39;Asia/Jakarta&#39;; node --test tests/labs/ci-timezone.mjs
+    <p>Terminal PowerShell: ubah TZ dari Asia/Jakarta menjadi America/Los_Angeles. Input tetap 2026-10-15T01:00Z; di LA tanggalnya 14. Kode keluar pertama 0, kedua 1 (disengaja).</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S05-2">$env:TZ=&#39;Asia/Jakarta&#39;; node --test tests/labs/ci-timezone.mjs
 $env:TZ=&#39;America/Los_Angeles&#39;; node --test tests/labs/ci-timezone.mjs
 Remove-Item Env:TZ</code></pre>
     <button type="button" data-copy="cmd-S05-2" aria-label="Salin: Ulangi fixture di dua timezone" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-result.png"><img src="../assets/screenshots/S05-local-result.png" alt="Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S05: TZ=Asia/Jakarta · kode keluar 0; TZ=America/Los_Angeles · kode keluar 1.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Minta tes yang tidak bergantung jam mesin</h3></div>
-    <p>Pada template issue, isi link run dan job. Target perubahan hanya pada tes: pilih timezone bisnis secara eksplisit, pakai jam tetap, lalu cek dua job. Jangan menghapus tes hanya supaya CI hijau.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-3">issues/S05.md</code></pre>
+    <p>Di tiket, sebutkan link job dan dua hasil yang diharapkan. Minta tes yang menentukan kalender bisnis secara jelas dengan waktu tetap, tanpa menghapus tes agar CI tampak hijau.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/issues/S05.md">Baca contoh isi tiket zona waktu</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S05-3">issues/S05.md</code></pre>
     <button type="button" data-copy="cmd-S05-3" aria-label="Salin: Minta tes yang tidak bergantung jam mesin" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-after.png"><img src="../assets/screenshots/S05-after.png" alt="Fixture lama gagal hanya di LA; draft lulus di kedua zona." width="1440" height="900" loading="lazy"><span>Perbesar S05-after.png</span></a><figcaption>Tes lokal draft #27 · 15c5d78 · Fixture lama gagal hanya di LA; draft lulus di kedua zona.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Jalankan kandidat perbaikan tanpa mengubah file</h3></div>
-    <p>Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-4">$previousTz = $env:TZ
+    <p>Salin seluruh blok ke PowerShell. Input instannya sama; satu proses mengikuti kalender mesin, kandidat menetapkan Asia/Jakarta. Keduanya menampilkan hasil agar bisa dibandingkan. Variabel TZ dikembalikan sesudahnya.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S05-4">$previousTz = $env:TZ
 try {
 foreach ($tz in &#39;Asia/Jakarta&#39;,&#39;America/Los_Angeles&#39;) {
   $env:TZ=$tz
@@ -75,10 +122,11 @@ console.log(JSON.stringify({ runner: process.env.TZ, before: dateKey(instant), a
 }
 } finally { $env:TZ = $previousTz }</code></pre>
     <button type="button" data-copy="cmd-S05-4" aria-label="Salin: Jalankan kandidat perbaikan tanpa mengubah file" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-timezone-proof-annotated.png"><img src="../assets/screenshots/S05-local-timezone-proof-annotated.png" alt="Output perbandingan hari pada dua proses dengan zona waktu berbeda." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-timezone-proof-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Dengan TZ Asia/Jakarta, fungsi lama dan kandidat sama-sama menghasilkan 2026-10-15. · 2. Dengan TZ America/Los_Angeles, hasil lokal lama 2026-10-14, tetapi kandidat zona waktu bisnis tetap 2026-10-15. Ini uji lokal, bukan PR #6.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Tinjau fix pada draft #27</h3></div>
-    <p>Dua zona mesin menguji instant yang sama. Draft menetapkan kalender bisnis Jakarta dan menambah regresi di suite normal, supaya tes ikut berjalan walau langkah fixture branch-specific dilewati.</p><div class="cmd"><pre><code translate="no" id="cmd-S05-5">node --test tests/labs/ci-timezone.mjs
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-local-timezone-proof-annotated.png"><img src="../assets/screenshots/S05-local-timezone-proof-annotated.png" alt="Output perbandingan hari pada dua proses dengan zona waktu berbeda." width="1440" height="900" loading="lazy"><span>Perbesar S05-local-timezone-proof-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Dengan TZ Asia/Jakarta, fungsi lama dan kandidat sama-sama menghasilkan 2026-10-15. · 2. Dengan TZ America/Los_Angeles, hasil lokal lama 2026-10-14, tetapi kandidat zona waktu bisnis tetap 2026-10-15. Ini uji lokal, bukan PR #6.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Periksa perbaikan tes zona waktu di draft PR #27</h3></div>
+    <p>Di Files changed, cari cara draft menetapkan kalender bisnis Jakarta dan menambahkan tes regresi. Perintah di bawah membandingkan dua zona lokal; ini bukan hasil Checks GitHub untuk draft tersebut.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/pull/27/files">Lihat perbaikan tes zona waktu di draft PR #27</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S05-5">node --test tests/labs/ci-timezone.mjs
 npm test -- validation.test.js</code></pre>
-    <button type="button" data-copy="cmd-S05-5" aria-label="Salin: Tinjau fix pada draft #27" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <button type="button" data-copy="cmd-S05-5" aria-label="Salin: Periksa perbaikan tes zona waktu di draft PR #27" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S05-02-pr-fix-annotated.png"><img src="../assets/screenshots/S05-02-pr-fix-annotated.png" alt="Formatter tanggal bisnis menetapkan Asia/Jakarta." width="1440" height="900" loading="lazy"><span>Perbesar S05-02-pr-fix-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/pull/27/files">Sumber GitHub</a> · 1. Zona Asia/Jakarta ditetapkan pada formatter, bukan mengikuti TZ mesin. Diff menjaga hitungan hari kalender.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Fixture pada 2026-10-15T01:00Z gagal hanya di LA pada baseline; kedua zona lulus pada 15c5d78. Vitest validasi 14 lulus pada setiap zona. Jangan samakan keluaran ini dengan hasil Checks PR.</p>

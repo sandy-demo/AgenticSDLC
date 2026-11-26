@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "generated": "2026-11-26",
+    "source_spec": "Permintaan pengguna dan kebutuhan di docs/sdlc/plan.md",
+    "target_plan": "docs/sdlc/plan.md"
+  },
+  "summary": {
+    "total_requirements": 8,
+    "covered_requirements": 8,
+    "missing_requirements": 0,
+    "coverage_percentage": 100
+  },
+  "requirements": [
+    {
+      "req_id": "REQ-001",
+      "req_description": "Status pada satu tiket",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "1.1"
+          },
+          {
+            "item_id": "3.1"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-002",
+      "req_description": "Desain sebelum aplikasi",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "2.2"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-003",
+      "req_description": "Approval pada commit desain",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "1.2"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-004",
+      "req_description": "Draft implementasi terpisah",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "2.2"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-005",
+      "req_description": "Tiga job CI pada commit yang tepat",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "1.2"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-006",
+      "req_description": "AI bukan approval manusia",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "1.2"
+          },
+          {
+            "item_id": "2.3"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-007",
+      "req_description": "Tidak ada merge atau deploy otomatis",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "2.1"
+          },
+          {
+            "item_id": "2.4"
+          }
+        ]
+      }
+    },
+    {
+      "req_id": "REQ-008",
+      "req_description": "Kegagalan dan idempotensi",
+      "plan_mapping": {
+        "items": [
+          {
+            "item_id": "1.2"
+          }
+        ]
+      }
+    }
+  ],
+  "missing_requirements": [],
+  "orphan_plan_items": [],
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": []
+  }
+}

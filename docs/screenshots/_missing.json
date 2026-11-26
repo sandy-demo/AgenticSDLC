@@ -30,5 +30,27 @@
     "S01-after.png",
     "S03-01-skill-loaded.png"
   ],
-  "manualOrg": []
+  "manualOrg": [],
+  "workflowPending": [
+    {
+      "name": "SDLC-live-01-start.png",
+      "where": "GitHub Actions dan tiket utama",
+      "instruction": "Setelah maintainer menyetujui publikasi, akses, dan biaya, isi nomor issue serta action=start. Rekam run nyata dan komentar status yang mengarah ke tiket desain."
+    },
+    {
+      "name": "SDLC-live-02-plan.png",
+      "where": "PR desain dan komentar status",
+      "instruction": "Rekam file desain, approval reviewer manusia pada commit terbaru, dan tiket Implementer yang dibuat sesudah approval itu."
+    },
+    {
+      "name": "SDLC-live-03-checks-review.png",
+      "where": "Checks dan review pada PR implementasi",
+      "instruction": "Rekam tiga job CI lulus, catatan Copilot, dan approval manusia pada commit yang sama. Jangan memakai run dari PR lain."
+    },
+    {
+      "name": "SDLC-live-04-follow-up.png",
+      "where": "GitHub Release dan tiket pemeriksaan hasil",
+      "instruction": "Hanya di repo turunan dengan izin rilis: rekam rilis manusia pada commit hasil merge dan tiket tindak lanjut yang cocok. Jika latihan berhenti di release-ready, bagian ini tetap pending; GitHub Release bukan deployment."
+    }
+  ]
 }

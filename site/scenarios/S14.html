@@ -14,39 +14,81 @@
 <a class="skip" href="#main">Langsung ke isi</a>
 <header class="bar"><div class="wrap">
   <a class="brand" href="../index.html"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#3264ce"/><path d="M8 16h6l3-6 3 12 3-6h2" fill="none" stroke="#fff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg> Agentic SDLC</a>
-  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
+  <nav aria-label="Navigasi workshop"><a href="../index.html">Mulai</a><a href="../sdlc.html">Workflow utuh</a><a href="../scenarios/index.html" aria-current="location">Skenario</a><a href="../architecture.html">Arsitektur</a><a href="../capstone.html">Capstone</a><a href="../governance.html">Governance</a><a href="../setup.html">Cara demo</a></nav>
 </div></header>
 <main class="wrap" id="main">
 
 <p class="breadcrumb"><a href="index.html">Semua skenario</a> / S14</p><p class="kicker">S14 · Level 5 — Governance dan capstone</p>
-<h1>Batasi aksi agent dan ukur biaya</h1><p class="lead">Pisahkan hook, izin Actions, gate branch, dan budget. Dashboard organisasi bukan bagian dari fixture lokal.</p>
-<p class="note"><strong>Status latihan:</strong> Fixture guardrail dan audit teruji; kredit sesi GitHub direkam terpisah. <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
+<h1>Batasi aksi agent dan ukur biaya</h1><p class="lead">Jalankan masukan latihan yang aman: satu aksi biasa dan satu permintaan yang seharusnya ditolak. Periksa kategori dan keputusan di audit tanpa membuka isi data terlindungi. Cek batas workflow dan pemakaian AI secara terpisah.</p>
+<p class="note"><strong>Status latihan:</strong> Pemeriksaan batas dan audit diuji lokal. Pemakaian AI dicatat dari sesi terpisah, bukan dari dashboard tagihan.. <a href="#interaction-flow">Lihat diagram interaksi</a> · <a href="#practice">Ikuti langkah</a> · <a href="#learning-check">Cek hasil</a> · <a href="#live-steps">Langkah live</a> · <a href="#reset">Ulangi dari awal</a>.</p>
 <div class="badges"><span class="badge">Ibu Maya</span><span class="badge">Hendra</span><span class="badge">Yoga</span><span class="badge">Fixture lokal / organisasi</span><span class="badge">8 menit · ilustrasi durasi</span></div>
 <div class="tabs" role="tablist" aria-label="Sudut pandang" data-tabs hidden>
   <button type="button" role="tab" id="business-tab" data-view="business" aria-controls="business">Bisnis</button>
   <button type="button" role="tab" id="technical-tab" data-view="technical" aria-controls="technical">Teknis</button>
 </div>
 <div class="panel" id="business" role="tabpanel" aria-labelledby="business-tab" tabindex="0">
-  <h2>Masalah yang dihadapi</h2><p>Ibu Maya tidak mau membuka akses agent tanpa kontrol dan penanggung jawab biaya.</p><p class="note"><strong>Kerugian:</strong> Pilot berhenti atau biaya dan akses tidak terpantau.</p>
+  <h2>Masalah yang dihadapi</h2><p>Ibu Maya ingin AI membantu tim, tetapi perlu bukti bahwa tes biasa tetap melewati pemeriksaan normal dan permintaan akses ke lokasi terlindungi ditolak. Hendra juga ingin memisahkan catatan izin tindakan dari catatan pemakaian AI.</p><p class="note"><strong>Kerugian:</strong> Tanpa contoh yang diuji, tim tidak tahu apakah batas bekerja atau apakah audit merekam lebih banyak data dari yang seharusnya.</p>
 </div>
 <div class="panel" id="technical" role="tabpanel" aria-labelledby="technical-tab" tabindex="0">
   <h2>Masalah pada baseline</h2><p><code translate="no">.github/hooks/guardrails.json</code></p>
   <details><summary>Lihat potongan atau catatan sumber</summary><pre><code translate="no">preToolUse → deny atau keputusan standar; log tanpa argumen.</code></pre></details>
 </div>
-<section class="section"><h2>Solusi dan alur</h2><p>Pisahkan hook, izin Actions, gate branch, dan budget. Dashboard organisasi bukan bagian dari fixture lokal.</p>
-<h3>Alur kerja ringkas</h3><ol class="workflow-path">
+<section class="section"><h2>Solusi dan alur</h2><p>Jalankan masukan latihan yang aman: satu aksi biasa dan satu permintaan yang seharusnya ditolak. Periksa kategori dan keputusan di audit tanpa membuka isi data terlindungi. Cek batas workflow dan pemakaian AI secara terpisah.</p>
+<figure id="solution-flow" class="solution-flow" aria-labelledby="solution-flow-title">
+  <h3 id="solution-flow-title">Alur kerja ringkas</h3>
+  <ol class="workflow-path" role="list">
   <li><details>
-    <summary><strong>Developer</strong> · Jalankan fixture bawaan</summary>
-    <p><strong>Hasil:</strong> Kedua contoh hanya diperiksa, bukan dijalankan.</p>
-  </details></li><li><details>
-    <summary><strong>Hook</strong> · Kembalikan default atau deny</summary>
-    <p><strong>Hasil:</strong> Audit mencatat waktu, fase, keputusan, kategori; tidak menyimpan argumen.</p>
-  </details></li><li><details>
-    <summary><strong>Platform</strong> · Baca kredit terpisah</summary>
-    <p><strong>Hasil:</strong> Angka 3,3 AI credits pada contoh sesi bukan tarif, tagihan, atau bukti izin tool.</p>
+    <summary><strong>Developer</strong><span>Jalankan contoh uji aman</span></summary>
+    <p><strong>Hasil:</strong> Program hanya memeriksa dua contoh tindakan. Tidak ada tindakan terlindungi yang dijalankan.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Hook</strong><span>Nilai tindakan sebelum berjalan</span></summary>
+    <p><strong>Hasil:</strong> default berarti lanjut ke pemeriksaan normal; deny berarti ditolak. Audit mencatat kategori dan keputusan, bukan isi data.</p>
+  </details><svg class="workflow-arrow" width="20" height="16" viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+    <path d="M2 8h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg></li><li><details>
+    <summary><strong>Platform</strong><span>Baca penggunaan AI terpisah</span></summary>
+    <p><strong>Hasil:</strong> 3,3 AI credits berasal dari satu sesi latihan. Angka ini bukan tarif, tagihan, atau bukti izin alat.</p>
   </details></li>
-</ol>
-<figure class="diagram" data-diagram="D11">
+  </ol>
+  <figcaption>Ilustrasi alur. Ikuti arah panah, lalu buka tiap kotak untuk melihat hasilnya.</figcaption>
+</figure>
+<figure id="interaction-flow" class="interaction-flow" aria-labelledby="interaction-flow-title">
+    <h3 id="interaction-flow-title">Diagram interaksi</h3><p>Pisahkan keputusan izin dari pemakaian AI.</p>
+    <div class="sequence" style="--lanes:5">
+      <ul class="sequence-actors" aria-hidden="true"><li><strong>Developer</strong><span class="sequence-place">Terminal VS Code</span></li><li><strong>Hook</strong><span class="sequence-place">Pemeriksaan lokal</span></li><li><strong>Audit</strong><span class="sequence-place">File jejak lokal</span></li><li><strong>Hendra</strong><span class="sequence-place">Tampilan sesi GitHub</span></li><li><strong>Pemakaian AI</strong><span class="sequence-place">Ringkasan satu sesi</span></li></ul>
+      <div class="sequence-phases">
+        <section class="sequence-phase"><h4>Uji batas dengan masukan contoh</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Developer</strong><span class="sequence-place">Terminal VS Code</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Hook</strong><span class="sequence-place">Pemeriksaan lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kirim masukan uji, bukan tindakan nyata</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event" style="--first:2;--last:4;--span:2">
+      <div class="sequence-route"><span><strong>Hook</strong><span class="sequence-place">Pemeriksaan lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Audit</strong><span class="sequence-place">File jejak lokal</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Catat kategori dan keputusan saja</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:1;--last:3;--span:2">
+      <div class="sequence-route"><span><strong>Hook</strong><span class="sequence-place">Pemeriksaan lokal</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Developer</strong><span class="sequence-place">Terminal VS Code</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Kembalikan default atau deny</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section>
+        <section class="sequence-phase"><h4>Baca penggunaan secara terpisah</h4><ol class="sequence-events" role="list">
+          <li class="sequence-event" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>Hendra</strong><span class="sequence-place">Tampilan sesi GitHub</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Pemakaian AI</strong><span class="sequence-place">Ringkasan satu sesi</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Periksa angka penggunaan satu sesi</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li><li class="sequence-event is-reverse is-reply" style="--first:4;--last:6;--span:2">
+      <div class="sequence-route"><span><strong>Pemakaian AI</strong><span class="sequence-place">Ringkasan satu sesi</span></span><span class="sequence-direction" aria-hidden="true">&#8594;</span>
+        <span class="sequence-sr">ke</span><span><strong>Hendra</strong><span class="sequence-place">Tampilan sesi GitHub</span></span></div>
+      <div class="sequence-message"><span class="sequence-label">Tampilkan 3,3 AI credits, bukan tagihan</span><span class="sequence-line" aria-hidden="true"></span></div>
+    </li>
+        </ol></section></div>
+    </div>
+    <figcaption>Baca dari atas ke bawah. Garis putus-putus pada lajur menandai balasan. Tindakan terlindungi tidak dijalankan dalam uji lokal. Ringkasan penggunaan tidak memberi atau mengubah izin alat.</figcaption>
+  </figure>
+<details id="solution-details"><summary>Lihat diagram lengkap</summary><figure class="diagram" data-diagram="D11">
   <img class="diagram-image" src="../assets/diagrams/D11.svg" alt="Agent meminta tool. Hook memeriksa kategori. Kategori terlarang ditolak. Selain itu, izin runtime tetap menentukan. Audit lokal mencatat waktu dan kategori." width="400" height="672" loading="lazy">
   <ol class="diagram-narrow"><li>Agent meminta tool.</li><li>Hook memeriksa kategori.</li><li>Kategori terlarang ditolak.</li><li>Selain itu, izin runtime tetap menentukan.</li><li>Audit lokal mencatat waktu dan kategori.</li></ol>
   <figcaption><strong>D11.</strong> Hook memutuskan penolakan atau meneruskan ke kebijakan normal. Log hanya menyimpan metadata keputusan.</figcaption>
@@ -60,25 +102,34 @@
   classDef gate fill:#fff2dc,stroke:#955b17,color:#5b3711
   class request ai
   class hook,deny,policy gate</code></pre></details>
-</figure></section>
-<section class="section" id="practice"><h2>Langkah demo</h2><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Jalankan fixture yang aman</h3></div>
-    <p>Buka Terminal → New Terminal. Jalankan fixture bawaan; ia mengevaluasi dua contoh dan tidak menjalankan argumennya. Jangan membuat issue live berisi permintaan akses rahasia atau perintah penghapusan.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-1">npm run guard:demo</code></pre>
+</figure></details></section>
+<section class="section" id="practice"><h2>Langkah demo</h2>
+<h3>Yang kamu lakukan</h3><ol class="checklist"><li>Di VS Code pilih Terminal → New Terminal di folder latihan. Jalankan npm run guard:demo, yang hanya menilai dua masukan contoh dan tidak menjalankan tindakan berisiko.</li><li>Baca hasilnya: default berarti lanjut ke pemeriksaan normal, deny berarti ditolak. Cek jejak audit hanya mencatat kategori dan keputusan, bukan isi data.</li><li>Bandingkan hasil uji dengan pengaturan workflow dan pemakaian AI. Tidak perlu membuat issue, meminta akses rahasia, mengubah pengaturan, atau menyetujui PR.</li></ol>
+<p>Issue adalah tiket kerja. PR (pull request) adalah usulan perubahan; jika masih draft, hasilnya belum digabung. <strong>Files changed</strong> atau <strong>Changes</strong> menunjukkan file yang berubah. <strong>Checks</strong> menunjukkan hasil tes otomatis.</p>
+<p><a href="../setup.html#issue-to-review">Ikuti alur GitHub dari tiket sampai review</a> jika latihanmu memakai PR. Tautan contoh di bawah hanya membuka hasil yang sudah ada.</p>
+<h3>Contoh dan cara cek hasilnya</h3><ol class="steps"><li class="step" value="1"><div class="step-top"><span class="step-number" aria-hidden="true">01</span><h3>Jalankan fixture yang aman</h3></div>
+    <p>Buka Terminal → New Terminal. Jalankan fixture bawaan; ia mengevaluasi dua contoh dan tidak menjalankan argumennya. Jangan membuat issue live berisi permintaan akses rahasia atau perintah penghapusan.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S14-1">npm run guard:demo</code></pre>
     <button type="button" data-copy="cmd-S14-1" aria-label="Salin: Jalankan fixture yang aman" hidden>Salin</button></div><p class="feedback" role="status"></p>
-    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-local-result.png"><img src="../assets/screenshots/S14-local-result.png" alt="Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru." width="1440" height="900" loading="lazy"><span>Perbesar S14-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Tunjuk kontrol dan jejak audit</h3></div>
-    <p>Buka .github/hooks/guardrails.json dan cari preToolUse. Lihat audit fixture yang baru: waktu, phase, decision, category. Jangan bagikan log sesi lain. Cari deny pada kasus lokasi terlindungi.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-2">.github/hooks/guardrails.json</code></pre>
-    <button type="button" data-copy="cmd-S14-2" aria-label="Salin: Tunjuk kontrol dan jejak audit" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-local-result.png"><img src="../assets/screenshots/S14-local-result.png" alt="Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru." width="1440" height="900" loading="lazy"><span>Perbesar S14-local-result.png</span></a><figcaption>Output lokal yang dirender · bukan layar portal · Output pemeriksaan lokal S14: Keputusan: tidak ada argumen yang dijalankan; Audit fixture baru.</figcaption></figure></div></li><li class="step" value="2"><div class="step-top"><span class="step-number" aria-hidden="true">02</span><h3>Cari aturan pemeriksaan dan hasil audit yang relevan</h3></div>
+    <p>Hook adalah pemeriksaan sebelum agent menjalankan tindakan. Di file aturan, cari preToolUse. Pada hasil latihan, cari deny untuk lokasi terlindungi. Audit menyimpan waktu, kategori, dan keputusan, bukan isi data.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/v0-baseline/.github/hooks/guardrails.json">Baca aturan pemeriksaan agent di repo</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S14-2">.github/hooks/guardrails.json</code></pre>
+    <button type="button" data-copy="cmd-S14-2" aria-label="Salin: Cari aturan pemeriksaan dan hasil audit yang relevan" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-01-hooks-file-annotated.png"><img src="../assets/screenshots/S14-01-hooks-file-annotated.png" alt="Nomor 1–3 menunjukkan file guardrails.json, preToolUse dan postToolUse." width="1440" height="1000" loading="lazy"><span>Perbesar S14-01-hooks-file-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/hooks/guardrails.json">Sumber GitHub</a> · 1. Buka Code → .github → hooks → guardrails.json. · 2. preToolUse memeriksa sebelum alat berjalan. · 3. postToolUse mencatat metadata setelah alat. Jalankan fixture lokal, bukan operasi yang diblokir.</figcaption></figure></div></li><li class="step" value="3"><div class="step-top"><span class="step-number" aria-hidden="true">03</span><h3>Pisahkan izin dari biaya</h3></div>
-    <p>Buka pengaturan Billing → Usage pada akun latihan bila berwenang. Bandingkan dengan permissions dan safe-outputs di workflow; keduanya bukan metrik biaya. Tidak ada premium request atau biaya live yang terukur.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-3">docs/ORG-SETUP.md</code></pre>
+    <p>Izin menentukan tindakan dan keluaran yang boleh dibuat workflow. Catatan penggunaan menjawab seberapa banyak AI dipakai. Bila tidak berwenang membuka Billing → Usage, cukup baca panduan dan bukti yang ada.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/docs/ORG-SETUP.md">Baca panduan pengaturan akses workshop</a></p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S14-3">docs/ORG-SETUP.md</code></pre>
     <button type="button" data-copy="cmd-S14-3" aria-label="Salin: Pisahkan izin dari biaya" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-03-gh-aw-permissions-annotated.png"><img src="../assets/screenshots/S14-03-gh-aw-permissions-annotated.png" alt="Nomor 1–3 menunjukkan contents: read, safe-outputs dan max-ai-credits pada Docs Sync." width="1440" height="1000" loading="lazy"><span>Perbesar S14-03-gh-aw-permissions-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/blob/demo/workshop/.github/workflows/docs-sync.md?plain=1">Sumber GitHub</a> · 1. Di tab Code cari permissions: contents: read. · 2. safe-outputs membatasi tujuan, satu draft, dan hanya docs/api.md. · 3. max-ai-credits: 2 adalah batas konfigurasi, bukan biaya yang terjadi.</figcaption></figure></div></li><li class="step" value="4"><div class="step-top"><span class="step-number" aria-hidden="true">04</span><h3>Cek apa yang tercatat setelah uji</h3></div>
-    <p>Jalankan demo fixture, lalu lihat gambar audit beranotasi. Fokus pada kolom decision dan category. Tidak ada perintah destruktif yang dijalankan.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-4">npm run guard:demo</code></pre>
+    <p>Jalankan demo fixture, lalu lihat gambar audit beranotasi. Fokus pada kolom decision dan category. Tidak ada perintah destruktif yang dijalankan.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S14-4">npm run guard:demo</code></pre>
     <button type="button" data-copy="cmd-S14-4" aria-label="Salin: Cek apa yang tercatat setelah uji" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-local-audit-annotated.png"><img src="../assets/screenshots/S14-local-audit-annotated.png" alt="Dua baris audit fixture dan penjelasan bahwa hanya metadata yang dicatat." width="1440" height="900" loading="lazy"><span>Perbesar S14-local-audit-annotated.png</span></a><figcaption>Output uji lokal yang dirender · 1. Fixture normal mendapatkan keputusan default. · 2. Fixture lokasi terlindungi mendapatkan keputusan deny tanpa menjalankan argumennya. · 3. Keluaran audit hanya waktu, fase, keputusan, kategori. Tidak ada token, isi klaim, atau log cloud yang diambil.</figcaption></figure></div></li><li class="step" value="5"><div class="step-top"><span class="step-number" aria-hidden="true">05</span><h3>Tentukan kasus yang akan diuji</h3></div>
-    <p>Fixture menilai kasus biasa dan kategori lokasi terlindungi. Jangan membuat issue untuk meminta operasi sungguhan.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-5">npm run guard:demo</code></pre>
+    <p>Fixture menilai kasus biasa dan kategori lokasi terlindungi. Jangan membuat issue untuk meminta operasi sungguhan.</p>
+    <div class="cmd"><pre><code translate="no" id="cmd-S14-5">npm run guard:demo</code></pre>
     <button type="button" data-copy="cmd-S14-5" aria-label="Salin: Tentukan kasus yang akan diuji" hidden>Salin</button></div><p class="feedback" role="status"></p>
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-before-annotated.png"><img src="../assets/screenshots/S14-before-annotated.png" alt="Perintah aman dan dua kategori yang akan dievaluasi." width="1440" height="900" loading="lazy"><span>Perbesar S14-before-annotated.png</span></a><figcaption>Kartu langkah fixture lokal, bukan sesi cloud · 1. Jalankan guard:demo, bukan operasi terhadap berkas. · 2. Dua masukan hanya diklasifikasikan.</figcaption></figure></div></li><li class="step" value="6"><div class="step-top"><span class="step-number" aria-hidden="true">06</span><h3>Lihat biaya di tingkat sesi</h3></div>
-    <p>Di Tasks, lihat ringkasan sesi contoh S11. Catat unit AI credits dan hubungkan dengan C6, bukan dengan izin atau biaya rupiah.</p><div class="cmd"><pre><code translate="no" id="cmd-S14-6">https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711</code></pre>
-    <button type="button" data-copy="cmd-S14-6" aria-label="Salin: Lihat biaya di tingkat sesi" hidden>Salin</button></div><p class="feedback" role="status"></p>
+    <p>Jika punya akses ke sesi latihan, cari AI credits pada ringkasan. Itu penggunaan untuk satu sesi, bukan tagihan rupiah dan bukan bukti perubahan izin organisasi.</p><p><a href="https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711">Lihat sesi contoh yang mencatat penggunaan AI</a></p>
+
     <div class="gallery"><figure class="evidence-shot" style="min-width:0;margin:0"><a class="thumbnail" data-shot href="../assets/screenshots/S14-02-usage-annotated.png"><img src="../assets/screenshots/S14-02-usage-annotated.png" alt="Sesi usulan ADR menampilkan 3.3 AI credits." width="854" height="515" loading="lazy"><span>Perbesar S14-02-usage-annotated.png</span></a><figcaption><a href="https://github.com/sandy-demo/AgenticSDLC/tasks/d9a154f1-a752-4a8a-ac6d-80384e42a711">Sumber GitHub</a> · 1. Cocokkan sesi latihan yang sedang ditampilkan. · 2. Angka 3,3 AI credits hanya pemakaian sesi, bukan tagihan atau jumlah premium requests.</figcaption></figure></div></li></ol></section>
 <section class="section" id="learning-check" aria-labelledby="learning-check-title">
   <h2 id="learning-check-title">Cek hasil</h2><p>Hasil lokal: default untuk kasus biasa dan deny untuk kategori terlindungi; tidak ada argumen yang dijalankan. Audit hanya mencatat metadata. Screenshot 3,3 AI credits adalah pemakaian satu sesi latihan, bukan billing tenant.</p>
