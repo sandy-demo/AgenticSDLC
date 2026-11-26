@@ -53,7 +53,7 @@ jobs:
       - name: Periksa dan lanjutkan tahap yang diizinkan
         env:
           GH_TOKEN: ${{ github.token }}
-          AGENTIC_SDLC_TOKEN: ${{ secrets.AGENTIC_SDLC_TOKEN }}
+          AGENTIC_SDLC_TOKEN: ${{ secrets.AGENTIC_SDLC_TOKEN || secrets.COPILOT_GITHUB_TOKEN }}
           AGENTIC_SDLC_LIVE: ${{ vars.AGENTIC_SDLC_LIVE }}
           SDLC_BASE_BRANCH: ${{ vars.AGENTIC_SDLC_BASE_BRANCH }}
           SDLC_ISSUE: ${{ inputs.issue }}

@@ -45,10 +45,26 @@ Jika kode berubah, approval dan CI lama tidak digunakan.
 
 ## Verifikasi sesudah galeri dan GitHub CI
 
-[Data bukti](../sdlc/evidence.json) menyimpan
+[Data bukti sumber](https://github.com/sandy-demo/AgenticSDLC/blob/c73e02c1a42c7e007bc23cf16c39fe73c61db3cd/docs/sdlc/evidence.json) menyimpan
 run, commit, log pengujian, sumber screenshot, dan hash berkas asli.
 [CI GitHub](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365) pada commit e07ed05 lulus:
 45 unit test per zona (24 khusus controller) dan 11 tes browser.
 [Workflow Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) masih Skipped.
 Hasil tersebut menguji kode dengan API fiktif, bukan pekerjaan agent live.
 Aktivasi dan persetujuan manusia tetap diperlukan; tidak ada merge atau deployment.
+
+## Penyesuaian untuk respons API aktual
+
+Penugasan Copilot nyata pada issue #38 mengembalikan login Copilot dengan tipe
+Bot dan node_id BOT_kgDOC9w8XQ. GraphQL menamai bot yang sama copilot-swe-agent.
+Controller menerima identitas Bot stabil itu serta login Bot kanonis API lama;
+nama yang mirip milik manusia atau bot lain tidak dianggap penugasan berhasil.
+
+Workflow mengutamakan AGENTIC_SDLC_TOKEN dan memakai COPILOT_GITHUB_TOKEN hanya
+bila konfigurasi pertama belum ada. Tidak ada nilai secret yang dibaca atau
+ditampilkan. Error API tidak menyebabkan percobaan otomatis dengan token lain.
+
+GitHub tetap mencatat sandy-demo sebagai author PR publikasi #39. Pekerjaan
+Copilot tidak otomatis membuat approval dari akun itu sah; publikasi memerlukan
+review manusia dari akun berwenang berbeda. Tidak ada akun reviewer buatan atau
+perubahan proteksi untuk melewati syarat tersebut.
