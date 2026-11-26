@@ -20,6 +20,7 @@ const phases = ['planning', 'plan-review', 'implementing', 'checks', 'review', '
 const requiredJobs = ['test (Asia/Jakarta)', 'test (America/Los_Angeles)', 'e2e'];
 const bot = 'github-actions[bot]';
 const copilot = 'copilot-swe-agent[bot]';
+const copilotNodeId = 'BOT_kgDOC9w8XQ';
 const reviewerBot = 'copilot-pull-request-reviewer[bot]';
 
 export class WorkflowError extends Error {
@@ -52,6 +53,10 @@ export function validateBaseBranch(value) {
 
 function trustedComment(comment) {
   return comment.user?.login === bot && comment.user?.type === 'Bot';
+}
+
+function isCopilotAssignee(user) {
+  return user?.type === 'Bot' && (user.node_id === copilotNodeId || user.login === copilot);
 }
 
 export function loadState(comments, issue) {
@@ -211,7 +216,7 @@ export function createPipeline({ client, repository, clock = () => new Date(), l
     const issue = await phaseIssue(context, kind);
     const assignedField = kind === 'plan' ? 'planAssigned' : 'codeAssigned';
     if (context.state[assignedField]) return;
-    if (issue.assignees?.some(user => user.login === copilot)) {
+    if (issue.assignees?.some(isCopilotAssignee)) {
       context.state[assignedField] = true; await save(context); return;
     }
     requireValue(issue.state === 'open', 'CLOSED_PHASE_ISSUE', 'Tiket fase ditutup. Buka kembali sebelum menugaskan Copilot.');
@@ -222,7 +227,7 @@ export function createPipeline({ client, repository, clock = () => new Date(), l
       assignees: [copilot], agent_assignment: { target_repo: repository, base_branch: context.state.base,
         custom_agent: kind === 'plan' ? 'architect' : 'implementer', custom_instructions: instructions },
     }, true);
-    requireValue(assigned.assignees?.some(user => user.login === copilot), 'AGENT_NOT_ASSIGNED', 'GitHub belum menugaskan Copilot. Periksa akses akun dan repo; jangan menganggap tugas sudah berjalan.');
+    requireValue(assigned.assignees?.some(isCopilotAssignee), 'AGENT_NOT_ASSIGNED', 'GitHub belum menugaskan Copilot. Periksa akses akun dan repo; jangan menganggap tugas sudah berjalan.');
     context.state[assignedField] = true;
     await save(context);
   }

@@ -7,7 +7,7 @@ const user = (login, type = 'User') => ({ login, type });
 const human = { id: 20, user: user('lead'), state: 'APPROVED', commit_id: sha('b'), submitted_at: '2026-10-15T12:00:00Z' };
 const pull = (number, head, files) => ({ number, files, user: user('copilot-swe-agent[bot]', 'Bot'), state: 'open', merged: false,
   head: { sha: head, ref: `copilot/phase-${number}`, repo: { full_name: repository } }, base: { ref: base, repo: { full_name: repository } } });
-function fixture() {
+function fixture(assignee = { ...user('Copilot', 'Bot'), node_id: 'BOT_kgDOC9w8XQ' }) {
   const comments = [];
   const issues = new Map([[1, { number: 1, title: 'Tiket latihan', body: 'Besok ditolak, hari ini diterima.', state: 'open', labels: [], assignees: [] }]]);
   const pulls = new Map(); const reviews = new Map(); const timelines = new Map();
@@ -32,7 +32,7 @@ function fixture() {
     if (method === 'POST' && /^issues\/\d+\/assignees$/.test(p)) {
       expect(agent).toBe(true);
       if (failure) throw new WorkflowError('GITHUB_API', 'GitHub menolak (403).', 403);
-      const issue = issues.get(Number(p.split('/')[1])); issue.assignees = [user('copilot-swe-agent[bot]', 'Bot')]; return issue;
+      const issue = issues.get(Number(p.split('/')[1])); issue.assignees = [assignee]; return issue;
     }
     if (method === 'GET' && /^pulls\/\d+$/.test(p)) return pulls.get(Number(p.split('/')[1]));
     if (method === 'GET' && p.startsWith('actions/workflows/')) return { workflow_runs: runs };
@@ -150,4 +150,19 @@ it('does not retry a failed network request or hide its uncertain outcome', asyn
  const client=createGithubClient({token:'test-token',agentToken:'test-agent-token',fetcher});
  await expect(client.request('POST', 'repos/demo/workshop/issues', {}, true)).rejects.toMatchObject({code:'GITHUB_NETWORK'});
  expect(fetcher).toHaveBeenCalledTimes(1);
+});
+
+
+it('accepts the documented legacy Copilot bot assignment response', async () => {
+  const f = fixture(user('copilot-swe-agent[bot]', 'Bot'));
+  expect((await f.run('start')).phase).toBe('planning');
+});
+
+it.each([
+  { ...user('Copilot'), node_id: 'BOT_kgDOC9w8XQ' },
+  { ...user('Copilot', 'Bot'), node_id: 'unrelated-bot' },
+])('rejects a Copilot-looking assignee without the trusted bot identity: %j', async (assignee) => {
+  const f = fixture(assignee);
+  await expect(f.run('start')).rejects.toMatchObject({ code: 'AGENT_NOT_ASSIGNED' });
+  expect((await f.run()).phase).toBe('blocked');
 });

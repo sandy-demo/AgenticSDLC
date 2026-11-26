@@ -32,6 +32,8 @@ repo, bukan dari artefak migrasi baru.
 
 Workflow nonaktif sampai AGENTIC_SDLC_LIVE bernilai true. Penugasan dan review
 memerlukan secret pengguna AGENTIC_SDLC_TOKEN dengan izin API yang sesuai.
+Bila belum tersedia, workflow memakai COPILOT_GITHUB_TOKEN yang sudah ada;
+penolakan API bukan alasan mencoba credential lain.
 Jangan menaruh nilainya di tiket atau kode. Pilih AGENTIC_SDLC_BASE_BRANCH dari
 branch demo/, training/, atau sdlc/. Controller tidak menerima main.
 

@@ -1,5 +1,24 @@
 # Status workshop
 
+## Persiapan aktivasi nyata
+
+[Issue #38](https://github.com/sandy-demo/AgenticSDLC/issues/38) benar-benar
+ditugaskan ke Copilot. Agent menghasilkan [draft runtime #39](https://github.com/sandy-demo/AgenticSDLC/pull/39),
+tetapi edit lanjutan ditolak hook sebagai invalid-input. Penyesuaian secret dan
+identitas API diselesaikan terpisah tanpa mengubah hook. Dua puluh tujuh tes
+controller lulus lokal, termasuk tiga regresi identitas.
+
+Author yang dicatat GitHub tetap sandy-demo, bukan bot. Belum ada akun reviewer
+berwenang lain. Publikasi, sakelar live, dan alur end-to-end masih tertahan pada
+review manusia yang nyata; approval tidak dibuat otomatis dan tidak ada merge.
+
+Bukti tambahan sudah masuk galeri: draft #39 dengan author yang benar-benar
+tercatat dan [CI publikasi](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014)
+pada 522431d lulus (47 unit per zona, 27 khusus controller, 6 browser).
+Paket materi lengkap lulus 48 unit dan 11 browser lokal.
+Arsip sekarang 245 PNG valid, termasuk 99 versi bernomor; foto prompt S03
+tetap di luar bukti sah dan semua target live yang belum terjadi tetap pending.
+
 ## Workflow end-to-end — 26 November 2026
 
 Controller dan workflow GitHub Actions ditambahkan untuk menghubungkan tiket,

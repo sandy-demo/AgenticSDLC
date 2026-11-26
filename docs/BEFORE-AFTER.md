@@ -44,6 +44,10 @@ termasuk 24 tes controller dengan respons API GitHub fiktif. Bukan run cloud.
 | [SDLC-04-github-ci-annotated.png](screenshots/SDLC-04-github-ci-annotated.png) | Screenshot GitHub asli - CI yang benar-benar berjalan |
 | [SDLC-05-github-disabled.png](screenshots/SDLC-05-github-disabled.png) | Screenshot GitHub asli - workflow live masih nonaktif |
 | [SDLC-05-github-disabled-annotated.png](screenshots/SDLC-05-github-disabled-annotated.png) | Screenshot GitHub asli - workflow live masih nonaktif |
+| [SDLC-06-publication-draft.png](screenshots/SDLC-06-publication-draft.png) | Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif |
+| [SDLC-06-publication-draft-annotated.png](screenshots/SDLC-06-publication-draft-annotated.png) | Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif |
+| [SDLC-07-publication-ci.png](screenshots/SDLC-07-publication-ci.png) | Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif |
+| [SDLC-07-publication-ci-annotated.png](screenshots/SDLC-07-publication-ci-annotated.png) | Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif |
 
 ### Masih perlu bukti GitHub
 
@@ -65,3 +69,16 @@ GitHub Release bukan deployment. Alur Copilot tetap nonaktif; gambar Skipped buk
 
 [Run Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) tercatat Skipped, bukan eksekusi agent live.
 GitHub menampilkan dua warning Node.js 20 pada actions/upload-artifact@v4 yang sudah ada. Tes tetap lulus; upgrade action tidak dikerjakan dalam tugas ini.
+
+
+
+### Persiapan publikasi nyata
+
+[Tugas Copilot](https://github.com/sandy-demo/AgenticSDLC/issues/38) menghasilkan [draft runtime #39](https://github.com/sandy-demo/AgenticSDLC/pull/39).
+[CI publikasi](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014) pada commit `522431d7b893b9a0849ecee3104e3f619d342da1` lulus.
+- [e2e](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032295): 6 tes lulus.
+- [test (Asia/Jakarta)](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032526): 47 tes lulus.
+- [test (America/Los_Angeles)](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032590): 47 tes lulus.
+
+Author yang tercatat tetap sandy-demo; approval perlu akun manusia berbeda yang berwenang.
+Workflow belum dipublikasikan di default branch atau diaktifkan. Tidak ada akun reviewer buatan atau proteksi yang dimatikan.

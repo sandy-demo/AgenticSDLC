@@ -7181,6 +7181,52 @@
         "alt": "Run Agentic SDLC pada draft #1: Skipped; controller belum dijalankan.",
         "guide": "Kotak 1: draft yang sama. Kotak 2: Skipped. Kotak 3: job coordinate tidak berjalan. Ini bukan bukti penugasan Copilot.",
         "original": "SDLC-05-github-disabled.png"
+      },
+      {
+        "name": "SDLC-06-publication-draft.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/pull/39",
+        "source": "Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif",
+        "capturedAt": "2026-11-26T06:38:08.037Z",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "80500ff7c71ea027f6ff1d0714adcbed0dd47ba393250e27e796d8ae3fc582f3",
+        "alt": "Draft publikasi #39 dikerjakan melalui tugas Copilot, tetapi author yang tercatat tetap sandy-demo.",
+        "guide": "Nomor 1: akun pembuat PR tidak boleh approve sendiri. Nomor 2: buka Files changed untuk membaca perubahan. Perlu reviewer manusia lain yang berwenang."
+      },
+      {
+        "name": "SDLC-06-publication-draft-annotated.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/pull/39",
+        "source": "Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif",
+        "capturedAt": "2026-11-26T06:38:08.037Z",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "dd762036d2e85f8026d2f95cd200a1bb6d756c99b4ff0682ea2c71b547c3dacb",
+        "alt": "Draft publikasi #39 dikerjakan melalui tugas Copilot, tetapi author yang tercatat tetap sandy-demo.",
+        "guide": "Nomor 1: akun pembuat PR tidak boleh approve sendiri. Nomor 2: buka Files changed untuk membaca perubahan. Perlu reviewer manusia lain yang berwenang.",
+        "original": "SDLC-06-publication-draft.png"
+      },
+      {
+        "name": "SDLC-07-publication-ci.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014",
+        "source": "Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif",
+        "capturedAt": "2026-11-26T06:38:11.038Z",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "6f29cf95c23de1b28d25cee5a075c971ee2431f1d464ceb66da5747b74bb3d00",
+        "alt": "CI GitHub pada commit 522431d untuk draft runtime #39 berhasil; tiga job lulus.",
+        "guide": "Nomor 1: draft #39 dan branch publikasi. Nomor 2: Success. Nomor 3: 47 unit per zona dan 6 browser lulus; 27 tes controller memakai API fiktif."
+      },
+      {
+        "name": "SDLC-07-publication-ci-annotated.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014",
+        "source": "Screenshot GitHub asli - persiapan publikasi, bukan alur SDLC aktif",
+        "capturedAt": "2026-11-26T06:38:11.038Z",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "62d9a5b9227d6c72ec9f103d2c2ee12eb22bc12e2f058faa60a222a50f19c6fb",
+        "alt": "CI GitHub pada commit 522431d untuk draft runtime #39 berhasil; tiga job lulus.",
+        "guide": "Nomor 1: draft #39 dan branch publikasi. Nomor 2: Success. Nomor 3: 47 unit per zona dan 6 browser lulus; 27 tes controller memakai API fiktif.",
+        "original": "SDLC-07-publication-ci.png"
       }
     ],
     "gallery": [
@@ -7188,7 +7234,9 @@
       "SDLC-02-mulai-annotated.png",
       "SDLC-03-tes-lokal-annotated.png",
       "SDLC-04-github-ci-annotated.png",
-      "SDLC-05-github-disabled-annotated.png"
+      "SDLC-05-github-disabled-annotated.png",
+      "SDLC-06-publication-draft-annotated.png",
+      "SDLC-07-publication-ci-annotated.png"
     ],
     "pendingLive": [
       {
@@ -7264,6 +7312,45 @@
       "warnings": {
         "count": 2,
         "message": "GitHub menampilkan dua warning Node.js 20 pada actions/upload-artifact@v4 yang sudah ada. Tes tetap lulus; upgrade action tidak dikerjakan dalam tugas ini."
+      }
+    },
+    "publication": {
+      "issueUrl": "https://github.com/sandy-demo/AgenticSDLC/issues/38",
+      "prUrl": "https://github.com/sandy-demo/AgenticSDLC/pull/39",
+      "author": "sandy-demo",
+      "reviewDecision": "REVIEW_REQUIRED",
+      "isDraft": true,
+      "runId": 45769065014,
+      "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014",
+      "headSha": "522431d7b893b9a0849ecee3104e3f619d342da1",
+      "jobs": [
+        {
+          "name": "e2e",
+          "passed": 6,
+          "controllerPassed": null,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032295"
+        },
+        {
+          "name": "test (Asia/Jakarta)",
+          "passed": 47,
+          "controllerPassed": 27,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032526"
+        },
+        {
+          "name": "test (America/Los_Angeles)",
+          "passed": 47,
+          "controllerPassed": 27,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45769065014/job/139737032590"
+        }
+      ],
+      "completedAt": "2026-11-26T06:35:38Z",
+      "agentRunUrl": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45767630235",
+      "status": "awaiting-independent-human-review",
+      "scope": "Tugas publikasi benar-benar dijalankan Copilot, lalu diperbaiki dan diuji di GitHub. Workflow Agentic SDLC belum dipublikasikan di default branch atau diaktifkan.",
+      "sourceBlobs": {
+        "scripts/sdlc-workflow.mjs": "146fd7615202c1a95c6f6f2fc30d19f7df1b77ab",
+        "tests/unit/sdlc-workflow.test.js": "36646c3b0a73f867968f0d311030a04c97f40fb2",
+        ".github/workflows/agentic-sdlc.yml": "3a0564a26f73ed975ed51cabbfa68e6f3efa39e8"
       }
     }
   }

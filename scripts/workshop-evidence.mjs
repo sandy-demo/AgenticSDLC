@@ -62,6 +62,17 @@ ${workflow.githubCi.jobs.map(job=>`- [${job.name}](${job.url}): ${job.passed} te
 [Run Agentic SDLC](${workflow.githubCi.orchestration.url}) tercatat Skipped, bukan eksekusi agent live.
 ${workflow.githubCi.warnings.message}
 ` : ''}
+
+${workflow.publication ? `
+### Persiapan publikasi nyata
+
+[Tugas Copilot](${workflow.publication.issueUrl}) menghasilkan [draft runtime #39](${workflow.publication.prUrl}).
+[CI publikasi](${workflow.publication.url}) pada commit \`${workflow.publication.headSha}\` lulus.
+${workflow.publication.jobs.map(job=>`- [${job.name}](${job.url}): ${job.passed} tes lulus.`).join('\n')}
+
+Author yang tercatat tetap ${workflow.publication.author}; approval perlu akun manusia berbeda yang berwenang.
+Workflow belum dipublikasikan di default branch atau diaktifkan. Tidak ada akun reviewer buatan atau proteksi yang dimatikan.
+` : ''}
 ` : '';
   const number = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 });
   const available = (name) => {
