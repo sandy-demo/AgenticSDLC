@@ -42,3 +42,13 @@ Jika kode berubah, approval dan CI lama tidak digunakan.
 - Kejadian yang diulang tidak membuat tiket atau penugasan agent ganda.
 - API 403 mengakhiri run dengan error; resume perlu keputusan manusia.
 - Controller tidak memanggil merge, create release, atau deploy.
+
+## Verifikasi sesudah galeri dan GitHub CI
+
+[Data bukti](../sdlc/evidence.json) menyimpan
+run, commit, log pengujian, sumber screenshot, dan hash berkas asli.
+[CI GitHub](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365) pada commit e07ed05 lulus:
+45 unit test per zona (24 khusus controller) dan 11 tes browser.
+[Workflow Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) masih Skipped.
+Hasil tersebut menguji kode dengan API fiktif, bukan pekerjaan agent live.
+Aktivasi dan persetujuan manusia tetap diperlukan; tidak ada merge atau deployment.

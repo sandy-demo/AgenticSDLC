@@ -82,6 +82,7 @@ test.describe('tanpa JavaScript', () => {
   });
 
   test('workflow utuh bisa dibaca dari halaman awal tanpa JavaScript', async ({ page }) => {
+    const evidence = JSON.parse(readFileSync(new URL('../../docs/sdlc/evidence.json', import.meta.url), 'utf8'));
     await page.goto(new URL('index.html', site).href);
     await page.getByRole('link', { name: 'Workflow utuh', exact: true }).click();
     await expect(page).toHaveURL(/sdlc\.html$/);
@@ -93,8 +94,8 @@ test.describe('tanpa JavaScript', () => {
     await expect(page.locator('#mulai')).toContainText('release-ready');
     await page.getByRole('link', { name: 'Cek hasil', exact: true }).click();
     await expect(page.getByRole('region', { name: 'Cek hasil', exact: true })).toContainText('API GitHub fiktif');
-    await expect(page.locator('#live-evidence')).toContainText('Belum diuji di GitHub');
-    await expect(page.locator('#evidence .gallery [data-shot]')).toHaveCount(3);
+    await expect(page.locator('#live-evidence')).toContainText('Alur Copilot live yang masih pending');
+    await expect(page.locator('#evidence .gallery [data-shot]')).toHaveCount(evidence.gallery.length);
   });
 
   test('diagram S02 menampilkan aktor, lokasi, dan balasan di desktop maupun HP', async ({ page }) => {
@@ -203,7 +204,7 @@ test('bukti workflow memakai gallery lokal, sumber yang jelas, dan zoom keyboard
   const name = 'SDLC-03-tes-lokal-annotated.png';
   const image = evidence.images.find((item) => item.name === name);
   await page.goto(new URL('sdlc.html', site).href);
-  await page.getByRole('link', { name: 'Bukti dan sumber', exact: true }).click();
+  await page.locator('.actions').getByRole('link', { name: 'Bukti dan sumber', exact: true }).click();
   const gallery = page.locator('#evidence .gallery');
   await expect(gallery.locator('[data-shot]')).toHaveCount(evidence.gallery.length);
   await expect(gallery).toContainText('bukan screenshot terminal/GitHub');
@@ -219,4 +220,14 @@ test('bukti workflow memakai gallery lokal, sumber yang jelas, dan zoom keyboard
   await page.setViewportSize({ width: 320, height: 900 });
   await expect(zoom).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  const live = gallery.locator('figure').filter({ has: page.locator('img[src$="SDLC-04-github-ci-annotated.png"]') });
+  await expect(live.getByRole('link', { name: 'Sumber GitHub', exact: true })).toHaveAttribute('href', evidence.githubCi.url);
+  await expect(page.locator('#github-check')).toContainText('45 tes lulus');
+  await expect(page.locator('#live-evidence')).toContainText('Alur Copilot live yang masih pending');
+  const githubZoom = live.getByRole('link', { name: /Perbesar SDLC-04-github-ci-annotated\.png$/ });
+  await githubZoom.click();
+  await expect(page.getByRole('dialog').locator('img')).toHaveJSProperty('naturalWidth', 1440);
+  await page.keyboard.press('Escape');
+  await expect(githubZoom).toBeFocused();
 });

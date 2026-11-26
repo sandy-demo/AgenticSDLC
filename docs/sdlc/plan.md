@@ -87,8 +87,18 @@ aktivasi, token pengguna, akses Copilot, dan anggaran. Hasil tes lokal bukan
 bukti pekerjaan cloud berhasil. Tidak ada deployment yang disiapkan karena
 repo ini belum memiliki target hosting aplikasi dan izin deployment.
 
-## Hasil verifikasi lokal
+## Hasil verifikasi lokal awal
 
 45 tes unit dan 10 tes browser lulus. Actionlint Windows dan pemeriksaan AST
 workflow tidak menemukan masalah. Pengujian controller memakai API fiktif,
 bukan penugasan AI, merge, atau rilis live. Aktivasi tetap terpisah.
+
+## Verifikasi sesudah galeri dan GitHub CI
+
+[Data bukti](evidence.json) menyimpan
+run, commit, log pengujian, sumber screenshot, dan hash berkas asli.
+[CI GitHub](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365) pada commit e07ed05 lulus:
+45 unit test per zona (24 khusus controller) dan 11 tes browser.
+[Workflow Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) masih Skipped.
+Hasil tersebut menguji kode dengan API fiktif, bukan pekerjaan agent live.
+Aktivasi dan persetujuan manusia tetap diperlukan; tidak ada merge atau deployment.

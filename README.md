@@ -11,9 +11,15 @@ Copilot menulis desain, memberi approval manusia, lalu meninjau implementasi,
 CI, review, dan tindak lanjut rilis. [Rencana implementasi](docs/sdlc/plan.md)
 dan [keputusan desain](docs/adr/0003-agentic-sdlc-workflow.md) tersedia.
 
-Workflow baru nonaktif sampai maintainer memublikasikan file dan menyetujui
+Workflow baru nonaktif sampai maintainer memublikasikan file di default branch dan menyetujui
 aktivasi, akses Copilot, serta anggaran. Tidak ada merge atau deployment otomatis.
 Uji controller tanpa jaringan: `npm test -- sdlc-workflow.test.js`.
+
+[CI GitHub untuk draft #1](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365) sudah lulus: 45 tes unit
+di tiap zona waktu (termasuk 24 tes controller) dan 11 tes browser.
+[Bukti bernomor](site/sdlc.html#github-check) memuat screenshot GitHub asli.
+[Workflow Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) masih Skipped;
+CI lulus tidak berarti alur Copilot live sudah dijalankan.
 
 ## Mulai
 

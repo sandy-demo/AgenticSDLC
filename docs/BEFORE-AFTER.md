@@ -36,10 +36,14 @@ termasuk 24 tes controller dengan respons API GitHub fiktif. Bukan run cloud.
 | Bukti | Sumber dan batas |
 |---|---|
 | [SDLC-01-alur.png](screenshots/SDLC-01-alur.png) | Screenshot panduan lokal · diagram ilustrasi, bukan riwayat workflow GitHub |
-| [SDLC-02-mulai.png](screenshots/SDLC-02-mulai.png) | Screenshot panduan lokal · instruksi, bukan layar GitHub Actions |
+| [SDLC-02-mulai.png](screenshots/SDLC-02-mulai.png) | Screenshot panduan lokal - direkam sebelum draft dikirim ke GitHub |
 | [SDLC-03-tes-lokal.png](screenshots/SDLC-03-tes-lokal.png) | Output Vitest lokal yang dirender · bukan screenshot terminal/GitHub |
-| [SDLC-02-mulai-annotated.png](screenshots/SDLC-02-mulai-annotated.png) | Screenshot panduan lokal · instruksi, bukan layar GitHub Actions |
+| [SDLC-02-mulai-annotated.png](screenshots/SDLC-02-mulai-annotated.png) | Screenshot panduan lokal - direkam sebelum draft dikirim ke GitHub |
 | [SDLC-03-tes-lokal-annotated.png](screenshots/SDLC-03-tes-lokal-annotated.png) | Output Vitest lokal yang dirender · bukan screenshot terminal/GitHub |
+| [SDLC-04-github-ci.png](screenshots/SDLC-04-github-ci.png) | Screenshot GitHub asli - CI yang benar-benar berjalan |
+| [SDLC-04-github-ci-annotated.png](screenshots/SDLC-04-github-ci-annotated.png) | Screenshot GitHub asli - CI yang benar-benar berjalan |
+| [SDLC-05-github-disabled.png](screenshots/SDLC-05-github-disabled.png) | Screenshot GitHub asli - workflow live masih nonaktif |
+| [SDLC-05-github-disabled-annotated.png](screenshots/SDLC-05-github-disabled-annotated.png) | Screenshot GitHub asli - workflow live masih nonaktif |
 
 ### Masih perlu bukti GitHub
 
@@ -49,4 +53,15 @@ termasuk 24 tes controller dengan respons API GitHub fiktif. Bukan run cloud.
 - **GitHub Release dan tiket pemeriksaan hasil:** Hanya di repo turunan dengan izin rilis: rekam rilis manusia pada commit hasil merge dan tiket tindak lanjut yang cocok. Jika latihan berhenti di release-ready, bagian ini tetap pending; GitHub Release bukan deployment. Target: `SDLC-live-04-follow-up.png`.
 
 Gambar panduan bukan layar Actions; output Vitest yang dirender bukan screenshot terminal.
-GitHub Release bukan deployment. Workflow belum dipublikasikan atau diaktifkan.
+GitHub Release bukan deployment. Alur Copilot tetap nonaktif; gambar Skipped bukan bukti agent sudah bekerja.
+
+
+### Verifikasi langsung di GitHub
+
+[Run CI asli](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365) pada commit `e07ed0562733a6d1a7c5ed574640bbbf7d518fbe` lulus.
+- [e2e](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712823789): 11 tes lulus.
+- [test (America/Los_Angeles)](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712824112): 45 tes lulus, termasuk 24 tes controller dengan API fiktif.
+- [test (Asia/Jakarta)](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712824120): 45 tes lulus, termasuk 24 tes controller dengan API fiktif.
+
+[Run Agentic SDLC](https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411) tercatat Skipped, bukan eksekusi agent live.
+GitHub menampilkan dua warning Node.js 20 pada actions/upload-artifact@v4 yang sudah ada. Tes tetap lulus; upgrade action tidak dikerjakan dalam tugas ini.

@@ -51,7 +51,17 @@ ${workflow.images.map(image=>`| [${image.name}](screenshots/${image.name}) | ${m
 ${workflow.pendingLive.map(item=>`- **${markdownCell(item.where)}:** ${markdownCell(item.instruction)} Target: \`${item.name}\`.`).join('\n')}
 
 Gambar panduan bukan layar Actions; output Vitest yang dirender bukan screenshot terminal.
-GitHub Release bukan deployment. Workflow belum dipublikasikan atau diaktifkan.
+GitHub Release bukan deployment. Alur Copilot tetap nonaktif; gambar Skipped bukan bukti agent sudah bekerja.
+
+${workflow.githubCi ? `
+### Verifikasi langsung di GitHub
+
+[Run CI asli](${workflow.githubCi.url}) pada commit \`${workflow.githubCi.headSha}\` lulus.
+${workflow.githubCi.jobs.map(job=>`- [${job.name}](${job.url}): ${job.passed} tes lulus${job.controllerPassed ? `, termasuk ${job.controllerPassed} tes controller dengan API fiktif` : ''}.`).join('\n')}
+
+[Run Agentic SDLC](${workflow.githubCi.orchestration.url}) tercatat Skipped, bukan eksekusi agent live.
+${workflow.githubCi.warnings.message}
+` : ''}
 ` : '';
   const number = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 });
   const available = (name) => {
@@ -99,5 +109,5 @@ ${rows.join('\n')}
 
 Baca [metrik per skenario](metrics.json) dan [layar yang belum direkam](screenshots/_missing.json).
 Angka yang belum diukur bukan nol; AI credits bukan premium requests atau tagihan.
-${workflowSection}`);
+${workflowSection}`.trimEnd() + '\n');
 }

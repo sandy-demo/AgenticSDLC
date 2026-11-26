@@ -7037,7 +7037,7 @@
   ],
   "sdlcEvidence": {
     "version": 1,
-    "status": "local-tested-live-pending",
+    "status": "github-ci-verified-live-pending",
     "validation": {
       "executedAt": "2026-11-26T05:05:27.690Z",
       "command": "npm test -- --reporter=json --no-cache --no-fsModuleCache --configLoader runner",
@@ -7077,7 +7077,8 @@
           "status": "passed"
         }
       ],
-      "source": "Hasil Vitest lokal dengan API GitHub fiktif, bukan run workflow GitHub."
+      "source": "Hasil Vitest lokal dengan API GitHub fiktif, bukan run workflow GitHub.",
+      "browserPassed": 11
     },
     "images": [
       {
@@ -7091,12 +7092,12 @@
       },
       {
         "name": "SDLC-02-mulai.png",
-        "source": "Screenshot panduan lokal · instruksi, bukan layar GitHub Actions",
+        "source": "Screenshot panduan lokal - direkam sebelum draft dikirim ke GitHub",
         "alt": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub.",
         "width": 1440,
         "height": 1000,
         "sha256": "def6f0343a9ce6064f4e5c82309e4be94f70910a6ab142f8129e50629b9a1ab3",
-        "guide": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub."
+        "guide": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub. Teks langkah 3 tetap sama; status publikasi terbaru ada pada panduan dan bukti GitHub."
       },
       {
         "name": "SDLC-03-tes-lokal.png",
@@ -7109,12 +7110,12 @@
       },
       {
         "name": "SDLC-02-mulai-annotated.png",
-        "source": "Screenshot panduan lokal · instruksi, bukan layar GitHub Actions",
+        "source": "Screenshot panduan lokal - direkam sebelum draft dikirim ke GitHub",
         "alt": "Langkah 3 menjelaskan nomor issue dan action=start; ini teks panduan, belum tindakan di GitHub.",
         "width": 1440,
         "height": 1000,
         "sha256": "f91be50d9a37f3a6b9f5889e32adc6ba5d42c118a0c17631db6821bb7e9cbbd1",
-        "guide": "Nomor 3 menunjuk instruksi mulai workflow; bukan tombol GitHub yang sudah diklik.",
+        "guide": "Nomor 3 menunjuk instruksi mulai workflow; bukan tombol GitHub yang sudah diklik. Teks langkah 3 tetap sama; status publikasi terbaru ada pada panduan dan bukti GitHub.",
         "original": "SDLC-02-mulai.png"
       },
       {
@@ -7126,12 +7127,68 @@
         "sha256": "cdf10a8998b61254dd61baf70a6e1cef796bdf60051aebd36b0431bf5e9add0d",
         "guide": "Nomor 1: seluruh tes unit. Nomor 2: tes controller dengan API fiktif. Nomor 3: jumlah tes gagal.",
         "original": "SDLC-03-tes-lokal.png"
+      },
+      {
+        "name": "SDLC-04-github-ci.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365",
+        "title": "evidence: dry-run 1 · sandy-demo/AgenticSDLC@e07ed05 · GitHub",
+        "capturedAt": "2026-11-26T05:39:00.167Z",
+        "source": "Screenshot GitHub asli - CI yang benar-benar berjalan",
+        "status": "Success",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "8a5e3ee9897388d5474f8aaefc579108a4634defcca144e7209463bcdb5439e9",
+        "alt": "Run CI GitHub pada draft #1: Success, Jakarta, Los Angeles, dan browser lulus.",
+        "guide": "Run CI GitHub pada draft #1: Success, Jakarta, Los Angeles, dan browser lulus."
+      },
+      {
+        "name": "SDLC-04-github-ci-annotated.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365",
+        "title": "evidence: dry-run 1 · sandy-demo/AgenticSDLC@e07ed05 · GitHub",
+        "capturedAt": "2026-11-26T05:39:00.167Z",
+        "source": "Screenshot GitHub asli - CI yang benar-benar berjalan",
+        "status": "Success",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "3dab6f0753346653d4b6a9c18b5b95d07e274e4491bdaeff162d1f01bf3a7a9f",
+        "alt": "Run CI GitHub pada draft #1: Success, Jakarta, Los Angeles, dan browser lulus.",
+        "guide": "Kotak 1: draft dan branch. Kotak 2: Success. Kotak 3: tiga job lulus. Ini CI nyata; tes controller tetap memakai API fiktif.",
+        "original": "SDLC-04-github-ci.png"
+      },
+      {
+        "name": "SDLC-05-github-disabled.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411",
+        "title": "evidence: dry-run 1 · sandy-demo/AgenticSDLC@e07ed05 · GitHub",
+        "capturedAt": "2026-11-26T05:39:01.917Z",
+        "source": "Screenshot GitHub asli - workflow live masih nonaktif",
+        "status": "Skipped",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "b07e36f5d8c44082e5204d56b698a896c30cb18af8a5edfc0a4e187385c50350",
+        "alt": "Run Agentic SDLC pada draft #1: Skipped; controller belum dijalankan.",
+        "guide": "Run Agentic SDLC pada draft #1: Skipped; controller belum dijalankan."
+      },
+      {
+        "name": "SDLC-05-github-disabled-annotated.png",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411",
+        "title": "evidence: dry-run 1 · sandy-demo/AgenticSDLC@e07ed05 · GitHub",
+        "capturedAt": "2026-11-26T05:39:01.917Z",
+        "source": "Screenshot GitHub asli - workflow live masih nonaktif",
+        "status": "Skipped",
+        "width": 1440,
+        "height": 1050,
+        "sha256": "5c2ea08445e0cdcdf779d94b05b9ee07f1a898a73ebb25df7ed51cc819a1a3ce",
+        "alt": "Run Agentic SDLC pada draft #1: Skipped; controller belum dijalankan.",
+        "guide": "Kotak 1: draft yang sama. Kotak 2: Skipped. Kotak 3: job coordinate tidak berjalan. Ini bukan bukti penugasan Copilot.",
+        "original": "SDLC-05-github-disabled.png"
       }
     ],
     "gallery": [
       "SDLC-01-alur.png",
       "SDLC-02-mulai-annotated.png",
-      "SDLC-03-tes-lokal-annotated.png"
+      "SDLC-03-tes-lokal-annotated.png",
+      "SDLC-04-github-ci-annotated.png",
+      "SDLC-05-github-disabled-annotated.png"
     ],
     "pendingLive": [
       {
@@ -7154,6 +7211,60 @@
         "where": "GitHub Release dan tiket pemeriksaan hasil",
         "instruction": "Hanya di repo turunan dengan izin rilis: rekam rilis manusia pada commit hasil merge dan tiket tindak lanjut yang cocok. Jika latihan berhenti di release-ready, bagian ini tetap pending; GitHub Release bukan deployment."
       }
-    ]
+    ],
+    "githubCi": {
+      "runId": 45761657365,
+      "headSha": "e07ed0562733a6d1a7c5ed574640bbbf7d518fbe",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365",
+      "createdAt": "2026-11-26T05:26:54Z",
+      "completedAt": "2026-11-26T05:27:57Z",
+      "jobs": [
+        {
+          "id": 139712823789,
+          "name": "e2e",
+          "conclusion": "success",
+          "passed": 11,
+          "controllerPassed": null,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712823789"
+        },
+        {
+          "id": 139712824112,
+          "name": "test (America/Los_Angeles)",
+          "conclusion": "success",
+          "passed": 45,
+          "controllerPassed": 24,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712824112"
+        },
+        {
+          "id": 139712824120,
+          "name": "test (Asia/Jakarta)",
+          "conclusion": "success",
+          "passed": 45,
+          "controllerPassed": 24,
+          "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657365/job/139712824120"
+        }
+      ],
+      "orchestration": {
+        "conclusion": "skipped",
+        "databaseId": 45761657411,
+        "event": "pull_request",
+        "headSha": "e07ed0562733a6d1a7c5ed574640bbbf7d518fbe",
+        "status": "completed",
+        "url": "https://github.com/sandy-demo/AgenticSDLC/actions/runs/45761657411"
+      },
+      "scope": "CI benar-benar berjalan di GitHub. Tes controller memakai API fiktif; workflow Agentic SDLC tetap skipped dan tidak menugaskan Copilot.",
+      "sourceBlobs": {
+        "scripts/sdlc-workflow.mjs": "0eeb8bcc2b6bd29d77f4f70f6e38897692234ad3",
+        "tests/unit/sdlc-workflow.test.js": "fdc89c3fc3839d5be0951aca14a4aa3fb5549af0",
+        ".github/workflows/agentic-sdlc.yml": "60d31b0da029fe8111a9f9b9412f57bdb362cd7d"
+      },
+      "warnings": {
+        "count": 2,
+        "message": "GitHub menampilkan dua warning Node.js 20 pada actions/upload-artifact@v4 yang sudah ada. Tes tetap lulus; upgrade action tidak dikerjakan dalam tugas ini."
+      }
+    }
   }
 }
